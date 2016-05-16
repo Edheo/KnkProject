@@ -1,0 +1,15 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KnkMovies"
+        xmlns:Lists="clr-namespace:KnkSolutionMovies.Lists;assembly=KnkSolutionMovies" xmlns:Entities="clr-namespace:KnkSolutionMovies.Entities;assembly=KnkSolutionMovies" xmlns:KnkCore="clr-namespace:KnkCore;assembly=KnkCore" xmlns:Usercontrols="clr-namespace:KnkForms.Usercontrols;assembly=KnkForms" x:Class="KnkMovies.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow">
+    <Grid >
+        <DataGrid x:Name="dataGrid" Margin="0,0,300,0" SelectionChanged="dataGrid_SelectionChanged">
+        </DataGrid>
+        <Usercontrols:MovieThumb x:Name="MovieControl" HorizontalAlignment="Right" Width="300"/>
+    </Grid>
+</Window>
