@@ -8,6 +8,8 @@ namespace KnkSolutionUsers.Utilities
     [Serializable]
     public class KnkDataModeler : KnkDataModelerItf
     {
+        KnkDataItf _Conection;
+
         private Assembly _Assembly = Assembly.GetAssembly(typeof(KnkDataModeler));
 
         public Assembly Assembly
@@ -43,5 +45,6 @@ namespace KnkSolutionUsers.Utilities
                 return _Assembly.GetName().Version;
             }
         }
+
     }
 }

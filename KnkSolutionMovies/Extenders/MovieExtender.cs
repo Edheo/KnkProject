@@ -2,6 +2,8 @@
 using KnkSolutionMovies.Entities;
 using KnkSolutionMovies.Lists;
 using KnkSolutionMovies.References;
+using KnkSolutionUsers.Entities;
+using KnkSolutionUsers.References;
 
 namespace KnkSolutionMovies.Extenders
 {
@@ -15,17 +17,26 @@ namespace KnkSolutionMovies.Extenders
 
         #region References
         MovieSetReference _MovieSetReference = null;
+        UserReference<Movie> _CreationUser = null;
+
         Files _Files = null;
         Genres _Genres = null;
         Pictures _Pictures = null;
         #endregion References
 
         #region Relationships
-        private KnkReferenceItf<Movie, MovieSet> MovieSetReference()
+        private MovieSetReference MovieSetReference()
         {
             if (_MovieSetReference == null)
                 _MovieSetReference = new MovieSetReference(_Movie, "IdSet");
             return _MovieSetReference;
+        }
+
+        private UserReference<Movie> CreationUserReference()
+        {
+            if (_CreationUser == null)
+                _CreationUser = new UserReference<Movie>(_Movie, "UserCreationId");
+            return _CreationUser;
         }
 
         public MovieSet MovieSet
@@ -33,6 +44,14 @@ namespace KnkSolutionMovies.Extenders
             get
             {
                 return MovieSetReference().Value;
+            }
+        }
+
+        public User CreationUser
+        {
+            get
+            {
+                return CreationUserReference().Value;
             }
         }
 

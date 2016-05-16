@@ -33,6 +33,7 @@ namespace KnkSolutionMovies.Entities
         public decimal? UserRating { get; set; }
 
         public string MovieStet { get { return Extender.MovieSet?.Name; } }
+        public string CreatedBy { get { return Extender.CreationUser.Username; } }
         #endregion
     }
 

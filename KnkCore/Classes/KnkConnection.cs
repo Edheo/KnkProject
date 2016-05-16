@@ -11,13 +11,10 @@ namespace KnkCore
 {
     public  class KnkConnection:KnkConnectionItf
     {
-        KnkDataItf _Conection;
         KnkConfiguration _Config = new KnkConfiguration();
 
         public KnkConnection(bool aTest)
         {
-            if (!aTest)
-                CreateConnection();
         }
 
         public KnkConnection():this(false)
@@ -29,31 +26,17 @@ namespace KnkCore
             return _Config;
         }
 
-
-        private void CreateConnection()
+        KnkDataItf GetConnection(Type aType)
         {
-            KnkConfigurer lConf = _Config.CallerConfiguration() as KnkConfigurer;
-
-            switch (lConf.ConnectionType)
-            {
-                case ConnectionTypeEnu.SqlServer:
-                    _Conection = new KnkDataSqlServer.Connection.KnkSqlConnection(lConf);
-                    break;
-                default:
-                    throw new Exception($"Connection type {lConf.ConnectionType} not implemented");
-            }
-        }
-
-        public bool Connect()
-        {
-            return _Conection.Connect();
+            KnkConfigurer lConf = _Config.CallerConfiguration(aType) as KnkConfigurer;
+            return lConf.CreateConnection();
         }
 
         public KnkListItf<T> GetList<T>() where T : KnkItemItf, new()
         {
             var type = typeof(T);
             KnkListItf<T> lLst = new KnkList<T>(this);
-            using (var lDat = _Conection.GetData<T>())
+            using (var lDat = GetConnection(typeof(T)).GetData<T>())
             {
                 lLst = this.FillList<T>(lLst);
             }
@@ -67,7 +50,9 @@ namespace KnkCore
             lItm.PropertySet(lItm.SourceEntity.PrimaryKey, aEntityId);
             KnkListItf<T> lLst = new KnkList<T>(this);
             KnkCriteria<T,T> lCri = new KnkCriteria<T, T>(lItm);
-            using (var lDat = _Conection.GetData<T,T>(lCri))
+
+
+            using (var lDat = GetConnection(typeof(T)).GetData<T,T>(lCri))
             {
                 lLst.FillFromDataTable(lDat);
             }
@@ -95,7 +80,7 @@ namespace KnkCore
             where Tlst : KnkItemItf, new()
         {
             KnkListItf<Tlst> lLst = new KnkList<Tlst>(this);
-            using (var lDat = _Conection.GetData<Tdad, Tlst>(aCriteria))
+            using (var lDat = GetConnection(typeof(Tlst)).GetData<Tdad, Tlst>(aCriteria))
             {
                 lLst = FillList<Tdad, Tlst>(lLst, aCriteria);
             };
@@ -106,7 +91,7 @@ namespace KnkCore
         {
             var type = typeof(T);
             var lLst = aList;
-            using (var lDat = _Conection.GetData<T>())
+            using (var lDat = GetConnection(typeof(T)).GetData<T>())
             {
                 aList.FillFromDataTable(lDat);
             }
@@ -118,7 +103,7 @@ namespace KnkCore
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            using (var lDat = _Conection.GetData<Tdad, Tlst>(aCriteria))
+            using (var lDat = GetConnection(typeof(Tlst)).GetData<Tdad, Tlst>(aCriteria))
             {
                 aList.FillFromDataTable(lDat);
             };

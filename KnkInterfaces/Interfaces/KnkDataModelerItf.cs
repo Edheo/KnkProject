@@ -21,6 +21,7 @@ namespace KnkInterfaces.Interfaces
         string User { get; set; }
 
         string Password { get; set; }
+
     }
 
     public interface KnkDataModelerItf : KnkConfigurationItf

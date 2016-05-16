@@ -149,19 +149,19 @@ namespace KnkCore
             LoadConfiguration();
         }
 
-        internal KnkConfigurationItf CallerConfiguration()
+        internal KnkConfigurationItf CallerConfiguration(Type aForType)
         {
-            KnkConfigurationItf lReturn = null;
-            var lAsemblies = (from f in new StackTrace().GetFrames()
-                select f.GetMethod().ReflectedType.Assembly).Distinct().ToList();
 
-            foreach (Assembly lAssembly in lAsemblies)
-            {
-                lReturn = (from Knk in Datamodelers
-                    where Knk.Name.Equals(lAssembly.CodeBase)
-                    select DataModelToConfigurer(Knk)).FirstOrDefault();
-                if (lReturn != null) break;
-            }
+            KnkConfigurationItf lReturn = null;
+            //var lAsemblies = (from f in new StackTrace().GetFrames()
+            //                  select f.GetMethod().ReflectedType.Assembly).Where(a => a.GetTypes().Contains(aForType)).Distinct().ToList();
+            //var lAsemblies = (from f in new StackTrace().GetFrames()
+            //    select f.GetMethod().ReflectedType.Assembly).Distinct().ToList();
+
+            lReturn = (from Knk in Datamodelers
+                where Knk.Assembly.GetTypes().Contains(aForType)
+                select DataModelToConfigurer(Knk)).FirstOrDefault();
+
             return lReturn ?? new KnkConfigurer();
         }
 
