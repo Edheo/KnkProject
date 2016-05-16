@@ -11,12 +11,10 @@ using System.Threading.Tasks;
 namespace KnkSolutionMovies.References
 {
     [DefaultProperty("Text")]
-    public class MovieSetReference : KnkReference<MovieSet>
+    public class MovieSetReference : KnkReference<Movie,MovieSet>
     {
-        public MovieSetReference(Movie aMovie, string aProperty) : base(null, aMovie.Connection.GetItem<MovieSet>)
+        public MovieSetReference(Movie aMovie, string aProperty) : base(aMovie, aProperty, aMovie.Connection.GetItem<MovieSet>)
         {
-            int? lVal = (int?)aMovie.PropertyGet(aProperty);
-            aMovie.Connection.SetReference<MovieSet>(this, lVal);
         }
 
         public string Text

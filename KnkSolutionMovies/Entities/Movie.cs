@@ -31,6 +31,8 @@ namespace KnkSolutionMovies.Entities
         public string TrailerUrl { get; set; }
         public int? IdSet { get; set; }
         public decimal? UserRating { get; set; }
+
+        public string MovieStet { get { return Extender.MovieSet?.Name; } }
         #endregion
     }
 

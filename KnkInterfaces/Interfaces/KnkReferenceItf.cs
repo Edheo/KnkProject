@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace KnkInterfaces.Interfaces
 {
-    public interface KnkReferenceItf<T> where T : KnkItemItf, new()
+    public interface KnkReferenceItf<TDad,TReference> 
+        where TDad : KnkItemItf
+        where TReference : KnkItemItf, new()
     {
         int? Id { get; }
-        T Value { get; }
+        TReference Value { get; }
 
-        void ResetReference(int? aId);
-        void ResetReference(int? aId, Func<int?, T> load);
+        void ResetReference(TDad aItem, string aProperty);
+        void ResetReference(TDad aItem, string aProperty, Func<int?, TReference> load);
     }
 }

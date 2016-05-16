@@ -25,12 +25,12 @@ namespace KnkSolutionMovies.Relationships
         public int IdFile { get; set; }
         #endregion Class Properties
 
-        KnkReferenceItf<File> _FileReference = null;
+        KnkReferenceItf<MovieFile, File> _FileReference = null;
 
-        private KnkReferenceItf<File> FileReference()
+        private KnkReferenceItf<MovieFile, File> FileReference()
         {
             if (_FileReference == null)
-                _FileReference = Connection.GetReference<File>(this.IdFile);
+                _FileReference = Connection.GetReference<MovieFile, File>(this, "IdFile");
             return _FileReference;
         }
 

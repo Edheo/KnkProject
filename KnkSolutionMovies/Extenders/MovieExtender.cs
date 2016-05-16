@@ -21,7 +21,7 @@ namespace KnkSolutionMovies.Extenders
         #endregion References
 
         #region Relationships
-        private KnkReferenceItf<MovieSet> MovieSetReference()
+        private KnkReferenceItf<Movie, MovieSet> MovieSetReference()
         {
             if (_MovieSetReference == null)
                 _MovieSetReference = new MovieSetReference(_Movie, "IdSet");

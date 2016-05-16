@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace KnkCore
 {
-    public class KnkReference<T>:KnkReferenceItf<T> where T:KnkItemItf, new()
+    public class KnkReference<TDad, TReference>:KnkReferenceItf<TDad, TReference> 
+        where TDad:KnkItemItf
+        where TReference:KnkItemItf, new()
     {
         public KnkReference()
         {
@@ -15,18 +17,19 @@ namespace KnkCore
         }
 
         #region constructors
-        public KnkReference(int? aId, Func<int?, T> aLoad)
+        public KnkReference(TDad aItem, string aProperty, Func<int?, TReference> aLoad)
         {
-            ResetReference(aId, aLoad);
+            ResetReference(aItem, aProperty, aLoad);
         }
         #endregion
 
         #region member variables
 
-        private T _value;
+        private TReference _value;
+        private string _property;
         private int? _id;
 
-        private Func<int?, T> Load { get; set; }
+        private Func<int?, TReference> Load { get; set; }
 
         public int? Id
         {
@@ -39,7 +42,7 @@ namespace KnkCore
             }
         }
 
-        public T Value
+        public TReference Value
         {
             get
             {
@@ -59,16 +62,17 @@ namespace KnkCore
 
         #region properties
 
-        public void ResetReference(int? aId)
+        public void ResetReference(TDad aItem, string aProperty)
         {
-            _value = default(T);
-            _id = aId;
+            _property = aProperty;
+            _value = default(TReference);
+            _id = (int?)aItem.PropertyGet(aProperty);
         }
 
-        public void ResetReference(int? aId, Func<int?, T> aLoad)
+        public void ResetReference(TDad aItem, string aProperty, Func<int?, TReference> aLoad)
         {
             Release();
-            _id = aId;
+            _id = (int?)aItem.PropertyGet(aProperty);
             Load = aLoad;
         }
 
@@ -76,19 +80,19 @@ namespace KnkCore
 
         #region overloaded operators
 
-        public static implicit operator KnkReference<T>(T operand)
+        public static implicit operator KnkReference<TDad, TReference>(TReference operand)
         {
-            return new KnkReference<T> { Value = operand };
+            return new KnkReference<TDad, TReference> { Value = operand };
         }
 
-        public static bool operator ==(KnkReference<T> le, T e)
+        public static bool operator ==(KnkReference<TDad, TReference> le, TReference e)
         {
-            KnkReference<KnkItemBase> lCast = le as KnkReference<KnkItemBase>;
+            KnkReference<KnkItemBase, KnkItemBase> lCast = le as KnkReference<KnkItemBase,KnkItemBase>;
             KnkItemBase lCaste = e as KnkItemBase;
             return (e == null && le == null ? true : e == null ? false : lCast.Value == lCaste || (le.Value.KnkEntityId.HasValue && e.KnkEntityId.HasValue && le.Value.KnkEntityId.Value == e.KnkEntityId.Value));
         }
 
-        public static bool operator !=(KnkReference<T> le, T e)
+        public static bool operator !=(KnkReference<TDad, TReference> le, TReference e)
         {
             return !(le == e);
         }
@@ -99,7 +103,7 @@ namespace KnkCore
 
         public override bool Equals(object obj)
         {
-            return (typeof(object) == typeof(KnkReference<T>)
+            return (typeof(object) == typeof(KnkReference<TDad, TReference>)
                     && this == obj);
         }
 
@@ -112,7 +116,7 @@ namespace KnkCore
         {
             Id = null;
             Load = null;
-            _value = default(T);
+            _value = default(TReference);
         }
 
 

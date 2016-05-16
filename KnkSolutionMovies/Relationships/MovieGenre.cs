@@ -25,12 +25,12 @@ namespace KnkSolutionMovies.Relationships
         public int IdGenre { get; set; }
         #endregion Class Properties
 
-        KnkReferenceItf<GenreClass> _GenreReference = null;
+        KnkReferenceItf<MovieGenre, GenreClass> _GenreReference = null;
 
-        private KnkReferenceItf<GenreClass> GenreReference()
+        private KnkReferenceItf<MovieGenre, GenreClass> GenreReference()
         {
             if (_GenreReference == null)
-                _GenreReference = Connection.GetReference<GenreClass>(this.IdGenre);
+                _GenreReference = Connection.GetReference<MovieGenre, GenreClass>(this, "IdGenre");
             return _GenreReference;
         }
 

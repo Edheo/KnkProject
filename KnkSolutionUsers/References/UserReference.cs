@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace KnkSolutionUsers.References
 {
-    public class UserReference<T> : KnkReference<T> 
-        where T:KnkItemItf, new()
+    public class UserReference<TEntity,User> : KnkReference<TEntity, User> 
+        where TEntity : KnkItemItf
+        where User : KnkItemItf, new()
     {
-        public UserReference<T>() : base(null, aItem.Connection.GetItem<T>) 
+        public UserReference(TEntity aDad, string aProperty) : base(aDad, aProperty, aDad.Connection.GetItem<User>)
         {
-            int? lVal = (int?)aItem.PropertyGet(aProperty);
-            aItem.Connection.SetReference<T>(this, lVal);
         }
 
         public string Text
@@ -27,7 +26,7 @@ namespace KnkSolutionUsers.References
 
         public override string ToString()
         {
-            return this.Value.Name;
+            return string.Empty;// this.Value.Username;
         }
     }
 }

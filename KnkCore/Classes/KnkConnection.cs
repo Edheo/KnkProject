@@ -74,16 +74,21 @@ namespace KnkCore
             return lLst.Items.FirstOrDefault();
         }
 
-        public KnkReferenceItf<T> SetReference<T>(KnkReferenceItf<T> aReference, int? aValue) where T : KnkItemItf, new()
+        public KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem, string aProperty)
+            where TDad : KnkItemItf
+            where TReference : KnkItemItf, new()
         {
-            aReference.ResetReference(aValue);
+            return SetReference<TDad, TReference>(new KnkReference<TDad, TReference>(aItem, aProperty, GetItem<TReference>),aItem, aProperty);
+        }
+
+        public KnkReferenceItf<TDad, TReference> SetReference<TDad, TReference>(KnkReferenceItf<TDad, TReference> aReference, TDad aItem, string aProperty)
+            where TDad : KnkItemItf
+            where TReference : KnkItemItf, new()
+        {
+            aReference.ResetReference(aItem, aProperty);
             return aReference;
         }
 
-        public KnkReferenceItf<T> GetReference<T>(int? aValue) where T : KnkItemItf, new()
-        {
-            return SetReference<T>(new KnkReference<T>(aValue, GetItem<T>),(int?)aValue);
-        }
 
         public KnkListItf<Tlst> GetList<Tdad, Tlst>(KnkCriteriaItf<Tdad,Tlst> aCriteria) 
             where Tdad : KnkItemItf, new()
