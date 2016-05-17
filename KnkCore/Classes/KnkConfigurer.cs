@@ -10,7 +10,7 @@ using KnkInterfaces.Enumerations;
 namespace KnkCore
 {
     [Serializable]
-    class KnkConfigurer : KnkConfigurationItf
+    public class KnkConfigurer : KnkConfigurationItf
     {
         KnkDataItf _Conection;
 
@@ -18,13 +18,15 @@ namespace KnkCore
 
         public string Database { get; set; }
 
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         public string Password { get; set; }
 
         public string ServerPath { get; set; }
 
         public string User { get; set; }
+
+        public string MediaFolder { get; set; }
 
         public bool IsConfigured()
         {

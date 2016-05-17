@@ -118,6 +118,15 @@ namespace KnkCore
             return Path.GetDirectoryName(lPath);
         }
 
+
+        private string AppFileName()
+        {
+            string lCodeBase = Assembly.GetEntryAssembly().CodeBase;
+            string[] lSplit = lCodeBase.Split('.');
+            Array.Resize(ref lSplit, lSplit.Length - 1);
+            return new Uri(string.Join(".", lSplit)).LocalPath;
+        }
+
         private string ConfigFilename(string aExt)
         {
             string lCodeBase = Assembly.GetEntryAssembly().CodeBase;
@@ -131,7 +140,17 @@ namespace KnkCore
             DataSet lDts = new DataSet();
             string lFile = ConfigFilename("Knk");
             if (File.Exists(lFile))
-                lDts.ReadXml(lFile);
+            {
+                Stream lStream = Utilities.KnkUtility.FromCryptoStream(ConfigFilename("Knk"));
+                try
+                {
+                    lDts.ReadXml(lStream);
+                }
+                finally
+                {
+                    lStream = null;
+                }
+            }
             return lDts;
         }
 
@@ -145,23 +164,20 @@ namespace KnkCore
             DataSet lDts = new DataSet();
             DataTable lTbl = KnkUtility.CreateDataTable<KnkConfigurationItf>(aList);
             lDts.Tables.Add(lTbl);
-            lDts.WriteXml(ConfigFilename("Knk"), XmlWriteMode.WriteSchema);
+            using (var lCryp = Utilities.KnkUtility.ToCryptoStream(ConfigFilename("Knk")))
+            {
+                lDts.WriteXml(lCryp, XmlWriteMode.WriteSchema);
+            }
             LoadConfiguration();
         }
 
+        
         internal KnkConfigurationItf CallerConfiguration(Type aForType)
         {
-
             KnkConfigurationItf lReturn = null;
-            //var lAsemblies = (from f in new StackTrace().GetFrames()
-            //                  select f.GetMethod().ReflectedType.Assembly).Where(a => a.GetTypes().Contains(aForType)).Distinct().ToList();
-            //var lAsemblies = (from f in new StackTrace().GetFrames()
-            //    select f.GetMethod().ReflectedType.Assembly).Distinct().ToList();
-
             lReturn = (from Knk in Datamodelers
                 where Knk.Assembly.GetTypes().Contains(aForType)
                 select DataModelToConfigurer(Knk)).FirstOrDefault();
-
             return lReturn ?? new KnkConfigurer();
         }
 

@@ -22,6 +22,7 @@ namespace KnkInterfaces.Interfaces
 
         string Password { get; set; }
 
+        string MediaFolder { get; set; }
     }
 
     public interface KnkDataModelerItf : KnkConfigurationItf
