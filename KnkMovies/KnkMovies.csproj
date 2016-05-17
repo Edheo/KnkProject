@@ -111,6 +111,10 @@
       <Project>{5492b331-33fe-4d82-bfc0-2a36ab7b89dc}</Project>
       <Name>KnkInterfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KnkScrapers\KnkScrapers.csproj">
+      <Project>{f5d2b644-2a6c-40e7-83ce-0607da1598e9}</Project>
+      <Name>KnkScrapers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KnkSolutionMovies\KnkSolutionMovies.csproj">
       <Project>{df1cedca-4b04-4270-8e1f-89f1921b6880}</Project>
       <Name>KnkSolutionMovies</Name>
