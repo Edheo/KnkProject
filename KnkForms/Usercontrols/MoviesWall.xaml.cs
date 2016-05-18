@@ -27,9 +27,9 @@ namespace KnkForms.Usercontrols
             InitializeComponent();
             Size lMaxSize = MovieThumb.MaxSize();
             int lColumns = (int)Math.Ceiling(this.autoGrid.ActualWidth / lMaxSize.Width);
+            this.UpdateLayout();
+            double lWidth = this.autoGrid.ActualWidth;
             this.autoGrid.Columns = lColumns.ToString();
-
-
         }
     }
 }

@@ -16,6 +16,7 @@ namespace KnkMovies
         {
             InitializeComponent();
             if (!KnkUtility.CheckConfiguration()) Application.Current.Shutdown();
+            double lWidth = this.RenderSize.Width;
             LoadGrid();
         }
 
