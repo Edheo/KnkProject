@@ -167,12 +167,7 @@ namespace KnkCore
 
         public string GetMediaFolder(Type aType)
         {
-            var lCall = CallerConfiguration(aType);
-            string lPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), lCall.MediaFolder);
-            
-            if (!Directory.Exists(lPath))
-                Directory.CreateDirectory(lPath);
-            return lPath;
+            return Utilities.KnkUtility.AppDataFolder(CallerConfiguration(aType)?.MediaFolder); 
         }
 
         public KnkDataItf GetConnection(Type aType)

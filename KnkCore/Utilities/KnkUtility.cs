@@ -70,9 +70,24 @@ namespace KnkCore.Utilities
             return new Uri(string.Join(".", lSplit)).LocalPath;
         }
 
-        public static string AppName()
+        private static string AppName()
         {
             return AppName(Assembly.GetEntryAssembly().CodeBase);
+        }
+
+        public static string AppDataFolder(string aFolder)
+        {
+            string lPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppName());
+            if(!string.IsNullOrEmpty(aFolder))
+                lPath= lPath = Path.Combine(lPath, aFolder);
+            if (!Directory.Exists(lPath))
+                Directory.CreateDirectory(lPath);
+            return lPath;
+        }
+
+        public static string AppDataFolder()
+        {
+            return AppDataFolder(null);
         }
 
         public static string AppName(string aFile)
