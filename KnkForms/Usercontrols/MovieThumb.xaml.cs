@@ -24,6 +24,7 @@ namespace KnkForms.Usercontrols
     {
         private Movie _Movie;
 
+
         public MovieThumb()
         {
             InitializeComponent();
@@ -48,6 +49,27 @@ namespace KnkForms.Usercontrols
 
                 this.imgPicture.Source = bi;
             }
+        }
+        public static Size MinSize()
+        {
+            return new Size(200, 350);
+        }
+
+        public static Size MaxSize()
+        {
+            Size lSize = MinSize();
+            return new Size(lSize.Width * 2, lSize.Height * 2);
+        }
+
+        public static float Aspect()
+        {
+            Size lMinSize = MinSize();
+            return (float)lMinSize.Height / (float)lMinSize.Width;
+        }
+
+        public static Size SizeForWidth(int aWidth)
+        {
+            return new Size(aWidth, aWidth * Aspect());
         }
     }
 }

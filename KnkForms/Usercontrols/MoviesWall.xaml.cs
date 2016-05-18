@@ -12,17 +12,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfAutoGrid;
 
 namespace KnkForms.Usercontrols
 {
     /// <summary>
     /// Interaction logic for MoviesWall.xaml
     /// </summary>
+    /// 
     public partial class MoviesWall : UserControl
     {
         public MoviesWall()
         {
             InitializeComponent();
+            Size lMaxSize = MovieThumb.MaxSize();
+            int lColumns = (int)Math.Ceiling(this.autoGrid.ActualWidth / lMaxSize.Width);
+            this.autoGrid.Columns = lColumns.ToString();
+
+
         }
     }
 }

@@ -21,9 +21,9 @@ namespace KnkMovies
 
         private void LoadGrid()
         {
-            dataGrid.ItemsSource = new Movies().Items;
+            //dataGrid.ItemsSource = new Movies().Items;
 
-            ScanFolders lScan = new ScanFolders();
+            //ScanFolders lScan = new ScanFolders();
             //lScan.StartFoldersScanner();
         }
 

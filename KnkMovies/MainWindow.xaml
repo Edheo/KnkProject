@@ -8,8 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow">
     <Grid >
-        <DataGrid x:Name="dataGrid" Margin="0,0,300,0" SelectionChanged="dataGrid_SelectionChanged">
-        </DataGrid>
+        <Usercontrols:MoviesWall />
         <Usercontrols:MovieThumb x:Name="MovieControl" HorizontalAlignment="Right" Width="300"/>
     </Grid>
 </Window>
