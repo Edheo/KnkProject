@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Management;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,6 +52,34 @@ namespace KnkCore.Utilities
                 break;
             }
             return lReturn;
+        }
+
+        public static string AppFileName()
+        {
+            string lCodeBase = Assembly.GetEntryAssembly().CodeBase;
+            string[] lSplit = lCodeBase.Split('.');
+            Array.Resize(ref lSplit, lSplit.Length - 1);
+            return new Uri(string.Join(".", lSplit)).LocalPath;
+        }
+
+        public static string ConfigFilename(string aExt)
+        {
+            string lCodeBase = Assembly.GetEntryAssembly().CodeBase;
+            string[] lSplit = lCodeBase.Split('.');
+            lSplit[lSplit.Length - 1] = aExt;
+            return new Uri(string.Join(".", lSplit)).LocalPath;
+        }
+
+        public static string AppName()
+        {
+            return AppName(Assembly.GetEntryAssembly().CodeBase);
+        }
+
+        public static string AppName(string aFile)
+        {
+            string[] lNames = Path.GetFileName(aFile).Split('.');
+            Array.Resize(ref lNames, lNames.Length - 1);
+            return string.Join(".", lNames);
         }
     }
 }

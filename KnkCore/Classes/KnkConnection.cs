@@ -28,8 +28,7 @@ namespace KnkCore
 
         KnkDataItf GetConnection(Type aType)
         {
-            KnkConfigurer lConf = _Config.CallerConfiguration(aType) as KnkConfigurer;
-            return lConf.CreateConnection();
+            return _Config.GetConnection(aType);
         }
 
         public KnkListItf<T> GetList<T>() where T : KnkItemItf, new()

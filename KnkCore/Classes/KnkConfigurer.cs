@@ -26,7 +26,7 @@ namespace KnkCore
 
         public string User { get; set; }
 
-        public string MediaFolder { get; set; }
+        public string MediaFolder { get; set; } = "Media";
 
         public bool IsConfigured()
         {

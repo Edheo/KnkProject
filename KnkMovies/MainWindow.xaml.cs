@@ -24,7 +24,7 @@ namespace KnkMovies
             dataGrid.ItemsSource = new Movies().Items;
 
             ScanFolders lScan = new ScanFolders();
-            lScan.StartFoldersScanner();
+            //lScan.StartFoldersScanner();
         }
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

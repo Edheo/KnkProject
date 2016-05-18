@@ -121,18 +121,12 @@ namespace KnkCore
 
         private string AppFileName()
         {
-            string lCodeBase = Assembly.GetEntryAssembly().CodeBase;
-            string[] lSplit = lCodeBase.Split('.');
-            Array.Resize(ref lSplit, lSplit.Length - 1);
-            return new Uri(string.Join(".", lSplit)).LocalPath;
+            return Utilities.KnkUtility.AppFileName();
         }
 
         private string ConfigFilename(string aExt)
         {
-            string lCodeBase = Assembly.GetEntryAssembly().CodeBase;
-            string[] lSplit = lCodeBase.Split('.');
-            lSplit[lSplit.Length-1] = aExt;
-            return new Uri(string.Join(".", lSplit)).LocalPath;
+            return Utilities.KnkUtility.ConfigFilename(aExt);
         }
 
         private DataSet ReadConfig()
@@ -171,13 +165,28 @@ namespace KnkCore
             LoadConfiguration();
         }
 
-        
-        internal KnkConfigurationItf CallerConfiguration(Type aForType)
+        public string GetMediaFolder(Type aType)
         {
-            KnkConfigurationItf lReturn = null;
+            var lCall = CallerConfiguration(aType);
+            string lPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), lCall.MediaFolder);
+            
+            if (!Directory.Exists(lPath))
+                Directory.CreateDirectory(lPath);
+            return lPath;
+        }
+
+        public KnkDataItf GetConnection(Type aType)
+        {
+            KnkConfigurer lCall = CallerConfiguration(aType);
+            return lCall.CreateConnection();
+        }
+
+        private KnkConfigurer CallerConfiguration(Type aForType)
+        {
+            KnkConfigurer lReturn = null;
             lReturn = (from Knk in Datamodelers
                 where Knk.Assembly.GetTypes().Contains(aForType)
-                select DataModelToConfigurer(Knk)).FirstOrDefault();
+                select DataModelToConfigurer(Knk)).FirstOrDefault() as KnkConfigurer;
             return lReturn ?? new KnkConfigurer();
         }
 
