@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KnkSolutionMovies.Entities;
+using KnkSolutionMovies.Lists;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using WpfAutoGrid;
 
 namespace KnkForms.Usercontrols
 {
@@ -22,14 +12,41 @@ namespace KnkForms.Usercontrols
     /// 
     public partial class MoviesWall : UserControl
     {
+        private Movies _Movies;
         public MoviesWall()
         {
             InitializeComponent();
-            Size lMaxSize = MovieThumb.MaxSize();
-            int lColumns = (int)Math.Ceiling(this.autoGrid.ActualWidth / lMaxSize.Width);
-            this.UpdateLayout();
-            double lWidth = this.autoGrid.ActualWidth;
-            this.autoGrid.Columns = lColumns.ToString();
+        }
+
+        public void LoadMovies(Movies aMovies)
+        {
+            _Movies = aMovies;
+            foreach(Movie lMovie in _Movies.Items)
+            { 
+                this.autoGrid.Children.Add(new MovieThumb() { Movie = lMovie });
+            }
+
+        }
+
+        private int ColumsForWidth(double aWidth)
+        {
+            return (int)Math.Floor(aWidth / MovieThumb.MinSize().Width);
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if(e.PreviousSize.Width!=e.NewSize.Width)
+            {
+                int lColsOld = ColumsForWidth(e.PreviousSize.Width);
+                int lColsNew = ColumsForWidth(e.NewSize.Width);
+                if (lColsNew != lColsOld && lColsNew != 0)
+                    this.SetColumns(lColsNew);
+            }
+        }
+
+        private void SetColumns(int aColumns)
+        {
+            this.autoGrid.Columns = aColumns.ToString();
         }
     }
 }
