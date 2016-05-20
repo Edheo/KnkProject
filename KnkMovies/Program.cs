@@ -4,18 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KnkMovieForms
+namespace KnkMovies
 {
     static class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// Punto de entrada principal para la aplicación.
         /// </summary>
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            KnkForms.Utilities.KnkUtility.CheckConfiguration();
             Application.Run(new Form1());
         }
     }

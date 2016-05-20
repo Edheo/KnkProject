@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CB0A8E67-EDAC-48FF-A3AF-FC0C802E01D3}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KnkMovieForms</RootNamespace>
     <AssemblyName>KnkMovieForms</AssemblyName>
@@ -32,7 +32,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,19 +50,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Usercontrols\MovieThumb.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Usercontrols\MovieThumb.Designer.cs">
       <DependentUpon>MovieThumb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Usercontrols\MovieWall.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Usercontrols\MovieWall.Designer.cs">
+      <DependentUpon>MovieWall.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -72,6 +75,9 @@
     <EmbeddedResource Include="Usercontrols\MovieThumb.resx">
       <DependentUpon>MovieThumb.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Usercontrols\MovieWall.resx">
+      <DependentUpon>MovieWall.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -82,11 +88,24 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utilities\" />
+    <ProjectReference Include="..\KnkCore\KnkCore.csproj">
+      <Project>{ac26a539-d928-4701-92b4-af24968f7125}</Project>
+      <Name>KnkCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KnkInterfaces\KnkInterfaces.csproj">
+      <Project>{5492b331-33fe-4d82-bfc0-2a36ab7b89dc}</Project>
+      <Name>KnkInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KnkSolutionMovies\KnkSolutionMovies.csproj">
+      <Project>{df1cedca-4b04-4270-8e1f-89f1921b6880}</Project>
+      <Name>KnkSolutionMovies</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KnkSolutionUsers\KnkSolutionUsers.csproj">
+      <Project>{ca0db50d-ff6b-4543-9111-ab4153a09897}</Project>
+      <Name>KnkSolutionUsers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

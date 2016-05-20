@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KnkSolutionMovies.Lists;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,13 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KnkMovieForms
+namespace KnkMovies
 {
     public partial class Form1 : Form
     {
         public Form1()
         {
             InitializeComponent();
+            this.wallMovies.LoadMovies(new Movies());
         }
     }
 }

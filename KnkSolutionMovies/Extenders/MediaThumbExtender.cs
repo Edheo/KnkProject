@@ -29,7 +29,7 @@ namespace KnkSolutionMovies.Extenders
             return lXml.InnerText;
         }
 
-        public Stream GetImageStream()
+        public string GetFileName()
         {
             string lFrom = GetImageUri();
             KnkConnection lConf = _MediaThumb.Connection as KnkConnection;
@@ -43,7 +43,8 @@ namespace KnkSolutionMovies.Extenders
             {
                 KnkUtility.WriteStreamToFile(KnkUtility.GetUrlStream(lFrom), lFileName);
             }
-            return KnkUtility.GetFileStream(lFileName);
+            return lFileName;
         }
+
     }
 }
