@@ -27,15 +27,15 @@ namespace KnkForms.Usercontrols
         {
             _Movie = aMovie;
             lblTitle.Content = aMovie.Title;
-            if (aMovie.Extender.Poster != null)
-            {
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.StreamSource = Movie.Extender.Poster.Extender.GetImageStream();
-                bi.EndInit();
+            //if (aMovie.Extender.Poster != null)
+            //{
+            //    BitmapImage bi = new BitmapImage();
+            //    bi.BeginInit();
+            //    bi.StreamSource = Movie.Extender.Poster.Extender.GetImageStream();
+            //    bi.EndInit();
 
-                this.imgPicture.Source = bi;
-            }
+            //    this.imgPicture.Source = bi;
+            //}
         }
         public static Size MinSize()
         {

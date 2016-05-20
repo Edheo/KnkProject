@@ -35,10 +35,15 @@ namespace KnkForms.Usercontrols
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if(e.PreviousSize.Width!=e.NewSize.Width)
+            VerifySizeChange(e.PreviousSize, e.NewSize);
+        }
+
+        private void VerifySizeChange(Size aOldSize, Size aNewSize)
+        {
+            if (aOldSize.Width != aNewSize.Width)
             {
-                int lColsOld = ColumsForWidth(e.PreviousSize.Width);
-                int lColsNew = ColumsForWidth(e.NewSize.Width);
+                int lColsOld = ColumsForWidth(aOldSize.Width);
+                int lColsNew = ColumsForWidth(aNewSize.Width);
                 if (lColsNew != lColsOld && lColsNew != 0)
                     this.SetColumns(lColsNew);
             }
