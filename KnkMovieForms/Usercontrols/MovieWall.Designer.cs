@@ -32,15 +32,15 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.lblSearch = new System.Windows.Forms.Label();
             this.movieWallLayout1 = new KnkMovieForms.Usercontrols.MovieWallLayout();
-            this.moviePictureBox1 = new KnkMovieForms.Usercontrols.MoviePictureBox();
+            this.btnSearch = new KnkMovieForms.Usercontrols.MoviePictureBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.moviePictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSearch)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.DimGray;
-            this.panel1.Controls.Add(this.moviePictureBox1);
+            this.panel1.Controls.Add(this.btnSearch);
             this.panel1.Controls.Add(this.txtSearch);
             this.panel1.Controls.Add(this.lblSearch);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -75,22 +75,23 @@
             this.movieWallLayout1.Size = new System.Drawing.Size(810, 490);
             this.movieWallLayout1.TabIndex = 1;
             // 
-            // moviePictureBox1
+            // btnSearch
             // 
-            this.moviePictureBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.moviePictureBox1.Filename = null;
-            this.moviePictureBox1.FontName = "Verdana";
-            this.moviePictureBox1.Fontstyle = System.Drawing.FontStyle.Bold;
-            this.moviePictureBox1.Image = global::KnkMovieForms.Properties.Resources.search;
-            this.moviePictureBox1.LineAlignment = System.Drawing.StringAlignment.Center;
-            this.moviePictureBox1.Location = new System.Drawing.Point(762, 0);
-            this.moviePictureBox1.Name = "moviePictureBox1";
-            this.moviePictureBox1.Size = new System.Drawing.Size(48, 47);
-            this.moviePictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.moviePictureBox1.TabIndex = 2;
-            this.moviePictureBox1.TabStop = false;
-            this.moviePictureBox1.Text = "Search";
-            this.moviePictureBox1.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.btnSearch.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnSearch.Filename = null;
+            this.btnSearch.FontName = "Verdana";
+            this.btnSearch.Fontstyle = System.Drawing.FontStyle.Bold;
+            this.btnSearch.Image = global::KnkMovieForms.Properties.Resources.search;
+            this.btnSearch.LineAlignment = System.Drawing.StringAlignment.Center;
+            this.btnSearch.Location = new System.Drawing.Point(762, 0);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(48, 47);
+            this.btnSearch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnSearch.TabIndex = 2;
+            this.btnSearch.TabStop = false;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // MovieWall
             // 
@@ -103,7 +104,7 @@
             this.SizeChanged += new System.EventHandler(this.MovieWall_SizeChanged);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.moviePictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSearch)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -112,7 +113,7 @@
 
         private System.Windows.Forms.Panel panel1;
         private MovieWallLayout movieWallLayout1;
-        private MoviePictureBox moviePictureBox1;
+        private MoviePictureBox btnSearch;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label lblSearch;
     }

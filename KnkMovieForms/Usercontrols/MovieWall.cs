@@ -11,19 +11,20 @@ using KnkSolutionMovies.Lists;
 using KnkInterfaces.Interfaces;
 using KnkSolutionMovies.Entities;
 using KnkCore;
+using KnkInterfaces.Enumerations;
 
 namespace KnkMovieForms.Usercontrols
 {
     public partial class MovieWall : UserControl
     {
-        event CancelEventHandler PerformSearch;
-        
+        public event CancelEventHandler PerformSearch;
+        private KnkCriteria<Movie,Movie> _CurrentCriteria;
         private Movies _Movies;
 
         public MovieWall()
         {
             InitializeComponent();
-            this.moviePictureBox1.Image = KnkMovieForms.Properties.Resources.search;
+            this.btnSearch.Image = KnkMovieForms.Properties.Resources.search;
         }
 
         public void LoadMovies(Movies aMovies)
@@ -39,29 +40,59 @@ namespace KnkMovieForms.Usercontrols
 
         private void OnPerformSearch()
         {
+            bool lCancel = false;
             if (PerformSearch != null)
             {
                 CancelEventArgs lArgs = new CancelEventArgs();
                 PerformSearch(this, lArgs);
-                if(!lArgs.Cancel)
-                {
-                    Movies lMov = new Movies(_Movies.Connection, Criteria());
-                }
+                lCancel = lArgs.Cancel;
+            }
+            if (!lCancel)
+            {
+                GenerateCriteria();
+                Movies lMov = new Movies(_Movies.Connection, _CurrentCriteria);
+                this.LoadMovies(lMov);
             }
         }
 
-        private KnkCriteriaItf<Movie, Movie> Criteria()
+        private void GenerateCriteria()
         {
-            KnkTableEntity lEntity = new KnkTableEntity("vieMovies", "IdMovie");
-            KnkCriteriaItf<Movie, Movie> lCri = new KnkCriteria<Movie, Movie>(new Movie(), lEntity);
-            var lParameters = lCri.FeededParameters();
-            lParameters.Add(new KnkParameter(typeof(string), "TextSearch", KnkInterfaces.Enumerations.OperatorsEnu.Like, $"%{txtSearch}%"));
-            return null;
+            KnkCriteria<Movie, Movie> lCri = null;
+            if (txtSearch.Text.Length > 0)
+            {
+                KnkTableEntity lEntity = new KnkTableEntity("vieMovies", "IdMovie");
+                lCri = new KnkCriteria<Movie, Movie>(new Movie(), lEntity);
+                var lParameters = lCri.FeededParameters();
+                string[] lSearch = txtSearch.Text.Split(' ');
+                KnkParameter lPar = new KnkParameter(typeof(string), "TextSearch", OperatorsEnu.Like, $"%{txtSearch.Text}%");
+                if (lSearch.Length > 1)
+                {
+                    int i = 1;
+                    foreach (string lStr in lSearch)
+                    {
+                        lPar.AddInnerParameter("TextSearch" + i.ToString(), $"%{lStr}%");
+                        i++;
+                    }
+                }
+                lParameters.Add(lPar);
+            }
+            _CurrentCriteria = lCri;
         }
 
-        private void moviePictureBox1_Click(object sender, CancelEventArgs e)
+        private void btnSearch_Click(object sender, EventArgs e)
         {
             OnPerformSearch();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                OnPerformSearch();
+                return true; 
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

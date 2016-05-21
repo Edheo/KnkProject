@@ -71,9 +71,20 @@ namespace KnkDataSqlServer.Connection
             {
                 foreach (KnkParameterItf lPar in aCriteria.GetParameters())
                 {
-                    if (lPar.Value != null)
+                    if(lPar.InnerParammerters.Count>0)
                     {
-                        lRet.Parameters.AddWithValue(lPar.Name, lPar.Value);
+                        foreach(KnkParameterItf lSubParameter in lPar.InnerParammerters)
+                        {
+                            if (lSubParameter.Value != null)
+                            {
+                                lRet.Parameters.AddWithValue(lSubParameter.ParameterName, lSubParameter.Value);
+                            }
+                        }
+
+                    }
+                    else if (lPar.Value != null)
+                    {
+                        lRet.Parameters.AddWithValue(lPar.ParameterName, lPar.Value);
                     }
                 }
             }

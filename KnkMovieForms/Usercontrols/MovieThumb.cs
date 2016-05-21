@@ -31,13 +31,13 @@ namespace KnkMovieForms.Usercontrols
             lblTitle.Text = $"{_Movie.Title} ({_Movie.Year})";
             picPoster.Filename = _Movie.Extender.Poster.Extender.GetFileName();
             string lText = $"Votes:{_Movie.Votes} Rating:{_Movie.Rating:0.0}";
+            if (_Movie.UserRating != null)
+            {
+                lText = lText + $"\r\nUser Rating:{_Movie.UserRating:0.0} Average Rate:{_Movie.Extender.AveragedRate:0.0}";
+            }
             if (_Movie.Extender.LastPlayed() != null)
             { 
                 lText = lText + $"\r\nLast Played:{_Movie.Extender.LastPlayed():dd/MM/yyyy} Playcount:{_Movie.Extender.Plays.Count()}";
-                if(_Movie.UserRating!=null)
-                {
-                    lText = lText + $"\r\nUser Rating:{_Movie.UserRating:0.0} Average Rate:{_Movie.Extender.AveragedRate:0.0}";
-                }
             }
             picVals.Text = lText;
 

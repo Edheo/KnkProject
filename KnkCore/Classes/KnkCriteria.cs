@@ -44,13 +44,11 @@ namespace KnkCore
 
         public string GetWhereFromParameters(Tdad aItem)
         {
-            var lPars = GetParameters(aItem).Select(p => new { Condition = p.ToSqlWhere(), Connector = Utilities.KnkUtility.GetEnumDescription(p.Connector) });
-            string lBlank = " ";
-            var lWhere = lPars.Aggregate((i, j) => new { Condition = string.Concat(i.Condition, lBlank, i.Condition, lBlank, i.Connector, lBlank, j.Condition), Connector = string.Empty });
-            return lWhere.Condition.Length > 0 ? " Where " + lWhere.Condition : string.Empty;
+            string lWhere = Utilities.KnkUtility.JoinParameters(GetParameters(aItem));
+            return lWhere.Length > 0 ? " Where " + lWhere: string.Empty;
         }
 
-        private List<string> ParametersList()
+        private List<string> KnkLinkFieldsList()
         {
             return KnkLinkFields.Split('.').Select(p => p.Trim()).ToList();
         }
@@ -72,7 +70,7 @@ namespace KnkCore
                 lParameters.Add(lKnkPar);
             }
 
-            foreach (string lPar in ParametersList())
+            foreach (string lPar in KnkLinkFieldsList())
             {
                 var lPrp = lPrs.Where(p => p.Name.ToLower().Equals(lPar.ToLower())).FirstOrDefault();
                 if(lPrp!=null)
@@ -80,8 +78,11 @@ namespace KnkCore
                     var lType = KnkUtility.GetPropertyType(lPrp);
                     var lName = lPrp.Name;
                     var lValue = _item.PropertyGet(lPrp.Name);
-                    KnkParameter lKnkPar = new KnkParameter(lType, lName, OperatorsEnu.Equal, lValue);
-                    lParameters.Add(lKnkPar);
+                    if (lValue != null)
+                    {
+                        KnkParameter lKnkPar = new KnkParameter(lType, lName, OperatorsEnu.Equal, lValue);
+                        lParameters.Add(lKnkPar);
+                    }
                 }
             }
             if (!string.IsNullOrEmpty(this.EntityTable().RelatedKey))

@@ -1,6 +1,4 @@
 ﻿using KnkCore;
-using KnkInterfaces.Interfaces;
-using System;
 
 namespace KnkSolutionMovies.Entities
 {

@@ -17,7 +17,7 @@ namespace KnkSolutionMovies.Entities
         public int IdFile { get; set; }
         public DateTime DatePlay { get; set; }
         public int Playlenght { get; set; }
-        public int Finished { get; set; }
+        public bool Finished { get; set; }
         #endregion Class Properties
     }
 }

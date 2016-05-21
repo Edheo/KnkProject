@@ -1,6 +1,9 @@
-﻿using System;
+﻿using KnkInterfaces.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -108,6 +111,26 @@ namespace KnkCore.Utilities
                 return attributes[0].Description;
             else
                 return value.ToString();
+        }
+
+        public static string JoinParameters(List<KnkParameterItf> aParameters)
+        {
+            string lRet = string.Empty;
+            string lConditions = string.Empty;
+            var lPars = aParameters.Select(p => new { Condition = p.ToSqlWhere(), Connector = KnkUtility.GetEnumDescription(p.Connector) });
+            string lBlank = " ";
+            var lParAnt = lPars.FirstOrDefault();
+            foreach(var lParCur in lPars )
+            {
+                if (lConditions.Length > 0)
+                    lConditions += lBlank + lParAnt.Connector + lBlank;
+
+                lConditions += lParCur.Condition;
+                lParAnt = lParCur;
+            }
+            if (lConditions.Length > 0)
+                lRet = "(" + lConditions + ")";
+            return lRet;
         }
     }
 }

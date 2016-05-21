@@ -1,5 +1,4 @@
-﻿using KnkInterfaces.Interfaces;
-using KnkSolutionMovies.Entities;
+﻿using KnkSolutionMovies.Entities;
 using KnkSolutionMovies.Lists;
 using KnkSolutionMovies.References;
 using KnkSolutionUsers.Entities;
@@ -24,7 +23,7 @@ namespace KnkSolutionMovies.Extenders
         Files _Files = null;
         Genres _Genres = null;
         Pictures _Pictures = null;
-        FilePlays _Plays = null;
+        FilePlays _Views = null;
 
         #endregion References
 
@@ -94,18 +93,26 @@ namespace KnkSolutionMovies.Extenders
             }
         }
 
-        public FilePlays Plays
+        public FilePlays Views
         {
             get
             {
-                if (_Plays == null) _Plays = new FilePlays(_Movie);
-                return _Plays;
+                if (_Views == null) _Views = new FilePlays(_Movie);
+                return _Views;
+            }
+        }
+
+        public System.Collections.Generic.List<FilePlay> Plays
+        {
+            get
+            {
+                return Views.Items.Where(v => v.Finished == true).ToList();
             }
         }
 
         public DateTime? LastPlayed()
         {
-            var lLast = (from p in Plays.Items orderby p.DatePlay descending select p).FirstOrDefault();
+            var lLast = (from p in Plays orderby p.DatePlay descending select p).FirstOrDefault();
             return lLast?.DatePlay;
         }
 
@@ -116,10 +123,9 @@ namespace KnkSolutionMovies.Extenders
                 decimal lRet = _Movie.Rating;
                 if(_Movie.UserRating!=null)
                 {
-                    lRet = (lRet + 2 * _Movie.Rating) / 3;
+                    lRet = (lRet + (2 * (decimal)_Movie.UserRating)) / 3;
                 }
                 return lRet;
-
             }
 
         }
