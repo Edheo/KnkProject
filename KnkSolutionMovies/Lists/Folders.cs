@@ -14,8 +14,8 @@ namespace KnkSolutionMovies.Lists
 
         public Folders(Folder aFolder) : base(aFolder.Connection)
         {
-            var lLstFiles = Connection.GetList(new KnkCriteria<Folder, Folder>(aFolder, aFolder.SourceEntity.PrimaryKey));
-            FillFromList((from f in lLstFiles.Items select f).ToList());
+            var lLstFiles = Connection.GetList(new KnkCriteria<Folder, Folder>(aFolder));
+            FillFromList(lLstFiles.Items);
         }
 
     }

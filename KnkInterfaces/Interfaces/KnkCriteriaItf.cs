@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace KnkInterfaces.Interfaces
 {
     public interface KnkCriteriaItf
     {
-        string KnkLinkFields { get; set; }
-        string EntitySource();
+        string KnkLinkFields { get; }
+        List<KnkParameterItf> FeededParameters();
         List<KnkParameterItf> GetParameters();
         string GetWhereFromParameters();
+        KnkTableEntityItf EntityTable();
     }
 
     public interface KnkCriteriaItf<Tdad, Tlst> : KnkCriteriaItf
@@ -24,6 +21,5 @@ namespace KnkInterfaces.Interfaces
 
         string GetWhereFromParameters(Tdad Item);
 
-        string GetWhereFromParameters(Tdad Item, string aConnector);
     }
 }

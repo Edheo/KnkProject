@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KnkInterfaces.Enumerations;
+using System;
 
 namespace KnkInterfaces.Interfaces
 {
@@ -11,6 +8,8 @@ namespace KnkInterfaces.Interfaces
         Type Type { get; }
         string Name { get; }
         object Value { get; }
+        OperatorsEnu Operator { get; }
+        ParameterConnectorEnu Connector { get; }
 
         string ToSqlWhere();
     }

@@ -19,7 +19,7 @@ namespace KnkSolutionMovies.Lists
 
         public Genres(Movie aMovie) : base(aMovie.Connection)
         {
-            var lLstFiles = Connection.GetList(new KnkCriteria<Movie, MovieGenre>(aMovie, aMovie.SourceEntity.PrimaryKey));
+            var lLstFiles = Connection.GetList(new KnkCriteria<Movie, MovieGenre>(aMovie));
             FillFromList((from f in lLstFiles.Items select f.Genre).ToList());
         }
     }

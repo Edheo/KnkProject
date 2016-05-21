@@ -43,8 +43,9 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
-    <Compile Include="Classes\KnkTableEntity.cs" />
     <Compile Include="Enumerations\ConnectionTypeEnu.cs" />
+    <Compile Include="Enumerations\ParameterConnectorEnu.cs" />
+    <Compile Include="Enumerations\OperatorsEnu.cs" />
     <Compile Include="Interfaces\KnkCriteriaItf.cs" />
     <Compile Include="Interfaces\KnkDataItf.cs" />
     <Compile Include="Interfaces\KnkItemItf.cs" />
@@ -56,6 +57,9 @@
     <Compile Include="Interfaces\KnkTableEntityItf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\KnkUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Classes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
+using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace KnkCore.Utilities
 {
@@ -95,6 +92,22 @@ namespace KnkCore.Utilities
             string[] lNames = Path.GetFileName(aFile).Split('.');
             Array.Resize(ref lNames, lNames.Length - 1);
             return string.Join(".", lNames);
+        }
+
+        public static string GetEnumDescription(Enum value)
+        {
+            FieldInfo fi = value.GetType().GetField(value.ToString());
+
+            DescriptionAttribute[] attributes =
+                (DescriptionAttribute[])fi.GetCustomAttributes(
+                typeof(DescriptionAttribute),
+                false);
+
+            if (attributes != null &&
+                attributes.Length > 0)
+                return attributes[0].Description;
+            else
+                return value.ToString();
         }
     }
 }

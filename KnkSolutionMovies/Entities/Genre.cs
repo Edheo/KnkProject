@@ -10,10 +10,8 @@ namespace KnkSolutionMovies.Entities
     public class GenreClass : KnkItemBase
     {
         #region Interface/Implementation
-        public GenreClass():base()
+        public GenreClass():base(new KnkTableEntity("Genres", "IdGenre"))
         {
-            SourceEntity.SourceTable = "Genres";
-            SourceEntity.PrimaryKey = "IdGenre";
         }
         #endregion Interface/Implementation
 

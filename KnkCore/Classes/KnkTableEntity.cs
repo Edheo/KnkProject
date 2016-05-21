@@ -1,16 +1,23 @@
 ﻿using KnkInterfaces.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KnkCore
 {
     public class KnkTableEntity : KnkTableEntityItf
     {
-        public string PrimaryKey { get; set; }
+        public KnkTableEntity(string aTable, string aPrimaryKey)
+            : this(aTable, aPrimaryKey, string.Empty)
+        {
+        }
 
-        public string SourceTable { get; set; }
+        public KnkTableEntity(string aTable, string aPrimaryKey, string aRelatedKey)
+        {
+            SourceTable = aTable;
+            PrimaryKey = aPrimaryKey;
+            RelatedKey = aRelatedKey;
+        }
+
+        public string PrimaryKey { get; }
+        public string SourceTable { get; }
+        public string RelatedKey { get; }
     }
 }

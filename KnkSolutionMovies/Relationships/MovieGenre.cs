@@ -12,10 +12,8 @@ namespace KnkSolutionMovies.Relationships
     class MovieGenre : KnkItemBase
     {
         #region Interface/Implementation
-        public MovieGenre():base()
+        public MovieGenre():base(new KnkTableEntity("MovieGenres", "IdMovieGenre"))
         {
-            SourceEntity.SourceTable = "MovieGenres";
-            SourceEntity.PrimaryKey = "IdMovieGenre";
         }
         #endregion Interface/Implementation
 

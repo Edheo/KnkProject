@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KnkInterfaces.Interfaces
+﻿namespace KnkInterfaces.Interfaces
 {
     public interface KnkTableEntityItf
     {
-        string PrimaryKey { get; set; }
-        string SourceTable { get; set; }
+        string PrimaryKey { get; }
+        string SourceTable { get; }
+        string RelatedKey { get; }
     }
 }

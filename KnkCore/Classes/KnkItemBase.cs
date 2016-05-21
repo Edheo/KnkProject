@@ -3,13 +3,18 @@ using KnkInterfaces.Utilities;
 using KnkInterfaces.Interfaces;
 using System.Reflection;
 using System;
-using KnkInterfaces.Classes;
 
 namespace KnkCore
 {
     public class KnkItemBase : KnkItemItf
     {
-        private KnkTableEntity _entity = new KnkTableEntity();
+        private readonly KnkTableEntity _entity;
+
+        public KnkItemBase(KnkTableEntity aEntity)
+        {
+            _entity = aEntity;
+        }
+
         public KnkListItf Parent { get; set; }
         private PropertyInfo KnkPrimaryKey
         {

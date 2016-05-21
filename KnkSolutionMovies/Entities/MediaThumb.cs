@@ -8,10 +8,8 @@ namespace KnkSolutionMovies.Entities
         public readonly MediaThumbExtender Extender;
 
         #region Interface/Implementation
-        public MediaThumb():base()
+        public MediaThumb():base(new KnkTableEntity("MediaThumbs", "IdThumb"))
         {
-            SourceEntity.SourceTable = "MediaThumbs";
-            SourceEntity.PrimaryKey = "IdThumb";
             Extender = new MediaThumbExtender(this);
         }
         #endregion Interface/Implementation

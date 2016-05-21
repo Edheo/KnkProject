@@ -8,10 +8,8 @@ namespace KnkSolutionMovies.Entities
         public readonly MovieExtender Extender;
 
             #region Interface/Implementation
-        public Movie() : base()
+        public Movie() : base(new KnkTableEntity("Movies", "IdMovie"))
         {
-            SourceEntity.SourceTable = "Movies";
-            SourceEntity.PrimaryKey = "IdMovie";
             Extender = new MovieExtender(this);
         }
         #endregion Interface/Implementation

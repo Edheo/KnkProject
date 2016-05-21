@@ -10,10 +10,8 @@ namespace KnkSolutionUsers.Entities
     public class User : KnkItemBase
     {
         #region Interface/Implementation
-        public User():base()
+        public User():base(new KnkTableEntity("Users", "IdUser"))
         {
-            SourceEntity.SourceTable = "Users";
-            SourceEntity.PrimaryKey = "IdUser";
         }
         #endregion Interface/Implementation
 

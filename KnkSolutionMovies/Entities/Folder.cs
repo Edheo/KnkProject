@@ -10,10 +10,8 @@ namespace KnkSolutionMovies.Entities
     public class Folder : KnkItemBase
     {
         #region Interface/Implementation
-        public Folder():base()
+        public Folder():base(new KnkTableEntity("Paths","IdPath"))
         {
-            SourceEntity.SourceTable = "Paths";
-            SourceEntity.PrimaryKey = "IdPath";
         }
         #endregion Interface/Implementation
 

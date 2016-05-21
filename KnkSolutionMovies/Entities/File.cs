@@ -6,10 +6,8 @@ namespace KnkSolutionMovies.Entities
     public class File : KnkItemBase
     {
         #region Interface/Implementation
-        public File():base()
+        public File():base(new KnkTableEntity("Files", "IdFile"))
         {
-            SourceEntity.SourceTable = "Files";
-            SourceEntity.PrimaryKey = "IdFile";
         }
         #endregion Interface/Implementation
 

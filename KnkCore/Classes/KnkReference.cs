@@ -1,9 +1,5 @@
 ﻿using KnkInterfaces.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KnkCore
 {
@@ -80,32 +76,32 @@ namespace KnkCore
 
         #region overloaded operators
 
-        public static implicit operator KnkReference<TDad, TReference>(TReference operand)
-        {
-            return new KnkReference<TDad, TReference> { Value = operand };
-        }
+        //public static implicit operator KnkReference<TDad, TReference>(TReference operand)
+        //{
+        //    return new KnkReference<TDad, TReference> { Value = operand };
+        //}
 
-        public static bool operator ==(KnkReference<TDad, TReference> le, TReference e)
-        {
-            KnkReference<KnkItemBase, KnkItemBase> lCast = le as KnkReference<KnkItemBase,KnkItemBase>;
-            KnkItemBase lCaste = e as KnkItemBase;
-            return (e == null && le == null ? true : e == null ? false : lCast.Value == lCaste || (le.Value.KnkEntityId.HasValue && e.KnkEntityId.HasValue && le.Value.KnkEntityId.Value == e.KnkEntityId.Value));
-        }
+        //public static bool operator ==(KnkReference<TDad, TReference> le, TReference e)
+        //{
+        //    KnkReference<knki, KnkItemBase> lCast = le as KnkReference<KnkItemBase,KnkItemBase>;
+        //    KnkItemBase lCaste = e as KnkItemBase;
+        //    return (e == null && le == null ? true : e == null ? false : lCast.Value == lCaste || (le.Value.KnkEntityId.HasValue && e.KnkEntityId.HasValue && le.Value.KnkEntityId.Value == e.KnkEntityId.Value));
+        //}
 
-        public static bool operator !=(KnkReference<TDad, TReference> le, TReference e)
-        {
-            return !(le == e);
-        }
+        //public static bool operator !=(KnkReference<TDad, TReference> le, TReference e)
+        //{
+        //    return !(le == e);
+        //}
 
         #endregion
 
         #region methods
 
-        public override bool Equals(object obj)
-        {
-            return (typeof(object) == typeof(KnkReference<TDad, TReference>)
-                    && this == obj);
-        }
+        //public override bool Equals(object obj)
+        //{
+        //    return (typeof(object) == typeof(KnkReference<TDad, TReference>)
+        //            && this == obj);
+        //}
 
         //public override int GetHashCode()
         //{

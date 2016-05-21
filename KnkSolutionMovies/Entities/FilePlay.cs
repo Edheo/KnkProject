@@ -6,11 +6,10 @@ namespace KnkSolutionMovies.Entities
     public class FilePlay : KnkItemBase
     {
         #region Interface/Implementation
-        public FilePlay():base()
+        public FilePlay():base(new KnkTableEntity("FilePlays","IdPlay"))
         {
-            SourceEntity.SourceTable = "FilePlay";
-            SourceEntity.PrimaryKey = "IdPlay";
         }
+
         #endregion Interface/Implementation
 
         #region Class Properties

@@ -7,10 +7,8 @@ namespace KnkSolutionMovies.Entities
     public class MovieSet : KnkItemBase
     {
         #region Interface/Implementation
-        public MovieSet():base()
+        public MovieSet():base(new KnkTableEntity("MovieSets", "IdSet"))
         {
-            SourceEntity.SourceTable = "MovieSets";
-            SourceEntity.PrimaryKey = "IdSet";
         }
         #endregion Interface/Implementation
 

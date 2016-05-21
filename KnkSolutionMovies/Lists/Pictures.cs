@@ -20,7 +20,7 @@ namespace KnkSolutionMovies.Lists
 
         public Pictures(Movie aMovie) : base(aMovie.Connection)
         {
-            var lLstFiles = Connection.GetList(new KnkCriteria<Movie, MediaThumb>(aMovie, aMovie.SourceEntity.PrimaryKey));
+            var lLstFiles = Connection.GetList(new KnkCriteria<Movie, MediaThumb>(aMovie));
             FillFromList((from f in lLstFiles.Items select f).ToList());
         }
 

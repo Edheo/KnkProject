@@ -19,7 +19,8 @@ namespace KnkSolutionMovies.Lists
 
         public Files(Movie aMovie) : base(aMovie.Connection)
         {
-            var lLstFiles = Connection.GetList(new KnkCriteria<Movie, File>(aMovie, aMovie.SourceEntity.PrimaryKey, "vieMovieFiles"));
+            KnkTableEntity lEntity = new KnkTableEntity("vieMovieFiles", "IdFile");
+            var lLstFiles = Connection.GetList(new KnkCriteria<Movie, File>(aMovie, lEntity));
             FillFromList((from f in lLstFiles.Items select f).ToList());
         }
 

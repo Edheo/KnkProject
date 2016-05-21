@@ -2,12 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KnkInterfaces.Utilities
 {
@@ -51,14 +47,9 @@ namespace KnkInterfaces.Utilities
             return Nullable.GetUnderlyingType(aProperty.PropertyType) ?? aProperty.PropertyType;
         }
 
-        public static string GetDynamicSelectTable(KnkTableEntityItf aEntity, string aCriteriaTable)
-        {
-            return "Select * From [" + (string.IsNullOrEmpty(aCriteriaTable) ? aEntity.SourceTable : aCriteriaTable) + "]";
-        }
-
         public static string GetDynamicSelectTable(KnkTableEntityItf aEntity, KnkCriteriaItf aCriteria)
         {
-            var lSel = GetDynamicSelectTable(aEntity, aCriteria?.EntitySource());
+            var lSel = "Select * From [" + (string.IsNullOrEmpty(aCriteria?.EntityTable().SourceTable) ? aEntity.SourceTable : aCriteria.EntityTable().SourceTable) + "]";
             if (aCriteria != null)
                 lSel += aCriteria.GetWhereFromParameters();
             return lSel;
