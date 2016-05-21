@@ -15,14 +15,12 @@ namespace KnkMovieForms.Usercontrols
 {
     public partial class MovieThumb : UserControl
     {
-        delegate void delSetPosterPicture(Image aImg);
-         private Size _previousSize;
         private Movie _Movie;
 
-        public MovieThumb(Movie aMovie)
+        public MovieThumb(Movie aMovie, int aWidth)
         {
             InitializeComponent();
-            _previousSize = Size;
+            SetSize(aWidth);
             SetMovie(aMovie);
         }
 
@@ -31,51 +29,51 @@ namespace KnkMovieForms.Usercontrols
             _Movie = aMovie;
             lblTitle.Font = new Font(lblTitle.Font, FontStyle.Bold);
             lblTitle.Text = aMovie.Title;
-            Thread lThr = new Thread(new ThreadStart(LoadPosterPicture));
-            lThr.Start();
+            picPoster.Filename = _Movie.Extender.Poster.Extender.GetFileName();
         }
 
-        private void LoadPosterPicture()
+        public static Size NormalSize()
         {
-            Image lImg = Image.FromFile(_Movie.Extender.Poster.Extender.GetFileName());
-            picPoster.Invoke(new delSetPosterPicture(SetPosterPicture), lImg);
+            return new Size(240, 410);
         }
 
-        private void SetPosterPicture(Image aImg)
+        static float Aspect()
         {
-            picPoster.Image = aImg;
-            lblTitle.Parent = this.picPoster;
-            lblTitle.BackColor = Color.Transparent;
+            Size lSiz = NormalSize();
+            return (float)lSiz.Height / (float)lSiz.Width;
         }
 
-        public override Size MaximumSize
+        public static Size GetSize(float aFactor)
         {
-            get
-            {
-                Size lSiz = this.MinimumSize;
-                return new Size(lSiz.Width * 2, lSiz.Height * 2);
-            }
-
-            set
-            {
-                base.MaximumSize = this.MaximumSize;
-            }
+            Size lSiz = NormalSize();
+            lSiz.Width = (int)(lSiz.Width * aFactor);
+            lSiz.Height = GetHeightFromWidth(lSiz.Width);
+            return lSiz;
         }
 
-        float Aspect()
+        public static int GetHeightFromWidth(int aWidth)
         {
-            return (float)MinimumSize.Height / (float)MinimumSize.Width;
+            return (int)(aWidth * Aspect());
         }
 
-        private void MovieThumb_SizeChanged(object sender, EventArgs e)
+        public static Size GetMinimumSize()
         {
-            Size lCurrent = this.Size;
-            Size lPrevious = _previousSize;
-            _previousSize = this.Size;
-            if (lCurrent.Width != lPrevious.Width || lCurrent.Height != lPrevious.Height)
-            {
-                this.Size = new Size(lCurrent.Width, (int)(lCurrent.Width * Aspect()));
-            }
+            return GetSize((float)0.75);
         }
+
+        public static Size GetMaximumSize()
+        {
+            return GetSize((float)1.75);
+        }
+
+        public override Size MinimumSize { get { return GetMinimumSize(); } set { base.MinimumSize = GetMinimumSize(); } }
+
+        public override Size MaximumSize { get { return GetMaximumSize(); } set { base.MaximumSize = GetMaximumSize(); } }
+
+        public void SetSize(int aWidth)
+        {
+            Size = new Size(aWidth, GetHeightFromWidth(aWidth));
+        }
+
     }
 }

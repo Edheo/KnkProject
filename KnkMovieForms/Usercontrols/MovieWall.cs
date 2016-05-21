@@ -21,12 +21,33 @@ namespace KnkMovieForms.Usercontrols
         public void LoadMovies(Movies aMovies)
         {
             int i = 0;
-            foreach(var lMovie in aMovies.Items)
+
+            int lMovieWidth = MovieControlWidth();
+
+            foreach (var lMovie in aMovies.Items)
             {
-                this.flowLayoutPanel1.Controls.Add(new MovieThumb(lMovie));
+                flowLayoutPanel1.Controls.Add(new MovieThumb(lMovie, lMovieWidth));
                 i++;
                 if (i > 20) break;
             }
         }
+
+        private int MovieControlWidth()
+        {
+            int lMyWidth = flowLayoutPanel1.ClientSize.Width-2;
+            return (int)Math.Ceiling(lMyWidth / (float)HowManyFits(lMyWidth));
+        }
+
+        private int HowManyFits(int aWdith)
+        {
+            int lMovieWidth = MovieThumb.NormalSize().Width;
+            int lMinWidth = MovieThumb.GetMinimumSize().Width;
+            int lReturnValue = (int)Math.Ceiling(aWdith / (float)lMovieWidth);
+            float lCheckWidth= aWdith / (float)lReturnValue;
+            if (lCheckWidth < lMinWidth && lReturnValue > 1)
+                return lReturnValue--;
+            return lReturnValue;
+        }
+
     }
 }

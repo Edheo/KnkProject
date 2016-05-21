@@ -18,7 +18,7 @@ namespace KnkSolutionMovies.Lists
             Connection.FillList(this);
         }
 
-        public Pictures(Movie aMovie) : base(new KnkConnection())
+        public Pictures(Movie aMovie) : base(aMovie.Connection)
         {
             var lLstFiles = Connection.GetList(new KnkCriteria<Movie, MediaThumb>(aMovie, aMovie.SourceEntity.PrimaryKey));
             FillFromList((from f in lLstFiles.Items select f).ToList());

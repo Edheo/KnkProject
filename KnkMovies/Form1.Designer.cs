@@ -36,14 +36,14 @@
             this.wallMovies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wallMovies.Location = new System.Drawing.Point(0, 0);
             this.wallMovies.Name = "wallMovies";
-            this.wallMovies.Size = new System.Drawing.Size(567, 475);
+            this.wallMovies.Size = new System.Drawing.Size(892, 591);
             this.wallMovies.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 475);
+            this.ClientSize = new System.Drawing.Size(892, 591);
             this.Controls.Add(this.wallMovies);
             this.Name = "Form1";
             this.Text = "Form1";

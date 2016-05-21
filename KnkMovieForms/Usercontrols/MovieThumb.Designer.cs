@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.picPoster = new System.Windows.Forms.PictureBox();
+            this.picPoster = new MoviePictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picPoster)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // picPoster
@@ -47,8 +48,11 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Black;
+            this.panel1.Controls.Add(this.lblTitle);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.ForeColor = System.Drawing.Color.LightSkyBlue;
             this.panel1.Location = new System.Drawing.Point(0, 360);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(240, 50);
             this.panel1.TabIndex = 1;
@@ -57,31 +61,31 @@
             // 
             this.lblTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblTitle.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblTitle.Location = new System.Drawing.Point(0, 336);
+            this.lblTitle.Location = new System.Drawing.Point(0, 26);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(240, 24);
-            this.lblTitle.TabIndex = 2;
+            this.lblTitle.TabIndex = 3;
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // MovieThumb
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.picPoster);
             this.Controls.Add(this.panel1);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.MinimumSize = new System.Drawing.Size(240, 410);
             this.Name = "MovieThumb";
             this.Size = new System.Drawing.Size(240, 410);
-            this.SizeChanged += new System.EventHandler(this.MovieThumb_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.picPoster)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox picPoster;
+        private MoviePictureBox picPoster;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblTitle;
     }
