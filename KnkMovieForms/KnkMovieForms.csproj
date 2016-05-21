@@ -63,6 +63,12 @@
     <Compile Include="Usercontrols\MovieWall.Designer.cs">
       <DependentUpon>MovieWall.cs</DependentUpon>
     </Compile>
+    <Compile Include="Usercontrols\MovieWallLayout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Usercontrols\MovieWallLayout.Designer.cs">
+      <DependentUpon>MovieWallLayout.cs</DependentUpon>
+    </Compile>
     <Compile Include="Usercontrols\MoviePictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -80,6 +86,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Usercontrols\MovieWall.resx">
       <DependentUpon>MovieWall.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Usercontrols\MovieWallLayout.resx">
+      <DependentUpon>MovieWallLayout.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -29,6 +29,15 @@ namespace KnkMovieForms.Usercontrols
             }
         }
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            //e.Graphics.DrawLine(new Pen(Color.Red), new Point(this.Width, 0), new Point(this.Width, this.Height));
+            //ControlPaint.DrawReversibleLine(new Point(this.Width, 0), new Point(this.Width, this.Height), Color.Red);
+
+            //ControlPaint.DrawBorder(e.Graphics, new Rectangle(0, 0, this.Width, this.Height), Color.DarkGray, ButtonBorderStyle.Inset);
+        }
+
         private void LoadPicture()
         {
             Image lImg = Image.FromFile(_Filename);

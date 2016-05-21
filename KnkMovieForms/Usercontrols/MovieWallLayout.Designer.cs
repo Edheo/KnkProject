@@ -1,6 +1,6 @@
 ﻿namespace KnkMovieForms.Usercontrols
 {
-    partial class MovieWall
+    partial class MovieWallLayout
     {
         /// <summary> 
         /// Variable del diseñador necesaria.
@@ -28,34 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.movieWallLayout1 = new KnkMovieForms.Usercontrols.MovieWallLayout();
+            this.flowMovies = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
-            // panel1
+            // flowMovies
             // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(374, 47);
-            this.panel1.TabIndex = 0;
+            this.flowMovies.BackColor = System.Drawing.Color.Black;
+            this.flowMovies.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowMovies.Location = new System.Drawing.Point(0, 0);
+            this.flowMovies.Margin = new System.Windows.Forms.Padding(0);
+            this.flowMovies.Name = "flowMovies";
+            this.flowMovies.Size = new System.Drawing.Size(611, 460);
+            this.flowMovies.TabIndex = 0;
             // 
-            // movieWallLayout1
-            // 
-            this.movieWallLayout1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.movieWallLayout1.Location = new System.Drawing.Point(0, 47);
-            this.movieWallLayout1.Name = "movieWallLayout1";
-            this.movieWallLayout1.Size = new System.Drawing.Size(374, 306);
-            this.movieWallLayout1.TabIndex = 1;
-            // 
-            // MovieWall
+            // MovieWallLayout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.movieWallLayout1);
-            this.Controls.Add(this.panel1);
-            this.Name = "MovieWall";
-            this.Size = new System.Drawing.Size(374, 353);
+            this.Controls.Add(this.flowMovies);
+            this.Name = "MovieWallLayout";
+            this.Size = new System.Drawing.Size(611, 460);
             this.SizeChanged += new System.EventHandler(this.MovieWall_SizeChanged);
             this.ResumeLayout(false);
 
@@ -63,7 +55,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private MovieWallLayout movieWallLayout1;
+        private System.Windows.Forms.FlowLayoutPanel flowMovies;
     }
 }
