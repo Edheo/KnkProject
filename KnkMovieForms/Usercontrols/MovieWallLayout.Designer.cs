@@ -48,7 +48,6 @@
             this.Controls.Add(this.flowMovies);
             this.Name = "MovieWallLayout";
             this.Size = new System.Drawing.Size(611, 460);
-            this.SizeChanged += new System.EventHandler(this.MovieWall_SizeChanged);
             this.ResumeLayout(false);
 
         }

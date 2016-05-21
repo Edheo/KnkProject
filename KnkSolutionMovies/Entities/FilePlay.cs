@@ -1,0 +1,24 @@
+﻿using KnkCore;
+using System;
+
+namespace KnkSolutionMovies.Entities
+{
+    public class FilePlay : KnkItemBase
+    {
+        #region Interface/Implementation
+        public FilePlay():base()
+        {
+            SourceEntity.SourceTable = "FilePlay";
+            SourceEntity.PrimaryKey = "IdPlay";
+        }
+        #endregion Interface/Implementation
+
+        #region Class Properties
+        public int? IdPlay { get; set; }
+        public int IdFile { get; set; }
+        public DateTime DatePlay { get; set; }
+        public int Playlenght { get; set; }
+        public int Finished { get; set; }
+        #endregion Class Properties
+    }
+}

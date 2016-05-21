@@ -12,7 +12,7 @@ namespace KnkSolutionMovies.Lists
             Connection.FillList(this);
         }
 
-        public Folders(Folder aFolder) : base(new KnkConnection())
+        public Folders(Folder aFolder) : base(aFolder.Connection)
         {
             var lLstFiles = Connection.GetList(new KnkCriteria<Folder, Folder>(aFolder, aFolder.SourceEntity.PrimaryKey));
             FillFromList((from f in lLstFiles.Items select f).ToList());

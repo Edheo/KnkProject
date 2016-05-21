@@ -11,7 +11,7 @@ using KnkSolutionMovies.Lists;
 
 namespace KnkMovieForms.Usercontrols
 {
-    public partial class MovieWallLayout : UserControl
+    partial class MovieWallLayout : UserControl
     {
         public MovieWallLayout()
         {
@@ -52,7 +52,7 @@ namespace KnkMovieForms.Usercontrols
 
         private int MovieControlWidth()
         {
-            int lMyWidth = flowMovies.ClientSize.Width-2;
+            int lMyWidth = flowMovies.ClientSize.Width - 6;
             return (int)Math.Ceiling(lMyWidth / (float)VisibleCols());
         }
 
@@ -77,14 +77,14 @@ namespace KnkMovieForms.Usercontrols
             return aHeight == 0 ? 0 : (int)Math.Ceiling(flowMovies.ClientSize.Height / (float)aHeight);
         }
 
-        private void MovieWall_SizeChanged(object sender, EventArgs e)
-        {
-            int lMovieWidth = MovieControlWidth();
-            var lTmbs = this.flowMovies.Controls.OfType<MovieThumb>();
-            foreach(var lThb in lTmbs)
-            {
-                lThb.SetSize(lMovieWidth);
-            }
-        }
+        //private void MovieWall_SizeChanged(object sender, EventArgs e)
+        //{
+        //    int lMovieWidth = MovieControlWidth();
+        //    var lTmbs = this.flowMovies.Controls.OfType<MovieThumb>();
+        //    foreach(var lThb in lTmbs)
+        //    {
+        //        lThb.SetSize(lMovieWidth);
+        //    }
+        //}
     }
 }

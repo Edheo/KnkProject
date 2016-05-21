@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace KnkMovieForms.Usercontrols
 {
-    public class MoviePictureBox:PictureBox
+    class MoviePictureBox:PictureBox
     {
         delegate void delSetPicture(Image aImg);
         private string _Filename;
@@ -32,19 +32,39 @@ namespace KnkMovieForms.Usercontrols
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            //e.Graphics.DrawLine(new Pen(Color.Red), new Point(this.Width, 0), new Point(this.Width, this.Height));
-            //ControlPaint.DrawReversibleLine(new Point(this.Width, 0), new Point(this.Width, this.Height), Color.Red);
+            PaintCenteredText(e.Graphics);
+        }
 
-            //ControlPaint.DrawBorder(e.Graphics, new Rectangle(0, 0, this.Width, this.Height), Color.DarkGray, ButtonBorderStyle.Inset);
+        private void PaintCenteredText(Graphics aGraphics)
+        {
+            if (!string.IsNullOrEmpty(Text))
+            {
+                var lRectangle = this.ClientRectangle;
+                StringFormat lStringFormat = new StringFormat()
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center
+                };
+                var lFontBase = new Font("Verdana", 10, FontStyle.Bold);
+                SizeF lSize = aGraphics.MeasureString(Text, lFontBase);
+                float lFontScale = Math.Max(lSize.Width / lRectangle.Width, lSize.Height / lRectangle.Height);
+                using (Font lFont = new Font(lFontBase.FontFamily, lFontBase.SizeInPoints / lFontScale, FontStyle.Bold, GraphicsUnit.Point))
+                {
+                    aGraphics.DrawString(Text, lFont, Brushes.White, lRectangle, lStringFormat);
+                }
+            }
         }
 
         private void LoadPicture()
         {
-            Image lImg = Image.FromFile(_Filename);
-            if (InvokeRequired)
-                this.Invoke(new delSetPicture(SetPicture), lImg);
-            else
-                SetPicture(lImg);
+            if (!string.IsNullOrEmpty(_Filename))
+            {
+                Image lImg = Image.FromFile(_Filename);
+                if (InvokeRequired)
+                    this.Invoke(new delSetPicture(SetPicture), lImg);
+                else
+                    SetPicture(lImg);
+            }
         }
 
         private void SetPicture(Image aImg)

@@ -9,6 +9,7 @@ namespace KnkInterfaces.Interfaces
     public interface KnkCriteriaItf
     {
         string KnkLinkFields { get; set; }
+        string EntitySource();
         List<KnkParameterItf> GetParameters();
         string GetWhereFromParameters();
     }

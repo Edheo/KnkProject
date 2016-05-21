@@ -51,14 +51,14 @@ namespace KnkInterfaces.Utilities
             return Nullable.GetUnderlyingType(aProperty.PropertyType) ?? aProperty.PropertyType;
         }
 
-        public static string GetDynamicSelectTable(KnkTableEntityItf aEntity)
+        public static string GetDynamicSelectTable(KnkTableEntityItf aEntity, string aCriteriaTable)
         {
-            return "Select * From [" + aEntity.SourceTable + "]";
+            return "Select * From [" + (string.IsNullOrEmpty(aCriteriaTable) ? aEntity.SourceTable : aCriteriaTable) + "]";
         }
 
         public static string GetDynamicSelectTable(KnkTableEntityItf aEntity, KnkCriteriaItf aCriteria)
         {
-            var lSel = GetDynamicSelectTable(aEntity);
+            var lSel = GetDynamicSelectTable(aEntity, aCriteria?.EntitySource());
             if (aCriteria != null)
                 lSel += aCriteria.GetWhereFromParameters();
             return lSel;

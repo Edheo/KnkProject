@@ -28,26 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.picPoster = new MoviePictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pnlBar = new System.Windows.Forms.Panel();
+            this.picVals = new KnkMovieForms.Usercontrols.MoviePictureBox();
             this.lblTitle = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.picPoster)).BeginInit();
+            this.picPoster = new KnkMovieForms.Usercontrols.MoviePictureBox();
             this.panel1.SuspendLayout();
+            this.pnlBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picVals)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPoster)).BeginInit();
             this.SuspendLayout();
-            // 
-            // picPoster
-            // 
-            this.picPoster.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picPoster.Location = new System.Drawing.Point(0, 0);
-            this.picPoster.Name = "picPoster";
-            this.picPoster.Size = new System.Drawing.Size(240, 360);
-            this.picPoster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picPoster.TabIndex = 0;
-            this.picPoster.TabStop = false;
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Black;
+            this.panel1.Controls.Add(this.pnlBar);
             this.panel1.Controls.Add(this.lblTitle);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.ForeColor = System.Drawing.Color.LightSkyBlue;
@@ -57,15 +52,46 @@
             this.panel1.Size = new System.Drawing.Size(240, 50);
             this.panel1.TabIndex = 1;
             // 
+            // pnlBar
+            // 
+            this.pnlBar.Controls.Add(this.picVals);
+            this.pnlBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlBar.Location = new System.Drawing.Point(0, 20);
+            this.pnlBar.Name = "pnlBar";
+            this.pnlBar.Size = new System.Drawing.Size(240, 30);
+            this.pnlBar.TabIndex = 4;
+            // 
+            // picVals
+            // 
+            this.picVals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picVals.Filename = null;
+            this.picVals.Location = new System.Drawing.Point(0, 0);
+            this.picVals.Name = "picVals";
+            this.picVals.Size = new System.Drawing.Size(240, 30);
+            this.picVals.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picVals.TabIndex = 3;
+            this.picVals.TabStop = false;
+            // 
             // lblTitle
             // 
             this.lblTitle.BackColor = System.Drawing.Color.Transparent;
-            this.lblTitle.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblTitle.Location = new System.Drawing.Point(0, 26);
+            this.lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblTitle.Location = new System.Drawing.Point(0, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(240, 24);
+            this.lblTitle.Size = new System.Drawing.Size(240, 20);
             this.lblTitle.TabIndex = 3;
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // picPoster
+            // 
+            this.picPoster.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picPoster.Filename = null;
+            this.picPoster.Location = new System.Drawing.Point(0, 0);
+            this.picPoster.Name = "picPoster";
+            this.picPoster.Size = new System.Drawing.Size(240, 360);
+            this.picPoster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picPoster.TabIndex = 0;
+            this.picPoster.TabStop = false;
             // 
             // MovieThumb
             // 
@@ -77,8 +103,10 @@
             this.MinimumSize = new System.Drawing.Size(240, 410);
             this.Name = "MovieThumb";
             this.Size = new System.Drawing.Size(240, 410);
-            ((System.ComponentModel.ISupportInitialize)(this.picPoster)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.pnlBar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picVals)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPoster)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -88,5 +116,7 @@
         private MoviePictureBox picPoster;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Panel pnlBar;
+        private MoviePictureBox picVals;
     }
 }

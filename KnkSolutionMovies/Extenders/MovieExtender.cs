@@ -4,6 +4,8 @@ using KnkSolutionMovies.Lists;
 using KnkSolutionMovies.References;
 using KnkSolutionUsers.Entities;
 using KnkSolutionUsers.References;
+using System;
+using System.Linq;
 
 namespace KnkSolutionMovies.Extenders
 {
@@ -22,6 +24,8 @@ namespace KnkSolutionMovies.Extenders
         Files _Files = null;
         Genres _Genres = null;
         Pictures _Pictures = null;
+        FilePlays _Plays = null;
+
         #endregion References
 
         #region Relationships
@@ -88,6 +92,36 @@ namespace KnkSolutionMovies.Extenders
             {
                 return Pictures.Poster;
             }
+        }
+
+        public FilePlays Plays
+        {
+            get
+            {
+                if (_Plays == null) _Plays = new FilePlays(_Movie);
+                return _Plays;
+            }
+        }
+
+        public DateTime? LastPlayed()
+        {
+            var lLast = (from p in Plays.Items orderby p.DatePlay descending select p).FirstOrDefault();
+            return lLast?.DatePlay;
+        }
+
+        public decimal AveragedRate
+        {
+            get
+            {
+                decimal lRet = _Movie.Rating;
+                if(_Movie.UserRating!=null)
+                {
+                    lRet = (lRet + 2 * _Movie.Rating) / 3;
+                }
+                return lRet;
+
+            }
+
         }
 
         #endregion

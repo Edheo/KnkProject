@@ -13,14 +13,20 @@ namespace KnkCore
         where Tlst : KnkItemItf, new()
     {
         private Tdad _item;
+        private string _entitysource;
 
         public KnkCriteria(Tdad aItem):this(aItem, aItem.SourceEntity.PrimaryKey)
         {
         }
 
-        public KnkCriteria(Tdad aItem, string aFields)
+        public KnkCriteria(Tdad aItem, string aFields) : this(aItem, aFields, (new Tlst()).SourceEntity.SourceTable)
+        {
+        }
+
+        public KnkCriteria(Tdad aItem, string aFields, string aSource)
         {
             _item = aItem;
+            _entitysource = aSource;
             KnkLinkFields = aFields;
         }
 
@@ -80,8 +86,26 @@ namespace KnkCore
                     lParameters.Add(lKnkPar);
                 }
             }
+            if(lParameters.Count==0)
+            {
+                //At least we will link by parent key
+                var lPrp = KnkUtility.GetProperties<Tdad>().Where(p => p.Name.Equals(Item.SourceEntity.PrimaryKey)).FirstOrDefault();
+                if (lPrp != null)
+                {
+                    var lType = KnkUtility.GetPropertyType(lPrp);
+                    var lName = lPrp.Name;
+                    var lValue = Item.PropertyGet(lPrp.Name);
+                    KnkParameter lKnkPar = new KnkParameter(lType, lName, lValue);
+                    lParameters.Add(lKnkPar);
+                }
+
+            }
             return lParameters;
         }
 
+        public string EntitySource()
+        {
+            return _entitysource;
+        }
     }
 }

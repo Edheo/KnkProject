@@ -17,10 +17,10 @@ namespace KnkSolutionMovies.Lists
             Connection.FillList(this);
         }
 
-        public Files(Movie aMovie) : base(new KnkConnection())
+        public Files(Movie aMovie) : base(aMovie.Connection)
         {
-            var lLstFiles = Connection.GetList(new KnkCriteria<Movie, MovieFile>(aMovie, aMovie.SourceEntity.PrimaryKey));
-            FillFromList((from f in lLstFiles.Items select f.File).ToList());
+            var lLstFiles = Connection.GetList(new KnkCriteria<Movie, File>(aMovie, aMovie.SourceEntity.PrimaryKey, "vieMovieFiles"));
+            FillFromList((from f in lLstFiles.Items select f).ToList());
         }
 
         public override List<File> Datasource()
