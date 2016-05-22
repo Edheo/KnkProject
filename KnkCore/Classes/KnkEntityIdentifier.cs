@@ -12,7 +12,6 @@ namespace KnkCore
         where TDad : KnkItemItf
         where TReference : KnkItemItf, new()
     {
-        //KnkReference
         private TReference _reference;
         private Func<int?, TReference> Load { get; set; }
         private string _property;

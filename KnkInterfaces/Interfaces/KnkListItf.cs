@@ -7,15 +7,21 @@ namespace KnkInterfaces.Interfaces
     {
         KnkConnectionItf Connection { get; set; }
         int Count();
-        void FillFromDataTable(DataTable aTable);
     }
 
-    public interface KnkListItf<T> : KnkListItf
-        where T : KnkItemItf, new()
+    public interface KnkListItf<Tdad, Tlst> : KnkListItf
+        where Tdad : KnkItemItf, new()
+        where Tlst : KnkItemItf, new()
     {
-        List<T> Items { get; }
-        List<T> Datasource();
-        void FillFromList(List<T> aList);
+        List<Tlst> FillFromList(List<Tlst> aList);
+        List<Tlst> Items { get; }
+        List<Tlst> Datasource();
+        KnkCriteriaItf<Tdad, Tlst> GetCriteria();
     }
+
+    //public interface KnkListItf<Tlst> : KnkListItf<Tlst,Tlst>
+    //    where Tlst : KnkItemItf, new()
+    //{
+    //}
 
 }

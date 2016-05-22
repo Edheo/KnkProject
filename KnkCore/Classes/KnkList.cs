@@ -8,56 +8,66 @@ using System.Linq;
 namespace KnkCore
 {
     [Serializable]
-    //public class ChildList<T> : IList<T>, IList where T : class
-    public class KnkList<T> : KnkListItf<T> where T : KnkItemItf, new()
+    public class KnkList<Tdad, Tlst> : KnkListItf<Tdad, Tlst>
+        where Tdad : KnkItemItf, new()
+        where Tlst : KnkItemItf, new()
     {
         public KnkConnectionItf Connection { get; set; }
-
-        List<T> _List = new List<T>();
+        KnkCriteriaItf<Tdad, Tlst> _Criteria;
+        List<Tlst> _List = null;
 
         public KnkList(KnkConnectionItf aConnection)
         {
             Connection = aConnection;
         }
 
-        public KnkList(KnkConnectionItf aConnection, KnkCriteria<T,T> aCriteria) : this(aConnection)
-        {
-            
-        }
-
-        public KnkList(KnkConnectionItf aConnection, List<T> aList) : this(aConnection)
+        public KnkList(KnkConnectionItf aConnection, List<Tlst> aList) : this(aConnection)
         {
             FillFromList(aList);
         }
 
-        public void FillFromDataTable(DataTable aTable)
+        public KnkList(KnkConnectionItf aConnection, KnkCriteriaItf<Tdad, Tlst> aCriteria) : this(aConnection)
         {
-            _List.Clear();
-            _List = aTable.AsEnumerable().Select(row => KnkUtility.CopyRecord<T>(this as KnkListItf, row)).ToList();
+            _Criteria = aCriteria;
         }
 
         public int Count()
         {
-            return _List.Count;
+            return Items.Count;
         }
 
-        public void FillFromList(List<T> aList)
+        public List<Tlst> FillFromList(List<Tlst> aList)
         {
-            _List.Clear();
-            _List.AddRange(aList);
+            _List = aList;
+            return _List;
         }
 
-        public List<T> Items
+        public List<Tlst> Items
         {
             get
             {
+                if(_List==null)
+                {
+                    FillFromList(Connection.GetList(GetCriteria()).Items);
+                }
                 return _List;
             }
         }
 
-        public virtual List<T> Datasource()
+        public virtual List<Tlst> Datasource()
         {
-            return _List;
+            return Items;
+        }
+
+        public KnkCriteriaItf<Tdad, Tlst> GetCriteria()
+        {
+            if (_Criteria == null)
+            {
+                KnkItemItf lDad = new Tdad();
+                lDad.Parent = this;
+                _Criteria = new KnkCriteria<Tdad, Tlst>((Tdad)lDad);
+            }
+            return _Criteria;
         }
     }
 

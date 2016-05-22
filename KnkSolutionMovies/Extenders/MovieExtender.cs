@@ -20,10 +20,11 @@ namespace KnkSolutionMovies.Extenders
         MovieSetReference _MovieSetReference = null;
         UserReference<Movie> _CreationUser = null;
 
-        Files _Files = null;
-        Genres _Genres = null;
-        Pictures _Pictures = null;
-        FilePlays _Views = null;
+        MovieFiles _Files = null;
+        MovieGenres _Genres = null;
+        MoviePictures _Pictures = null;
+        MoviePlays _Views = null;
+        MovieCastings _Casting = null;
 
         #endregion References
 
@@ -58,29 +59,29 @@ namespace KnkSolutionMovies.Extenders
             }
         }
 
-        public Files Files
+        public MovieFiles Files
         {
             get
             {
-                if (_Files == null) _Files = new Files(_Movie);
+                if (_Files == null) _Files = new MovieFiles(_Movie);
                 return _Files;
             }
         }
 
-        public Genres Genres
+        public MovieGenres Genres
         {
             get
             {
-                if (_Genres == null) _Genres = new Genres(_Movie);
+                if (_Genres == null) _Genres = new MovieGenres(_Movie);
                 return _Genres;
             }
         }
 
-        public Pictures Pictures
+        public MoviePictures Pictures
         {
             get
             {
-                if (_Pictures == null) _Pictures = new Pictures(_Movie);
+                if (_Pictures == null) _Pictures = new MoviePictures(_Movie);
                 return _Pictures;
             }
         }
@@ -93,12 +94,21 @@ namespace KnkSolutionMovies.Extenders
             }
         }
 
-        public FilePlays Views
+        public MoviePlays Views
         {
             get
             {
-                if (_Views == null) _Views = new FilePlays(_Movie);
+                if (_Views == null) _Views = new MoviePlays(_Movie);
                 return _Views;
+            }
+        }
+
+        public MovieCastings Casting
+        {
+            get
+            {
+                if (_Casting == null) _Casting = new MovieCastings(_Movie);
+                return _Casting;
             }
         }
 

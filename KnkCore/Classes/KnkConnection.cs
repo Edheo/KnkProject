@@ -1,5 +1,7 @@
 ﻿using KnkInterfaces.Interfaces;
+using KnkInterfaces.Utilities;
 using System;
+using System.Data;
 using System.Linq;
 
 namespace KnkCore
@@ -26,38 +28,31 @@ namespace KnkCore
             return _Config.GetConnection(aType);
         }
 
-        public KnkListItf<T> GetList<T>() where T : KnkItemItf, new()
-        {
-            var type = typeof(T);
-            KnkListItf<T> lLst = new KnkList<T>(this);
-            using (var lDat = GetConnection(typeof(T)).GetData<T>())
-            {
-                lLst = this.FillList<T>(lLst);
-            }
-            return lLst;
-        }
-
         public T GetItem<T>(int? aEntityId) where T : KnkItemItf, new()
         {
             var type = typeof(T);
             T lItm = new T();
             lItm.PropertySet(lItm.SourceEntity.PrimaryKey, aEntityId);
-            KnkListItf<T> lLst = new KnkList<T>(this);
+            KnkListItf<T,T> lLst = new KnkList<T,T>(this);
             KnkCriteria<T,T> lCri = new KnkCriteria<T, T>(lItm);
 
+            FillList<T, T>(lLst, lCri);
 
-            using (var lDat = GetConnection(typeof(T)).GetData<T,T>(lCri))
-            {
-                lLst.FillFromDataTable(lDat);
-            }
             return lLst.Items.FirstOrDefault();
+        }
+
+        private void FillFromDataTable<Tdad, Tlst>(KnkListItf<Tdad, Tlst> aList, DataTable aTable)
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
+            aList.FillFromList(aTable.AsEnumerable().Select(row => KnkUtility.CopyRecord<Tlst>(aList, row)).ToList());
         }
 
         public KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem, string aProperty)
             where TDad : KnkItemItf
             where TReference : KnkItemItf, new()
         {
-            return SetReference<TDad, TReference>(new KnkEntityIdentifier<TDad, TReference>(aItem, aProperty, GetItem<TReference>),aItem, aProperty);
+            return SetReference(new KnkEntityIdentifier<TDad, TReference>(aItem, aProperty, GetItem<TReference>),aItem, aProperty);
         }
 
         public KnkReferenceItf<TDad, TReference> SetReference<TDad, TReference>(KnkReferenceItf<TDad, TReference> aReference, TDad aItem, string aProperty)
@@ -68,40 +63,53 @@ namespace KnkCore
             return aReference;
         }
 
-
-        public KnkListItf<Tlst> GetList<Tdad, Tlst>(KnkCriteriaItf<Tdad,Tlst> aCriteria) 
+        public KnkListItf<Tdad, Tlst> GetList<Tdad, Tlst>()
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            KnkListItf<Tlst> lLst = new KnkList<Tlst>(this);
-            using (var lDat = GetConnection(typeof(Tlst)).GetData<Tdad, Tlst>(aCriteria))
-            {
-                lLst = FillList<Tdad, Tlst>(lLst, aCriteria);
-            };
+            KnkListItf<Tdad, Tlst> lLst = new KnkList<Tdad, Tlst>(this);
+            lLst = FillList(lLst, lLst.GetCriteria());
             return lLst;
         }
 
-        public KnkListItf<T> FillList<T>(KnkListItf<T> aList) where T : KnkItemItf, new()
+
+        public KnkListItf<Tdad, Tlst> GetList<Tdad, Tlst>(KnkCriteriaItf<Tdad,Tlst> aCriteria) 
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
+            KnkListItf<Tdad, Tlst> lLst = new KnkList<Tdad, Tlst>(this);
+            lLst = FillList(lLst, aCriteria);
+            return lLst;
+        }
+
+        public KnkListItf<T,T> FillList<T>(KnkListItf<T,T> aList) where T : KnkItemItf, new()
         {
             var type = typeof(T);
             var lLst = aList;
             using (var lDat = GetConnection(typeof(T)).GetData<T>())
             {
-                aList.FillFromDataTable(lDat);
+                FillFromDataTable(aList, lDat);
             }
             return lLst;
-
         }
 
-        public KnkListItf<Tlst> FillList<Tdad, Tlst>(KnkListItf<Tlst> aList, KnkCriteriaItf<Tdad, Tlst> aCriteria)
+        public KnkListItf<Tdad, Tlst> FillList<Tdad, Tlst>(KnkListItf<Tdad, Tlst> aList)
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            using (var lDat = GetConnection(typeof(Tlst)).GetData<Tdad, Tlst>(aCriteria))
+            return FillList(aList, aList.GetCriteria());
+        }
+
+        public KnkListItf<Tdad, Tlst> FillList<Tdad, Tlst>(KnkListItf<Tdad, Tlst> aList, KnkCriteriaItf<Tdad, Tlst> aCriteria)
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
+            using (var lDat = GetConnection(typeof(Tlst)).GetData(aCriteria))
             {
-                aList.FillFromDataTable(lDat);
+                FillFromDataTable(aList, lDat);
             };
             return aList;
         }
+
     }
 }

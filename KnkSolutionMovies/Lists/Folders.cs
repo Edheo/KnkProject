@@ -3,18 +3,18 @@ using KnkSolutionMovies.Entities;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class Folders : KnkList<Folder>
+    public class Folders : KnkList<Folder,Folder>
     {
-        public Folders():base(new KnkConnection())
+        public Folders() : base(new KnkConnection())
         {
-            Connection.FillList(this);
         }
+    }
 
-        public Folders(Folder aFolder) : base(aFolder.Connection)
+    public class SubFolders : KnkList<Folder,Folder>
+    {
+        public SubFolders(Folder aFolder)
+        : base(aFolder.Connection, new KnkCriteria<Folder, Folder>(aFolder))
         {
-            var lLstFiles = Connection.GetList(new KnkCriteria<Folder, Folder>(aFolder));
-            FillFromList(lLstFiles.Items);
         }
-
     }
 }

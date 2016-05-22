@@ -8,7 +8,7 @@ namespace KnkSolutionMovies.Entities
     {
         public readonly MovieExtender Extender;
 
-            #region Interface/Implementation
+        #region Interface/Implementation
         public Movie() : base(new KnkTableEntity("Movies", "IdMovie"))
         {
             Extender = new MovieExtender(this);

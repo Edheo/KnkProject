@@ -4,20 +4,21 @@ using System.Linq;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class Pictures : KnkList<MediaThumb>
+    //public class Pictures : KnkList<MediaThumb>
+    //{
+    //    public Pictures() : base(new KnkConnection())
+    //    {
+    //    }
+    //}
+
+    public class MoviePictures : KnkList<Movie, MediaThumb>
     {
+        public MoviePictures(Movie aMovie) 
+        : base(aMovie.Connection, new KnkCriteria<Movie, MediaThumb>(aMovie))
+        {
+        }
+
         private MediaThumb _MediaThumb;
-
-        public Pictures() : base(new KnkConnection())
-        {
-            Connection.FillList(this);
-        }
-
-        public Pictures(Movie aMovie) : base(aMovie.Connection)
-        {
-            var lLstFiles = Connection.GetList(new KnkCriteria<Movie, MediaThumb>(aMovie));
-            FillFromList((from f in lLstFiles.Items select f).ToList());
-        }
 
         public MediaThumb Poster
         {

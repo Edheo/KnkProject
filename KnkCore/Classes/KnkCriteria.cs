@@ -87,7 +87,6 @@ namespace KnkCore
             }
             if (!string.IsNullOrEmpty(this.EntityTable().RelatedKey))
             {
-                //At least we will link by parent key
                 var lPrp = KnkUtility.GetProperties<Tdad>().Where(p => p.Name.Equals(_item.SourceEntity.PrimaryKey)).FirstOrDefault();
                 if (lPrp != null)
                 {

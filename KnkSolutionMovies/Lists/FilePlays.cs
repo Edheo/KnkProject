@@ -3,18 +3,19 @@ using KnkSolutionMovies.Entities;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class FilePlays : KnkList<FilePlay>
-    {
-        public FilePlays():base(new KnkConnection())
-        {
-            Connection.FillList(this);
-        }
+    //public class FilePlays : KnkList<FilePlay, FilePlay>
+    //{
+    //    public FilePlays()
+    //    : base(new KnkConnection())
+    //    {
+    //    }
+    //}
 
-        public FilePlays(Movie aMovie) : base(aMovie.Connection)
+    public class MoviePlays : KnkList<Movie,FilePlay>
+    {
+        public MoviePlays(Movie aMovie)
+        : base(aMovie.Connection, new KnkCriteria<Movie, FilePlay>(aMovie, new KnkTableEntity("vieMoviePlays", "IdPlay", "IdMovie")))
         {
-            KnkTableEntity lEntity = new KnkTableEntity("vieMoviePlays", "IdPlay", "IdMovie");
-            var lLstFiles = Connection.GetList(new KnkCriteria<Movie, FilePlay>(aMovie, lEntity));
-            FillFromList(lLstFiles.Items);
         }
     }
 }

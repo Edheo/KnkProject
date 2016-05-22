@@ -5,17 +5,20 @@ using System.Linq;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class Genres : KnkList<GenreClass>
+    public class Genres : KnkList<GenreClass,GenreClass>
     {
-        public Genres():base(new KnkConnection())
+        public Genres()
+        : base(new KnkConnection())
         {
-            Connection.FillList(this);
         }
+    }
 
-        public Genres(Movie aMovie) : base(aMovie.Connection)
+    public class MovieGenres : KnkList<Movie, GenreClass>
+    {
+        public MovieGenres(Movie aMovie) 
+        : base(aMovie.Connection, new KnkCriteria<Movie, GenreClass>(aMovie, new KnkTableEntity("vieMovieGenres", "IdGenre")))
         {
-            var lLstFiles = Connection.GetList(new KnkCriteria<Movie, MovieGenre>(aMovie));
-            FillFromList((from f in lLstFiles.Items select f.Genre).ToList());
+
         }
     }
 }

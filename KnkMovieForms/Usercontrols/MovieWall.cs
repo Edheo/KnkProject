@@ -41,10 +41,8 @@ namespace KnkMovieForms.Usercontrols
         {
             if(cmbArtist.Items.Count==0)
             {
-                Castings lCasts = new Castings(_Movies.Connection);
-                var lDatasource = (from art in lCasts.Items orderby art.ArtistName select art.ArtistName).ToList();
-                //cmbArtist.DisplayMember = "ArtistName";
-                cmbArtist.DataSource = lDatasource;
+                cmbArtist.DisplayMember = "ArtistName";
+                cmbArtist.DataSource = new Castings(_Movies.Connection).Datasource();
                 cmbArtist.SelectedIndex = -1;
                 
             }

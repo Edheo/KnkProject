@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace KnkSolutionUsers.Lists
 {
-    public class Users : KnkList<User>
+    public class Users : KnkList<User,User>
     {
         public Users():base(new KnkConnection())
         {
-            Connection.FillList(this);
         }
     }
 }
