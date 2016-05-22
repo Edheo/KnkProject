@@ -5,19 +5,24 @@ namespace KnkCore
     public class KnkTableEntity : KnkTableEntityItf
     {
         public KnkTableEntity(string aTable, string aPrimaryKey)
-            : this(aTable, aPrimaryKey, string.Empty)
-        {
-        }
-
-        public KnkTableEntity(string aTable, string aPrimaryKey, string aRelatedKey)
         {
             SourceTable = aTable;
             PrimaryKey = aPrimaryKey;
-            RelatedKey = aRelatedKey;
         }
+
 
         public string PrimaryKey { get; }
         public string SourceTable { get; }
+    }
+
+    public class KnkTableEntityRelation<T> : KnkTableEntity, KnkTableEntityRelationItf<T>
+        where T : KnkItemItf, new()
+    {
+        public KnkTableEntityRelation(string aTable, string aPrimaryKey, string aRelatedKey):base(aTable,aPrimaryKey)
+        {
+            RelatedKey = aRelatedKey;
+        }
+
         public string RelatedKey { get; }
     }
 }

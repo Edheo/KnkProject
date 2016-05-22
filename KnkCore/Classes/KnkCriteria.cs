@@ -3,6 +3,7 @@ using KnkInterfaces.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using KnkInterfaces.Enumerations;
+using System;
 
 namespace KnkCore
 {
@@ -11,17 +12,21 @@ namespace KnkCore
         where Tlst : KnkItemItf, new()
     {
         private Tdad _item;
-        private readonly List<KnkParameterItf> _feededparameters = new List<KnkParameterItf>();
-        private readonly KnkTableEntityItf _entityTable;
+        private readonly List<KnkParameterItf> _parameters = new List<KnkParameterItf>();
+        private readonly KnkTableEntity _entityTable;
 
         public KnkCriteria(Tdad aItem):this(aItem, (new Tlst()).SourceEntity)
+        {
+        }
+
+        public KnkCriteria(Tdad aItem, KnkTableEntityRelationItf<Tlst> aEntityTable):this(aItem,(KnkTableEntityItf)aEntityTable)
         {
         }
 
         public KnkCriteria(Tdad aItem, KnkTableEntityItf aEntityTable)
         {
             _item = aItem;
-            _entityTable = aEntityTable;
+            _entityTable = aEntityTable as KnkTableEntity;
             KnkLinkFields = aItem.SourceEntity.PrimaryKey;
         }
 
@@ -34,8 +39,6 @@ namespace KnkCore
                 return _item;
             }
         }
-
-        public List<KnkParameterItf> FeededParameters() { return _feededparameters; }
 
         public string GetWhereFromParameters()
         {
@@ -65,7 +68,7 @@ namespace KnkCore
             var lPrs = KnkUtility.GetProperties<Tlst>();
             var lParameters = new List<KnkParameterItf>();
 
-            foreach(KnkParameter lKnkPar in FeededParameters())
+            foreach(KnkParameter lKnkPar in _parameters)
             {
                 lParameters.Add(lKnkPar);
             }
@@ -85,13 +88,13 @@ namespace KnkCore
                     }
                 }
             }
-            if (!string.IsNullOrEmpty(this.EntityTable().RelatedKey))
+            if (!string.IsNullOrEmpty(this.EntityRelation()?.RelatedKey))
             {
                 var lPrp = KnkUtility.GetProperties<Tdad>().Where(p => p.Name.Equals(_item.SourceEntity.PrimaryKey)).FirstOrDefault();
                 if (lPrp != null)
                 {
                     var lType = KnkUtility.GetPropertyType(lPrp);
-                    var lName = this.EntityTable().RelatedKey;
+                    var lName = this.EntityRelation().RelatedKey;
                     var lValue = _item.PropertyGet(lPrp.Name);
                     KnkParameter lKnkPar = new KnkParameter(lType, lName, OperatorsEnu.Equal, lValue);
                     lParameters.Add(lKnkPar);
@@ -103,6 +106,23 @@ namespace KnkCore
         public KnkTableEntityItf EntityTable()
         {
             return _entityTable;
+        }
+
+        public KnkTableEntityRelationItf<Tlst> EntityRelation()
+        {
+            return _entityTable as KnkTableEntityRelation<Tlst>;
+        }
+
+        public KnkParameterItf AddParameter(Type aType, string aName, OperatorsEnu aOperator, object aValue)
+        {
+            KnkParameter lPar = new KnkParameter(aType, aName, aOperator, aValue);
+            _parameters.Add(lPar);
+            return lPar;
+        }
+
+        public bool HasParameters()
+        {
+            return _parameters.Count > 0;
         }
     }
 }

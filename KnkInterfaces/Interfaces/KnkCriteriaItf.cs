@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using KnkInterfaces.Enumerations;
+using System;
+using System.Collections.Generic;
 
 namespace KnkInterfaces.Interfaces
 {
     public interface KnkCriteriaItf
     {
         string KnkLinkFields { get; }
-        List<KnkParameterItf> FeededParameters();
         List<KnkParameterItf> GetParameters();
         string GetWhereFromParameters();
         KnkTableEntityItf EntityTable();
+        KnkParameterItf AddParameter(Type aType, string aName, OperatorsEnu aOperator, object aValue);
+        bool HasParameters();
     }
 
     public interface KnkCriteriaItf<Tdad, Tlst> : KnkCriteriaItf

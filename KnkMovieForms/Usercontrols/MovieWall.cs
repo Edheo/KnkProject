@@ -73,13 +73,12 @@ namespace KnkMovieForms.Usercontrols
         private void GenerateCriteria()
         {
             KnkCriteria<Movie, Movie> lCri = null;
+            KnkTableEntity lEntity = new KnkTableEntity("vieMovies", "IdMovie");
+            lCri = new KnkCriteria<Movie, Movie>(new Movie(), lEntity);
             if (txtSearch.Text.Length > 0)
             {
-                KnkTableEntity lEntity = new KnkTableEntity("vieMovies", "IdMovie");
-                lCri = new KnkCriteria<Movie, Movie>(new Movie(), lEntity);
-                var lParameters = lCri.FeededParameters();
                 string[] lSearch = txtSearch.Text.Split(' ');
-                KnkParameter lPar = new KnkParameter(typeof(string), "TextSearch", OperatorsEnu.Like, $"%{txtSearch.Text}%");
+                KnkParameterItf lPar = lCri.AddParameter(typeof(string), "TextSearch", OperatorsEnu.Like, $"%{txtSearch.Text}%");
                 if (lSearch.Length > 1)
                 {
                     int i = 1;
@@ -89,8 +88,20 @@ namespace KnkMovieForms.Usercontrols
                         i++;
                     }
                 }
-                lParameters.Add(lPar);
             }
+            if(!chkViewed.CheckState.Equals(CheckState.Indeterminate))
+            {
+                if(chkViewed.Checked)
+                {
+                    lCri.AddParameter(typeof(int), "Plays", OperatorsEnu.GreatThan, $"0");
+                }
+                else
+                {
+                    lCri.AddParameter(typeof(int), "Plays", OperatorsEnu.LowerThan, $"1");
+                }
+            }
+            if (!lCri.HasParameters())
+                lCri = null;
             _CurrentCriteria = lCri;
         }
 

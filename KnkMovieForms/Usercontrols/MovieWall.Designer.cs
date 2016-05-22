@@ -34,8 +34,9 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.lblArtist = new System.Windows.Forms.Label();
             this.cmbArtist = new System.Windows.Forms.ComboBox();
-            this.moviesWall = new KnkMovieForms.Usercontrols.MovieWallLayout();
             this.btnSearch = new KnkMovieForms.Usercontrols.MoviePictureBox();
+            this.moviesWall = new KnkMovieForms.Usercontrols.MovieWallLayout();
+            this.chkViewed = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSearch)).BeginInit();
@@ -58,6 +59,7 @@
             this.flowLayoutPanel1.Controls.Add(this.txtSearch);
             this.flowLayoutPanel1.Controls.Add(this.lblArtist);
             this.flowLayoutPanel1.Controls.Add(this.cmbArtist);
+            this.flowLayoutPanel1.Controls.Add(this.chkViewed);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -99,14 +101,6 @@
             this.cmbArtist.Size = new System.Drawing.Size(177, 21);
             this.cmbArtist.TabIndex = 3;
             // 
-            // moviesWall
-            // 
-            this.moviesWall.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.moviesWall.Location = new System.Drawing.Point(0, 47);
-            this.moviesWall.Name = "moviesWall";
-            this.moviesWall.Size = new System.Drawing.Size(810, 490);
-            this.moviesWall.TabIndex = 1;
-            // 
             // btnSearch
             // 
             this.btnSearch.Dock = System.Windows.Forms.DockStyle.Right;
@@ -124,6 +118,25 @@
             this.btnSearch.Text = "Search";
             this.btnSearch.TextAlignment = System.Drawing.StringAlignment.Center;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // moviesWall
+            // 
+            this.moviesWall.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.moviesWall.Location = new System.Drawing.Point(0, 47);
+            this.moviesWall.Name = "moviesWall";
+            this.moviesWall.Size = new System.Drawing.Size(810, 490);
+            this.moviesWall.TabIndex = 1;
+            // 
+            // chkViewed
+            // 
+            this.chkViewed.AutoSize = true;
+            this.chkViewed.Location = new System.Drawing.Point(495, 3);
+            this.chkViewed.Name = "chkViewed";
+            this.chkViewed.Size = new System.Drawing.Size(61, 17);
+            this.chkViewed.TabIndex = 4;
+            this.chkViewed.Text = "Viewed";
+            this.chkViewed.ThreeState = true;
+            this.chkViewed.UseVisualStyleBackColor = true;
             // 
             // MovieWall
             // 
@@ -152,5 +165,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label lblArtist;
         private System.Windows.Forms.ComboBox cmbArtist;
+        private System.Windows.Forms.CheckBox chkViewed;
     }
 }
