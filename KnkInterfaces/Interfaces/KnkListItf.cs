@@ -18,10 +18,4 @@ namespace KnkInterfaces.Interfaces
         List<Tlst> Datasource();
         KnkCriteriaItf<Tdad, Tlst> GetCriteria();
     }
-
-    //public interface KnkListItf<Tlst> : KnkListItf<Tlst,Tlst>
-    //    where Tlst : KnkItemItf, new()
-    //{
-    //}
-
 }

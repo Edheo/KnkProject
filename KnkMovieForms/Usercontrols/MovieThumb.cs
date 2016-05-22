@@ -33,11 +33,11 @@ namespace KnkMovieForms.Usercontrols
             string lText = $"Votes:{_Movie.Votes} Rating:{_Movie.Rating:0.0}";
             if (_Movie.UserRating != null)
             {
-                lText = lText + $"\r\nUser Rating:{_Movie.UserRating:0.0} Average Rate:{_Movie.Extender.AveragedRate:0.0}";
+                lText = lText + $"\r\nUser Rating:{_Movie.UserRating:0.0} Value:{_Movie.Extender.AveragedRate:0.0}";
             }
-            if (_Movie.Extender.LastPlayed() != null)
+            if (_Movie.Extender.Plays.Count()>0)
             { 
-                lText = lText + $"\r\nLast Played:{_Movie.Extender.LastPlayed():dd/MM/yyyy} Playcount:{_Movie.Extender.Plays.Count()}";
+                lText = lText + $"\r\nLast:{_Movie.Extender.LastPlayed():dd/MM/yyyy} Views:{_Movie.Extender.Plays.Count()}";
             }
             picVals.Text = lText;
 
@@ -45,7 +45,8 @@ namespace KnkMovieForms.Usercontrols
 
         public static Size NormalSize()
         {
-            return new Size(240, 410);
+            //new Size(240, 410);
+            return new Size(200, 360);
         }
 
         static float Aspect()

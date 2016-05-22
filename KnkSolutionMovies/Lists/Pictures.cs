@@ -4,13 +4,6 @@ using System.Linq;
 
 namespace KnkSolutionMovies.Lists
 {
-    //public class Pictures : KnkList<MediaThumb>
-    //{
-    //    public Pictures() : base(new KnkConnection())
-    //    {
-    //    }
-    //}
-
     public class MoviePictures : KnkList<Movie, MediaThumb>
     {
         public MoviePictures(Movie aMovie) 

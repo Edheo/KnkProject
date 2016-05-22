@@ -27,7 +27,7 @@ namespace KnkSolutionMovies.Lists
     public class MovieCastings : KnkList<Movie,Casting>
     { 
         public MovieCastings(Movie aMovie) 
-        : base(aMovie.Connection, new KnkCriteria<Movie, Casting>(aMovie, new KnkTableEntity("vieMovieCasting", "IdCasting")))
+        : base(aMovie.Connection, new KnkCriteria<Movie, Casting>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieCasting", "IdCasting")))
         {
         }
     }

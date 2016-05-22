@@ -56,21 +56,25 @@
             // 
             this.pnlBar.Controls.Add(this.picVals);
             this.pnlBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlBar.Location = new System.Drawing.Point(0, 20);
+            this.pnlBar.Location = new System.Drawing.Point(0, 14);
             this.pnlBar.Name = "pnlBar";
-            this.pnlBar.Size = new System.Drawing.Size(240, 30);
+            this.pnlBar.Size = new System.Drawing.Size(240, 36);
             this.pnlBar.TabIndex = 4;
             // 
             // picVals
             // 
             this.picVals.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picVals.Filename = null;
+            this.picVals.FontName = "Verdana";
+            this.picVals.Fontstyle = System.Drawing.FontStyle.Bold;
+            this.picVals.LineAlignment = System.Drawing.StringAlignment.Center;
             this.picVals.Location = new System.Drawing.Point(0, 0);
             this.picVals.Name = "picVals";
-            this.picVals.Size = new System.Drawing.Size(240, 30);
+            this.picVals.Size = new System.Drawing.Size(240, 36);
             this.picVals.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picVals.TabIndex = 3;
             this.picVals.TabStop = false;
+            this.picVals.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
             // lblTitle
             // 
@@ -78,7 +82,7 @@
             this.lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblTitle.Location = new System.Drawing.Point(0, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(240, 20);
+            this.lblTitle.Size = new System.Drawing.Size(240, 14);
             this.lblTitle.TabIndex = 3;
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -86,12 +90,16 @@
             // 
             this.picPoster.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picPoster.Filename = null;
+            this.picPoster.FontName = "Verdana";
+            this.picPoster.Fontstyle = System.Drawing.FontStyle.Bold;
+            this.picPoster.LineAlignment = System.Drawing.StringAlignment.Center;
             this.picPoster.Location = new System.Drawing.Point(0, 0);
             this.picPoster.Name = "picPoster";
             this.picPoster.Size = new System.Drawing.Size(240, 360);
             this.picPoster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picPoster.TabIndex = 0;
             this.picPoster.TabStop = false;
+            this.picPoster.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
             // MovieThumb
             // 

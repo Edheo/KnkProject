@@ -18,6 +18,10 @@ namespace KnkCore
     public class KnkTableEntityRelation<T> : KnkTableEntity, KnkTableEntityRelationItf<T>
         where T : KnkItemItf, new()
     {
+        public KnkTableEntityRelation(string aTable, string aPrimaryKey) : this(aTable, aPrimaryKey, new T().SourceEntity.PrimaryKey)
+        {
+        }
+
         public KnkTableEntityRelation(string aTable, string aPrimaryKey, string aRelatedKey):base(aTable,aPrimaryKey)
         {
             RelatedKey = aRelatedKey;

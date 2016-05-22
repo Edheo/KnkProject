@@ -116,7 +116,7 @@ namespace KnkSolutionMovies.Extenders
         {
             get
             {
-                return Views.Items.Where(v => v.Finished == true).ToList();
+                return Views.Items.Where(v => v.Finishedplay == true).ToList();
             }
         }
 

@@ -10,11 +10,13 @@ namespace KnkSolutionMovies.Lists
         {
         }
 
-        public Movies(KnkConnectionItf aConnection) : base(aConnection)
+        public Movies(KnkConnectionItf aConnection) 
+        : base(aConnection)
         {
         }
 
-        public Movies(KnkConnectionItf aConnection, KnkCriteriaItf<Movie,Movie> aCriteria) : base(aConnection, aCriteria)
+        public Movies(KnkConnectionItf aConnection, KnkCriteriaItf<Movie,Movie> aCriteria) 
+        : base(aConnection, aCriteria)
         {
         }
     }
