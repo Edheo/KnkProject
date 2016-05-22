@@ -1,4 +1,5 @@
-﻿using KnkInterfaces.Interfaces;
+﻿using KnkInterfaces.Classes;
+using KnkInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,7 +26,15 @@ namespace KnkInterfaces.Utilities
                 var lCol = (from c in lColumns where c.ColumnName.ToLower().Equals(lPropertyName.ToLower()) select c).FirstOrDefault();
                 if(lCol != null)
                 {
-                    var lValue = Convert.IsDBNull(aRow[lCol]) ? null : Convert.ChangeType(aRow[lCol], GetPropertyType(lPrp));
+                    dynamic lValue;
+                    if (lPrp.PropertyType.Equals(typeof(KnkEntityIdentifier)))
+                    {
+                        lValue = (KnkEntityIdentifier)(Convert.IsDBNull(aRow[lCol]) ? null : (int?)Convert.ToInt32(aRow[lCol]));
+                    }
+                    else
+                    {
+                        lValue = Convert.IsDBNull(aRow[lCol]) ? null : Convert.ChangeType(aRow[lCol], GetPropertyType(lPrp));
+                    }
                     lPrp.SetValue(lNewItem, lValue);
                 }
             }

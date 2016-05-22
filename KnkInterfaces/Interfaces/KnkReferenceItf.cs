@@ -6,7 +6,6 @@ namespace KnkInterfaces.Interfaces
         where TDad : KnkItemItf
         where TReference : KnkItemItf, new()
     {
-        int? Id { get; }
         TReference Value { get; }
 
         void ResetReference(TDad aItem, string aProperty);

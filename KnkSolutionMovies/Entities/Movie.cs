@@ -1,4 +1,5 @@
 ﻿using KnkCore;
+using KnkInterfaces.Classes;
 using KnkSolutionMovies.Extenders;
 
 namespace KnkSolutionMovies.Entities
@@ -15,7 +16,7 @@ namespace KnkSolutionMovies.Entities
         #endregion Interface/Implementation
 
         #region Class Properties
-        public int? IdMovie { get; set; }
+        public KnkEntityIdentifier IdMovie { get; set; }
         public string Title { get; set; }
         public string TagLine { get; set; }
         public int Votes { get; set; }
@@ -27,7 +28,7 @@ namespace KnkSolutionMovies.Entities
         public string OriginalTitle { get; set; }
         public string Studio { get; set; }
         public string TrailerUrl { get; set; }
-        public int? IdSet { get; set; }
+        public KnkEntityIdentifier IdSet { get; set; }
         public decimal? UserRating { get; set; }
 
         public string MovieStet { get { return Extender.MovieSet?.Name; } }

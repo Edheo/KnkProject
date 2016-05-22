@@ -1,4 +1,5 @@
 ﻿using KnkCore;
+using KnkInterfaces.Classes;
 using System;
 
 namespace KnkSolutionMovies.Entities
@@ -12,7 +13,7 @@ namespace KnkSolutionMovies.Entities
         #endregion Interface/Implementation
 
         #region Class Properties
-        public int? IdPath { get; set; }
+        public KnkEntityIdentifier IdPath { get; set; }
         public string Path { get; set; }
         public string ContenType { get; set; }
         public string Scraper { get; set; }
@@ -23,7 +24,7 @@ namespace KnkSolutionMovies.Entities
         public decimal? NoUpdate { get; set; }
         public decimal? Exclude { get; set; }
         public DateTime DateAdded { get; set; }
-        public int? IdParentPath { get; set; }
+        public KnkEntityIdentifier IdParentPath { get; set; }
         #endregion Class Properties
     }
 }

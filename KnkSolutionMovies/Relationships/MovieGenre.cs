@@ -1,4 +1,5 @@
 ﻿using KnkCore;
+using KnkInterfaces.Classes;
 using KnkInterfaces.Interfaces;
 using KnkSolutionMovies.Entities;
 
@@ -13,7 +14,7 @@ namespace KnkSolutionMovies.Relationships
         #endregion Interface/Implementation
 
         #region Class Properties
-        public int? IdMovieGenre { get; set; }
+        public KnkEntityIdentifier IdMovieGenre { get; set; }
         public int IdMovie { get; set; }
         public int IdGenre { get; set; }
         #endregion Class Properties

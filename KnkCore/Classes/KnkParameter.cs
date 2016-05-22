@@ -9,6 +9,9 @@ namespace KnkCore
 {
     public class KnkParameter:KnkParameterItf
     {
+        Type _type;
+        dynamic _value;
+
         public KnkParameter(Type aType, string aName, OperatorsEnu aOperator, object aValue)
             : this(aType,aName,aOperator,aValue,ParameterConnectorEnu.And)
         {
@@ -27,14 +30,35 @@ namespace KnkCore
             Name = aName;
             ParameterName = aParameterName;
             Operator = aOperator;
-            Value = aValue;
+            Value = Convert.ChangeType(aValue, aType);
             Connector = aConnector;
         }
 
-        public Type Type { get; }
+        public Type Type
+        {
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                _type = value;
+            }
+        }
         public string Name { get; }
         public string ParameterName { get; }
-        public object Value { get; }
+        public dynamic Value
+        {
+            get
+            {
+                return _value;
+            }
+            set
+            {
+                _value = value;
+            }
+        }
+
         public OperatorsEnu Operator { get; }
         public ParameterConnectorEnu Connector { get; }
 

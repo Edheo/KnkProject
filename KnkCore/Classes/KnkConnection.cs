@@ -57,7 +57,7 @@ namespace KnkCore
             where TDad : KnkItemItf
             where TReference : KnkItemItf, new()
         {
-            return SetReference<TDad, TReference>(new KnkReference<TDad, TReference>(aItem, aProperty, GetItem<TReference>),aItem, aProperty);
+            return SetReference<TDad, TReference>(new KnkEntityIdentifier<TDad, TReference>(aItem, aProperty, GetItem<TReference>),aItem, aProperty);
         }
 
         public KnkReferenceItf<TDad, TReference> SetReference<TDad, TReference>(KnkReferenceItf<TDad, TReference> aReference, TDad aItem, string aProperty)

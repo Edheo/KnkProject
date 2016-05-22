@@ -48,10 +48,10 @@
     <Compile Include="Classes\KnkConfigurer.cs" />
     <Compile Include="Classes\KnkConnection.cs" />
     <Compile Include="Classes\KnkCriteria.cs" />
+    <Compile Include="Classes\KnkEntityIdentifier.cs" />
     <Compile Include="Classes\KnkItemBase.cs" />
     <Compile Include="Classes\KnkList.cs" />
     <Compile Include="Classes\KnkParameter.cs" />
-    <Compile Include="Classes\KnkReference.cs" />
     <Compile Include="Classes\KnkTableEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\KnkUtility.cs" />

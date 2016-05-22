@@ -1,4 +1,5 @@
 ﻿using KnkCore;
+using KnkInterfaces.Classes;
 using System;
 
 namespace KnkSolutionMovies.Entities
@@ -13,7 +14,7 @@ namespace KnkSolutionMovies.Entities
         #endregion Interface/Implementation
 
         #region Class Properties
-        public int? IdPlay { get; set; }
+        public KnkEntityIdentifier IdPlay { get; set; }
         public int IdFile { get; set; }
         public DateTime DatePlay { get; set; }
         public int Playlenght { get; set; }

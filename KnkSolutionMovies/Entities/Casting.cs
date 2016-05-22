@@ -1,20 +1,20 @@
 ﻿using KnkCore;
 using KnkInterfaces.Classes;
+using System;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class GenreClass : KnkItemBase
+    public class Casting : KnkItemBase
     {
         #region Interface/Implementation
-        public GenreClass():base(new KnkTableEntity("Genres", "IdGenre"))
+        public Casting():base(new KnkTableEntity("Casting", "IdCast"))
         {
         }
         #endregion Interface/Implementation
 
         #region Class Properties
-        public KnkEntityIdentifier IdGenre { get; set; }
-
-        public string Genre { get; set; }
+        public KnkEntityIdentifier IdCast { get; set; }
+        public string ArtistName { get; set; }
         #endregion Class Properties
     }
 }

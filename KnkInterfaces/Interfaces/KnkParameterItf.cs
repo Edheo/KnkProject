@@ -9,7 +9,7 @@ namespace KnkInterfaces.Interfaces
         Type Type { get; }
         string Name { get; }
         string ParameterName { get; }
-        object Value { get; }
+        dynamic Value { get; }
         OperatorsEnu Operator { get; }
         ParameterConnectorEnu Connector { get; }
 

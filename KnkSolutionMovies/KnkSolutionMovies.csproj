@@ -43,6 +43,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Entities\Casting.cs" />
     <Compile Include="Entities\FilePlay.cs" />
     <Compile Include="Entities\File.cs" />
     <Compile Include="Entities\Folder.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Extenders\MediaThumbExtender.cs" />
     <Compile Include="Extenders\MovieExtender.cs" />
     <Compile Include="Lists\FilePlays.cs" />
+    <Compile Include="Lists\Castings.cs" />
     <Compile Include="Lists\Files.cs" />
     <Compile Include="Lists\Genres.cs" />
     <Compile Include="Lists\Movies.cs" />

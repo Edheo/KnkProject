@@ -3,6 +3,7 @@ using KnkInterfaces.Utilities;
 using KnkInterfaces.Interfaces;
 using System.Reflection;
 using System;
+using KnkInterfaces.Classes;
 
 namespace KnkCore
 {
@@ -71,7 +72,21 @@ namespace KnkCore
 
         public void PropertySet(string aProperty, object aValue)
         {
-            PropertyMatch(aProperty)?.SetValue(this, aValue);
+            var lPrp = PropertyMatch(aProperty);
+            if(lPrp!=null)
+            {
+                if(lPrp.PropertyType.Equals(typeof(KnkEntityIdentifier)))
+                {
+                    KnkEntityIdentifier lVal = null;
+                    if (aValue != null)
+                        lVal = (int)Convert.ChangeType(aValue, typeof(int));
+                    lPrp.SetValue(this, lVal);
+                }
+                else
+                { 
+                    lPrp.SetValue(this, aValue);
+                }
+            }
         }
 
         public int? UserCreationId { get; set; }

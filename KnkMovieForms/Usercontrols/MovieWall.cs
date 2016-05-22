@@ -24,13 +24,30 @@ namespace KnkMovieForms.Usercontrols
         public MovieWall()
         {
             InitializeComponent();
-            this.btnSearch.Image = KnkMovieForms.Properties.Resources.search;
+            //this.btnSearch.Image = KnkMovieForms.Properties.Resources.search;
         }
 
         public void LoadMovies(Movies aMovies)
         {
             _Movies = aMovies;
-            this.movieWallLayout1.LoadMovies(_Movies);
+            if (_Movies != null)
+            {
+                LoadArtists();
+                this.moviesWall.LoadMovies(_Movies);
+            }
+        }
+
+        private void LoadArtists()
+        {
+            if(cmbArtist.Items.Count==0)
+            {
+                Castings lCasts = new Castings(_Movies.Connection);
+                var lDatasource = (from art in lCasts.Items orderby art.ArtistName select art.ArtistName).ToList();
+                //cmbArtist.DisplayMember = "ArtistName";
+                cmbArtist.DataSource = lDatasource;
+                cmbArtist.SelectedIndex = -1;
+                
+            }
         }
 
         private void MovieWall_SizeChanged(object sender, EventArgs e)

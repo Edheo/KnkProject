@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KnkSolutionUsers.References
 {
-    public class UserReference<TEntity> : KnkReference<TEntity, User> 
+    public class UserReference<TEntity> : KnkEntityIdentifier<TEntity, User> 
         where TEntity : KnkItemItf
     {
         public UserReference(TEntity aDad, string aProperty) : base(aDad, aProperty, aDad.Connection.GetItem<User>)

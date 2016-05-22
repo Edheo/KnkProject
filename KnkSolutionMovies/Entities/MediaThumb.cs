@@ -1,4 +1,5 @@
 ﻿using KnkCore;
+using KnkInterfaces.Classes;
 using KnkSolutionMovies.Extenders;
 
 namespace KnkSolutionMovies.Entities
@@ -15,10 +16,10 @@ namespace KnkSolutionMovies.Entities
         #endregion Interface/Implementation
 
         #region Class Properties
-        public int? IdThumb { get; set; }
-        public int? IdMovie { get; set; }
-        public int? IdCast { get; set; }
-        public int IdType { get; set; }
+        public KnkEntityIdentifier IdThumb { get; set; }
+        public KnkEntityIdentifier IdMovie { get; set; }
+        public KnkEntityIdentifier IdCast { get; set; }
+        public KnkEntityIdentifier IdType { get; set; }
         public int Ordinal { get; set; }
         public string Thumb { get; set; }
         #endregion Class Properties
