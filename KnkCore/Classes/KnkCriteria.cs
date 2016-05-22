@@ -11,96 +11,59 @@ namespace KnkCore
         where Tdad :KnkItemItf, new()
         where Tlst : KnkItemItf, new()
     {
-        private Tdad _item;
         private readonly List<KnkParameterItf> _parameters = new List<KnkParameterItf>();
         private readonly KnkTableEntity _entityTable;
 
-        public KnkCriteria(Tdad aItem):this(aItem, (new Tlst()).SourceEntity)
+        public KnkCriteria(Tdad aItem) 
+        : this(aItem, (new Tlst()).SourceEntity)
         {
         }
 
-        public KnkCriteria(Tdad aItem, KnkTableEntityRelationItf<Tlst> aEntityTable):this(aItem,(KnkTableEntityItf)aEntityTable)
+        public KnkCriteria(Tdad aItem, KnkTableEntityRelationItf<Tlst> aEntityTable)
+        : this(aItem, (KnkTableEntityItf)aEntityTable)
         {
         }
 
         public KnkCriteria(Tdad aItem, KnkTableEntityItf aEntityTable)
         {
-            _item = aItem;
             _entityTable = aEntityTable as KnkTableEntity;
             KnkLinkFields = aItem.SourceEntity.PrimaryKey;
+            AddLinkParameters(aItem);
+        }
+
+        private void AddLinkParameters(Tdad aItem)
+        {
+            var lPrs = KnkUtility.GetProperties<Tlst>();
+            foreach (string lPar in KnkLinkFieldsList())
+            {
+                var lPrp = lPrs.Where(p => p.Name.ToLower().Equals(lPar.ToLower())).FirstOrDefault();
+                if (lPrp != null && aItem.PropertyGet(lPrp.Name) != null)
+                {
+                    AddParameter(KnkUtility.GetPropertyType(lPrp), lPrp.Name, OperatorsEnu.Equal, aItem.PropertyGet(lPrp.Name));
+                }
+            }
+            var lEnt = this.EntityRelation();
+            if (!string.IsNullOrEmpty(lEnt?.RelatedKey))
+            {
+                var lPrp = KnkUtility.GetProperties<Tdad>().Where(p => p.Name.Equals(aItem.SourceEntity.PrimaryKey)).FirstOrDefault();
+                if (lPrp != null && aItem.PropertyGet(lEnt.RelatedKey)!=null)
+                {
+                    AddParameter(KnkUtility.GetPropertyType(lPrp), lEnt.RelatedKey, OperatorsEnu.Equal, aItem.PropertyGet(lEnt.RelatedKey));
+                }
+            }
+
         }
 
         public string KnkLinkFields { get; }
-
-        public Tdad Parent
-        {
-            get
-            {
-                return _item;
-            }
-        }
-
-        public string GetWhereFromParameters()
-        {
-            return GetWhereFromParameters(_item);
-        }
-
-        public string GetWhereFromParameters(Tdad aItem)
-        {
-            string lWhere = Utilities.KnkUtility.JoinParameters(GetParameters(aItem));
-            return lWhere.Length > 0 ? " Where " + lWhere: string.Empty;
-        }
 
         private List<string> KnkLinkFieldsList()
         {
             return KnkLinkFields.Split('.').Select(p => p.Trim()).ToList();
         }
-
         
         public List<KnkParameterItf> GetParameters()
         {
-            return GetParameters(_item);
-        }
-
-        public List<KnkParameterItf> GetParameters(Tdad aItem)
-        {
-            _item = aItem;
-            var lPrs = KnkUtility.GetProperties<Tlst>();
-            var lParameters = new List<KnkParameterItf>();
-
-            foreach(KnkParameter lKnkPar in _parameters)
-            {
-                lParameters.Add(lKnkPar);
-            }
-
-            foreach (string lPar in KnkLinkFieldsList())
-            {
-                var lPrp = lPrs.Where(p => p.Name.ToLower().Equals(lPar.ToLower())).FirstOrDefault();
-                if(lPrp!=null)
-                {
-                    var lType = KnkUtility.GetPropertyType(lPrp);
-                    var lName = lPrp.Name;
-                    var lValue = _item.PropertyGet(lPrp.Name);
-                    if (lValue != null)
-                    {
-                        KnkParameter lKnkPar = new KnkParameter(lType, lName, OperatorsEnu.Equal, lValue);
-                        lParameters.Add(lKnkPar);
-                    }
-                }
-            }
-            if (!string.IsNullOrEmpty(this.EntityRelation()?.RelatedKey))
-            {
-                var lPrp = KnkUtility.GetProperties<Tdad>().Where(p => p.Name.Equals(_item.SourceEntity.PrimaryKey)).FirstOrDefault();
-                if (lPrp != null)
-                {
-                    var lType = KnkUtility.GetPropertyType(lPrp);
-                    var lName = this.EntityRelation().RelatedKey;
-                    var lValue = _item.PropertyGet(lPrp.Name);
-                    KnkParameter lKnkPar = new KnkParameter(lType, lName, OperatorsEnu.Equal, lValue);
-                    lParameters.Add(lKnkPar);
-                }
-            }
-            return lParameters;
+            return _parameters;
         }
 
         public KnkTableEntityItf EntityTable()
@@ -108,9 +71,9 @@ namespace KnkCore
             return _entityTable;
         }
 
-        public KnkTableEntityRelationItf<Tlst> EntityRelation()
+        public KnkTableEntityRelationItf<Tdad> EntityRelation()
         {
-            return _entityTable as KnkTableEntityRelation<Tlst>;
+            return _entityTable as KnkTableEntityRelation<Tdad>;
         }
 
         public KnkParameterItf AddParameter(Type aType, string aName, OperatorsEnu aOperator, object aValue)

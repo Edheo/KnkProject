@@ -3,6 +3,7 @@ using System.Linq;
 using KnkCore;
 using KnkInterfaces.Interfaces;
 using KnkSolutionMovies.Entities;
+using KnkInterfaces.Enumerations;
 
 namespace KnkSolutionMovies.Lists
 {
@@ -29,6 +30,23 @@ namespace KnkSolutionMovies.Lists
         public MovieCastings(Movie aMovie) 
         : base(aMovie.Connection, new KnkCriteria<Movie, Casting>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieCasting", "IdCasting")))
         {
+        }
+
+        public MovieCastings(KnkConnectionItf aConnection,KnkCriteria<Movie, Casting> aCriteria)
+        : base(aConnection, aCriteria)
+        {
+        }
+
+        public MovieCastings(KnkConnectionItf aConnection, string aArtistName)
+        : base(aConnection, BuildCriteria(aArtistName))
+        {
+        }
+
+        public static KnkCriteria<Movie, Casting> BuildCriteria(string aArtistName)
+        {
+            KnkCriteria<Movie, Casting> lCri = new KnkCriteria<Movie, Casting>(new Movie(), new KnkTableEntityRelation<Movie>("vieMovieCasting", "IdCasting"));
+            lCri.AddParameter(typeof(string), "ArtistName", OperatorsEnu.Like, $"%{aArtistName}%");
+            return lCri;
         }
     }
 }

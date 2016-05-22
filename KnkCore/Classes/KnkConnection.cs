@@ -1,6 +1,7 @@
 ﻿using KnkInterfaces.Interfaces;
 using KnkInterfaces.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -79,6 +80,23 @@ namespace KnkCore
         {
             KnkListItf<Tdad, Tlst> lLst = new KnkList<Tdad, Tlst>(this);
             lLst = FillList(lLst, aCriteria);
+            return lLst;
+        }
+
+        public List<KnkEntityIdentifierItf> GetListIds<Tdad, Tlst>(KnkCriteriaItf<Tdad, Tlst> aCriteria)
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
+            var lLst = new List<KnkEntityIdentifierItf>();
+            using (var lDat = GetConnection(typeof(Tdad)).GetListIds < Tdad, Tlst>(aCriteria))
+            {
+                foreach(DataRow lRow in lDat.Rows)
+                {
+                    KnkEntityIdentifier<Tdad, Tlst> lValue = new KnkEntityIdentifier<Tdad, Tlst>();
+                    lValue.SetInnerValue((int)lRow[0]);
+                    lLst.Add(lValue);
+                }
+            }
             return lLst;
         }
 

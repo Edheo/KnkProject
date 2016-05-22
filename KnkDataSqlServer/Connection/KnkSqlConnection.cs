@@ -61,15 +61,49 @@ namespace KnkDataSqlServer.Connection
             return lTbl;
         }
 
-        private SqlCommand GetCommand<Tdad, Tlst>(SqlConnection aConnection, KnkCriteriaItf<Tdad, Tlst> aCriteria) 
+        public DataTable GetListIds<Tdad, Tlst>(KnkCriteriaItf<Tdad, Tlst> aCriteria)
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            string lCommand = KnkUtility.GetDynamicSelectTable(new Tlst().SourceEntity, aCriteria);
+            DataTable lTbl = null;
+            using (DataSet lDts = new DataSet())
+            {
+                new SqlDataAdapter(GetCommand(_Connection, aCriteria, true)).Fill(lDts);
+                lTbl = lDts.Tables[0];
+            }
+            return lTbl;
+        }
+
+        private SqlCommand GetCommand<Tdad, Tlst>(SqlConnection aConnection, KnkCriteriaItf<Tdad, Tlst> aCriteria)
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
+            return GetCommand(aConnection, aCriteria, false);
+        }
+
+        private SqlCommand GetCommand<Tdad, Tlst>(SqlConnection aConnection, KnkCriteriaItf<Tdad, Tlst> aCriteria, bool aDistinct)
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
+            string lCommand = KnkUtility.GetDynamicSelect(aCriteria, aDistinct);
+
+            if (aCriteria != null)
+            {
+                var lInParameters = (from par in aCriteria.GetParameters() where par.Operator == KnkInterfaces.Enumerations.OperatorsEnu.In select par);
+                foreach (KnkParameterItf lParameter in lInParameters)
+                {
+                    if (!string.IsNullOrEmpty(lParameter.Value))
+                        lCommand = lCommand.Replace($"@List[{lParameter.ParameterName}]", lParameter.Value);
+                    else
+                        lCommand = lCommand.Replace($"@List[{lParameter.ParameterName}]", "null");
+                }
+            }
+
             var lRet = new SqlCommand(lCommand, aConnection);
             if (aCriteria != null)
             {
-                foreach (KnkParameterItf lPar in aCriteria.GetParameters())
+                var lRestParameters = (from par in aCriteria.GetParameters() where par.Operator != KnkInterfaces.Enumerations.OperatorsEnu.In select par);
+                foreach (KnkParameterItf lPar in lRestParameters)
                 {
                     if(lPar.InnerParammerters.Count>0)
                     {

@@ -1,4 +1,6 @@
-﻿namespace KnkInterfaces.Interfaces
+﻿using System.Collections.Generic;
+
+namespace KnkInterfaces.Interfaces
 {
     public interface KnkConnectionItf
     {
@@ -16,6 +18,10 @@
             where Tlst : KnkItemItf, new();
         T GetItem<T>(int? aEntityId) where T : KnkItemItf, new();
 
+        List<KnkEntityIdentifierItf> GetListIds<Tdad, Tlst>(KnkCriteriaItf<Tdad, Tlst> aCriteria)
+                    where Tdad : KnkItemItf, new()
+                    where Tlst : KnkItemItf, new();
+        
         KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem, string aProperty)
             where TDad : KnkItemItf
             where TReference : KnkItemItf, new();

@@ -8,7 +8,6 @@ namespace KnkInterfaces.Interfaces
     {
         string KnkLinkFields { get; }
         List<KnkParameterItf> GetParameters();
-        string GetWhereFromParameters();
         KnkTableEntityItf EntityTable();
         KnkParameterItf AddParameter(Type aType, string aName, OperatorsEnu aOperator, object aValue);
         bool HasParameters();
@@ -18,11 +17,6 @@ namespace KnkInterfaces.Interfaces
         where Tdad : KnkItemItf, new()
         where Tlst : KnkItemItf, new()
     {
-        Tdad Parent { get; }
-
-        List<KnkParameterItf> GetParameters(Tdad Item);
-
-        string GetWhereFromParameters(Tdad Item);
-
+        KnkTableEntityRelationItf<Tdad> EntityRelation();
     }
 }

@@ -17,5 +17,6 @@ namespace KnkInterfaces.Interfaces
         List<Tlst> Items { get; }
         List<Tlst> Datasource();
         KnkCriteriaItf<Tdad, Tlst> GetCriteria();
+        List<KnkEntityIdentifierItf> GetListIds();
     }
 }

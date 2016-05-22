@@ -34,9 +34,9 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.lblArtist = new System.Windows.Forms.Label();
             this.cmbArtist = new System.Windows.Forms.ComboBox();
+            this.chkViewed = new System.Windows.Forms.CheckBox();
             this.btnSearch = new KnkMovieForms.Usercontrols.MoviePictureBox();
             this.moviesWall = new KnkMovieForms.Usercontrols.MovieWallLayout();
-            this.chkViewed = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSearch)).BeginInit();
@@ -101,6 +101,21 @@
             this.cmbArtist.Size = new System.Drawing.Size(177, 21);
             this.cmbArtist.TabIndex = 3;
             // 
+            // chkViewed
+            // 
+            this.chkViewed.AutoSize = true;
+            this.chkViewed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkViewed.Checked = true;
+            this.chkViewed.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkViewed.Location = new System.Drawing.Point(498, 6);
+            this.chkViewed.Margin = new System.Windows.Forms.Padding(6);
+            this.chkViewed.Name = "chkViewed";
+            this.chkViewed.Size = new System.Drawing.Size(61, 17);
+            this.chkViewed.TabIndex = 4;
+            this.chkViewed.Text = "Viewed";
+            this.chkViewed.ThreeState = true;
+            this.chkViewed.UseVisualStyleBackColor = true;
+            // 
             // btnSearch
             // 
             this.btnSearch.Dock = System.Windows.Forms.DockStyle.Right;
@@ -126,17 +141,6 @@
             this.moviesWall.Name = "moviesWall";
             this.moviesWall.Size = new System.Drawing.Size(810, 490);
             this.moviesWall.TabIndex = 1;
-            // 
-            // chkViewed
-            // 
-            this.chkViewed.AutoSize = true;
-            this.chkViewed.Location = new System.Drawing.Point(495, 3);
-            this.chkViewed.Name = "chkViewed";
-            this.chkViewed.Size = new System.Drawing.Size(61, 17);
-            this.chkViewed.TabIndex = 4;
-            this.chkViewed.Text = "Viewed";
-            this.chkViewed.ThreeState = true;
-            this.chkViewed.UseVisualStyleBackColor = true;
             // 
             // MovieWall
             // 

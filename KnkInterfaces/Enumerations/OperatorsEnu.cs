@@ -9,6 +9,6 @@ namespace KnkInterfaces.Enumerations
         [Description("@Field>@Value")]                      GreatThan,
         [Description("@Field<@Value")]                      LowerThan,
         [Description("@Field Like @Value")]                 Like,
-        [Description("@Field In (@List)")]                  In
+        [Description("@Field In (@List[Field])")]           In
     }
 }

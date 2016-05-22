@@ -97,40 +97,5 @@ namespace KnkCore.Utilities
             return string.Join(".", lNames);
         }
 
-        public static string GetEnumDescription(Enum value)
-        {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
-
-            DescriptionAttribute[] attributes =
-                (DescriptionAttribute[])fi.GetCustomAttributes(
-                typeof(DescriptionAttribute),
-                false);
-
-            if (attributes != null &&
-                attributes.Length > 0)
-                return attributes[0].Description;
-            else
-                return value.ToString();
-        }
-
-        public static string JoinParameters(List<KnkParameterItf> aParameters)
-        {
-            string lRet = string.Empty;
-            string lConditions = string.Empty;
-            var lPars = aParameters.Select(p => new { Condition = p.ToSqlWhere(), Connector = KnkUtility.GetEnumDescription(p.Connector) });
-            string lBlank = " ";
-            var lParAnt = lPars.FirstOrDefault();
-            foreach(var lParCur in lPars )
-            {
-                if (lConditions.Length > 0)
-                    lConditions += lBlank + lParAnt.Connector + lBlank;
-
-                lConditions += lParCur.Condition;
-                lParAnt = lParCur;
-            }
-            if (lConditions.Length > 0)
-                lRet = "(" + lConditions + ")";
-            return lRet;
-        }
     }
 }

@@ -69,6 +69,11 @@ namespace KnkCore
             }
             return _Criteria;
         }
+
+        public List<KnkEntityIdentifierItf> GetListIds()
+        {
+            return Connection.GetListIds(GetCriteria());
+        }
     }
 
 

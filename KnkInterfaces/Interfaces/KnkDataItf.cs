@@ -11,5 +11,9 @@ namespace KnkInterfaces.Interfaces
         DataTable GetData<Tdad,Tlst>(KnkCriteriaItf<Tdad, Tlst> aCriteria) 
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new();
+
+        DataTable GetListIds<Tdad, Tlst>(KnkCriteriaItf<Tdad, Tlst> aCriteria)
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new();
     }
 }

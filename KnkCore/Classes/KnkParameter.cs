@@ -1,9 +1,9 @@
 ﻿using KnkInterfaces.Interfaces;
 using System;
 using KnkInterfaces.Enumerations;
-using KnkCore.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using KnkInterfaces.Utilities;
 
 namespace KnkCore
 {
@@ -101,6 +101,8 @@ namespace KnkCore
                     lRet = lRet.Replace("@Value", $"null");
                 else
                     lRet = lRet.Replace("@Value", $"@{ParameterName}");
+
+                lRet = lRet.Replace("@List[Field]", $"@List[{Name}]");
             }
             return lRet;
         }
