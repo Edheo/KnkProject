@@ -20,7 +20,9 @@ namespace KnkMovieForms.Usercontrols
         private StringAlignment _TextAlignment = StringAlignment.Center;
         private StringAlignment _LineAlignment = StringAlignment.Center;
         private Brush _FontBrush = Brushes.White;
-        private Image _ImageAnimation;
+        private System.ComponentModel.IContainer components;
+        private Image _ResourceImage;
+        private int? _FontSize;
 
         public string Filename
         {
@@ -52,7 +54,9 @@ namespace KnkMovieForms.Usercontrols
 
         public Brush FontBrush { get { return _FontBrush; } set { _FontBrush = value; } }
 
-        public Image ImageAnimation { get { return _ImageAnimation; } set { _ImageAnimation = value; } }
+        public Image ResourceImage { get { return _ResourceImage; } set { _ResourceImage = value; } }
+
+        public int? FontSize { get { return _FontSize; } set { _FontSize = value; } }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -74,13 +78,24 @@ namespace KnkMovieForms.Usercontrols
             if (!string.IsNullOrEmpty(Text))
             {
                 var lRectangle = this.ClientRectangle;
-                var lFontBase = new Font(FontName, 10, this.Fontstyle);
-                var lSize = aGraphics.MeasureString(Text, lFontBase);
-                var lFontScale = Math.Max(lSize.Width / lRectangle.Width, lSize.Height / lRectangle.Height);
-                using (Font lFont = new Font(lFontBase.FontFamily, lFontBase.SizeInPoints / lFontScale, this.Fontstyle, GraphicsUnit.Point))
+                if (_FontSize == null)
                 {
-                    aGraphics.DrawString(Text, lFont, Brushes.White, lRectangle, StringFormat());
+                    var lFontBase = new Font(FontName, 10, this.Fontstyle);
+                    var lSize = aGraphics.MeasureString(Text, lFontBase);
+                    var lFontScale = Math.Max(lSize.Width / lRectangle.Width, lSize.Height / lRectangle.Height);
+                    using (Font lFont = new Font(lFontBase.FontFamily, lFontBase.SizeInPoints / lFontScale, this.Fontstyle, GraphicsUnit.Point))
+                    {
+                        aGraphics.DrawString(Text, lFont, Brushes.White, lRectangle, StringFormat());
+                    }
                 }
+                else
+                {
+                    using (Font lFont = new Font(FontName, (int)_FontSize, this.Fontstyle))
+                    {
+                        aGraphics.DrawString(Text, lFont, Brushes.White, lRectangle, StringFormat());
+                    }
+                }
+
             }
         }
 
@@ -88,24 +103,23 @@ namespace KnkMovieForms.Usercontrols
         {
             if (!string.IsNullOrEmpty(_Filename))
             {
-                Image lImg = Image.FromFile(_Filename);
+                _ResourceImage = Image.FromFile(_Filename);
                 if (InvokeRequired)
-                    this.Invoke(new delSetPicture(SetPicture), lImg);
+                    this.Invoke(new delNoParams(SetPicture));
                 else
-                    SetPicture(lImg);
+                    SetPicture();
             }
         }
 
-        private void SetPicture(Image aImg)
+        private void SetPicture()
         {
-            MessageBox.Show("Change it to FromStream, instead of FromFile");
-            this.Image = aImg;
+            this.Image = _ResourceImage;
         }
 
         public void AnimationStart()
         {
             //this.Enabled = false;
-            this.Image = ImageAnimation;
+            this.Image = ResourceImage;
         }
 
         public void AnimationStop()
@@ -119,9 +133,9 @@ namespace KnkMovieForms.Usercontrols
 
         private void AnimationStoper()
         {
-            FrameDimension lDim = new FrameDimension(ImageAnimation.FrameDimensionsList[0]);
-            ImageAnimation.SelectActiveFrame(lDim, 0);
-            Bitmap lBmp = new Bitmap(new Bitmap((Image)this.ImageAnimation.Clone()));
+            FrameDimension lDim = new FrameDimension(ResourceImage.FrameDimensionsList[0]);
+            ResourceImage.SelectActiveFrame(lDim, 0);
+            Bitmap lBmp = new Bitmap(new Bitmap((Image)this.ResourceImage.Clone()));
             this.Image = lBmp;
         }
 
@@ -136,6 +150,40 @@ namespace KnkMovieForms.Usercontrols
             {
                 this.Size = new Size(this.Height, this.Height);
             }
+        }
+
+        public void PutBorder()
+        {
+            //this.Padding = new Padding(5, 5, 5, 5);
+            //lPic.Dock = DockStyle.Fill;
+            PictureBox lPic = new PictureBox();
+            this.Image = null;
+            this.BackColor = Color.Red;
+            lPic.SizeMode = PictureBoxSizeMode.StretchImage;
+            lPic.Image = _ResourceImage;
+            lPic.Location = new Point(3, 3);
+            lPic.Size = new Size(this.Width - 6, this.Height - 6);
+            this.Controls.Add(lPic);
+        }
+
+        public void RemoveBorder()
+        {
+            this.Controls.Clear();
+            this.Image = _ResourceImage;
+        }
+
+        public bool HasBorder()
+        {
+            return this.Controls.Count > 0;
+        }
+
+        private void InitializeComponent()
+        {
+            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+            this.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+            this.ResumeLayout(false);
+
         }
     }
 }

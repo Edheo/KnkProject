@@ -111,6 +111,7 @@
             this.MinimumSize = new System.Drawing.Size(240, 410);
             this.Name = "MovieThumb";
             this.Size = new System.Drawing.Size(240, 410);
+            this.MouseEnter += new System.EventHandler(this.MovieThumb_MouseEnter);
             this.panel1.ResumeLayout(false);
             this.pnlBar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picVals)).EndInit();

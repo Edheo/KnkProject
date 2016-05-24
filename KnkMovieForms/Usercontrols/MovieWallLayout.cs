@@ -36,9 +36,17 @@ namespace KnkMovieForms.Usercontrols
 
             if (_Movies != null)
             {
-                flowMovies.AutoScroll = LimitItems() < _Movies.Items.Count;
+                if (InvokeRequired)
+                    this.Invoke(new delNoParams(SetScrollBars));
+                else
+                    SetScrollBars();
                 LoadItems(VisibleItems());
             }
+        }
+
+        private void SetScrollBars()
+        {
+            flowMovies.AutoScroll = LimitItems() < _Movies.Items.Count;
         }
 
         public int MovieWidth()

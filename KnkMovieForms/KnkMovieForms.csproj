@@ -82,6 +82,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Usercontrols\MoviePictureBox.resx">
+      <DependentUpon>MoviePictureBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Usercontrols\MovieThumb.resx">
       <DependentUpon>MovieThumb.cs</DependentUpon>
     </EmbeddedResource>

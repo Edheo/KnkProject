@@ -20,6 +20,7 @@ namespace KnkMovieForms.Usercontrols
         public MovieThumb(Movie aMovie, int aWidth)
         {
             InitializeComponent();
+            picPoster.MouseHover += (sender,e) => { OnRemarkMovie(sender, e); };
             SetSize(aWidth);
             SetMovie(aMovie);
         }
@@ -41,6 +42,32 @@ namespace KnkMovieForms.Usercontrols
             }
             picVals.Text = lText;
 
+        }
+
+        private void OnRemarkMovie(object sender, EventArgs e)
+        {
+            if (!IsMarked())
+            {
+                this.Parent.SuspendLayout();
+                picPoster.PutBorder();
+                //Control lContainer = this.Container as Control;
+                var controls = from lCtn in Parent.Controls.OfType<MovieThumb>() where lCtn != this && lCtn.IsMarked() select lCtn;
+                foreach (var lCtl in controls)
+                {
+                    lCtl.UnRemarkMovie();
+                }
+                this.Parent.ResumeLayout();
+            }
+        }
+
+        public void UnRemarkMovie()
+        {
+            picPoster.RemoveBorder();
+        }
+
+        public bool IsMarked()
+        {
+            return picPoster.HasBorder();
         }
 
         public static Size NormalSize()
@@ -87,5 +114,9 @@ namespace KnkMovieForms.Usercontrols
             Size = new Size(aWidth, GetHeightFromWidth(aWidth));
         }
 
+        private void MovieThumb_MouseEnter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

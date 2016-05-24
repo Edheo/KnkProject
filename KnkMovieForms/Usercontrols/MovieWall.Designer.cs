@@ -35,9 +35,9 @@
             this.lblArtist = new System.Windows.Forms.Label();
             this.cmbArtist = new System.Windows.Forms.ComboBox();
             this.chkViewed = new System.Windows.Forms.CheckBox();
-            this.moviesWall = new KnkMovieForms.Usercontrols.MovieWallLayout();
             this.btnClear = new KnkMovieForms.Usercontrols.MoviePictureBox();
             this.btnSearch = new KnkMovieForms.Usercontrols.MoviePictureBox();
+            this.moviesWall = new KnkMovieForms.Usercontrols.MovieWallLayout();
             this.pnlSearch.SuspendLayout();
             this.floSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnClear)).BeginInit();
@@ -123,25 +123,17 @@
             this.chkViewed.ThreeState = true;
             this.chkViewed.UseVisualStyleBackColor = true;
             // 
-            // moviesWall
-            // 
-            this.moviesWall.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.moviesWall.Location = new System.Drawing.Point(0, 76);
-            this.moviesWall.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.moviesWall.Name = "moviesWall";
-            this.moviesWall.Size = new System.Drawing.Size(810, 461);
-            this.moviesWall.TabIndex = 1;
-            // 
             // btnClear
             // 
             this.btnClear.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnClear.Filename = null;
             this.btnClear.FontName = "Verdana";
+            this.btnClear.FontSize = 10;
             this.btnClear.Fontstyle = System.Drawing.FontStyle.Bold;
-            this.btnClear.ImageAnimation = global::KnkMovieForms.Properties.Resources.Ani200_3;
             this.btnClear.LineAlignment = System.Drawing.StringAlignment.Far;
             this.btnClear.Location = new System.Drawing.Point(658, 0);
             this.btnClear.Name = "btnClear";
+            this.btnClear.ResourceImage = global::KnkMovieForms.Properties.Resources.Ani200_3;
             this.btnClear.Size = new System.Drawing.Size(76, 76);
             this.btnClear.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnClear.TabIndex = 4;
@@ -154,11 +146,12 @@
             this.btnSearch.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnSearch.Filename = null;
             this.btnSearch.FontName = "Verdana";
+            this.btnSearch.FontSize = 10;
             this.btnSearch.Fontstyle = System.Drawing.FontStyle.Bold;
-            this.btnSearch.ImageAnimation = global::KnkMovieForms.Properties.Resources.Ani200_5;
             this.btnSearch.LineAlignment = System.Drawing.StringAlignment.Far;
             this.btnSearch.Location = new System.Drawing.Point(734, 0);
             this.btnSearch.Name = "btnSearch";
+            this.btnSearch.ResourceImage = global::KnkMovieForms.Properties.Resources.Ani200_5;
             this.btnSearch.Size = new System.Drawing.Size(76, 76);
             this.btnSearch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnSearch.TabIndex = 2;
@@ -166,6 +159,15 @@
             this.btnSearch.Text = "Search";
             this.btnSearch.TextAlignment = System.Drawing.StringAlignment.Center;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // moviesWall
+            // 
+            this.moviesWall.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.moviesWall.Location = new System.Drawing.Point(0, 76);
+            this.moviesWall.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.moviesWall.Name = "moviesWall";
+            this.moviesWall.Size = new System.Drawing.Size(810, 461);
+            this.moviesWall.TabIndex = 1;
             // 
             // MovieWall
             // 
