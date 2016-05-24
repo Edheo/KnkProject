@@ -4,7 +4,7 @@ using System.Net;
 
 namespace KnkSolutionMovies.Utilities
 {
-    public static class KnkUtility
+    public static class KnkSolutionMoviesUtils
     {
         public static string GetLastPart(string aString, char aSpliter)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,6 +12,7 @@ namespace KnkMovieForms.Usercontrols
 {
     class MoviePictureBox:PictureBox
     {
+        delegate void delNoParams();
         delegate void delSetPicture(Image aImg);
         private string _Filename;
         private string _FontName= "Verdana";
@@ -18,6 +20,7 @@ namespace KnkMovieForms.Usercontrols
         private StringAlignment _TextAlignment = StringAlignment.Center;
         private StringAlignment _LineAlignment = StringAlignment.Center;
         private Brush _FontBrush = Brushes.White;
+        private Image _ImageAnimation;
 
         public string Filename
         {
@@ -48,6 +51,8 @@ namespace KnkMovieForms.Usercontrols
         public new string Text { get { return base.Text; } set { base.Text = value; } }
 
         public Brush FontBrush { get { return _FontBrush; } set { _FontBrush = value; } }
+
+        public Image ImageAnimation { get { return _ImageAnimation; } set { _ImageAnimation = value; } }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -93,8 +98,44 @@ namespace KnkMovieForms.Usercontrols
 
         private void SetPicture(Image aImg)
         {
+            MessageBox.Show("Change it to FromStream, instead of FromFile");
             this.Image = aImg;
         }
 
+        public void AnimationStart()
+        {
+            //this.Enabled = false;
+            this.Image = ImageAnimation;
+        }
+
+        public void AnimationStop()
+        {
+            if (InvokeRequired)
+                this.Invoke(new delNoParams(AnimationStoper));
+            else
+                AnimationStoper();
+            //this.Enabled = true;
+        }
+
+        private void AnimationStoper()
+        {
+            FrameDimension lDim = new FrameDimension(ImageAnimation.FrameDimensionsList[0]);
+            ImageAnimation.SelectActiveFrame(lDim, 0);
+            Bitmap lBmp = new Bitmap(new Bitmap((Image)this.ImageAnimation.Clone()));
+            this.Image = lBmp;
+        }
+
+        private void OnFrameChanged(object sender, EventArgs e)
+        {
+            // frame change
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            if(this.Dock==DockStyle.Left || this.Dock==DockStyle.Right)
+            {
+                this.Size = new Size(this.Height, this.Height);
+            }
+        }
     }
 }

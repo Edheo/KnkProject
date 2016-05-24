@@ -58,7 +58,7 @@
     <Compile Include="Interfaces\KnkReferenceItf.cs" />
     <Compile Include="Interfaces\KnkTableEntityItf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\KnkUtility.cs" />
+    <Compile Include="Utilities\KnkInterfacesUtils.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

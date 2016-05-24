@@ -2,14 +2,14 @@
 
 namespace KnkForms.Utilities
 {
-    public static class KnkUtility
+    public static class KnkFormsUtils
     {
         public static bool CheckConfiguration()
         {
             KnkConfiguration lCfg = new KnkConnection(true).Configuration();
             while (!lCfg.CheckConfiguration())
             {
-                var lFrm = new KnkForms.Windows.ConfigureConnections(lCfg.DataModelerToConfigurer());
+                var lFrm = new global::KnkForms.Windows.ConfigureConnections(lCfg.DataModelerToConfigurer());
                 var lDia = lFrm.ShowDialog();
                 if (lDia == true)
                 {

@@ -64,7 +64,7 @@
     <Compile Include="Entities\MovieSet.cs" />
     <Compile Include="Relationships\MovieGenre.cs" />
     <Compile Include="Utilities\KnkDataModeler.cs" />
-    <Compile Include="Utilities\KnkUtility.cs" />
+    <Compile Include="Utilities\KnkSolutionMoviesUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KnkCore\KnkCore.csproj">

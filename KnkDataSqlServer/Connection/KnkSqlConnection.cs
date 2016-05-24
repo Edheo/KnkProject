@@ -85,7 +85,7 @@ namespace KnkDataSqlServer.Connection
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            string lCommand = KnkUtility.GetDynamicSelect(aCriteria, aDistinct);
+            string lCommand = KnkInterfacesUtils.GetDynamicSelect(aCriteria, aDistinct);
 
             if (aCriteria != null)
             {

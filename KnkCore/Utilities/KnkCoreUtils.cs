@@ -11,7 +11,7 @@ using System.Text;
 
 namespace KnkCore.Utilities
 {
-    static class KnkUtility
+    static class KnkCoreUtils
     {
         private static Rijndael Crypto(string aFile)
         {

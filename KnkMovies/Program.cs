@@ -16,7 +16,7 @@ namespace KnkMovies
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            KnkForms.Utilities.KnkUtility.CheckConfiguration();
+            KnkForms.Utilities.KnkFormsUtils.CheckConfiguration();
             Application.Run(new Form1());
         }
     }

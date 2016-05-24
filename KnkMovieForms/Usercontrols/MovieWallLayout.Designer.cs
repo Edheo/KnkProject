@@ -33,6 +33,7 @@
             // 
             // flowMovies
             // 
+            this.flowMovies.AutoScroll = true;
             this.flowMovies.BackColor = System.Drawing.Color.Black;
             this.flowMovies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowMovies.Location = new System.Drawing.Point(0, 0);

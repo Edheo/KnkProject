@@ -21,7 +21,7 @@ namespace KnkCore
         {
             get
             {
-                return KnkUtility.GetProperties<KnkItemItf>(this).Where(p => p.Name == this.SourceEntity.PrimaryKey).FirstOrDefault();
+                return KnkInterfacesUtils.GetProperties<KnkItemItf>(this).Where(p => p.Name == this.SourceEntity.PrimaryKey).FirstOrDefault();
             }
         }
 
@@ -62,7 +62,7 @@ namespace KnkCore
 
         private PropertyInfo PropertyMatch(string aProperty)
         {
-            return KnkUtility.GetProperties<KnkItemItf>(this).Where(p => p.Name.ToLower().Equals(aProperty.ToLower())).FirstOrDefault();
+            return KnkInterfacesUtils.GetProperties<KnkItemItf>(this).Where(p => p.Name.ToLower().Equals(aProperty.ToLower())).FirstOrDefault();
         }
 
         public object PropertyGet(string aProperty)

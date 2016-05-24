@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KnkScrappers.Utilities
 {
-    static class KnkUtility
+    static class KnkScrapersUtils
     {
         public static string FromUrlToPath(string aPath)
         {

@@ -56,7 +56,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
-    <Compile Include="Utilities\KnkUtility.cs" />
+    <Compile Include="Utilities\KnkFormsUtils.cs" />
     <Compile Include="Windows\ConfigureConnections.xaml.cs">
       <DependentUpon>ConfigureConnections.xaml</DependentUpon>
     </Compile>

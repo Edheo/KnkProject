@@ -19,5 +19,6 @@ namespace KnkSolutionMovies.Lists
         : base(aConnection, aCriteria)
         {
         }
+
     }
 }

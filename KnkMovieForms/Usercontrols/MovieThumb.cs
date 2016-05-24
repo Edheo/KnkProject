@@ -29,7 +29,7 @@ namespace KnkMovieForms.Usercontrols
             _Movie = aMovie;
             lblTitle.Font = new Font(lblTitle.Font, FontStyle.Bold);
             lblTitle.Text = $"{_Movie.Title} ({_Movie.Year})";
-            picPoster.Filename = _Movie.Extender.Poster.Extender.GetFileName();
+            picPoster.Filename = _Movie.Extender.Poster?.Extender.GetFileName();
             string lText = $"Votes:{_Movie.Votes} Rating:{_Movie.Rating:0.0}";
             if (_Movie.UserRating != null)
             {

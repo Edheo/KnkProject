@@ -46,7 +46,7 @@ namespace KnkCore
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            aList.FillFromList(aTable.AsEnumerable().Select(row => KnkUtility.CopyRecord<Tlst>(aList, row)).ToList());
+            aList.FillFromList(aTable.AsEnumerable().Select(row => KnkInterfacesUtils.CopyRecord<Tlst>(aList, row)).ToList());
         }
 
         public KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem, string aProperty)

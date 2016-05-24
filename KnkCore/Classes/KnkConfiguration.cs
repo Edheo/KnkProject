@@ -118,12 +118,12 @@ namespace KnkCore
 
         private string AppFileName()
         {
-            return Utilities.KnkUtility.AppFileName();
+            return Utilities.KnkCoreUtils.AppFileName();
         }
 
         private string ConfigFilename(string aExt)
         {
-            return Utilities.KnkUtility.ConfigFilename(aExt);
+            return Utilities.KnkCoreUtils.ConfigFilename(aExt);
         }
 
         private DataSet ReadConfig()
@@ -132,7 +132,7 @@ namespace KnkCore
             string lFile = ConfigFilename("Knk");
             if (File.Exists(lFile))
             {
-                Stream lStream = Utilities.KnkUtility.FromCryptoStream(ConfigFilename("Knk"));
+                Stream lStream = Utilities.KnkCoreUtils.FromCryptoStream(ConfigFilename("Knk"));
                 try
                 {
                     lDts.ReadXml(lStream);
@@ -153,9 +153,9 @@ namespace KnkCore
         public void WriteConfig(List<KnkConfigurationItf> aList)
         {
             DataSet lDts = new DataSet();
-            DataTable lTbl = KnkUtility.CreateDataTable<KnkConfigurationItf>(aList);
+            DataTable lTbl = KnkInterfacesUtils.CreateDataTable<KnkConfigurationItf>(aList);
             lDts.Tables.Add(lTbl);
-            using (var lCryp = Utilities.KnkUtility.ToCryptoStream(ConfigFilename("Knk")))
+            using (var lCryp = Utilities.KnkCoreUtils.ToCryptoStream(ConfigFilename("Knk")))
             {
                 lDts.WriteXml(lCryp, XmlWriteMode.WriteSchema);
             }
@@ -164,7 +164,7 @@ namespace KnkCore
 
         public string GetMediaFolder(Type aType)
         {
-            return Utilities.KnkUtility.AppDataFolder(CallerConfiguration(aType)?.MediaFolder); 
+            return Utilities.KnkCoreUtils.AppDataFolder(CallerConfiguration(aType)?.MediaFolder); 
         }
 
         public KnkDataItf GetConnection(Type aType)

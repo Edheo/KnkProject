@@ -31,10 +31,10 @@ namespace KnkScrapers.Services
 
         private void ScanFolder(Folder aFolder)
         {
-            string lPath = KnkUtility.FromUrlToPath(aFolder.Path);
+            string lPath = KnkScrappers.Utilities.KnkScrapersUtils.FromUrlToPath(aFolder.Path);
             foreach (string lFolderName in Directory.GetDirectories(lPath))
             {
-                Folder lFolder = _Folders.Items.Find(f => KnkUtility.FromUrlToPath(f.Path) == lFolderName);
+                Folder lFolder = _Folders.Items.Find(f => KnkScrappers.Utilities.KnkScrapersUtils.FromUrlToPath(f.Path) == lFolderName);
                 if (lFolder == null)
                 {
                     lFolder = new Folder() { Path = lFolderName };

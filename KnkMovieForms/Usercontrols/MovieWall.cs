@@ -12,29 +12,42 @@ using KnkInterfaces.Interfaces;
 using KnkSolutionMovies.Entities;
 using KnkCore;
 using KnkInterfaces.Enumerations;
+using System.Threading;
 
 namespace KnkMovieForms.Usercontrols
 {
     public partial class MovieWall : UserControl
     {
+        delegate void delCastingList(List<Casting> aList);
+
         public event CancelEventHandler PerformSearch;
         private KnkCriteria<Movie,Movie> _CurrentCriteria;
         private Movies _Movies;
+        bool _Initialized = false;
 
         public MovieWall()
         {
             InitializeComponent();
-            //this.btnSearch.Image = KnkMovieForms.Properties.Resources.search;
+            _Initialized = true;
+            btnSearch.AnimationStop();
         }
 
         public void LoadMovies(Movies aMovies)
         {
             _Movies = aMovies;
+            btnSearch.AnimationStart();
+            Thread lThr = new Thread(new ThreadStart(LoadMoviesThreaded));
+            lThr.Start();
+        }
+
+        public void LoadMoviesThreaded()
+        {
             if (_Movies != null)
             {
                 LoadArtists();
-                this.moviesWall.LoadMovies(_Movies);
+                moviesWall.LoadMovies(_Movies);
             }
+            btnSearch.AnimationStop();
         }
 
         private void LoadArtists()
@@ -42,15 +55,23 @@ namespace KnkMovieForms.Usercontrols
             if(cmbArtist.Items.Count==0)
             {
                 cmbArtist.DisplayMember = "ArtistName";
-                cmbArtist.DataSource = new Castings(_Movies.Connection).Datasource();
-                cmbArtist.SelectedIndex = -1;
-                
+                var lCasting= new Castings(_Movies.Connection).Datasource();
+                if (InvokeRequired)
+                    this.Invoke(new delCastingList(ReloadArtist), lCasting);
+                else
+                    ReloadArtist(lCasting);
             }
+        }
+
+        private void ReloadArtist(List<Casting> aList)
+        {
+            cmbArtist.DataSource = aList;
+            cmbArtist.SelectedIndex = -1;
         }
 
         private void MovieWall_SizeChanged(object sender, EventArgs e)
         {
-            LoadMovies(_Movies);
+            if(_Initialized) LoadMovies(_Movies);
         }
 
         private void OnPerformSearch()

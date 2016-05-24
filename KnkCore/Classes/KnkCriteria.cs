@@ -33,22 +33,22 @@ namespace KnkCore
 
         private void AddLinkParameters(Tdad aItem)
         {
-            var lPrs = KnkUtility.GetProperties<Tlst>();
+            var lPrs = KnkInterfacesUtils.GetProperties<Tlst>();
             foreach (string lPar in KnkLinkFieldsList())
             {
                 var lPrp = lPrs.Where(p => p.Name.ToLower().Equals(lPar.ToLower())).FirstOrDefault();
                 if (lPrp != null && aItem.PropertyGet(lPrp.Name) != null)
                 {
-                    AddParameter(KnkUtility.GetPropertyType(lPrp), lPrp.Name, OperatorsEnu.Equal, aItem.PropertyGet(lPrp.Name));
+                    AddParameter(KnkInterfacesUtils.GetPropertyType(lPrp), lPrp.Name, OperatorsEnu.Equal, aItem.PropertyGet(lPrp.Name));
                 }
             }
             var lEnt = this.EntityRelation();
             if (!string.IsNullOrEmpty(lEnt?.RelatedKey))
             {
-                var lPrp = KnkUtility.GetProperties<Tdad>().Where(p => p.Name.Equals(aItem.SourceEntity.PrimaryKey)).FirstOrDefault();
+                var lPrp = KnkInterfacesUtils.GetProperties<Tdad>().Where(p => p.Name.Equals(aItem.SourceEntity.PrimaryKey)).FirstOrDefault();
                 if (lPrp != null && aItem.PropertyGet(lEnt.RelatedKey)!=null)
                 {
-                    AddParameter(KnkUtility.GetPropertyType(lPrp), lEnt.RelatedKey, OperatorsEnu.Equal, aItem.PropertyGet(lEnt.RelatedKey));
+                    AddParameter(KnkInterfacesUtils.GetPropertyType(lPrp), lEnt.RelatedKey, OperatorsEnu.Equal, aItem.PropertyGet(lEnt.RelatedKey));
                 }
             }
 

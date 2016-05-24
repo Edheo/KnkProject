@@ -85,11 +85,11 @@ namespace KnkCore
             string lRet = string.Empty;
             if (InnerParammerters.Count > 0)
             {
-                lRet = KnkUtility.JoinParameters(InnerParammerters);
+                lRet = KnkInterfacesUtils.JoinParameters(InnerParammerters);
             }
             else
             {
-                string[] lCommand = KnkUtility.GetEnumDescription(Operator).Split('|');
+                string[] lCommand = KnkInterfacesUtils.GetEnumDescription(Operator).Split('|');
                 if (Value == null && lCommand.Length > 1)
                     lRet = lCommand[1];
                 else

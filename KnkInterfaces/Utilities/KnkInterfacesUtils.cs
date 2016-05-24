@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace KnkInterfaces.Utilities
 {
-    public static class KnkUtility 
+    public static class KnkInterfacesUtils 
     {
         public static T CopyRecord<T>(KnkListItf aOwner, DataRow aRow) where T: KnkItemItf, new()
         {

@@ -28,43 +28,50 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.pnlSearch = new System.Windows.Forms.Panel();
+            this.floSearch = new System.Windows.Forms.FlowLayoutPanel();
             this.lblSearch = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.lblArtist = new System.Windows.Forms.Label();
             this.cmbArtist = new System.Windows.Forms.ComboBox();
             this.chkViewed = new System.Windows.Forms.CheckBox();
-            this.btnSearch = new KnkMovieForms.Usercontrols.MoviePictureBox();
             this.moviesWall = new KnkMovieForms.Usercontrols.MovieWallLayout();
-            this.panel1.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.btnClear = new KnkMovieForms.Usercontrols.MoviePictureBox();
+            this.btnSearch = new KnkMovieForms.Usercontrols.MoviePictureBox();
+            this.pnlSearch.SuspendLayout();
+            this.floSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnClear)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSearch)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // pnlSearch
             // 
-            this.panel1.BackColor = System.Drawing.Color.DimGray;
-            this.panel1.Controls.Add(this.flowLayoutPanel1);
-            this.panel1.Controls.Add(this.btnSearch);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(810, 47);
-            this.panel1.TabIndex = 0;
+            this.pnlSearch.BackColor = System.Drawing.Color.Black;
+            this.pnlSearch.Controls.Add(this.floSearch);
+            this.pnlSearch.Controls.Add(this.btnClear);
+            this.pnlSearch.Controls.Add(this.btnSearch);
+            this.pnlSearch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlSearch.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pnlSearch.Location = new System.Drawing.Point(0, 0);
+            this.pnlSearch.Name = "pnlSearch";
+            this.pnlSearch.Size = new System.Drawing.Size(810, 76);
+            this.pnlSearch.TabIndex = 0;
             // 
-            // flowLayoutPanel1
+            // floSearch
             // 
-            this.flowLayoutPanel1.Controls.Add(this.lblSearch);
-            this.flowLayoutPanel1.Controls.Add(this.txtSearch);
-            this.flowLayoutPanel1.Controls.Add(this.lblArtist);
-            this.flowLayoutPanel1.Controls.Add(this.cmbArtist);
-            this.flowLayoutPanel1.Controls.Add(this.chkViewed);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(762, 47);
-            this.flowLayoutPanel1.TabIndex = 3;
+            this.floSearch.BackColor = System.Drawing.Color.Transparent;
+            this.floSearch.Controls.Add(this.lblSearch);
+            this.floSearch.Controls.Add(this.txtSearch);
+            this.floSearch.Controls.Add(this.lblArtist);
+            this.floSearch.Controls.Add(this.cmbArtist);
+            this.floSearch.Controls.Add(this.chkViewed);
+            this.floSearch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.floSearch.Font = new System.Drawing.Font("Verdana", 8.25F);
+            this.floSearch.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.floSearch.Location = new System.Drawing.Point(0, 0);
+            this.floSearch.Name = "floSearch";
+            this.floSearch.Size = new System.Drawing.Size(658, 76);
+            this.floSearch.TabIndex = 3;
             // 
             // lblSearch
             // 
@@ -72,31 +79,31 @@
             this.lblSearch.Location = new System.Drawing.Point(6, 6);
             this.lblSearch.Margin = new System.Windows.Forms.Padding(6);
             this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(41, 13);
+            this.lblSearch.Size = new System.Drawing.Size(47, 13);
             this.lblSearch.TabIndex = 0;
             this.lblSearch.Text = "Search";
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(56, 3);
+            this.txtSearch.Location = new System.Drawing.Point(62, 3);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(208, 20);
+            this.txtSearch.Size = new System.Drawing.Size(208, 21);
             this.txtSearch.TabIndex = 1;
             // 
             // lblArtist
             // 
             this.lblArtist.AutoSize = true;
-            this.lblArtist.Location = new System.Drawing.Point(273, 6);
+            this.lblArtist.Location = new System.Drawing.Point(279, 6);
             this.lblArtist.Margin = new System.Windows.Forms.Padding(6);
             this.lblArtist.Name = "lblArtist";
-            this.lblArtist.Size = new System.Drawing.Size(30, 13);
+            this.lblArtist.Size = new System.Drawing.Size(37, 13);
             this.lblArtist.TabIndex = 2;
             this.lblArtist.Text = "Artist";
             // 
             // cmbArtist
             // 
             this.cmbArtist.FormattingEnabled = true;
-            this.cmbArtist.Location = new System.Drawing.Point(312, 3);
+            this.cmbArtist.Location = new System.Drawing.Point(325, 3);
             this.cmbArtist.Name = "cmbArtist";
             this.cmbArtist.Size = new System.Drawing.Size(177, 21);
             this.cmbArtist.TabIndex = 3;
@@ -107,14 +114,40 @@
             this.chkViewed.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkViewed.Checked = true;
             this.chkViewed.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.chkViewed.Location = new System.Drawing.Point(498, 6);
+            this.chkViewed.Location = new System.Drawing.Point(511, 6);
             this.chkViewed.Margin = new System.Windows.Forms.Padding(6);
             this.chkViewed.Name = "chkViewed";
-            this.chkViewed.Size = new System.Drawing.Size(61, 17);
+            this.chkViewed.Size = new System.Drawing.Size(67, 17);
             this.chkViewed.TabIndex = 4;
             this.chkViewed.Text = "Viewed";
             this.chkViewed.ThreeState = true;
             this.chkViewed.UseVisualStyleBackColor = true;
+            // 
+            // moviesWall
+            // 
+            this.moviesWall.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.moviesWall.Location = new System.Drawing.Point(0, 76);
+            this.moviesWall.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.moviesWall.Name = "moviesWall";
+            this.moviesWall.Size = new System.Drawing.Size(810, 461);
+            this.moviesWall.TabIndex = 1;
+            // 
+            // btnClear
+            // 
+            this.btnClear.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnClear.Filename = null;
+            this.btnClear.FontName = "Verdana";
+            this.btnClear.Fontstyle = System.Drawing.FontStyle.Bold;
+            this.btnClear.ImageAnimation = global::KnkMovieForms.Properties.Resources.Ani200_3;
+            this.btnClear.LineAlignment = System.Drawing.StringAlignment.Far;
+            this.btnClear.Location = new System.Drawing.Point(658, 0);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(76, 76);
+            this.btnClear.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnClear.TabIndex = 4;
+            this.btnClear.TabStop = false;
+            this.btnClear.Text = "Clean";
+            this.btnClear.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
             // btnSearch
             // 
@@ -122,11 +155,11 @@
             this.btnSearch.Filename = null;
             this.btnSearch.FontName = "Verdana";
             this.btnSearch.Fontstyle = System.Drawing.FontStyle.Bold;
-            this.btnSearch.Image = global::KnkMovieForms.Properties.Resources.search;
-            this.btnSearch.LineAlignment = System.Drawing.StringAlignment.Center;
-            this.btnSearch.Location = new System.Drawing.Point(762, 0);
+            this.btnSearch.ImageAnimation = global::KnkMovieForms.Properties.Resources.Ani200_5;
+            this.btnSearch.LineAlignment = System.Drawing.StringAlignment.Far;
+            this.btnSearch.Location = new System.Drawing.Point(734, 0);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(48, 47);
+            this.btnSearch.Size = new System.Drawing.Size(76, 76);
             this.btnSearch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnSearch.TabIndex = 2;
             this.btnSearch.TabStop = false;
@@ -134,26 +167,19 @@
             this.btnSearch.TextAlignment = System.Drawing.StringAlignment.Center;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // moviesWall
-            // 
-            this.moviesWall.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.moviesWall.Location = new System.Drawing.Point(0, 47);
-            this.moviesWall.Name = "moviesWall";
-            this.moviesWall.Size = new System.Drawing.Size(810, 490);
-            this.moviesWall.TabIndex = 1;
-            // 
             // MovieWall
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.moviesWall);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pnlSearch);
             this.Name = "MovieWall";
             this.Size = new System.Drawing.Size(810, 537);
             this.SizeChanged += new System.EventHandler(this.MovieWall_SizeChanged);
-            this.panel1.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
+            this.pnlSearch.ResumeLayout(false);
+            this.floSearch.ResumeLayout(false);
+            this.floSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnClear)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSearch)).EndInit();
             this.ResumeLayout(false);
 
@@ -161,14 +187,15 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlSearch;
         private MovieWallLayout moviesWall;
         private MoviePictureBox btnSearch;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label lblSearch;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel floSearch;
         private System.Windows.Forms.Label lblArtist;
         private System.Windows.Forms.ComboBox cmbArtist;
         private System.Windows.Forms.CheckBox chkViewed;
+        private MoviePictureBox btnClear;
     }
 }
