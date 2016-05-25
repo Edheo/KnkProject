@@ -14,6 +14,8 @@ namespace KnkMovieForms.Usercontrols
 {
     partial class MovieWallLayout : UserControl
     {
+        public event CancelEventHandler LoadingData;
+
         delegate void delNoParams();
         delegate void delMovieThumb(MovieThumb aMovie);
 
@@ -65,8 +67,11 @@ namespace KnkMovieForms.Usercontrols
 
         private void LoadItems(int aTo)
         {
+            //this first alwats
             if (_LoadingMovies) return;
             _LoadingMovies = true;
+
+            this.flowMovies.SuspendLayout();
             int c = flowMovies.Controls.Count;
             int i = 0;
             foreach (var lMovie in _Movies.Items)
@@ -82,7 +87,19 @@ namespace KnkMovieForms.Usercontrols
                 i++;
                 if (i > aTo) break;
             }
+
+            if (InvokeRequired)
+                this.Invoke(new delNoParams(ReEnableLayout));
+            else
+                ReEnableLayout();
+
+            //this last alwats
             _LoadingMovies = false;
+        }
+
+        private void ReEnableLayout()
+        {
+            this.flowMovies.ResumeLayout(true);
         }
 
         private void ClearMovies()
@@ -151,15 +168,32 @@ namespace KnkMovieForms.Usercontrols
         {
             if (aOldValue < aNewValue && flowMovies.Controls.Count < _Movies.Count())
             {
-                var lMax = (this.flowMovies.VerticalScroll.Maximum - this.flowMovies.ClientSize.Height) * 0.8;
-                if (aNewValue > lMax)
+                int lLast = CurrentLastScrolledRow(aNewValue);
+                int lLoad = LoadedRows();
+                if (lLast >= lLoad)
                 {
-                    int aItems = flowMovies.Controls.Count + VisibleCols();
-                    var lThr = new Thread(() => LoadItems(2 * aItems));
+                    bool aRefres = (aNewValue == this.flowMovies.VerticalScroll.Maximum);
+                    int aItems = flowMovies.Controls.Count + 2 * VisibleCols();
+                    var lThr = new Thread(() => LoadItems(aItems));
                     lThr.Start();
+                }
+                else
+                {
+                    lLast = lLoad;
                 }
             }
         }
 
+        private int LoadedRows()
+        {
+            var lHowMany = this.flowMovies.Controls.Count / (float)this.VisibleCols();
+            return (int)Math.Ceiling(lHowMany);
+        }
+
+        private int CurrentLastScrolledRow(int aValue)
+        {
+            var lCurrent = (aValue + this.flowMovies.ClientSize.Height) / (float)MovieControlHeight();
+            return (int)Math.Ceiling(lCurrent);
+        }
     }
 }
