@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using KnkSolutionMovies.Lists;
 using KnkInterfaces.Interfaces;
@@ -30,12 +27,24 @@ namespace KnkMovieForms.Usercontrols
             InitializeComponent();
             _Initialized = true;
             btnSearch.AnimationStop();
+            this.moviesWall.LoadingItems += (s, e) => { OnStart(); };
+            this.moviesWall.LoadedItems += (s, e) => { OnFinish(); };
+        }
+
+        private void OnStart()
+        {
+            btnSearch.AnimationStart();
+        }
+
+        private void OnFinish()
+        {
+            btnSearch.Caption = $"{moviesWall.LoadedMovies()}/{_Movies.Count()}";
+            btnSearch.AnimationStop();
         }
 
         public void LoadMovies(Movies aMovies)
         {
             _Movies = aMovies;
-            btnSearch.AnimationStart();
             Thread lThr = new Thread(new ThreadStart(LoadMoviesThreaded));
             lThr.Start();
         }
@@ -47,7 +56,6 @@ namespace KnkMovieForms.Usercontrols
                 LoadArtists();
                 moviesWall.LoadMovies(_Movies);
             }
-            btnSearch.AnimationStop();
         }
 
         private void LoadArtists()

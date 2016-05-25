@@ -22,6 +22,11 @@ namespace KnkInterfaces.Classes
             _value = aValue;
         }
 
+        public override string ToString()
+        {
+            return GetInnerValue()?.ToString();
+        }
+
         public static implicit operator KnkEntityIdentifier(int value)
         {
             return new KnkEntityIdentifier() { _value = value };

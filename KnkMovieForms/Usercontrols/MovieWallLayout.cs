@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using KnkSolutionMovies.Lists;
 using System.Threading;
+using System.Drawing;
 
 namespace KnkMovieForms.Usercontrols
 {
     partial class MovieWallLayout : UserControl
     {
-        public event CancelEventHandler LoadingData;
+        public event CancelEventHandler LoadingItems;
+        public event CancelEventHandler LoadedItems;
 
         delegate void delNoParams();
         delegate void delMovieThumb(MovieThumb aMovie);
@@ -26,6 +22,18 @@ namespace KnkMovieForms.Usercontrols
         {
             InitializeComponent();
             flowMovies.Scroll += (sender, e) => OnScrolling(e.OldValue, e.NewValue);
+            flowMovies.MouseWheel += (sender, e) => OnScrolling(flowMovies.VerticalScroll.Value, flowMovies.VerticalScroll.Value - e.Delta);
+            flowMovies.PreviewKeyDown += (sender, e) => MappingKeys(e.KeyCode);
+        }
+
+        public void OnLoadingItems()
+        {
+            LoadingItems?.Invoke(this, new CancelEventArgs());
+        }
+
+        public void OnLoadedItems()
+        {
+            LoadedItems?.Invoke(this, new CancelEventArgs());
         }
 
         public void LoadMovies(Movies aMovies)
@@ -65,18 +73,24 @@ namespace KnkMovieForms.Usercontrols
             return lMovieWidth;
         }
 
+        public int LoadedMovies()
+        {
+            return flowMovies.Controls.Count;
+        }
+
         private void LoadItems(int aTo)
         {
             //this first alwats
             if (_LoadingMovies) return;
             _LoadingMovies = true;
+            OnLoadingItems();
 
             this.flowMovies.SuspendLayout();
-            int c = flowMovies.Controls.Count;
+            int lMovies = LoadedMovies();
             int i = 0;
             foreach (var lMovie in _Movies.Items)
             {
-                if (i > c)
+                if (i > lMovies)
                 {
                     MovieThumb lMovieThumb = new MovieThumb(lMovie, MovieWidth());
                     if (InvokeRequired)
@@ -92,14 +106,16 @@ namespace KnkMovieForms.Usercontrols
                 this.Invoke(new delNoParams(ReEnableLayout));
             else
                 ReEnableLayout();
-
+            OnLoadedItems();
             //this last alwats
             _LoadingMovies = false;
         }
 
         private void ReEnableLayout()
         {
-            this.flowMovies.ResumeLayout(true);
+            flowMovies.ResumeLayout(true);
+            flowMovies.Refresh();
+            flowMovies.Focus();
         }
 
         private void ClearMovies()
@@ -164,16 +180,42 @@ namespace KnkMovieForms.Usercontrols
             return aHeight == 0 ? 0 : (int)Math.Ceiling(flowMovies.ClientSize.Height / (float)aHeight);
         }
 
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            this.flowMovies.Focus();
+        }
+
+        void MappingKeys(Keys aKeyPressed)
+        {
+            switch (aKeyPressed)
+            {
+                case Keys.PageUp:
+                    if(flowMovies.VerticalScroll.Minimum< flowMovies.VerticalScroll.Value - flowMovies.VerticalScroll.LargeChange)
+                        flowMovies.VerticalScroll.Value -= flowMovies.VerticalScroll.LargeChange;
+                    else
+                        flowMovies.VerticalScroll.Value = flowMovies.VerticalScroll.Minimum;
+                    break;
+                case Keys.PageDown:
+                    var lValue = flowMovies.VerticalScroll.Value;
+                    OnScrolling(lValue, lValue + flowMovies.VerticalScroll.LargeChange);
+                    if (flowMovies.VerticalScroll.Maximum > flowMovies.VerticalScroll.Value + flowMovies.VerticalScroll.LargeChange)
+                        flowMovies.VerticalScroll.Value += flowMovies.VerticalScroll.LargeChange;
+                    else
+                        flowMovies.VerticalScroll.Value = flowMovies.VerticalScroll.Maximum;
+                    break;
+            }
+        }
+
         private void OnScrolling(int aOldValue, int aNewValue)
         {
-            if (aOldValue < aNewValue && flowMovies.Controls.Count < _Movies.Count())
+            if (aOldValue < aNewValue && LoadedMovies() <= _Movies.Count())
             {
                 int lLast = CurrentLastScrolledRow(aNewValue);
                 int lLoad = LoadedRows();
                 if (lLast >= lLoad)
                 {
                     bool aRefres = (aNewValue == this.flowMovies.VerticalScroll.Maximum);
-                    int aItems = flowMovies.Controls.Count + 2 * VisibleCols();
+                    int aItems = LoadedMovies() + 2 * VisibleCols();
                     var lThr = new Thread(() => LoadItems(aItems));
                     lThr.Start();
                 }
@@ -186,7 +228,7 @@ namespace KnkMovieForms.Usercontrols
 
         private int LoadedRows()
         {
-            var lHowMany = this.flowMovies.Controls.Count / (float)this.VisibleCols();
+            var lHowMany = LoadedMovies() / (float)this.VisibleCols();
             return (int)Math.Ceiling(lHowMany);
         }
 
