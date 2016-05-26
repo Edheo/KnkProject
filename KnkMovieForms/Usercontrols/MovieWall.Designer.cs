@@ -35,13 +35,11 @@
             this.lblArtist = new System.Windows.Forms.Label();
             this.cmbArtist = new System.Windows.Forms.ComboBox();
             this.chkViewed = new System.Windows.Forms.CheckBox();
-            this.btnClear = new KnkMovieForms.Usercontrols.MoviePictureBox();
-            this.btnSearch = new KnkMovieForms.Usercontrols.MoviePictureBox();
+            this.btnClear = new KnkMovieForms.Usercontrols.MoviePicture();
+            this.btnSearch = new KnkMovieForms.Usercontrols.MoviePicture();
             this.moviesWall = new KnkMovieForms.Usercontrols.MovieWallLayout();
             this.pnlSearch.SuspendLayout();
             this.floSearch.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnClear)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnSearch)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlSearch
@@ -129,7 +127,7 @@
             this.btnClear.Filename = null;
             this.btnClear.FontName = "Verdana";
             this.btnClear.FontSize = 10;
-            this.btnClear.Fontstyle = System.Drawing.FontStyle.Bold;
+            this.btnClear.FontstyleText = System.Drawing.FontStyle.Bold;
             this.btnClear.LineAlignment = System.Drawing.StringAlignment.Far;
             this.btnClear.Location = new System.Drawing.Point(658, 0);
             this.btnClear.Name = "btnClear";
@@ -147,7 +145,7 @@
             this.btnSearch.Filename = null;
             this.btnSearch.FontName = "Verdana";
             this.btnSearch.FontSize = 10;
-            this.btnSearch.Fontstyle = System.Drawing.FontStyle.Bold;
+            this.btnSearch.FontstyleText = System.Drawing.FontStyle.Bold;
             this.btnSearch.LineAlignment = System.Drawing.StringAlignment.Far;
             this.btnSearch.Location = new System.Drawing.Point(734, 0);
             this.btnSearch.Name = "btnSearch";
@@ -181,8 +179,6 @@
             this.pnlSearch.ResumeLayout(false);
             this.floSearch.ResumeLayout(false);
             this.floSearch.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnClear)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnSearch)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -191,13 +187,13 @@
 
         private System.Windows.Forms.Panel pnlSearch;
         private MovieWallLayout moviesWall;
-        private MoviePictureBox btnSearch;
+        private MoviePicture btnSearch;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.FlowLayoutPanel floSearch;
         private System.Windows.Forms.Label lblArtist;
         private System.Windows.Forms.ComboBox cmbArtist;
         private System.Windows.Forms.CheckBox chkViewed;
-        private MoviePictureBox btnClear;
+        private MoviePicture btnClear;
     }
 }

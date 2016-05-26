@@ -30,20 +30,16 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.pnlBar = new System.Windows.Forms.Panel();
-            this.picVals = new KnkMovieForms.Usercontrols.MoviePictureBox();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.picPoster = new KnkMovieForms.Usercontrols.MoviePictureBox();
+            this.picPoster = new KnkMovieForms.Usercontrols.MoviePicture();
+            this.picVals = new KnkMovieForms.Usercontrols.MoviePicture();
             this.panel1.SuspendLayout();
             this.pnlBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picVals)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPoster)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Black;
             this.panel1.Controls.Add(this.pnlBar);
-            this.panel1.Controls.Add(this.lblTitle);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.ForeColor = System.Drawing.Color.LightSkyBlue;
             this.panel1.Location = new System.Drawing.Point(0, 360);
@@ -56,50 +52,53 @@
             // 
             this.pnlBar.Controls.Add(this.picVals);
             this.pnlBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlBar.Location = new System.Drawing.Point(0, 14);
+            this.pnlBar.Location = new System.Drawing.Point(0, 0);
             this.pnlBar.Name = "pnlBar";
-            this.pnlBar.Size = new System.Drawing.Size(240, 36);
+            this.pnlBar.Size = new System.Drawing.Size(240, 50);
             this.pnlBar.TabIndex = 4;
-            // 
-            // picVals
-            // 
-            this.picVals.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picVals.Filename = null;
-            this.picVals.FontName = "Verdana";
-            this.picVals.Fontstyle = System.Drawing.FontStyle.Bold;
-            this.picVals.LineAlignment = System.Drawing.StringAlignment.Center;
-            this.picVals.Location = new System.Drawing.Point(0, 0);
-            this.picVals.Name = "picVals";
-            this.picVals.Size = new System.Drawing.Size(240, 36);
-            this.picVals.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picVals.TabIndex = 3;
-            this.picVals.TabStop = false;
-            this.picVals.TextAlignment = System.Drawing.StringAlignment.Center;
-            // 
-            // lblTitle
-            // 
-            this.lblTitle.BackColor = System.Drawing.Color.Transparent;
-            this.lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblTitle.Location = new System.Drawing.Point(0, 0);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(240, 14);
-            this.lblTitle.TabIndex = 3;
-            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // picPoster
             // 
+            this.picPoster.BackColor = System.Drawing.Color.Black;
+            this.picPoster.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.picPoster.Caption = null;
             this.picPoster.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picPoster.Filename = null;
+            this.picPoster.FontColorCaption = System.Drawing.Color.White;
+            this.picPoster.FontColorText = System.Drawing.Color.White;
             this.picPoster.FontName = "Verdana";
-            this.picPoster.Fontstyle = System.Drawing.FontStyle.Bold;
+            this.picPoster.FontSize = null;
             this.picPoster.LineAlignment = System.Drawing.StringAlignment.Center;
             this.picPoster.Location = new System.Drawing.Point(0, 0);
             this.picPoster.Name = "picPoster";
+            this.picPoster.ResourceImage = null;
             this.picPoster.Size = new System.Drawing.Size(240, 360);
             this.picPoster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picPoster.TabIndex = 0;
             this.picPoster.TabStop = false;
             this.picPoster.TextAlignment = System.Drawing.StringAlignment.Center;
+            // 
+            // picVals
+            // 
+            this.picVals.BackColor = System.Drawing.Color.Black;
+            this.picVals.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.picVals.Caption = null;
+            this.picVals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picVals.Filename = null;
+            this.picVals.FontColorCaption = System.Drawing.Color.LightSkyBlue;
+            this.picVals.FontColorText = System.Drawing.Color.White;
+            this.picVals.FontName = "Verdana";
+            this.picVals.FontSize = null;
+            this.picVals.LineAlignment = System.Drawing.StringAlignment.Far;
+            this.picVals.Location = new System.Drawing.Point(0, 0);
+            this.picVals.Margin = new System.Windows.Forms.Padding(0);
+            this.picVals.Name = "picVals";
+            this.picVals.ResourceImage = null;
+            this.picVals.Size = new System.Drawing.Size(240, 50);
+            this.picVals.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picVals.TabIndex = 3;
+            this.picVals.TabStop = false;
+            this.picVals.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
             // MovieThumb
             // 
@@ -111,21 +110,17 @@
             this.MinimumSize = new System.Drawing.Size(240, 410);
             this.Name = "MovieThumb";
             this.Size = new System.Drawing.Size(240, 410);
-            this.MouseEnter += new System.EventHandler(this.MovieThumb_MouseEnter);
             this.panel1.ResumeLayout(false);
             this.pnlBar.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picVals)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picPoster)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private MoviePictureBox picPoster;
+        private MoviePicture picPoster;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Panel pnlBar;
-        private MoviePictureBox picVals;
+        private MoviePicture picVals;
     }
 }

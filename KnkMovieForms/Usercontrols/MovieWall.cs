@@ -25,10 +25,12 @@ namespace KnkMovieForms.Usercontrols
         public MovieWall()
         {
             InitializeComponent();
+            btnClear.Factor(new System.Drawing.Size(1, 1));
+            btnSearch.Factor(new System.Drawing.Size(1, 1));
             _Initialized = true;
             btnSearch.AnimationStop();
-            this.moviesWall.LoadingItems += (s, e) => { OnStart(); };
-            this.moviesWall.LoadedItems += (s, e) => { OnFinish(); };
+            moviesWall.LoadingItems += (s, e) => { OnStart(); };
+            moviesWall.LoadedItems += (s, e) => { OnFinish(); };
         }
 
         private void OnStart()

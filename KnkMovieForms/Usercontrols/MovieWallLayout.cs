@@ -64,7 +64,7 @@ namespace KnkMovieForms.Usercontrols
             int lMovieWidth = 0;
             if (LimitItems() < _Movies.Items.Count)
             {
-                lMovieWidth = MovieControlWidth(System.Windows.Forms.SystemInformation.VerticalScrollBarWidth);
+                lMovieWidth = MovieControlWidth(SystemInformation.VerticalScrollBarWidth);
             }
             else
             {
@@ -109,6 +109,16 @@ namespace KnkMovieForms.Usercontrols
             OnLoadedItems();
             //this last alwats
             _LoadingMovies = false;
+        }
+
+        private void ShowMovie(MovieThumb aMovie)
+        {
+            this.SuspendLayout();
+            MovieControl lCtl = new MovieControl(aMovie.Movie());
+            lCtl.Dock = DockStyle.Fill;
+            flowMovies.Visible = false;
+            this.Controls.Add(lCtl);
+            this.ResumeLayout();
         }
 
         private void ReEnableLayout()

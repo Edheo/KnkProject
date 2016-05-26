@@ -50,6 +50,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Usercontrols\MovieControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Usercontrols\MovieControl.Designer.cs">
+      <DependentUpon>MovieControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Usercontrols\MoviePicture.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Usercontrols\MoviePicture.Designer.cs">
+      <DependentUpon>MoviePicture.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\KnkMovieFormsUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -75,15 +87,15 @@
     <Compile Include="Usercontrols\MovieWallLayout.Designer.cs">
       <DependentUpon>MovieWallLayout.cs</DependentUpon>
     </Compile>
-    <Compile Include="Usercontrols\MoviePictureBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Usercontrols\MoviePictureBox.resx">
-      <DependentUpon>MoviePictureBox.cs</DependentUpon>
+    <EmbeddedResource Include="Usercontrols\MovieControl.resx">
+      <DependentUpon>MovieControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Usercontrols\MoviePicture.resx">
+      <DependentUpon>MoviePicture.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Usercontrols\MovieThumb.resx">
       <DependentUpon>MovieThumb.cs</DependentUpon>

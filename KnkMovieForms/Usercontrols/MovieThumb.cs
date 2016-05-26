@@ -17,6 +17,11 @@ namespace KnkMovieForms.Usercontrols
     {
         private Movie _Movie;
 
+        public Movie Movie()
+        {
+            return _Movie;
+        }
+
         public MovieThumb(Movie aMovie, int aWidth)
         {
             InitializeComponent();
@@ -28,8 +33,7 @@ namespace KnkMovieForms.Usercontrols
         private void SetMovie(Movie aMovie)
         {
             _Movie = aMovie;
-            lblTitle.Font = new Font(lblTitle.Font, FontStyle.Bold);
-            lblTitle.Text = $"{_Movie.Title} ({_Movie.Year})";
+            picVals.Caption = $"{_Movie.Title} ({_Movie.Year})";
             picPoster.Filename = _Movie.Extender.Poster?.Extender.GetFileName();
             string lText = $"Votes:{_Movie.Votes} Rating:{_Movie.Rating:0.0}";
             if (_Movie.UserRating != null)
@@ -41,7 +45,6 @@ namespace KnkMovieForms.Usercontrols
                 lText = lText + $"\r\nLast:{_Movie.Extender.LastPlayed():dd/MM/yyyy} Views:{_Movie.Extender.Plays.Count()}";
             }
             picVals.Text = lText;
-
         }
 
         private void OnRemarkMovie(object sender, EventArgs e)
@@ -49,7 +52,7 @@ namespace KnkMovieForms.Usercontrols
             if (!IsMarked())
             {
                 this.Parent.SuspendLayout();
-                picPoster.PutBorder();
+                picPoster.ReMarkMovie();
                 //Control lContainer = this.Container as Control;
                 var controls = from lCtn in Parent.Controls.OfType<MovieThumb>() where lCtn != this && lCtn.IsMarked() select lCtn;
                 foreach (var lCtl in controls)
@@ -72,8 +75,7 @@ namespace KnkMovieForms.Usercontrols
 
         public static Size NormalSize()
         {
-            //new Size(240, 410);
-            return new Size(200, 360);
+            return new Size(200, 310 + 50);
         }
 
         static float Aspect()
@@ -114,9 +116,5 @@ namespace KnkMovieForms.Usercontrols
             Size = new Size(aWidth, GetHeightFromWidth(aWidth));
         }
 
-        private void MovieThumb_MouseEnter(object sender, EventArgs e)
-        {
-
-        }
     }
 }

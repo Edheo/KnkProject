@@ -24,6 +24,7 @@ namespace KnkMovieForms.Usercontrols
         private Image _ResourceImage;
         private int? _FontSize;
         private string _Caption;
+        private float _Factor;
 
         public string Filename
         {
@@ -72,6 +73,8 @@ namespace KnkMovieForms.Usercontrols
         public Image ResourceImage { get { return _ResourceImage; } set { _ResourceImage = value; } }
 
         public int? FontSize { get { return _FontSize; } set { _FontSize = value; } }
+
+        public float Factor { get { return _Factor; } set { _Factor = value; } }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -206,14 +209,20 @@ namespace KnkMovieForms.Usercontrols
 
         protected override void OnResize(EventArgs e)
         {
-            if(this.Dock==DockStyle.Left || this.Dock==DockStyle.Right)
+            if (Factor!=0 && (this.Dock == DockStyle.Left || this.Dock == DockStyle.Right))
             {
-                this.Size = new Size(this.Height, this.Height);
+                this.Size = new Size((int)(this.Height * _Factor), this.Height);
+            }
+            else
+            if (Factor != 0 && (this.Dock == DockStyle.Top || this.Dock == DockStyle.Bottom))
+            {
+                this.Size = new Size(this.Width, (int)(this.Width * _Factor));
             }
         }
 
-        public void PutBorder()
+        public void ReMarkMovie()
         {
+            this.OnClick(new EventArgs());
             //this.Padding = new Padding(5, 5, 5, 5);
             //lPic.Dock = DockStyle.Fill;
             PictureBox lPic = new PictureBox();
@@ -223,6 +232,7 @@ namespace KnkMovieForms.Usercontrols
             lPic.Image = _ResourceImage;
             lPic.Location = new Point(3, 3);
             lPic.Size = new Size(this.Width - 6, this.Height - 6);
+            lPic.Click += (sender, e) => { this.OnClick(e); };
             this.Controls.Add(lPic);
         }
 
