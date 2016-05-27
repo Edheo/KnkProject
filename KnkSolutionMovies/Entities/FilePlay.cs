@@ -7,7 +7,7 @@ namespace KnkSolutionMovies.Entities
     public class FilePlay : KnkItemBase
     {
         #region Interface/Implementation
-        public FilePlay():base(new KnkTableEntity("FilePlays","IdPlay"))
+        public FilePlay():base(new KnkTableEntity("vieMoviePlays", "IdPlay"))
         {
         }
 
@@ -19,11 +19,25 @@ namespace KnkSolutionMovies.Entities
         public DateTime DatePlay { get; set; }
         public int Playlenght { get; set; }
         public bool Finishedplay { get; set; }
+
+        public string Filename { get; set; }
+        public string Path { get; set; }
+
         #endregion Class Properties
+
+        public string Date()
+        {
+            return DatePlay.ToString("dd/MM/yyyy");
+        }
+
+        public string Time()
+        {
+            return DatePlay.ToString("hh:mm");
+        }
 
         public override string ToString()
         {
-            return Playlenght.ToString();
+            return $"{DatePlay:dd/MM/yyyy - hh:mm}";
         }
 
     }

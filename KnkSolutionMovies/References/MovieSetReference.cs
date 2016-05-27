@@ -7,7 +7,8 @@ namespace KnkSolutionMovies.References
     [DefaultProperty("Text")]
     public class MovieSetReference : KnkEntityIdentifier<Movie,MovieSet>
     {
-        public MovieSetReference(Movie aMovie, string aProperty) : base(aMovie, aProperty, aMovie.Connection.GetItem<MovieSet>)
+        public MovieSetReference(Movie aMovie, string aProperty) 
+        : base(aMovie, aProperty, aMovie.Connection.GetItem<MovieSet>)
         {
         }
 

@@ -38,19 +38,22 @@ namespace KnkMovieForms.Usercontrols
 
         public void LoadMovies(Movies aMovies)
         {
-            _Movies = aMovies;
-            if (InvokeRequired)
-                this.Invoke(new delNoParams(ClearMovies));
-            else
-                ClearMovies();
-
-            if (_Movies != null)
+            if (this.Controls.Contains(flowMovies))
             {
+                _Movies = aMovies;
                 if (InvokeRequired)
-                    this.Invoke(new delNoParams(SetScrollBars));
+                    this.Invoke(new delNoParams(ClearMovies));
                 else
-                    SetScrollBars();
-                LoadItems(VisibleItems());
+                    ClearMovies();
+
+                if (_Movies != null)
+                {
+                    if (InvokeRequired)
+                        this.Invoke(new delNoParams(SetScrollBars));
+                    else
+                        SetScrollBars();
+                    LoadItems(VisibleItems());
+                }
             }
         }
 
@@ -93,6 +96,7 @@ namespace KnkMovieForms.Usercontrols
                 if (i > lMovies)
                 {
                     MovieThumb lMovieThumb = new MovieThumb(lMovie, MovieWidth());
+                    lMovieThumb.Click += (sender, e) => { ShowMovie((MovieThumb)sender); };
                     if (InvokeRequired)
                         this.Invoke(new delMovieThumb(AddMovieControl), lMovieThumb);
                     else
@@ -116,9 +120,25 @@ namespace KnkMovieForms.Usercontrols
             this.SuspendLayout();
             MovieControl lCtl = new MovieControl(aMovie.Movie());
             lCtl.Dock = DockStyle.Fill;
-            flowMovies.Visible = false;
+            lCtl.Close += (sender, e) => { CloseMovie((MovieControl)sender); };
+            this.Controls.Clear();
             this.Controls.Add(lCtl);
             this.ResumeLayout();
+        }
+
+        private void CloseMovie(MovieControl aMovie)
+        {
+            this.SuspendLayout();
+            int lIdm = aMovie.Movie.IdMovie;
+            aMovie.Visible = false;
+            this.Controls.Remove(aMovie);
+            this.Controls.Add(flowMovies);
+            this.ResumeLayout();
+            if(VisibleItems()>LoadedMovies())
+            {
+                LoadMovies(_Movies);
+
+            }
         }
 
         private void ReEnableLayout()

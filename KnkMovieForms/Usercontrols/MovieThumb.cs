@@ -25,6 +25,7 @@ namespace KnkMovieForms.Usercontrols
         public MovieThumb(Movie aMovie, int aWidth)
         {
             InitializeComponent();
+            picPoster.Click += (sender, e) => { this.OnClick(e); };
             picPoster.MouseHover += (sender,e) => { OnRemarkMovie(sender, e); };
             SetSize(aWidth);
             SetMovie(aMovie);

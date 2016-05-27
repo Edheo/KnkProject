@@ -21,28 +21,21 @@ namespace KnkSolutionMovies.Lists
         }
     }
 
-    public class MovieCastings : KnkList<Movie,Casting>
+    public class MovieCastings : KnkList<Movie,MovieCasting>
     { 
         public MovieCastings(Movie aMovie) 
-        : base(aMovie.Connection, new KnkCriteria<Movie, Casting>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieCasting", "IdCasting")))
+        : base(aMovie.Connection, new KnkCriteria<Movie, MovieCasting>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieCasting", "IdCasting")))
         {
         }
 
-        public MovieCastings(KnkConnectionItf aConnection,KnkCriteria<Movie, Casting> aCriteria)
+        public MovieCastings(KnkConnectionItf aConnection,KnkCriteria<Movie, MovieCasting> aCriteria)
         : base(aConnection, aCriteria)
         {
         }
 
         public MovieCastings(KnkConnectionItf aConnection, string aArtistName)
-        : base(aConnection, BuildCriteria(aArtistName))
+        : base(aConnection, KnkCore.Utilities.KnkCoreUtils.BuildLikeCriteria<Movie, MovieCasting>("ArtistName", aArtistName, "vieMovieCasting", "IdCasting"))
         {
-        }
-
-        private static KnkCriteria<Movie, Casting> BuildCriteria(string aArtistName)
-        {
-            KnkCriteria<Movie, Casting> lCri = new KnkCriteria<Movie, Casting>(new Movie(), new KnkTableEntityRelation<Movie>("vieMovieCasting", "IdCasting"));
-            lCri.AddParameter(typeof(string), "ArtistName", OperatorsEnu.Like, $"%{aArtistName}%");
-            return lCri;
         }
     }
 }

@@ -85,6 +85,8 @@ namespace KnkMovieForms.Usercontrols
             _Factor = (float)aSize.Width / aSize.Height;
         }
         
+        public float FactorSize { get { return _Factor; } set { _Factor = value; } }
+
         public StringFormat StringFormat()
         {
             return new StringFormat()
@@ -97,6 +99,10 @@ namespace KnkMovieForms.Usercontrols
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
+            if(!string.IsNullOrEmpty(_Filename) && _ResourceImage!=null)
+            {
+                e.Graphics.DrawImage(_ResourceImage, 0, 0, ClientSize.Width, ClientSize.Height);
+            }
             PaintCenteredText(e.Graphics);
         }
 
@@ -158,6 +164,10 @@ namespace KnkMovieForms.Usercontrols
                 else
                     SetPicture();
             }
+            else if(_ResourceImage!=null)
+            {
+                SetPicture();
+            }
         }
 
         private void SetPicture()
@@ -191,11 +201,13 @@ namespace KnkMovieForms.Usercontrols
             if (_Factor != 0 && (Dock == DockStyle.Left || Dock == DockStyle.Right))
             {
                 Size = new Size((int)(this.Height * _Factor), this.Height);
+                LoadPicture();
             }
             else
             if (_Factor != 0 && (Dock == DockStyle.Top || this.Dock == DockStyle.Bottom))
             {
                 Size = new Size(this.Width, (int)(this.Width * _Factor));
+                LoadPicture();
             }
         }
 
@@ -210,6 +222,7 @@ namespace KnkMovieForms.Usercontrols
             lPic.Image = BackgroundImage;
             lPic.Location = new Point(3, 3);
             lPic.Size = new Size(this.Width - 6, this.Height - 6);
+            lPic.Click += (sender,e) => { OnClick(e); };
             this.Controls.Add(lPic);
             BackgroundImage = null;
         }

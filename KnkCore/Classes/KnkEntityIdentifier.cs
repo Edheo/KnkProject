@@ -35,6 +35,8 @@ namespace KnkCore
         public void ResetReference(TDad aItem, string aProperty, Func<int?, TReference> aLoad)
         {
             Release();
+            KnkEntityIdentifier lValue = aItem.PropertyGet(aProperty) as KnkEntityIdentifier;
+            SetInnerValue(lValue);
             Load = aLoad;
         }
 
@@ -45,7 +47,7 @@ namespace KnkCore
             get
             {
                 int? lValue = this.GetInnerValue();
-                if (lValue == null && lValue.HasValue && Load != null) _reference = Load(lValue);
+                if (lValue != null && lValue.HasValue && Load != null) _reference = Load(lValue);
                 return _reference;
             }
             set

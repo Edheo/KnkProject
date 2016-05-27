@@ -44,14 +44,19 @@
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Entities\Casting.cs" />
+    <Compile Include="Entities\CastingType.cs" />
+    <Compile Include="Entities\CountryClass.cs" />
     <Compile Include="Entities\FilePlay.cs" />
     <Compile Include="Entities\File.cs" />
     <Compile Include="Entities\Folder.cs" />
-    <Compile Include="Entities\Genre.cs" />
+    <Compile Include="Entities\GenreClass.cs" />
     <Compile Include="Entities\MediaThumb.cs" />
     <Compile Include="Entities\Movie.cs" />
+    <Compile Include="Entities\MovieCasting.cs" />
     <Compile Include="Extenders\MediaThumbExtender.cs" />
+    <Compile Include="Extenders\MovieCastingExtender.cs" />
     <Compile Include="Extenders\MovieExtender.cs" />
+    <Compile Include="Lists\Countries.cs" />
     <Compile Include="Lists\FilePlays.cs" />
     <Compile Include="Lists\Castings.cs" />
     <Compile Include="Lists\Files.cs" />
@@ -60,6 +65,7 @@
     <Compile Include="Lists\Movies.cs" />
     <Compile Include="Lists\Folders.cs" />
     <Compile Include="Lists\Pictures.cs" />
+    <Compile Include="References\CastingTypeReference.cs" />
     <Compile Include="References\MovieSetReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\MovieSet.cs" />

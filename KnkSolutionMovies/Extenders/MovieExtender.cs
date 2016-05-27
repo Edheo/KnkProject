@@ -20,11 +20,12 @@ namespace KnkSolutionMovies.Extenders
         MovieSetReference _MovieSetReference = null;
         UserReference<Movie> _CreationUser = null;
 
+        MovieCastings _Casting = null;
+        MovieCountries _Countries = null;
         MovieFiles _Files = null;
         MovieGenres _Genres = null;
         MoviePictures _Pictures = null;
         MoviePlays _Views = null;
-        MovieCastings _Casting = null;
 
         #endregion References
 
@@ -68,7 +69,15 @@ namespace KnkSolutionMovies.Extenders
             }
         }
 
-        public MovieGenres Genres
+        public string Genres
+        {
+            get
+            {
+                return GenresList.Items.OrderBy(g=>g.Genre).Aggregate((i, j) => new GenreClass { Genre = (i.Genre + ", " + j.Genre) }).Genre;
+            }
+        }
+
+        private MovieGenres GenresList
         {
             get
             {
@@ -109,6 +118,23 @@ namespace KnkSolutionMovies.Extenders
             {
                 if (_Casting == null) _Casting = new MovieCastings(_Movie);
                 return _Casting;
+            }
+        }
+
+        public string Countries
+        {
+            get
+            {
+                return CountriesList.Items.OrderBy(c=>c.Country).Aggregate((i, j) => new CountryClass { Country = (i.Country + ", " + j.Country) }).Country;
+            }
+        }
+
+        public MovieCountries CountriesList
+        {
+            get
+            {
+                if (_Countries == null) _Countries = new MovieCountries(_Movie);
+                return _Countries;
             }
         }
 
