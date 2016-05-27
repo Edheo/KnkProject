@@ -9,10 +9,6 @@ namespace KnkSolutionMovies.Lists
 {
     public class Castings : KnkList<Casting,Casting>
     {
-        public Castings() : this(new KnkConnection())
-        {
-        }
-
         public Castings(KnkConnectionItf aConnection) 
         : base(aConnection)
         {

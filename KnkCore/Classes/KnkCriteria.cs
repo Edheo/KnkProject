@@ -78,7 +78,7 @@ namespace KnkCore
 
         public KnkParameterItf AddParameter(Type aType, string aName, OperatorsEnu aOperator, object aValue)
         {
-            KnkParameter lPar = new KnkParameter(aType, aName, aOperator, aValue);
+            KnkParameter lPar = new KnkParameter(_parameters.Count, aType, aName, aOperator, aValue);
             _parameters.Add(lPar);
             return lPar;
         }

@@ -8,6 +8,7 @@ using KnkSolutionMovies.Lists;
 using KnkInterfaces.Interfaces;
 using KnkSolutionMovies.Entities;
 using KnkCore;
+using KnkCore.Utilities;
 using KnkInterfaces.Enumerations;
 using System.Threading;
 
@@ -57,7 +58,7 @@ namespace KnkMovieForms.Usercontrols
             {
                 LoadCombo<Casting>(cmbArtist, "ArtistName", new Castings(_Movies.Connection).Datasource());
                 LoadCombo<GenreClass>(cmbGenres, "Genre", new Genres(_Movies.Connection).Datasource());
-                LoadCombo<MovieSet>(cmbSaga, "Genre", new MovieSet(_Movies.Connection).Datasource());
+                LoadCombo<MovieSet>(cmbSaga, "Name", new MovieSets(_Movies.Connection).Datasource());
                 moviesWall.LoadMovies(_Movies);
             }
         }
@@ -103,6 +104,16 @@ namespace KnkMovieForms.Usercontrols
             }
         }
 
+        private void OnClearParams()
+        {
+            txtSearch.Text = string.Empty;
+            cmbArtist.SelectedIndex = -1;
+            cmbGenres.SelectedIndex = -1;
+            cmbSaga.SelectedIndex = -1;
+            cmbArtist.SelectedIndex = -1;
+            chkViewed.CheckState = CheckState.Indeterminate;
+        }
+
         private void GenerateCriteria()
         {
             KnkCriteria<Movie, Movie> lCri = null;
@@ -114,29 +125,26 @@ namespace KnkMovieForms.Usercontrols
                 KnkParameterItf lPar = lCri.AddParameter(typeof(string), "TextSearch", OperatorsEnu.Like, $"%{txtSearch.Text}%");
                 if (lSearch.Length > 1)
                 {
-                    int i = 1;
                     foreach (string lStr in lSearch)
                     {
-                        lPar.AddInnerParameter("TextSearch" + i.ToString(), $"%{lStr}%");
-                        i++;
+                        lPar.AddInnerParameter($"%{lStr}%");
                     }
                 }
             }
 
             if (!string.IsNullOrEmpty(cmbArtist.Text))
             {
-                MovieCastings lCst = new MovieCastings(_Movies.Connection, cmbArtist.Text);
-                var lLst = (from e in lCst.GetListIds() select e.GetInnerValue());
-                var lStr = String.Join(",", lLst.ToArray());
-                lCri.AddParameter(typeof(string), "IdMovie", OperatorsEnu.In, lStr);
+                KnkCoreUtils.CreateInParameter(new MovieCastings(_Movies.Connection, cmbArtist.Text), lCri, "IdMovie");
             }
 
             if (!string.IsNullOrEmpty(cmbGenres.Text))
             {
-                MovieGenres lCst = new MovieGenres(_Movies.Connection, cmbGenres.Text);
-                var lLst = (from e in lCst.GetListIds() select e.GetInnerValue());
-                var lStr = String.Join(",", lLst.ToArray());
-                lCri.AddParameter(typeof(string), "IdMovie", OperatorsEnu.In, lStr);
+                KnkCoreUtils.CreateInParameter(new MovieGenres(_Movies.Connection, cmbGenres.Text), lCri, "IdMovie");
+            }
+
+            if (!string.IsNullOrEmpty(cmbSaga.Text))
+            {
+                KnkCoreUtils.CreateInParameter(new MovieMovieSets(_Movies.Connection, cmbSaga.Text), lCri, "IdMovie");
             }
 
             if (!chkViewed.CheckState.Equals(CheckState.Indeterminate))
@@ -169,6 +177,11 @@ namespace KnkMovieForms.Usercontrols
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void btnClear_Load(object sender, EventArgs e)
+        {
+            OnClearParams();
         }
     }
 }

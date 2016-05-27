@@ -12,27 +12,22 @@ namespace KnkCore
         Type _type;
         dynamic _value;
 
-        public KnkParameter(Type aType, string aName, OperatorsEnu aOperator, object aValue)
-            : this(aType,aName,aOperator,aValue,ParameterConnectorEnu.And)
+        internal KnkParameter(int aNumParameter, Type aType, string aName, OperatorsEnu aOperator, object aValue)
+            : this(aNumParameter, aType, aName,aOperator,aValue,ParameterConnectorEnu.And)
         {
         }
 
-        private List<KnkParameterItf> _InnerParameters = new List<KnkParameterItf>();
-
-        public KnkParameter(Type aType, string aName, OperatorsEnu aOperator, object aValue, ParameterConnectorEnu aConnector)
-            : this(aType, aName, aName, aOperator, aValue, ParameterConnectorEnu.And)
-        {
-        }
-
-        public KnkParameter(Type aType, string aName, string aParameterName, OperatorsEnu aOperator, object aValue, ParameterConnectorEnu aConnector)
+        internal KnkParameter(int aNumParameter, Type aType, string aName, OperatorsEnu aOperator, object aValue, ParameterConnectorEnu aConnector)
         {
             Type = aType;
             Name = aName;
-            ParameterName = aParameterName;
+            ParameterName = aName + aNumParameter.ToString().PadLeft(3,'0');
             Operator = aOperator;
             Value = Convert.ChangeType(aValue, aType);
             Connector = aConnector;
         }
+
+        private List<KnkParameterItf> _InnerParameters = new List<KnkParameterItf>();
 
         public Type Type
         {
@@ -70,14 +65,14 @@ namespace KnkCore
             }
         }
 
-        public void AddInnerParameter(string aParameterName, object aValue)
+        public void AddInnerParameter(object aValue)
         {
-            AddInnerParameter(aParameterName, aValue, ParameterConnectorEnu.And);
+            AddInnerParameter(aValue, ParameterConnectorEnu.And);
         }
 
-        public void AddInnerParameter(string aParameterName, object aValue, ParameterConnectorEnu aConnector)
+        public void AddInnerParameter(object aValue, ParameterConnectorEnu aConnector)
         {
-            InnerParammerters.Add(new KnkParameter(this.Type, this.Name, aParameterName, this.Operator, aValue, aConnector));
+            InnerParammerters.Add(new KnkParameter(InnerParammerters.Count, this.Type, this.Name, this.Operator, aValue, aConnector));
         }
 
         public string ToSqlWhere()
@@ -102,7 +97,7 @@ namespace KnkCore
                 else
                     lRet = lRet.Replace("@Value", $"@{ParameterName}");
 
-                lRet = lRet.Replace("@List[Field]", $"@List[{Name}]");
+                lRet = lRet.Replace("@List[Field]", $"@List[{ParameterName}]");
             }
             return lRet;
         }

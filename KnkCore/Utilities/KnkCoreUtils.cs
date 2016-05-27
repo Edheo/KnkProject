@@ -1,4 +1,5 @@
-﻿using KnkInterfaces.Interfaces;
+﻿using KnkInterfaces.Enumerations;
+using KnkInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ using System.Text;
 
 namespace KnkCore.Utilities
 {
-    static class KnkCoreUtils
+    public static class KnkCoreUtils
     {
         private static Rijndael Crypto(string aFile)
         {
@@ -28,13 +29,13 @@ namespace KnkCore.Utilities
             return lCrypto;
         }
 
-        public static CryptoStream ToCryptoStream(string aFile)
+        internal static CryptoStream ToCryptoStream(string aFile)
         {
             Stream lFileStream = new FileStream(aFile, FileMode.OpenOrCreate, FileAccess.Write);
             return new CryptoStream(lFileStream, Crypto(aFile).CreateEncryptor(), CryptoStreamMode.Write);
         }
 
-        public static CryptoStream FromCryptoStream(string aFile)
+        internal static CryptoStream FromCryptoStream(string aFile)
         {
             Stream lFileStream = new FileStream(aFile, FileMode.Open, FileAccess.Read);
             return new CryptoStream(lFileStream, Crypto(aFile).CreateDecryptor(), CryptoStreamMode.Read);
@@ -62,7 +63,7 @@ namespace KnkCore.Utilities
             return new Uri(string.Join(".", lSplit)).LocalPath;
         }
 
-        public static string ConfigFilename(string aExt)
+        internal static string ConfigFilename(string aExt)
         {
             string lCodeBase = Assembly.GetEntryAssembly().CodeBase;
             string[] lSplit = lCodeBase.Split('.');
@@ -70,7 +71,7 @@ namespace KnkCore.Utilities
             return new Uri(string.Join(".", lSplit)).LocalPath;
         }
 
-        private static string AppName()
+        static string AppName()
         {
             return AppName(Assembly.GetEntryAssembly().CodeBase);
         }
@@ -90,12 +91,31 @@ namespace KnkCore.Utilities
             return AppDataFolder(null);
         }
 
-        public static string AppName(string aFile)
+        static string AppName(string aFile)
         {
             string[] lNames = Path.GetFileName(aFile).Split('.');
             Array.Resize(ref lNames, lNames.Length - 1);
             return string.Join(".", lNames);
         }
+
+        public static void CreateInParameter<Tdad, Tlst>(KnkList<Tdad, Tlst> aList, KnkCriteria<Tdad, Tdad> aCriteria, string aField)
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
+            var lLst = (from e in aList.GetListIds() select e.GetInnerValue());
+            var lStr = String.Join(",", lLst.ToArray());
+            aCriteria.AddParameter(typeof(string), aField, OperatorsEnu.In, lStr);
+        }
+
+        public static KnkCriteria<Tdad, Tlst> BuildLikeCriteria<Tdad, Tlst>(string aField, string aValue, string aTable, string aFieldId)
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
+            KnkCriteria<Tdad, Tlst> lCri = new KnkCriteria<Tdad, Tlst>(new Tdad(), new KnkTableEntityRelation<Tdad>(aTable, aFieldId));
+            lCri.AddParameter(typeof(string), aField, OperatorsEnu.Like, $"%{aValue}%");
+            return lCri;
+        }
+
 
     }
 }

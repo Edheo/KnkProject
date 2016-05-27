@@ -15,8 +15,8 @@ namespace KnkInterfaces.Interfaces
 
         List<KnkParameterItf> InnerParammerters { get; }
 
-        void AddInnerParameter(string aParameterName, object aValue);
-        void AddInnerParameter(string aParameterName, object aValue, ParameterConnectorEnu aConnector);
+        void AddInnerParameter(object aValue);
+        void AddInnerParameter(object aValue, ParameterConnectorEnu aConnector);
 
         string ToSqlWhere();
     }
