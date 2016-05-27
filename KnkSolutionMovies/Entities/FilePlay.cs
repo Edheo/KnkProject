@@ -20,5 +20,11 @@ namespace KnkSolutionMovies.Entities
         public int Playlenght { get; set; }
         public bool Finishedplay { get; set; }
         #endregion Class Properties
+
+        public override string ToString()
+        {
+            return Playlenght.ToString();
+        }
+
     }
 }

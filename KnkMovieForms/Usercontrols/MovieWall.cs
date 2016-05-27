@@ -15,7 +15,7 @@ namespace KnkMovieForms.Usercontrols
 {
     public partial class MovieWall : UserControl
     {
-        delegate void delCastingList(List<Casting> aList);
+        delegate void delLoadComboList<T>(ComboBox aCombo, List<T> aList);
 
         public event CancelEventHandler PerformSearch;
         private KnkCriteria<Movie,Movie> _CurrentCriteria;
@@ -55,28 +55,30 @@ namespace KnkMovieForms.Usercontrols
         {
             if (_Movies != null)
             {
-                LoadArtists();
+                LoadCombo<Casting>(cmbArtist, "ArtistName", new Castings(_Movies.Connection).Datasource());
+                LoadCombo<GenreClass>(cmbGenres, "Genre", new Genres(_Movies.Connection).Datasource());
+                LoadCombo<MovieSet>(cmbSaga, "Genre", new MovieSet(_Movies.Connection).Datasource());
                 moviesWall.LoadMovies(_Movies);
             }
         }
 
-        private void LoadArtists()
+
+        private void LoadCombo<T>(ComboBox aCombo, string aDisplayMember, List<T> aList)
         {
-            if(cmbArtist.Items.Count==0)
+            if (aCombo.Items.Count == 0)
             {
-                cmbArtist.DisplayMember = "ArtistName";
-                var lCasting= new Castings(_Movies.Connection).Datasource();
+                aCombo.DisplayMember = aDisplayMember;
                 if (InvokeRequired)
-                    this.Invoke(new delCastingList(ReloadArtist), lCasting);
+                    this.Invoke(new delLoadComboList<T>(LoadComboList<T>), aCombo, aList);
                 else
-                    ReloadArtist(lCasting);
+                    LoadComboList<T>(aCombo, aList);
             }
         }
 
-        private void ReloadArtist(List<Casting> aList)
+        private void LoadComboList<T>(ComboBox aCombo, List<T> aList)
         {
-            cmbArtist.DataSource = aList;
-            cmbArtist.SelectedIndex = -1;
+            aCombo.DataSource = aList;
+            aCombo.SelectedIndex = -1;
         }
 
         private void MovieWall_SizeChanged(object sender, EventArgs e)
@@ -124,6 +126,14 @@ namespace KnkMovieForms.Usercontrols
             if (!string.IsNullOrEmpty(cmbArtist.Text))
             {
                 MovieCastings lCst = new MovieCastings(_Movies.Connection, cmbArtist.Text);
+                var lLst = (from e in lCst.GetListIds() select e.GetInnerValue());
+                var lStr = String.Join(",", lLst.ToArray());
+                lCri.AddParameter(typeof(string), "IdMovie", OperatorsEnu.In, lStr);
+            }
+
+            if (!string.IsNullOrEmpty(cmbGenres.Text))
+            {
+                MovieGenres lCst = new MovieGenres(_Movies.Connection, cmbGenres.Text);
                 var lLst = (from e in lCst.GetListIds() select e.GetInnerValue());
                 var lStr = String.Join(",", lLst.ToArray());
                 lCri.AddParameter(typeof(string), "IdMovie", OperatorsEnu.In, lStr);

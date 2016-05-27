@@ -55,6 +55,7 @@
     <Compile Include="Lists\FilePlays.cs" />
     <Compile Include="Lists\Castings.cs" />
     <Compile Include="Lists\Files.cs" />
+    <Compile Include="Lists\MovieSets.cs" />
     <Compile Include="Lists\Genres.cs" />
     <Compile Include="Lists\Movies.cs" />
     <Compile Include="Lists\Folders.cs" />

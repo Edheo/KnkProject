@@ -16,5 +16,11 @@ namespace KnkSolutionMovies.Entities
         public string Name { get; set; }
         public string Overview { get; set; }
         #endregion Class Properties
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
     }
 }

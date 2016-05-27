@@ -33,7 +33,7 @@ namespace KnkMovieForms.Usercontrols
         private void SetMovie(Movie aMovie)
         {
             _Movie = aMovie;
-            picVals.Caption = $"{_Movie.Title} ({_Movie.Year})";
+            picVals.Caption = aMovie.ToString();
             picPoster.Filename = _Movie.Extender.Poster?.Extender.GetFileName();
             string lText = $"Votes:{_Movie.Votes} Rating:{_Movie.Rating:0.0}";
             if (_Movie.UserRating != null)

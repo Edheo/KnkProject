@@ -15,9 +15,14 @@ namespace KnkSolutionMovies.Relationships
 
         #region Class Properties
         public KnkEntityIdentifier IdMovieGenre { get; set; }
-        public int IdMovie { get; set; }
-        public int IdGenre { get; set; }
+        public KnkEntityIdentifier IdMovie { get; set; }
+        public KnkEntityIdentifier IdGenre { get; set; }
         #endregion Class Properties
+
+        public override string ToString()
+        {
+            return IdGenre.ToString();
+        }
 
         KnkReferenceItf<MovieGenre, GenreClass> _GenreReference = null;
 

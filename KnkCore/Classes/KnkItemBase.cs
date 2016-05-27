@@ -7,7 +7,7 @@ using KnkInterfaces.Classes;
 
 namespace KnkCore
 {
-    public class KnkItemBase : KnkItemItf
+    public abstract class KnkItemBase : KnkItemItf
     {
         private readonly KnkTableEntity _entity;
 
@@ -96,5 +96,7 @@ namespace KnkCore
         public DateTime? CreationDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
+
+        public abstract override string ToString();
     }
 }

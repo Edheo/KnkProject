@@ -18,5 +18,10 @@ namespace KnkSolutionMovies.Entities
         public string Filename { get; set; }
         public DateTime DateAdded { get; set; }
         #endregion Class Properties
+
+        public override string ToString()
+        {
+            return Filename;
+        }
     }
 }

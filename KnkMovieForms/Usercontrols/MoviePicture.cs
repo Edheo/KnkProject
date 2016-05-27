@@ -27,6 +27,7 @@ namespace KnkMovieForms.Usercontrols
         private float _Factor;
         private PictureBoxSizeMode _SizeMode;
 
+
         public MoviePicture()
         {
             InitializeComponent();

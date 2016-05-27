@@ -34,6 +34,12 @@ namespace KnkSolutionMovies.Entities
         public string MovieStet { get { return Extender.MovieSet?.Name; } }
         public string CreatedBy { get { return Extender.CreationUser?.Username; } }
         #endregion
+
+        public override string ToString()
+        {
+            return $"{Title} ({Year})";
+        }
+
     }
 
 }

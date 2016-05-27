@@ -23,5 +23,11 @@ namespace KnkSolutionMovies.Entities
         public int Ordinal { get; set; }
         public string Thumb { get; set; }
         #endregion Class Properties
+
+        public override string ToString()
+        {
+            return Thumb;
+        }
+
     }
 }

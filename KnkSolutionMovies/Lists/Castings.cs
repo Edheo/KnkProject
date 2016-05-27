@@ -21,7 +21,7 @@ namespace KnkSolutionMovies.Lists
 
         public override List<Casting> Datasource()
         {
-            return (from art in Items orderby art.ArtistName select art).ToList(); 
+            return (from c in Items orderby c.ArtistName select c).ToList();
         }
     }
 
@@ -42,7 +42,7 @@ namespace KnkSolutionMovies.Lists
         {
         }
 
-        public static KnkCriteria<Movie, Casting> BuildCriteria(string aArtistName)
+        private static KnkCriteria<Movie, Casting> BuildCriteria(string aArtistName)
         {
             KnkCriteria<Movie, Casting> lCri = new KnkCriteria<Movie, Casting>(new Movie(), new KnkTableEntityRelation<Movie>("vieMovieCasting", "IdCasting"));
             lCri.AddParameter(typeof(string), "ArtistName", OperatorsEnu.Like, $"%{aArtistName}%");

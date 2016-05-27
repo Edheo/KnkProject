@@ -24,7 +24,13 @@ namespace KnkSolutionMovies.Entities
         public decimal? NoUpdate { get; set; }
         public decimal? Exclude { get; set; }
         public DateTime DateAdded { get; set; }
-        public KnkEntityIdentifier IdParentPath { get; set; }
+        public KnkEntityIdentifier<Folder,Folder> IdParentPath { get; set; }
         #endregion Class Properties
+
+        public override string ToString()
+        {
+            return Path;
+        }
+
     }
 }

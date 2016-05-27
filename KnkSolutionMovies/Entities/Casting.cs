@@ -1,6 +1,6 @@
-﻿using KnkCore;
+﻿using System;
+using KnkCore;
 using KnkInterfaces.Classes;
-using System;
 
 namespace KnkSolutionMovies.Entities
 {
@@ -16,5 +16,10 @@ namespace KnkSolutionMovies.Entities
         public KnkEntityIdentifier IdCast { get; set; }
         public string ArtistName { get; set; }
         #endregion Class Properties
+
+        public override string ToString()
+        {
+            return ArtistName;
+        }
     }
 }

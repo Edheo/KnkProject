@@ -19,5 +19,7 @@ namespace KnkInterfaces.Interfaces
         DateTime? CreationDate { get; set; }
         DateTime? ModifiedDate { get; set; }
         DateTime? DeletedDate { get; set; }
+
+        string ToString();
     }
 }

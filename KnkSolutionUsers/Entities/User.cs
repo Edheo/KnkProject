@@ -20,5 +20,11 @@ namespace KnkSolutionUsers.Entities
         public string Username { get; set; }
         public string Userpassword { get; set; }
         #endregion Class Properties
+
+        public override string ToString()
+        {
+            return Username;
+        }
+
     }
 }

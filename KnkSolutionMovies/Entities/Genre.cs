@@ -16,5 +16,11 @@ namespace KnkSolutionMovies.Entities
 
         public string Genre { get; set; }
         #endregion Class Properties
+
+        public override string ToString()
+        {
+            return Genre;
+        }
+
     }
 }
