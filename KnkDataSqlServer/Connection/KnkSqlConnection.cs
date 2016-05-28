@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using KnkInterfaces.Enumerations;
+using KnkDataSqlServer.Utilities;
 
 namespace KnkDataSqlServer.Connection
 {
@@ -85,7 +87,7 @@ namespace KnkDataSqlServer.Connection
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            string lCommand = KnkInterfacesUtils.GetDynamicSelect(aCriteria, aDistinct);
+            string lCommand = KnkSqlServer.GetDynamicSelect(aCriteria, aDistinct);
 
             if (aCriteria != null)
             {
@@ -124,5 +126,18 @@ namespace KnkDataSqlServer.Connection
             }
             return lRet;
         }
+
+        public void SaveData<T>(T aItem) where T : KnkItemItf
+        {
+            string lCommand = string.Empty;
+            switch(aItem.Status())
+            {
+                case UpdateStatusEnu.Delete:
+                    break;
+            }
+
+        }
+
+
     }
 }

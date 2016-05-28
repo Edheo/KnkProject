@@ -55,7 +55,12 @@ namespace KnkCore
                 if (value != null)
                 {
                     this._reference = value;
-                    this.SetInnerValue(this._reference?.KnkEntityId);
+                    string lVal = this._reference?.PrimaryKey();
+                    if (!string.IsNullOrEmpty(lVal))
+                    {
+                        KnkEntityIdentifier lEid = this._reference?.PropertyGet(lVal) as KnkEntityIdentifier;
+                        if (lEid != null) this.SetInnerValue(lEid.GetInnerValue());
+                    }
                 }
             }
         }

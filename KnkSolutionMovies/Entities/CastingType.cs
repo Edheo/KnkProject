@@ -1,5 +1,6 @@
 ﻿using KnkCore;
 using KnkInterfaces.Classes;
+using KnkInterfaces.PropertyAtributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,13 @@ namespace KnkSolutionMovies.Entities
     public class CastingType : KnkItemBase
     {
         #region Interface/Implementation
-        public CastingType():base(new KnkTableEntity("CastingType", "IdCastingType"))
+        public CastingType():base(new KnkTableEntity("CastingType"))
         {
         }
         #endregion Interface/Implementation
 
         #region Class Properties
+        [AtributePrimaryKey]
         public KnkEntityIdentifier IdCastingType { get; set; }
         public string Type { get; set; }
         #endregion Class Properties

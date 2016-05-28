@@ -24,7 +24,7 @@ namespace KnkSolutionMovies.Lists
     public class MovieGenres : KnkList<Movie, GenreClass>
     {
         public MovieGenres(Movie aMovie) 
-        : base(aMovie.Connection, new KnkCriteria<Movie, GenreClass>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieGenres", "IdGenre")))
+        : base(aMovie.Connection, new KnkCriteria<Movie, GenreClass>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieGenres")))
         {
 
         }
@@ -36,7 +36,7 @@ namespace KnkSolutionMovies.Lists
 
         private static KnkCriteria<Movie, GenreClass> BuildCriteria(string aGenre)
         {
-            KnkCriteria<Movie, GenreClass> lCri = new KnkCriteria<Movie, GenreClass>(new Movie(), new KnkTableEntityRelation<Movie>("vieMovieGenres", "IdGenre"));
+            KnkCriteria<Movie, GenreClass> lCri = new KnkCriteria<Movie, GenreClass>(new Movie(), new KnkTableEntityRelation<Movie>("vieMovieGenres"));
             lCri.AddParameter(typeof(string), "Genre", OperatorsEnu.Like, $"%{aGenre}%");
             return lCri;
         }

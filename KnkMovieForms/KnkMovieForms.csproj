@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ScanLibrariesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ScanLibrariesForm.Designer.cs">
+      <DependentUpon>ScanLibrariesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Usercontrols\MovieControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -87,6 +93,9 @@
     <Compile Include="Usercontrols\MovieWallLayout.Designer.cs">
       <DependentUpon>MovieWallLayout.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\ScanLibrariesForm.resx">
+      <DependentUpon>ScanLibrariesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -115,6 +124,10 @@
     <ProjectReference Include="..\KnkInterfaces\KnkInterfaces.csproj">
       <Project>{5492b331-33fe-4d82-bfc0-2a36ab7b89dc}</Project>
       <Name>KnkInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KnkScrapers\KnkScrapers.csproj">
+      <Project>{f5d2b644-2a6c-40e7-83ce-0607da1598e9}</Project>
+      <Name>KnkScrapers</Name>
     </ProjectReference>
     <ProjectReference Include="..\KnkSolutionMovies\KnkSolutionMovies.csproj">
       <Project>{df1cedca-4b04-4270-8e1f-89f1921b6880}</Project>
@@ -154,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Home.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

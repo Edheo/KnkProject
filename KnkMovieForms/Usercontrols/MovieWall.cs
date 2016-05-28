@@ -11,6 +11,7 @@ using KnkCore;
 using KnkCore.Utilities;
 using KnkInterfaces.Enumerations;
 using System.Threading;
+using KnkMovieForms.Forms;
 
 namespace KnkMovieForms.Usercontrols
 {
@@ -117,7 +118,7 @@ namespace KnkMovieForms.Usercontrols
         private void GenerateCriteria()
         {
             KnkCriteria<Movie, Movie> lCri = null;
-            KnkTableEntity lEntity = new KnkTableEntity("vieMovies", "IdMovie");
+            KnkTableEntity lEntity = new KnkTableEntity("vieMovies");
             lCri = new KnkCriteria<Movie, Movie>(new Movie(), lEntity);
             if (!string.IsNullOrEmpty(txtSearch.Text))
             {
@@ -182,6 +183,12 @@ namespace KnkMovieForms.Usercontrols
         private void btnClear_Load(object sender, EventArgs e)
         {
             OnClearParams();
+        }
+
+        private void butScan_Load(object sender, EventArgs e)
+        {
+            ScanLibrariesForm lFrm = new ScanLibrariesForm("movies", _Movies.Connection);
+            lFrm.Show();
         }
     }
 }

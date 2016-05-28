@@ -1,12 +1,13 @@
 ﻿using KnkCore;
+using KnkInterfaces.Interfaces;
 using KnkSolutionMovies.Entities;
 
 namespace KnkSolutionMovies.Lists
 {
     public class Folders : KnkList<Folder,Folder>
     {
-        public Folders() 
-        : base(new KnkConnection())
+        public Folders(KnkConnectionItf aConnection) 
+        : base(aConnection)
         {
         }
     }
@@ -14,7 +15,7 @@ namespace KnkSolutionMovies.Lists
     public class SubFolders : KnkList<Folder,Folder>
     {
         public SubFolders(Folder aFolder)
-        : base(aFolder.Connection, new KnkCriteria<Folder, Folder>(aFolder, new KnkTableEntityRelation<Folder>("Folders", "IdFolder", "IdParentPath")))
+        : base(aFolder.Connection, new KnkCriteria<Folder, Folder>(aFolder, new KnkTableEntityRelation<Folder>("vieFolders", "IdParentPath")))
         {
         }
     }

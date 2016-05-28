@@ -21,19 +21,20 @@ namespace KnkMovieForms.Usercontrols
         private StringAlignment _LineAlignment = StringAlignment.Center;
         private Color _FontColorCaption = Color.White;
         private Color _FontColorText = Color.White;
+        private Color _RemarkColor = Color.Red;
         private Image _ResourceImage;
         private int? _FontSize;
         private string _Caption;
         private float _Factor;
         private PictureBoxSizeMode _SizeMode;
-
+        public bool _isButton;
 
         public MoviePicture()
         {
             InitializeComponent();
             //this.picValue.Paint += (sender, e) => { PaintCenteredText(e.Graphics); };
         }
-        
+
         [Description("TextAlignment"), Category("Data")]
         public StringAlignment TextAlignment { get { return _TextAlignment; } set { _TextAlignment = value; } }
         public StringAlignment LineAlignment { get { return _LineAlignment; } set { _LineAlignment = value; } }
@@ -58,8 +59,39 @@ namespace KnkMovieForms.Usercontrols
         public PictureBoxSizeMode SizeMode { get { return _SizeMode; } set { _SizeMode = value; } }
         public Color FontColorCaption { get { return _FontColorCaption; } set { _FontColorCaption = value; } }
         public Color FontColorText { get { return _FontColorText; } set { _FontColorText = value; } }
-        public Image ResourceImage { get { return _ResourceImage; } set { _ResourceImage = KnkMovieFormsUtils.ResizeImage(value,this.ClientSize.Width,this.ClientSize.Height); } }
+        public Color RemarkColor
+        {
+            get { return _RemarkColor; }
+            set
+            {
+                _RemarkColor = value;
+                if (HasBorder())
+                {
+                    this.BackColor = value;
+                }
+            }
+        }
+        public Image ResourceImage
+        {
+            get { return _ResourceImage; }
+            set
+            {
+                _ResourceImage = KnkMovieFormsUtils.ResizeImage(value, this.ClientSize.Width, this.ClientSize.Height);
+            }
+        }
         public int? FontSize { get { return _FontSize; } set { _FontSize = value; } }
+        public bool IsButton
+        {
+            get
+            {
+                return _isButton;
+            }
+            set
+            {
+                _isButton = value;
+                ReMarkMovie(value);
+            }
+        }
 
         public string Filename
         {
@@ -99,7 +131,8 @@ namespace KnkMovieForms.Usercontrols
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            if(!string.IsNullOrEmpty(_Filename) && _ResourceImage!=null)
+
+            if (!string.IsNullOrEmpty(_Filename) && _ResourceImage!=null)
             {
                 e.Graphics.DrawImage(_ResourceImage, 0, 0, ClientSize.Width, ClientSize.Height);
             }
@@ -172,7 +205,10 @@ namespace KnkMovieForms.Usercontrols
 
         private void SetPicture()
         {
-            this.BackgroundImage = _ResourceImage;
+            if(IsButton)
+                ((PictureBox)this.Controls[0]).Image = _ResourceImage;
+            else
+                this.BackgroundImage = _ResourceImage;
         }
 
         public void AnimationStart()
@@ -211,26 +247,27 @@ namespace KnkMovieForms.Usercontrols
             }
         }
 
-        public void ReMarkMovie()
+        public void ReMarkMovie(bool aRemark)
         {
-            //this.OnClick(new EventArgs());
-            this.Padding = new Padding(5, 5, 5, 5);
-            PictureBox lPic = new PictureBox();
-            lPic.Dock = DockStyle.Fill;
-            this.BackColor = Color.Red;
-            lPic.SizeMode = PictureBoxSizeMode.StretchImage;
-            lPic.Image = BackgroundImage;
-            lPic.Location = new Point(3, 3);
-            lPic.Size = new Size(this.Width - 6, this.Height - 6);
-            lPic.Click += (sender,e) => { OnClick(e); };
-            this.Controls.Add(lPic);
-            BackgroundImage = null;
-        }
-
-        public void RemoveBorder()
-        {
-            this.Controls.Clear();
-            this.BackgroundImage = _ResourceImage;
+            if (aRemark && !HasBorder())
+            {
+                this.Padding = new Padding(5, 5, 5, 5);
+                PictureBox lPic = new PictureBox();
+                lPic.Dock = DockStyle.Fill;
+                this.BackColor = _RemarkColor;
+                lPic.SizeMode = PictureBoxSizeMode.StretchImage;
+                lPic.Image = BackgroundImage;
+                lPic.Location = new Point(3, 3);
+                lPic.Size = new Size(this.Width - 6, this.Height - 6);
+                lPic.Click += (sender, e) => { OnClick(e); };
+                this.Controls.Add(lPic);
+                BackgroundImage = null;
+            }
+            else if (!aRemark && HasBorder())
+            {
+                this.Controls.Clear();
+                this.BackgroundImage = _ResourceImage;
+            }
         }
 
         public bool HasBorder()

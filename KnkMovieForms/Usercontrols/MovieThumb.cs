@@ -53,7 +53,7 @@ namespace KnkMovieForms.Usercontrols
             if (!IsMarked())
             {
                 this.Parent.SuspendLayout();
-                picPoster.ReMarkMovie();
+                picPoster.ReMarkMovie(true);
                 //Control lContainer = this.Container as Control;
                 var controls = from lCtn in Parent.Controls.OfType<MovieThumb>() where lCtn != this && lCtn.IsMarked() select lCtn;
                 foreach (var lCtl in controls)
@@ -66,7 +66,7 @@ namespace KnkMovieForms.Usercontrols
 
         public void UnRemarkMovie()
         {
-            picPoster.RemoveBorder();
+            picPoster.ReMarkMovie(false);
         }
 
         public bool IsMarked()

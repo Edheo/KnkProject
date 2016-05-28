@@ -1,5 +1,6 @@
 ﻿using KnkCore;
 using KnkInterfaces.Classes;
+using KnkInterfaces.PropertyAtributes;
 using System;
 
 namespace KnkSolutionMovies.Entities
@@ -7,13 +8,14 @@ namespace KnkSolutionMovies.Entities
     public class FilePlay : KnkItemBase
     {
         #region Interface/Implementation
-        public FilePlay():base(new KnkTableEntity("vieMoviePlays", "IdPlay"))
+        public FilePlay():base(new KnkTableEntity("vieMoviePlays"))
         {
         }
 
         #endregion Interface/Implementation
 
         #region Class Properties
+        [AtributePrimaryKey]
         public KnkEntityIdentifier IdPlay { get; set; }
         public int IdFile { get; set; }
         public DateTime DatePlay { get; set; }

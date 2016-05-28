@@ -18,5 +18,7 @@ namespace KnkInterfaces.Interfaces
         List<Tlst> Datasource();
         KnkCriteriaItf<Tdad, Tlst> GetCriteria();
         List<KnkEntityIdentifierItf> GetListIds();
+        void Add(Tlst aItem);
+        bool SaveChanges();
     }
 }

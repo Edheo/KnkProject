@@ -33,7 +33,7 @@ namespace KnkCore
         {
             var type = typeof(T);
             T lItm = new T();
-            lItm.PropertySet(lItm.SourceEntity.PrimaryKey, aEntityId);
+            lItm.PropertySet(lItm.PrimaryKey(), aEntityId);
             KnkListItf<T,T> lLst = new KnkList<T,T>(this);
             KnkCriteria<T,T> lCri = new KnkCriteria<T, T>(lItm);
 
@@ -47,6 +47,14 @@ namespace KnkCore
             where Tlst : KnkItemItf, new()
         {
             aList.FillFromList(aTable.AsEnumerable().Select(row => KnkInterfacesUtils.CopyRecord<Tlst>(aList, row)).ToList());
+        }
+
+        public KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem)
+            where TDad : KnkItemItf
+            where TReference : KnkItemItf, new()
+        {
+            var lProperty = new TReference().PrimaryKey();
+            return SetReference(new KnkEntityIdentifier<TDad, TReference>(aItem, lProperty, GetItem<TReference>), aItem, lProperty);
         }
 
         public KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem, string aProperty)
@@ -128,6 +136,5 @@ namespace KnkCore
             };
             return aList;
         }
-
     }
 }

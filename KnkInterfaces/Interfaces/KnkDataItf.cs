@@ -15,5 +15,8 @@ namespace KnkInterfaces.Interfaces
         DataTable GetListIds<Tdad, Tlst>(KnkCriteriaItf<Tdad, Tlst> aCriteria)
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new();
+
+        void SaveData<T>(T aItem)
+            where T : KnkItemItf;
     }
 }

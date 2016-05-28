@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using KnkInterfaces.Enumerations;
 
 namespace KnkCore
 {
@@ -73,6 +74,22 @@ namespace KnkCore
         public List<KnkEntityIdentifierItf> GetListIds()
         {
             return Connection.GetListIds(GetCriteria());
+        }
+
+        public void Add(Tlst aItem)
+        {
+            aItem.Update();
+            this.Items.Add(aItem);
+        }
+
+        public bool SaveChanges()
+        {
+            var lChanges = (from itm in Items where itm.Status() != UpdateStatusEnu.NoChanges select itm);
+            foreach(var lItm in lChanges)
+            {
+
+            }
+            return true;
         }
     }
 

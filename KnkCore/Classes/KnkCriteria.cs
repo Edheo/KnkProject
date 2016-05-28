@@ -27,7 +27,7 @@ namespace KnkCore
         public KnkCriteria(Tdad aItem, KnkTableEntityItf aEntityTable)
         {
             _entityTable = aEntityTable as KnkTableEntity;
-            KnkLinkFields = aItem.SourceEntity.PrimaryKey;
+            KnkLinkFields = aItem.PrimaryKey(); 
             AddLinkParameters(aItem);
         }
 
@@ -45,7 +45,7 @@ namespace KnkCore
             var lEnt = this.EntityRelation();
             if (!string.IsNullOrEmpty(lEnt?.RelatedKey))
             {
-                var lPrp = KnkInterfacesUtils.GetProperties<Tdad>().Where(p => p.Name.Equals(aItem.SourceEntity.PrimaryKey)).FirstOrDefault();
+                var lPrp = KnkInterfacesUtils.GetProperties<Tdad>().Where(p => p.Name.Equals(aItem.PrimaryKey())).FirstOrDefault();
                 if (lPrp != null && aItem.PropertyGet(lEnt.RelatedKey)!=null)
                 {
                     AddParameter(KnkInterfacesUtils.GetPropertyType(lPrp), lEnt.RelatedKey, OperatorsEnu.Equal, aItem.PropertyGet(lEnt.RelatedKey));

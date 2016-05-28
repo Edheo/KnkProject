@@ -8,7 +8,7 @@ namespace KnkSolutionMovies.Relationships
     class MovieGenre : KnkItemBase
     {
         #region Interface/Implementation
-        public MovieGenre():base(new KnkTableEntity("MovieGenres", "IdMovieGenre"))
+        public MovieGenre():base(new KnkTableEntity("MovieGenres"))
         {
         }
         #endregion Interface/Implementation

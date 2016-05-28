@@ -29,10 +29,9 @@ namespace KnkMovieForms.Usercontrols
             _Movie = aMovie;
             tblPanel.RowStyles.Clear();
             picPoster.Filename = _Movie.Extender.Poster?.Extender.GetFileName();
-            if (!string.IsNullOrEmpty(_Movie.MovieStet))
-                AddTagInfo("Saga", $"{_Movie.MovieStet}");
             AddTagInfo("Title", $"{_Movie.Title}", "Original Title", $"{_Movie.OriginalTitle}");
             AddTagInfo("Year", $"{_Movie.Year}");
+            AddTagInfo("Date Added", $"{_Movie.DateAdded:dd/MM/yyyy}", "Saga", $"{_Movie.MovieSet}");
             AddTagInfo("Genre", $"{_Movie.Extender.Genres}", "Country", $"{_Movie.Extender.Countries}");
             AddTagInfo("Votes", $"{_Movie.Votes}", "Rating", $"{_Movie.Rating:0.0}");
             AddTagInfo("User Rating", $"{_Movie.UserRating:0.0}", "Computed Rating", $"{_Movie.Extender.AveragedRate:0.0}");
@@ -41,13 +40,13 @@ namespace KnkMovieForms.Usercontrols
             {
                 AddTagInfo("Last Played", $"{_Movie.Extender.LastPlayed():dd/MM/yyyy}", "Plays", $"{_Movie.Extender.Plays.Count()}");
             }
-
             AddTagInfo();
-            AddTagInfo(FontStyle.Bold, "Type", "Artist Name", "Ordinal", "Role in Movie");
-            var lCst = (from c in _Movie.Extender.Casting.Items orderby c.Extender.CastingType.Type descending, c.Ordinal select c);
-            foreach (var lCast in lCst)
+            AddTagInfo("Director", $"{_Movie.Extender.Director()}", "Writer", $"{_Movie.Extender.Writer()}");
+            AddTagInfo();
+            AddTagInfo(FontStyle.Bold, "Role in Movie", "Artist Name");
+            foreach (var lCast in _Movie.Extender.ArtistCasting())
             {
-                AddTagInfo(lCast.Extender.CastingType?.ToString(), lCast.ArtistName, lCast.Ordinal.ToString(), lCast.Role);
+                AddTagInfo(lCast.Role, lCast.ArtistName);
             }
 
             AddTagInfo();
@@ -77,6 +76,11 @@ namespace KnkMovieForms.Usercontrols
         private void AddTagInfo(string aLabel1, string aContent1)
         {
             AddTagInfo(aLabel1, aContent1, string.Empty, string.Empty);
+        }
+
+        private void AddTagInfo(FontStyle aFontStyle, string aLabel1, string aContent1)
+        {
+            AddTagInfo(aFontStyle, aLabel1, aContent1, string.Empty, string.Empty);
         }
 
         private void AddTagInfo(string aLabel1, string aContent1, string aLabel2, string aContent2)

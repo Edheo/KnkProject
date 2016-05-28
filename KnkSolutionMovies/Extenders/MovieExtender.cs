@@ -4,6 +4,7 @@ using KnkSolutionMovies.References;
 using KnkSolutionUsers.Entities;
 using KnkSolutionUsers.References;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace KnkSolutionMovies.Extenders
@@ -150,6 +151,23 @@ namespace KnkSolutionMovies.Extenders
         {
             var lLast = (from p in Plays orderby p.DatePlay descending select p).FirstOrDefault();
             return lLast?.DatePlay;
+        }
+
+        public string Director()
+        {
+            var lDir = (from c in Casting.Items where c.Extender.CastingType.Type.Equals("Director") orderby c.Extender.CastingType.Type descending, c.Ordinal select c);
+            return lDir.OrderBy(g => g.Ordinal).Aggregate((i, j) => new MovieCasting { ArtistName  = (i.ArtistName + ", " + j.ArtistName) }).ArtistName;
+        }
+
+        public string Writer()
+        {
+            var lWri = (from c in Casting.Items where c.Extender.CastingType.Type.Equals("Writer") orderby c.Extender.CastingType.Type descending, c.Ordinal select c);
+            return lWri.OrderBy(g => g.Ordinal).Aggregate((i, j) => new MovieCasting { ArtistName = (i.ArtistName + ", " + j.ArtistName) }).ArtistName;
+        }
+
+        public List<MovieCasting> ArtistCasting()
+        {
+            return (from c in Casting.Items where c.Extender.CastingType.Type.Equals("Actor") orderby c.Extender.CastingType.Type descending, c.Ordinal select c).ToList();
         }
 
         public decimal AveragedRate

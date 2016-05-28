@@ -1,5 +1,6 @@
 ﻿using KnkInterfaces.Classes;
 using KnkInterfaces.Interfaces;
+using KnkInterfaces.PropertyAtributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,62 +54,17 @@ namespace KnkInterfaces.Utilities
             return item.GetType().GetProperties();
         }
 
+        public static PropertyInfo GetPrimaryKey<T>(T item)
+            where T : KnkItemItf
+        {
+            return (from prp in GetProperties(item) where Attribute.IsDefined(prp, typeof(AtributePrimaryKey)) select prp).FirstOrDefault();
+        }
+
         public static Type GetPropertyType(PropertyInfo aProperty)
         {
             return Nullable.GetUnderlyingType(aProperty.PropertyType) ?? aProperty.PropertyType;
         }
 
-        public static string GetDynamicSelect<Tdad, Tlst>(KnkCriteriaItf<Tdad, Tlst> aCriteria)
-            where Tdad : KnkItemItf, new()
-            where Tlst : KnkItemItf, new()
-        {
-            return GetDynamicSelect(aCriteria, false);
-        }
-
-        public static string GetDynamicSelect<Tdad, Tlst>(KnkCriteriaItf<Tdad, Tlst> aCriteria, bool aDistinct)
-            where Tdad : KnkItemItf, new()
-            where Tlst : KnkItemItf, new()
-        {
-            string lTable = aCriteria.EntityTable().SourceTable;
-            var lSel = string.Empty;
-            if (aDistinct)
-            {
-                string lKey = aCriteria.EntityRelation().RelatedKey;
-                lSel = $"Select Distinct [{lKey}] From [{lTable}]";
-            }
-            else
-                lSel = $"Select * From [{lTable}]";
-            if (aCriteria != null) lSel += GetWhereFromParameters(aCriteria);
-            return lSel;
-        }
-
-        public static string GetWhereFromParameters<Tdad, Tlst>(KnkCriteriaItf<Tdad,Tlst> aCriteria)
-            where Tdad : KnkItemItf, new()
-            where Tlst : KnkItemItf, new()
-        {
-            string lWhere = JoinParameters(aCriteria.GetParameters());
-            return lWhere.Length > 0 ? " Where " + lWhere : string.Empty;
-        }
-
-        public static string JoinParameters(List<KnkParameterItf> aParameters)
-        {
-            string lRet = string.Empty;
-            string lConditions = string.Empty;
-            var lPars = aParameters.Select(p => new { Condition = p.ToSqlWhere(), Connector = GetEnumDescription(p.Connector) });
-            string lBlank = " ";
-            var lParAnt = lPars.FirstOrDefault();
-            foreach (var lParCur in lPars)
-            {
-                if (lConditions.Length > 0)
-                    lConditions += lBlank + lParAnt.Connector + lBlank;
-
-                lConditions += lParCur.Condition;
-                lParAnt = lParCur;
-            }
-            if (lConditions.Length > 0)
-                lRet = "(" + lConditions + ")";
-            return lRet;
-        }
 
         public static string GetEnumDescription(Enum value)
         {
@@ -124,6 +80,26 @@ namespace KnkInterfaces.Utilities
                 return attributes[0].Description;
             else
                 return value.ToString();
+        }
+
+        public static string JoinParameters(List<KnkParameterItf> aParameters)
+        {
+            string lRet = string.Empty;
+            string lConditions = string.Empty;
+            var lPars = aParameters.Select(p => new { Condition = p.ToSqlWhere(), Connector = KnkInterfacesUtils.GetEnumDescription(p.Connector) });
+            string lBlank = " ";
+            var lParAnt = lPars.FirstOrDefault();
+            foreach (var lParCur in lPars)
+            {
+                if (lConditions.Length > 0)
+                    lConditions += lBlank + lParAnt.Connector + lBlank;
+
+                lConditions += lParCur.Condition;
+                lParAnt = lParCur;
+            }
+            if (lConditions.Length > 0)
+                lRet = "(" + lConditions + ")";
+            return lRet;
         }
 
         public static DataTable CreateDataTable<T>(IEnumerable<T> list)

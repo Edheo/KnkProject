@@ -4,16 +4,21 @@ using KnkInterfaces.Interfaces;
 using System.Reflection;
 using System;
 using KnkInterfaces.Classes;
+using KnkInterfaces.Enumerations;
 
 namespace KnkCore
 {
     public abstract class KnkItemBase : KnkItemItf
     {
         private readonly KnkTableEntity _entity;
+        private readonly string _primarykey;
+        private UpdateStatusEnu _status = UpdateStatusEnu.NoChanges;
+       
 
         public KnkItemBase(KnkTableEntity aEntity)
         {
             _entity = aEntity;
+            _primarykey = KnkInterfacesUtils.GetPrimaryKey(this).Name;
         }
 
         public KnkListItf Parent { get; set; }
@@ -21,20 +26,7 @@ namespace KnkCore
         {
             get
             {
-                return KnkInterfacesUtils.GetProperties<KnkItemItf>(this).Where(p => p.Name == this.SourceEntity.PrimaryKey).FirstOrDefault();
-            }
-        }
-
-        public int? KnkEntityId
-        {
-            get
-            {
-                return (KnkPrimaryKey?.GetValue(this) as int?);
-            }
-
-            set
-            {
-                KnkPrimaryKey?.SetValue(this, value);
+                return KnkInterfacesUtils.GetProperties<KnkItemItf>(this).Where(p => p.Name == this.PrimaryKey()).FirstOrDefault();
             }
         }
 
@@ -58,6 +50,11 @@ namespace KnkCore
         public KnkItemItf Load<T>(int aId) where T:KnkItemItf, new()
         {
             return this.Parent.Connection.GetItem<T>(aId);
+        }
+
+        public string PrimaryKey()
+        {
+            return _primarykey;
         }
 
         private PropertyInfo PropertyMatch(string aProperty)
@@ -98,5 +95,39 @@ namespace KnkCore
         public DateTime? DeletedDate { get; set; }
 
         public abstract override string ToString();
+
+        public T Clone<T>() where T : KnkItemItf, new()
+        {
+            T lNew = new T();
+            var lProperties = KnkInterfacesUtils.GetProperties<KnkItemItf>(this).Where(p => p.Name != this.PrimaryKey());
+            foreach(var lProperty in lProperties)
+            {
+                lNew.PropertySet(lProperty.Name, this.PropertyGet(lProperty.Name));
+            }
+            return lNew;
+        }
+
+        public void Update()
+        {
+            KnkEntityIdentifier lIdp = PropertyGet(PrimaryKey()) as KnkEntityIdentifier;
+            if (lIdp!=null)
+            {
+                if(lIdp.GetInnerValue()!=null)
+                    _status = UpdateStatusEnu.Update;
+                else
+                    _status = UpdateStatusEnu.New;
+            }
+        }
+
+        public void Delete()
+        {
+            _status = UpdateStatusEnu.Delete;
+        }
+
+        public UpdateStatusEnu Status()
+        {
+            return _status;
+        }
+
     }
 }

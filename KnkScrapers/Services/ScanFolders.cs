@@ -12,41 +12,77 @@ namespace KnkScrapers.Services
 {
     public class ScanFolders
     {
-        private Folders _Folders = new Folders();
-        public ScanFolders()
-        {
+        private readonly Folders _Folders;
+        private readonly List<Folder> _FoldersToScan;
 
+        public ScanFolders(Folders aFolders, List<Folder> aFoldersToScan)
+        {
+            _Folders = aFolders;
+            _FoldersToScan = aFoldersToScan;
         }
 
         public void StartFoldersScanner()
         {
-            var lLst = _Folders.Items.Where(f => f.IdParentPath == null);
-
-            lLst = _Folders.Items.Where(f => f.IdParentPath == null && f.Scraper == "metadata.themoviedb.org");
-            foreach(Folder lFol in lLst)
+            foreach (var lFol in _FoldersToScan)
             {
-                ScanFolder(lFol);
+                ScanFolder(lFol.Path, null);
             }
+
         }
 
-        private void ScanFolder(Folder aFolder)
+        private void ScanFolder(string aFolder, Folder aParentFolder)
         {
-            string lPath = KnkScrappers.Utilities.KnkScrapersUtils.FromUrlToPath(aFolder.Path);
-            foreach (string lFolderName in Directory.GetDirectories(lPath))
+
+            bool lAvailable = false;
+            if(KnkScrapersUtils.DirectoryExists(aFolder, out lAvailable))
             {
-                Folder lFolder = _Folders.Items.Find(f => KnkScrappers.Utilities.KnkScrapersUtils.FromUrlToPath(f.Path) == lFolderName);
-                if (lFolder == null)
+                if(lAvailable)
                 {
-                    lFolder = new Folder() { Path = lFolderName };
-                    _Folders.Items.Add(lFolder);
+                    var lFol = _Folders.Items.Find(e => e.Path.Equals(aFolder));
+                    if(lFol==null && aParentFolder!=null)
+                    {
+                        lFol = aParentFolder.Clone<Folder>();
+                        lFol.Path = aFolder;
+                        lFol.ContentType = null;
+                        lFol.Scraper = null;
+                        lFol.Hash = null;
+                        lFol.ScanRecursive = null;
+                        lFol.strSettings = null;
+                        lFol.NoUpdate = null;
+                        lFol.Exclude = null;
+                        lFol.IdParentPath = aParentFolder.IdPath;
+                        _Folders.Add(lFol);
+                    }
+                    var lDirs = Directory.GetDirectories(aFolder);
+                    {
+                        foreach(var lFolder in lDirs)
+                        {
+                            ScanFolder(lFolder + "/", lFol);
+                        }
+                    }
                 }
-                ScanFolder(lFolder);
+            }
+            else
+            {
+                var lFol = _Folders.Items.Find(e => e.Path.Equals(aFolder));
             }
 
-            foreach (string lFile in Directory.GetFiles(lPath))
-            {
-                Console.WriteLine(lFile);
-            }
+            //string lPath = KnkScrappers.Utilities.KnkScrapersUtils.FromUrlToPath(aFolder.Path);
+            //foreach (string lFolderName in Directory.GetDirectories(lPath))
+            //{
+            //    Folder lFolder = _Folders.Items.Find(f => KnkScrappers.Utilities.KnkScrapersUtils.FromUrlToPath(f.Path) == lFolderName);
+            //    if (lFolder == null)
+            //    {
+            //        lFolder = new Folder() { Path = lFolderName };
+            //        _Folders.Items.Add(lFolder);
+            //    }
+            //    ScanFolder(lFolder);
+            //}
+
+            //foreach (string lFile in Directory.GetFiles(lPath))
+            //{
+            //    Console.WriteLine(lFile);
+            //}
         }
     }
 }

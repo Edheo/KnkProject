@@ -1,6 +1,8 @@
 ﻿using KnkCore;
 using KnkInterfaces.Classes;
+using KnkInterfaces.PropertyAtributes;
 using KnkSolutionMovies.Extenders;
+using System;
 
 namespace KnkSolutionMovies.Entities
 {
@@ -9,13 +11,14 @@ namespace KnkSolutionMovies.Entities
         public readonly MovieExtender Extender;
 
         #region Interface/Implementation
-        public Movie() : base(new KnkTableEntity("Movies", "IdMovie"))
+        public Movie() : base(new KnkTableEntity("Movies"))
         {
             Extender = new MovieExtender(this);
         }
         #endregion Interface/Implementation
 
         #region Class Properties
+        [AtributePrimaryKey]
         public KnkEntityIdentifier IdMovie { get; set; }
         public string Title { get; set; }
         public string TagLine { get; set; }
@@ -30,8 +33,9 @@ namespace KnkSolutionMovies.Entities
         public string TrailerUrl { get; set; }
         public KnkEntityIdentifier IdSet { get; set; }
         public decimal? UserRating { get; set; }
+        public DateTime? DateAdded { get; set; }
 
-        public string MovieStet { get { return Extender.MovieSet?.Name; } }
+        public string MovieSet { get { return Extender.MovieSet?.Name; } }
         public string CreatedBy { get { return Extender.CreationUser?.Username; } }
         #endregion
 

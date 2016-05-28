@@ -21,7 +21,11 @@ namespace KnkInterfaces.Interfaces
         List<KnkEntityIdentifierItf> GetListIds<Tdad, Tlst>(KnkCriteriaItf<Tdad, Tlst> aCriteria)
                     where Tdad : KnkItemItf, new()
                     where Tlst : KnkItemItf, new();
-        
+
+        KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem)
+            where TDad : KnkItemItf
+            where TReference : KnkItemItf, new();
+
         KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem, string aProperty)
             where TDad : KnkItemItf
             where TReference : KnkItemItf, new();

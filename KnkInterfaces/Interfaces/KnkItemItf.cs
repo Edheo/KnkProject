@@ -1,4 +1,6 @@
-﻿using System;
+﻿using KnkInterfaces.Enumerations;
+using System;
+using System.Reflection;
 
 namespace KnkInterfaces.Interfaces
 {
@@ -8,7 +10,9 @@ namespace KnkInterfaces.Interfaces
         KnkConnectionItf Connection { get; }
         KnkItemItf Load<T>(int aId) where T : KnkItemItf, new();
         KnkTableEntityItf SourceEntity { get; }
-        int? KnkEntityId { get; set; }
+
+
+        string PrimaryKey();
         object PropertyGet(string aProperty);
         void PropertySet(string aProperty, object aValue);
 
@@ -19,6 +23,13 @@ namespace KnkInterfaces.Interfaces
         DateTime? CreationDate { get; set; }
         DateTime? ModifiedDate { get; set; }
         DateTime? DeletedDate { get; set; }
+
+        T Clone<T>() where T : KnkItemItf, new();
+
+        void Update();
+        void Delete();
+
+        UpdateStatusEnu Status();
 
         string ToString();
     }

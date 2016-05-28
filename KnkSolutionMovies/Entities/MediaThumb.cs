@@ -1,5 +1,6 @@
 ﻿using KnkCore;
 using KnkInterfaces.Classes;
+using KnkInterfaces.PropertyAtributes;
 using KnkSolutionMovies.Extenders;
 
 namespace KnkSolutionMovies.Entities
@@ -9,13 +10,14 @@ namespace KnkSolutionMovies.Entities
         public readonly MediaThumbExtender Extender;
 
         #region Interface/Implementation
-        public MediaThumb():base(new KnkTableEntity("MediaThumbs", "IdThumb"))
+        public MediaThumb():base(new KnkTableEntity("MediaThumbs"))
         {
             Extender = new MediaThumbExtender(this);
         }
         #endregion Interface/Implementation
 
         #region Class Properties
+        [AtributePrimaryKey]
         public KnkEntityIdentifier IdThumb { get; set; }
         public KnkEntityIdentifier IdMovie { get; set; }
         public KnkEntityIdentifier IdCast { get; set; }

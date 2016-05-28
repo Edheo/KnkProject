@@ -2,7 +2,6 @@
 {
     public interface KnkTableEntityItf
     {
-        string PrimaryKey { get; }
         string SourceTable { get; }
     }
 

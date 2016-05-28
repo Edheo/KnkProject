@@ -1,5 +1,6 @@
 ﻿using KnkCore;
 using KnkInterfaces.Classes;
+using KnkInterfaces.PropertyAtributes;
 using KnkSolutionMovies.Extenders;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,14 @@ namespace KnkSolutionMovies.Entities
         public readonly MovieCastingExtender Extender;
 
         #region Interface/Implementation
-        public MovieCasting():base(new KnkTableEntity("vieMovieCasting", "IdMovieCasting"))
+        public MovieCasting():base(new KnkTableEntity("vieMovieCasting"))
         {
             Extender = new MovieCastingExtender(this);
         }
         #endregion Interface/Implementation
 
         #region Class Properties
+        [AtributePrimaryKey]
         public KnkEntityIdentifier IdMovieCasting { get; set; }
         public KnkEntityIdentifier IdMovie { get; set; }
         public KnkEntityIdentifier IdCast { get; set; }
@@ -32,7 +34,7 @@ namespace KnkSolutionMovies.Entities
 
         public override string ToString()
         {
-            return $"{ArtistName} ({Role}";
+            return $"{ArtistName} ({Role})";
         }
     }
 }
