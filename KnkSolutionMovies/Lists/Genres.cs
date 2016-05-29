@@ -24,7 +24,7 @@ namespace KnkSolutionMovies.Lists
     public class MovieGenres : KnkList<Movie, GenreClass>
     {
         public MovieGenres(Movie aMovie) 
-        : base(aMovie.Connection, new KnkCriteria<Movie, GenreClass>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieGenres")))
+        : base(aMovie.Connection(), new KnkCriteria<Movie, GenreClass>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieGenres")))
         {
 
         }

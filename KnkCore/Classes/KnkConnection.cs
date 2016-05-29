@@ -1,4 +1,6 @@
-﻿using KnkInterfaces.Interfaces;
+﻿using KnkCore;
+using KnkInterfaces.Classes;
+using KnkInterfaces.Interfaces;
 using KnkInterfaces.Utilities;
 using System;
 using System.Collections.Generic;
@@ -34,13 +36,19 @@ namespace KnkCore
             var type = typeof(T);
             T lItm = new T();
             lItm.PropertySet(lItm.PrimaryKey(), aEntityId);
-            KnkListItf<T,T> lLst = new KnkList<T,T>(this);
-            KnkCriteria<T,T> lCri = new KnkCriteria<T, T>(lItm);
+            return ReadItem(lItm);
+        }
+
+        public T ReadItem<T>(T aItm) where T : KnkItemItf, new()
+        {
+            KnkListItf<T, T> lLst = new KnkList<T, T>(this);
+            KnkCriteria<T, T> lCri = new KnkCriteria<T, T>(aItm);
 
             FillList<T, T>(lLst, lCri);
 
             return lLst.Items.FirstOrDefault();
         }
+
 
         private void FillFromDataTable<Tdad, Tlst>(KnkListItf<Tdad, Tlst> aList, DataTable aTable)
             where Tdad : KnkItemItf, new()
@@ -100,7 +108,7 @@ namespace KnkCore
             {
                 foreach(DataRow lRow in lDat.Rows)
                 {
-                    KnkEntityIdentifier<Tdad, Tlst> lValue = new KnkEntityIdentifier<Tdad, Tlst>();
+                    KnkEntityIdentifierItf lValue = new KnkEntityIdentifier();
                     lValue.SetInnerValue((int)lRow[0]);
                     lLst.Add(lValue);
                 }
@@ -135,6 +143,18 @@ namespace KnkCore
                 FillFromDataTable(aList, lDat);
             };
             return aList;
+        }
+
+        public void SaveData<T>(List<T> aItems) where T : KnkItemItf, new()
+        {
+            var lDat = GetConnection(typeof(T));
+            foreach (var lItm in aItems)
+            {
+                if (lItm.Status() != KnkInterfaces.Enumerations.UpdateStatusEnu.NoChanges)
+                {
+                    lDat.SaveData(lItm);
+                }
+            }
         }
     }
 }

@@ -3,6 +3,7 @@
     public interface KnkTableEntityItf
     {
         string SourceTable { get; }
+        string TableBase { get; }
     }
 
     public interface KnkTableEntityRelationItf<T>: KnkTableEntityItf

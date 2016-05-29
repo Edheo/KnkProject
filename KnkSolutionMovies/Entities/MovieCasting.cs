@@ -2,6 +2,7 @@
 using KnkInterfaces.Classes;
 using KnkInterfaces.PropertyAtributes;
 using KnkSolutionMovies.Extenders;
+using KnkSolutionMovies.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,11 @@ namespace KnkSolutionMovies.Entities
 {
     public class MovieCasting : KnkItemBase
     {
-        public readonly MovieCastingExtender Extender;
+        KnkEntityIdentifier<MovieCasting, CastingType> _CastingType;
 
         #region Interface/Implementation
-        public MovieCasting():base(new KnkTableEntity("vieMovieCasting"))
+        public MovieCasting():base(new KnkTableEntity("vieMovieCasting", "MovieCasting"))
         {
-            Extender = new MovieCastingExtender(this);
         }
         #endregion Interface/Implementation
 
@@ -36,5 +36,20 @@ namespace KnkSolutionMovies.Entities
         {
             return $"{ArtistName} ({Role})";
         }
+
+        public CastingType CastingType
+        {
+            get
+            {
+                if (_CastingType == null) _CastingType = KnkSolutionMoviesUtils.GetReference<MovieCasting, CastingType>(this, "IdCastingType");
+                return _CastingType?.Value;
+            }
+            set
+            {
+                if (_CastingType == null) _CastingType = KnkSolutionMoviesUtils.GetReference<MovieCasting, CastingType>(this, "IdCastingType");
+                _CastingType.Value = value;
+            }
+        }
+
     }
 }

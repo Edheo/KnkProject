@@ -65,7 +65,7 @@ namespace KnkCore
             if (_Criteria == null)
             {
                 KnkItemItf lDad = new Tdad();
-                lDad.Parent = this;
+                lDad.SetParent(this);
                 _Criteria = new KnkCriteria<Tdad, Tlst>((Tdad)lDad);
             }
             return _Criteria;
@@ -73,7 +73,16 @@ namespace KnkCore
 
         public List<KnkEntityIdentifierItf> GetListIds()
         {
-            return Connection.GetListIds(GetCriteria());
+            if (_List == null)
+                return Connection.GetListIds(GetCriteria());
+            else
+                return GetListIds(Items);
+        }
+
+        public List<KnkEntityIdentifierItf> GetListIds(List<Tlst> aItems)
+        {
+            var lLst = aItems.Select(itm => itm.PropertyGet(itm.PrimaryKey()) as KnkEntityIdentifierItf);
+            return lLst.ToList();
         }
 
         public void Add(Tlst aItem)
@@ -84,13 +93,42 @@ namespace KnkCore
 
         public bool SaveChanges()
         {
-            var lChanges = (from itm in Items where itm.Status() != UpdateStatusEnu.NoChanges select itm);
-            foreach(var lItm in lChanges)
-            {
+            bool lRet = SaveChanges(Items);
+            if (lRet) Refresh();
+            return lRet;
+        }
 
-            }
+        public bool SaveChanges(List<Tlst> aList)
+        {
+            return SaveChanges(aList, UpdateStatusEnu.NoChanges);
+        }
+
+        public bool SaveChanges(UpdateStatusEnu aStatus)
+        {
+            bool lRet = SaveChanges(Items, aStatus);
+            if (lRet) Refresh();
+            return lRet;
+        }
+
+        public bool SaveChanges(List<Tlst> aList, UpdateStatusEnu aStatus)
+        {
+            var lChanges = (from itm in aList where itm.Status() != UpdateStatusEnu.NoChanges && (itm.Status() == aStatus || aStatus==UpdateStatusEnu.NoChanges )select itm).ToList();
+            Connection.SaveData<Tlst>(lChanges);
             return true;
         }
+
+        public void Refresh()
+        {
+            _List = null;
+        }
+
+        public Tlst Create()
+        {
+            Tlst lItem = new Tlst();
+            lItem.SetParent(this);
+            return lItem;
+        }
+
     }
 
 

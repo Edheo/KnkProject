@@ -1,4 +1,5 @@
 ﻿using KnkInterfaces.Interfaces;
+using KnkInterfaces.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace KnkInterfaces.Classes
 
         public static implicit operator int? (KnkEntityIdentifier value)
         {
-            return value._value;
+            return value?._value;
         }
 
         public override bool Equals(object obj)
@@ -143,6 +144,16 @@ namespace KnkInterfaces.Classes
                 return _value;
             else
                 throw new NotImplementedException();
+        }
+
+        public int CompareTo(object obj)
+        {
+            int? lObj = KnkInterfacesUtils.ObjectToKnkInt(obj);
+
+            if (lObj == this.GetInnerValue())
+                return 0;
+            else 
+                return 1;
         }
     }
 }

@@ -4,11 +4,18 @@ namespace KnkCore
 {
     public class KnkTableEntity : KnkTableEntityItf
     {
-        public KnkTableEntity(string aTable)
+        public KnkTableEntity(string aTable):this(aTable,aTable)
+        {
+        }
+
+        public KnkTableEntity(string aTable, string aTableBase)
         {
             SourceTable = aTable;
+            TableBase = aTableBase;
         }
+
         public string SourceTable { get; }
+        public string TableBase { get; }
     }
 
     public class KnkTableEntityRelation<T> : KnkTableEntity, KnkTableEntityRelationItf<T>

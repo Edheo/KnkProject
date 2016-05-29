@@ -8,7 +8,7 @@ namespace KnkSolutionMovies.Entities
     public class FilePlay : KnkItemBase
     {
         #region Interface/Implementation
-        public FilePlay():base(new KnkTableEntity("vieMoviePlays"))
+        public FilePlay():base(new KnkTableEntity("vieMoviePlays", "MoviePlays"))
         {
         }
 

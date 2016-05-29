@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace KnkSolutionMovies.References
 {
-    class CastingTypeReference : KnkEntityIdentifier<MovieCasting, CastingType>
+    class FolderReference : KnkEntityIdentifier<Folder, Folder>
     {
-        public CastingTypeReference(MovieCasting aMovieCasting, string aProperty) 
-        : base(aMovieCasting, aProperty, aMovieCasting.Connection().GetItem<CastingType>)
+        public FolderReference(Folder aFolder, string aProperty) 
+        : base(aFolder, aProperty, aFolder.Connection().GetItem<Folder>)
         {
         }
 
@@ -25,7 +25,7 @@ namespace KnkSolutionMovies.References
 
         public override string ToString()
         {
-            return this.Value.Type;
+            return this.Value.ToString();
         }
     }
 }

@@ -1,15 +1,23 @@
 ﻿using KnkCore;
 using KnkInterfaces.Classes;
 using KnkInterfaces.PropertyAtributes;
+using KnkSolutionMovies.Extenders;
+using KnkSolutionMovies.Utilities;
 using System;
 
 namespace KnkSolutionMovies.Entities
 {
     public class Folder : KnkItemBase
     {
+        KnkEntityIdentifier<Folder, Folder> _ParentFolder;
+        KnkEntityIdentifier<Folder, Folder> _RootFolder;
+
+        public readonly FolderExtender Extender;
+
         #region Interface/Implementation
-        public Folder():base(new KnkTableEntity("vieFolders"))
+        public Folder():base(new KnkTableEntity("vieFolders", "Paths"))
         {
+            Extender = new FolderExtender(this);
         }
         #endregion Interface/Implementation
 
@@ -37,6 +45,35 @@ namespace KnkSolutionMovies.Entities
         {
             return Path;
         }
+
+        public Folder ParentFolder
+        {
+            get
+            {
+                if (_ParentFolder == null) _ParentFolder = KnkSolutionMoviesUtils.GetReference<Folder, Folder>(this, "IdParentPath");
+                return _ParentFolder?.Value;
+            }
+            set
+            {
+                if (_ParentFolder == null) _ParentFolder = KnkSolutionMoviesUtils.GetReference<Folder, Folder>(this, "IdParentPath");
+                _ParentFolder.Value = value;
+            }
+        }
+
+        public Folder RootFolder
+        {
+            get
+            {
+                if (_RootFolder == null) _RootFolder = KnkSolutionMoviesUtils.GetReference<Folder, Folder>(this, "IdParentPath");
+                return _RootFolder?.Value;
+            }
+            set
+            {
+                if (_RootFolder == null) _RootFolder = KnkSolutionMoviesUtils.GetReference<Folder, Folder>(this, "IdParentPath");
+                _RootFolder.Value = value;
+            }
+        }
+
 
     }
 }

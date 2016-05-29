@@ -155,19 +155,19 @@ namespace KnkSolutionMovies.Extenders
 
         public string Director()
         {
-            var lDir = (from c in Casting.Items where c.Extender.CastingType.Type.Equals("Director") orderby c.Extender.CastingType.Type descending, c.Ordinal select c);
+            var lDir = (from c in Casting.Items where c.CastingType.Type.Equals("Director") orderby c.CastingType.Type descending, c.Ordinal select c);
             return lDir.OrderBy(g => g.Ordinal).Aggregate((i, j) => new MovieCasting { ArtistName  = (i.ArtistName + ", " + j.ArtistName) }).ArtistName;
         }
 
         public string Writer()
         {
-            var lWri = (from c in Casting.Items where c.Extender.CastingType.Type.Equals("Writer") orderby c.Extender.CastingType.Type descending, c.Ordinal select c);
+            var lWri = (from c in Casting.Items where c.CastingType.Type.Equals("Writer") orderby c.CastingType.Type descending, c.Ordinal select c);
             return lWri.OrderBy(g => g.Ordinal).Aggregate((i, j) => new MovieCasting { ArtistName = (i.ArtistName + ", " + j.ArtistName) }).ArtistName;
         }
 
         public List<MovieCasting> ArtistCasting()
         {
-            return (from c in Casting.Items where c.Extender.CastingType.Type.Equals("Actor") orderby c.Extender.CastingType.Type descending, c.Ordinal select c).ToList();
+            return (from c in Casting.Items where c.CastingType.Type.Equals("Actor") orderby c.CastingType.Type descending, c.Ordinal select c).ToList();
         }
 
         public decimal AveragedRate

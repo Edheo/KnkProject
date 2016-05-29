@@ -27,7 +27,7 @@ namespace KnkSolutionMovies.Extenders
         public string GetFileName()
         {
             string lFrom = GetImageUri();
-            KnkConnection lConf = _MediaThumb.Connection as KnkConnection;
+            KnkConnection lConf = _MediaThumb.Connection() as KnkConnection;
             string lFolder = lConf.Configuration().GetMediaFolder(typeof(Movie));
 
             string lPartName1 = ParsedId();

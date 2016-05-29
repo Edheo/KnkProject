@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KnkInterfaces.Interfaces
 {
-    public interface KnkEntityIdentifierItf : IConvertible
+    public interface KnkEntityIdentifierItf : IConvertible, IComparable
     {
         int? GetInnerValue();
         void SetInnerValue(int? aValue);

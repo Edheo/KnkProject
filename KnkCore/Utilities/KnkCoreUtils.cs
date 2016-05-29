@@ -102,7 +102,14 @@ namespace KnkCore.Utilities
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            var lLst = (from e in aList.GetListIds() select e.GetInnerValue());
+            CreateInParameter<Tdad, Tlst>(aList.GetListIds(), aCriteria, aField);
+        }
+
+        public static void CreateInParameter<Tdad, Tlst>(List<KnkEntityIdentifierItf> aList, KnkCriteria<Tdad, Tdad> aCriteria, string aField)
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
+            var lLst = (from e in aList select e.GetInnerValue());
             var lStr = String.Join(",", lLst.ToArray());
             aCriteria.AddParameter(typeof(string), aField, OperatorsEnu.In, lStr);
         }

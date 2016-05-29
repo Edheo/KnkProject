@@ -1,4 +1,6 @@
-﻿using System;
+﻿using KnkCore;
+using KnkInterfaces.Interfaces;
+using System;
 using System.IO;
 using System.Net;
 
@@ -51,18 +53,13 @@ namespace KnkSolutionMovies.Utilities
         {
             return new FileStream(aFilename, FileMode.Open, FileAccess.Read);
         }
-        //public static Image GetImageFromUrl(string aUrl)
-        //{
-        //    Image lImage = null;
-        //    using (Stream lStream = GetUrlStream(aUrl))
-        //    {
-        //        if (lStream != null)
-        //        {
-        //            lImage = Image.FromStream(lStream);
-        //            lStream.Close();
-        //        }
-        //    }
-        //    return lImage;
-        //}
+
+        internal static KnkEntityIdentifier<TDad, TReference> GetReference<TDad, TReference>(TDad aDad, string aField)
+        where TDad : KnkItemItf
+        where TReference : KnkItemItf, new()
+        {
+            return new KnkEntityIdentifier<TDad, TReference>(aDad, aField);
+        }
+
     }
 }

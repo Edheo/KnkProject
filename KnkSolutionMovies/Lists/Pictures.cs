@@ -7,7 +7,7 @@ namespace KnkSolutionMovies.Lists
     public class MoviePictures : KnkList<Movie, MediaThumb>
     {
         public MoviePictures(Movie aMovie) 
-        : base(aMovie.Connection, new KnkCriteria<Movie, MediaThumb>(aMovie))
+        : base(aMovie.Connection(), new KnkCriteria<Movie, MediaThumb>(aMovie))
         {
         }
 

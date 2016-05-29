@@ -12,35 +12,38 @@ namespace KnkInterfaces.Utilities
 {
     public static class KnkInterfacesUtils 
     {
-        public static T CopyRecord<T>(KnkListItf aOwner, DataRow aRow) where T: KnkItemItf, new()
+        public static T CopyRecord<T>(KnkListItf aOwner, DataRow aRow) where T : KnkItemItf, new()
+        {
+            T lNewItem = new T();
+            lNewItem.SetParent(aOwner);
+            return CopyRecord(lNewItem, aRow);
+        }
+
+        public static T CopyRecord<T>(T aItem, DataRow aRow) where T: KnkItemItf, new()
         {
             //Get Properties
-            T lNewItem = new T();
-            var lProperties = lNewItem.GetType().GetProperties();
-            var lColumns = aRow.Table.Columns.Cast<DataColumn>();
-            lNewItem.Parent = aOwner;
-            foreach (PropertyInfo lPrp in lProperties)
+            var lJoined = from prp in aItem.GetType().GetProperties()
+                          join fld in aRow.Table.Columns.Cast<DataColumn>()
+                          on prp.Name.ToLower() equals fld.ColumnName.ToLower()
+                          select prp;
+
+            foreach (PropertyInfo lPrp in lJoined)
             {
                 //If property is generic list, continue
                 if (lPrp.PropertyType.IsGenericType && lPrp.PropertyType.GetGenericTypeDefinition() == typeof(List<>)) continue;
-                var lPropertyName = lPrp.Name;
                 //Check for dbnull, return null if true, or convert to correct type
-                var lCol = (from c in lColumns where c.ColumnName.ToLower().Equals(lPropertyName.ToLower()) select c).FirstOrDefault();
-                if(lCol != null)
+                dynamic lValue;
+                if (lPrp.PropertyType.Equals(typeof(KnkEntityIdentifier)))
                 {
-                    dynamic lValue;
-                    if (lPrp.PropertyType.Equals(typeof(KnkEntityIdentifier)))
-                    {
-                        lValue = (KnkEntityIdentifier)(Convert.IsDBNull(aRow[lCol]) ? null : (int?)Convert.ToInt32(aRow[lCol]));
-                    }
-                    else
-                    {
-                        lValue = Convert.IsDBNull(aRow[lCol]) ? null : Convert.ChangeType(aRow[lCol], GetPropertyType(lPrp));
-                    }
-                    lPrp.SetValue(lNewItem, lValue);
+                    lValue = (KnkEntityIdentifier)(Convert.IsDBNull(aRow[lPrp.Name]) ? null : (int?)Convert.ToInt32(aRow[lPrp.Name]));
                 }
+                else
+                {
+                    lValue = Convert.IsDBNull(aRow[lPrp.Name]) ? null : Convert.ChangeType(aRow[lPrp.Name], GetPropertyType(lPrp));
+                }
+                lPrp.SetValue(aItem, lValue);
             }
-            return lNewItem;
+            return aItem;
         }
 
         public static PropertyInfo[] GetProperties<T>() where T : KnkItemItf, new()
@@ -51,7 +54,7 @@ namespace KnkInterfaces.Utilities
         public static PropertyInfo[] GetProperties<T>(T item) 
             where T : KnkItemItf
         {
-            return item.GetType().GetProperties();
+            return (from p in item.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance) where p.CanWrite select p).ToArray();
         }
 
         public static PropertyInfo GetPrimaryKey<T>(T item)
@@ -125,6 +128,26 @@ namespace KnkInterfaces.Utilities
             }
 
             return dataTable;
+        }
+
+        public static int? ObjectToKnkInt(object aVal)
+        {
+            if (aVal == null)
+                return null;
+
+            KnkEntityIdentifier lVal = aVal as KnkEntityIdentifier;
+            if (lVal != null)
+                return lVal.GetInnerValue();
+
+            try
+            {
+                int lInt = (int)aVal;
+                return lInt;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
     }

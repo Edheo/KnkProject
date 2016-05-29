@@ -16,7 +16,6 @@ namespace KnkInterfaces.Interfaces
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new();
 
-        void SaveData<T>(T aItem)
-            where T : KnkItemItf;
+        void SaveData<T>(T aItem) where T : KnkItemItf, new();
     }
 }

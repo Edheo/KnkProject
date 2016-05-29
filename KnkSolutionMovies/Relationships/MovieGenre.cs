@@ -29,7 +29,7 @@ namespace KnkSolutionMovies.Relationships
         private KnkReferenceItf<MovieGenre, GenreClass> GenreReference()
         {
             if (_GenreReference == null)
-                _GenreReference = Connection.GetReference<MovieGenre, GenreClass>(this, "IdGenre");
+                _GenreReference = Connection().GetReference<MovieGenre, GenreClass>(this, "IdGenre");
             return _GenreReference;
         }
 

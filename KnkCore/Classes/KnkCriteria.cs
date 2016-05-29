@@ -15,7 +15,7 @@ namespace KnkCore
         private readonly KnkTableEntity _entityTable;
 
         public KnkCriteria(Tdad aItem) 
-        : this(aItem, (new Tlst()).SourceEntity)
+        : this(aItem, (new Tlst()).SourceEntity())
         {
         }
 
