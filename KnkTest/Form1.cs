@@ -26,7 +26,7 @@ namespace WindowsFormsApplication2
             var lMov1 = lLst2.LastOrDefault();
 
             MessageBox.Show(lMov1.Title);
-            MessageBox.Show(lMov1.Extender.MovieSet.Name);
+            MessageBox.Show(lMov1.MovieSet.Name);
 
             MessageBox.Show(lMov1.Extender.Files.Count().ToString());
             MessageBox.Show(lMov1.Extender.Genres.Count().ToString());

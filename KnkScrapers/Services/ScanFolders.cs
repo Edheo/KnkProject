@@ -1,5 +1,5 @@
 ﻿using KnkInterfaces.Enumerations;
-using KnkScrappers.Utilities;
+using KnkScrapers.Utilities;
 using KnkSolutionMovies.Entities;
 using KnkSolutionMovies.Lists;
 using System;
@@ -49,6 +49,15 @@ namespace KnkScrapers.Services
             {
                 if (!System.IO.File.Exists(lFile.ToString()))
                     lFile.Delete();
+                else 
+                {
+                    DateTime lDat = System.IO.File.GetLastAccessTime(lFile.ToString());
+                    if (lDat < lFile.DateAdded)
+                    {
+                        lFile.DateAdded = lDat;
+                        lFile.Update();
+                    }
+                }
             }
 
             lRet.Folders = (from itm in FoldersToScan() where itm.Status() != UpdateStatusEnu.NoChanges select itm).ToList();

@@ -39,8 +39,8 @@ namespace KnkMovieForms.Forms
         {
             ScanFolders lScan = new ScanFolders(MovieParentFolders(), _Folders, _Files);
             var lLst = lScan.FoldersScanner();
-            var lResult1 = lLst.Folders.Select(f => new { Type="Folder", Selected = f.Status().Equals(UpdateStatusEnu.New), Action = f.Status().ToString(), Root=f.Extender.RootFolder.ToString(), Parent=f.Extender.ParentFolder.ToString(), Item = f.Path }).ToList();
-            var lResult2 = lLst.Files.Select(f => new { Type = "File", Selected = f.Status().Equals(UpdateStatusEnu.New), Action = f.Status().ToString(), Root = f.Folder.Extender.RootFolder.ToString(), Parent = f.Folder.ToString(), Item = f.Filename }).ToList();
+            var lResult1 = lLst.Folders.Select(f => new { Type="Folder", Selected = f.Status().Equals(UpdateStatusEnu.New), Action = f.Status().ToString(), Root=f.RootFolder.ToString(), Parent=f.ParentFolder.ToString(), Item = f.Path }).ToList();
+            var lResult2 = lLst.Files.Select(f => new { Type = "File", Selected = f.Status().Equals(UpdateStatusEnu.New), Action = f.Status().ToString(), Root = f.Folder.RootFolder?.ToString(), Parent = f.Folder?.ToString(), Item = f.Filename }).ToList();
             var lResult = lResult1.Union(lResult2).ToList();
             grdResults.AutoGenerateColumns = true;
             grdResults.DataSource = lResult;
@@ -66,8 +66,23 @@ namespace KnkMovieForms.Forms
 
         private void btnUpdates_Click(object sender, EventArgs e)
         {
+            var lFol = _Folders.Items;
+            var lFil = _Files.Items;
+            _Folders.SaveChanges(lFol, UpdateStatusEnu.Update);
             _Folders.SaveChanges(UpdateStatusEnu.New);
+            _Files.SaveChanges(lFil, UpdateStatusEnu.Update);
             _Files.SaveChanges(UpdateStatusEnu.New);
+        }
+
+        private void btnMissing_Click(object sender, EventArgs e)
+        {
+            OnScrapMissingFiles();
+        }
+
+        private void OnScrapMissingFiles()
+        {
+            ScraperMovies lEsc = new ScraperMovies(_Folders.Connection);
+            lEsc.ScrapFiles();
         }
     }
 }

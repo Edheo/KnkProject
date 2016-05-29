@@ -30,12 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScanLibrariesForm));
             this.pnlButtons = new System.Windows.Forms.Panel();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.grdRoots = new System.Windows.Forms.DataGridView();
-            this.grdResults = new System.Windows.Forms.DataGridView();
             this.btnUpdates = new KnkMovieForms.Usercontrols.MoviePicture();
             this.btnDelete = new KnkMovieForms.Usercontrols.MoviePicture();
             this.btnScan = new KnkMovieForms.Usercontrols.MoviePicture();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.grdRoots = new System.Windows.Forms.DataGridView();
+            this.grdResults = new System.Windows.Forms.DataGridView();
+            this.btnMissing = new KnkMovieForms.Usercontrols.MoviePicture();
             this.pnlButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -48,6 +49,7 @@
             // pnlButtons
             // 
             this.pnlButtons.BackColor = System.Drawing.Color.Black;
+            this.pnlButtons.Controls.Add(this.btnMissing);
             this.pnlButtons.Controls.Add(this.btnUpdates);
             this.pnlButtons.Controls.Add(this.btnDelete);
             this.pnlButtons.Controls.Add(this.btnScan);
@@ -56,48 +58,6 @@
             this.pnlButtons.Name = "pnlButtons";
             this.pnlButtons.Size = new System.Drawing.Size(674, 41);
             this.pnlButtons.TabIndex = 7;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 41);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.grdRoots);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.grdResults);
-            this.splitContainer1.Size = new System.Drawing.Size(674, 422);
-            this.splitContainer1.SplitterDistance = 375;
-            this.splitContainer1.TabIndex = 8;
-            // 
-            // grdRoots
-            // 
-            this.grdRoots.AllowUserToAddRows = false;
-            this.grdRoots.AllowUserToDeleteRows = false;
-            this.grdRoots.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.grdRoots.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdRoots.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdRoots.Location = new System.Drawing.Point(0, 0);
-            this.grdRoots.Name = "grdRoots";
-            this.grdRoots.ReadOnly = true;
-            this.grdRoots.Size = new System.Drawing.Size(375, 422);
-            this.grdRoots.TabIndex = 0;
-            // 
-            // grdResults
-            // 
-            this.grdResults.AllowUserToAddRows = false;
-            this.grdResults.AllowUserToDeleteRows = false;
-            this.grdResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.grdResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdResults.Location = new System.Drawing.Point(0, 0);
-            this.grdResults.Name = "grdResults";
-            this.grdResults.Size = new System.Drawing.Size(295, 422);
-            this.grdResults.TabIndex = 1;
             // 
             // btnUpdates
             // 
@@ -183,6 +143,76 @@
             this.btnScan.TextAlignment = System.Drawing.StringAlignment.Center;
             this.btnScan.Click += new System.EventHandler(this.butScan_Click);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 41);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.grdRoots);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.grdResults);
+            this.splitContainer1.Size = new System.Drawing.Size(674, 422);
+            this.splitContainer1.SplitterDistance = 375;
+            this.splitContainer1.TabIndex = 8;
+            // 
+            // grdRoots
+            // 
+            this.grdRoots.AllowUserToAddRows = false;
+            this.grdRoots.AllowUserToDeleteRows = false;
+            this.grdRoots.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.grdRoots.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdRoots.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grdRoots.Location = new System.Drawing.Point(0, 0);
+            this.grdRoots.Name = "grdRoots";
+            this.grdRoots.ReadOnly = true;
+            this.grdRoots.Size = new System.Drawing.Size(375, 422);
+            this.grdRoots.TabIndex = 0;
+            // 
+            // grdResults
+            // 
+            this.grdResults.AllowUserToAddRows = false;
+            this.grdResults.AllowUserToDeleteRows = false;
+            this.grdResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.grdResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grdResults.Location = new System.Drawing.Point(0, 0);
+            this.grdResults.Name = "grdResults";
+            this.grdResults.Size = new System.Drawing.Size(295, 422);
+            this.grdResults.TabIndex = 1;
+            // 
+            // btnMissing
+            // 
+            this.btnMissing.BackColor = System.Drawing.Color.Black;
+            this.btnMissing.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnMissing.Caption = null;
+            this.btnMissing.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnMissing.FactorSize = 1F;
+            this.btnMissing.Filename = null;
+            this.btnMissing.FontColorCaption = System.Drawing.Color.White;
+            this.btnMissing.FontColorText = System.Drawing.Color.White;
+            this.btnMissing.FontName = "Verdana";
+            this.btnMissing.FontSize = 10;
+            this.btnMissing.FontstyleCaption = System.Drawing.FontStyle.Bold;
+            this.btnMissing.FontstyleText = System.Drawing.FontStyle.Bold;
+            this.btnMissing.IsButton = true;
+            this.btnMissing.LineAlignment = System.Drawing.StringAlignment.Far;
+            this.btnMissing.Location = new System.Drawing.Point(123, 0);
+            this.btnMissing.Name = "btnMissing";
+            this.btnMissing.Padding = new System.Windows.Forms.Padding(5);
+            this.btnMissing.RemarkColor = System.Drawing.Color.Black;
+            this.btnMissing.ResourceImage = ((System.Drawing.Image)(resources.GetObject("btnMissing.ResourceImage")));
+            this.btnMissing.Size = new System.Drawing.Size(41, 41);
+            this.btnMissing.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnMissing.TabIndex = 9;
+            this.btnMissing.TabStop = false;
+            this.btnMissing.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.btnMissing.Click += new System.EventHandler(this.btnMissing_Click);
+            // 
             // ScanLibrariesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -212,5 +242,6 @@
         private System.Windows.Forms.DataGridView grdRoots;
         private System.Windows.Forms.DataGridView grdResults;
         private Usercontrols.MoviePicture btnUpdates;
+        private Usercontrols.MoviePicture btnMissing;
     }
 }

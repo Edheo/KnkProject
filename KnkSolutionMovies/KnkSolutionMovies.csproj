@@ -53,7 +53,7 @@
     <Compile Include="Entities\MediaThumb.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\MovieCasting.cs" />
-    <Compile Include="Extenders\FolderExtender.cs" />
+    <Compile Include="Extenders\FileExtender.cs" />
     <Compile Include="Extenders\MediaThumbExtender.cs" />
     <Compile Include="Extenders\MovieExtender.cs" />
     <Compile Include="Lists\Countries.cs" />
@@ -65,11 +65,8 @@
     <Compile Include="Lists\Movies.cs" />
     <Compile Include="Lists\Folders.cs" />
     <Compile Include="Lists\Pictures.cs" />
-    <Compile Include="References\FolderReference.cs" />
-    <Compile Include="References\MovieSetReference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\MovieSet.cs" />
-    <Compile Include="Relationships\MovieGenre.cs" />
     <Compile Include="Utilities\KnkDataModeler.cs" />
     <Compile Include="Utilities\KnkSolutionMoviesUtils.cs" />
   </ItemGroup>
@@ -87,6 +84,7 @@
       <Name>KnkSolutionUsers</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

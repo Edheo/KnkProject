@@ -1,19 +1,35 @@
 ﻿using KnkCore;
 using KnkInterfaces.Classes;
 using KnkInterfaces.PropertyAtributes;
+using KnkSolutionMovies.Extenders;
 using KnkSolutionMovies.Utilities;
 using System;
 
 namespace KnkSolutionMovies.Entities
 {
+    public class MissingMovieFile : File
+    {
+        public MissingMovieFile():base(new KnkTableEntity("vieMovieMissing", "Files"))
+        {
+        }
+    }
+
     public class File : KnkItemBase
     {
         KnkEntityIdentifier<File, Folder> _Folder;
 
+        public readonly FileExtender Extender;
+
         #region Interface/Implementation
-        public File():base(new KnkTableEntity("vieFiles","Files"))
+        public File():this(new KnkTableEntity("vieFiles","Files"))
         {
         }
+
+        internal File(KnkTableEntity aEntity) : base(aEntity)
+        {
+            Extender = new FileExtender(this);
+        }
+
         #endregion Interface/Implementation
 
         #region Class Properties

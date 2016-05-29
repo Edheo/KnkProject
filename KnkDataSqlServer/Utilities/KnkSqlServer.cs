@@ -82,13 +82,13 @@ namespace KnkDataSqlServer.Utilities
             string lPk = aItem.PrimaryKey();
             string lInsertTable = $"[{aItem.SourceEntity().TableBase}]";
             var lProperties = from prp in KnkInterfacesUtils.GetProperties<KnkItemItf>(aItem)
-                join fld in aCols.Cast<DataColumn>()
-                on prp.Name.ToLower() equals fld.ColumnName.ToLower()
-                where  (lAuto && prp.Name != lPk) || (!lAuto && prp.Name == lPk) || aItem.PropertyGet(prp.Name)!=null
-                select new { Property = "[" + prp.Name + "]", Value = "@" + prp.Name };
+                              join fld in aCols.Cast<DataColumn>()
+                              on prp.Name.ToLower() equals fld.ColumnName.ToLower()
+                              where (lAuto && prp.Name != lPk) || (!lAuto && prp.Name == lPk) || aItem.PropertyGet(prp.Name) != null
+                              select new { Property = $"[{prp.Name}]", Value = $"@{prp.Name}" };
 
-            string lInsertFields = lProperties.Aggregate((i, j) => new { Property = $"{i.Property} , {j.Property}", Value=string.Empty }).Property;
-            string lInsertValues = lProperties.Aggregate((i, j) => new { Property = string.Empty, Value = $"{i.Value} , {j.Value}" }).Value;
+            string lInsertFields = lProperties.Aggregate((i, j) => new { Property = $"{i.Property}, {j.Property}", Value=string.Empty }).Property;
+            string lInsertValues = lProperties.Aggregate((i, j) => new { Property = string.Empty, Value = $"{i.Value}, {j.Value}" }).Value;
 
             string lOutput = string.Empty;
             if (lAuto)
@@ -123,12 +123,12 @@ namespace KnkDataSqlServer.Utilities
                               join fld in aCols.Cast<DataColumn>()
                               on prp.Name.ToLower() equals fld.ColumnName.ToLower()
                               where (prp.Name != lPk)
-                              select prp.Name;
+                              select $"[{prp.Name}] = @{prp.Name}";
 
-            string lUpdateFields = lProperties.Aggregate((i, j) => $"[{i}] = @{i} , [{j}] = @{j}");
+            string lUpdateFields = lProperties.Aggregate((i, j) => $"{i}, {j}");
             string lWhereValues = $"[{lPk}] = @{lPk}";
 
-            return $"Update {lUpdateTable} Set ({lUpdateFields}) Where {lWhereValues}";
+            return $"Update {lUpdateTable} Set {lUpdateFields} Where {lWhereValues}";
         }
 
         internal static string GetDynamicDelete<T>(T aItem)

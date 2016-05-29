@@ -12,12 +12,9 @@ namespace KnkSolutionMovies.Entities
         KnkEntityIdentifier<Folder, Folder> _ParentFolder;
         KnkEntityIdentifier<Folder, Folder> _RootFolder;
 
-        public readonly FolderExtender Extender;
-
         #region Interface/Implementation
         public Folder():base(new KnkTableEntity("vieFolders", "Paths"))
         {
-            Extender = new FolderExtender(this);
         }
         #endregion Interface/Implementation
 

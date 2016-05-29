@@ -1,8 +1,5 @@
 ﻿using KnkSolutionMovies.Entities;
 using KnkSolutionMovies.Lists;
-using KnkSolutionMovies.References;
-using KnkSolutionUsers.Entities;
-using KnkSolutionUsers.References;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +15,6 @@ namespace KnkSolutionMovies.Extenders
         }
 
         #region References
-        MovieSetReference _MovieSetReference = null;
-        UserReference<Movie> _CreationUser = null;
 
         MovieCastings _Casting = null;
         MovieCountries _Countries = null;
@@ -31,35 +26,6 @@ namespace KnkSolutionMovies.Extenders
         #endregion References
 
         #region Relationships
-        private MovieSetReference MovieSetReference()
-        {
-            if (_MovieSetReference == null)
-                _MovieSetReference = new MovieSetReference(_Movie, "IdSet");
-            return _MovieSetReference;
-        }
-
-        private UserReference<Movie> CreationUserReference()
-        {
-            if (_CreationUser == null)
-                _CreationUser = new UserReference<Movie>(_Movie, "UserCreationId");
-            return _CreationUser;
-        }
-
-        public MovieSet MovieSet
-        {
-            get
-            {
-                return MovieSetReference().Value;
-            }
-        }
-
-        public User CreationUser
-        {
-            get
-            {
-                return CreationUserReference().Value;
-            }
-        }
 
         public MovieFiles Files
         {

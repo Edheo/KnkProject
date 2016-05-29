@@ -2,12 +2,15 @@
 using KnkInterfaces.Classes;
 using KnkInterfaces.PropertyAtributes;
 using KnkSolutionMovies.Extenders;
+using KnkSolutionMovies.Utilities;
 using System;
 
 namespace KnkSolutionMovies.Entities
 {
     public class Movie : KnkItemBase
     {
+        KnkEntityIdentifier<Movie, MovieSet> _MovieSet;
+
         public readonly MovieExtender Extender;
 
         #region Interface/Implementation
@@ -35,13 +38,25 @@ namespace KnkSolutionMovies.Entities
         public decimal? UserRating { get; set; }
         public DateTime? DateAdded { get; set; }
 
-        public string MovieSet { get { return Extender.MovieSet?.Name; } }
-        public string CreatedBy { get { return Extender.CreationUser?.Username; } }
         #endregion
 
         public override string ToString()
         {
             return $"{Title} ({Year})";
+        }
+
+        public MovieSet MovieSet
+        {
+            get
+            {
+                if (_MovieSet == null) _MovieSet = KnkSolutionMoviesUtils.GetReference<Movie, MovieSet>(this, "IdMovieSet");
+                return _MovieSet?.Value;
+            }
+            set
+            {
+                if (_MovieSet == null) _MovieSet = KnkSolutionMoviesUtils.GetReference<Movie, MovieSet>(this, "IdMovieSet");
+                _MovieSet.Value = value;
+            }
         }
 
     }
