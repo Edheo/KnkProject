@@ -7,7 +7,7 @@ namespace KnkSolutionMovies.Entities
     public class MovieSet : KnkItemBase
     {
         #region Interface/Implementation
-        public MovieSet():base(new KnkTableEntity("MovieSets"))
+        public MovieSet():base(new KnkTableEntity("vieMovieSets", "MovieSets"))
         {
         }
         #endregion Interface/Implementation

@@ -12,7 +12,7 @@ namespace KnkSolutionMovies.Entities
     public class MovieSummary : KnkItemBase
     {
         #region Interface/Implementation
-        public MovieSummary():base(new KnkTableEntity("MovieSummaries"))
+        public MovieSummary():base(new KnkTableEntity("vieMovieSummaries", "MovieSummaries"))
         {
         }
         #endregion Interface/Implementation

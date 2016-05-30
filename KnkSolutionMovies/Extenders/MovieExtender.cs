@@ -37,7 +37,7 @@ namespace KnkSolutionMovies.Extenders
         {
             get
             {
-                return GenresList.Items.OrderBy(g=>g.Genre).Aggregate((i, j) => new GenreClass { Genre = (i.Genre + ", " + j.Genre) }).Genre;
+                return GenresList.Items.OrderBy(g=>g.GenreName).Aggregate((i, j) => new Genre { GenreName = (i.GenreName + ", " + j.GenreName) }).GenreName;
             }
         }
 
@@ -98,7 +98,7 @@ namespace KnkSolutionMovies.Extenders
         {
             get
             {
-                return CountriesList.Items.OrderBy(c=>c.Country).Aggregate((i, j) => new CountryClass { Country = (i.Country + ", " + j.Country) }).Country;
+                return CountriesList.Items.OrderBy(c=>c.CountryName).Aggregate((i, j) => new Country { CountryName = (i.CountryName + ", " + j.CountryName) }).CountryName;
             }
         }
 

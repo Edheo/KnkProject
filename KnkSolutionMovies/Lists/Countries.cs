@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class Countries : KnkList<CountryClass, CountryClass>
+    public class Countries : KnkList<Country, Country>
     {
         public Countries(KnkConnectionItf aConnection)
         : base(aConnection)
@@ -17,26 +17,26 @@ namespace KnkSolutionMovies.Lists
 
         }
 
-        public override List<CountryClass> Datasource()
+        public override List<Country> Datasource()
         {
-            return (from c in Items orderby c.Country select c).ToList();
+            return (from c in Items orderby c.CountryName select c).ToList();
         }
     }
 
-    public class MovieCountries : KnkList<Movie, CountryClass>
+    public class MovieCountries : KnkList<Movie, Country>
     {
         public MovieCountries(Movie aMovie)
-        : base(aMovie.Connection(), new KnkCriteria<Movie, CountryClass>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieCountries")))
+        : base(aMovie.Connection(), new KnkCriteria<Movie, Country>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieCountries", "MovieCountries")))
         {
         }
 
-        public MovieCountries(KnkConnectionItf aConnection, KnkCriteria<Movie, CountryClass> aCriteria)
+        public MovieCountries(KnkConnectionItf aConnection, KnkCriteria<Movie, Country> aCriteria)
         : base(aConnection, aCriteria)
         {
         }
 
         public MovieCountries(KnkConnectionItf aConnection, string aCountry)
-        : base(aConnection, KnkCore.Utilities.KnkCoreUtils.BuildLikeCriteria<Movie, CountryClass>("Country", aCountry, "vieMovieCountries", "IdCountry"))
+        : base(aConnection, KnkCore.Utilities.KnkCoreUtils.BuildLikeCriteria<Movie, Country>("Country", aCountry, "vieMovieCountries", "IdCountry"))
         {
         }
     }

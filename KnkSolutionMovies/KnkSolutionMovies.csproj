@@ -45,11 +45,11 @@
     </Compile>
     <Compile Include="Entities\Casting.cs" />
     <Compile Include="Entities\CastingType.cs" />
-    <Compile Include="Entities\CountryClass.cs" />
+    <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\FilePlay.cs" />
     <Compile Include="Entities\File.cs" />
     <Compile Include="Entities\Folder.cs" />
-    <Compile Include="Entities\GenreClass.cs" />
+    <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\MediaThumb.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\MovieCasting.cs" />

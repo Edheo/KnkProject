@@ -8,7 +8,7 @@ namespace KnkSolutionMovies.Entities
     public class Casting : KnkItemBase
     {
         #region Interface/Implementation
-        public Casting():base(new KnkTableEntity("Casting"))
+        public Casting():base(new KnkTableEntity("vieCasting", "Casting"))
         {
         }
         #endregion Interface/Implementation

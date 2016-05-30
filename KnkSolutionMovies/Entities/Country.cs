@@ -1,28 +1,31 @@
 ﻿using KnkCore;
 using KnkInterfaces.Classes;
 using KnkInterfaces.PropertyAtributes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class GenreClass : KnkItemBase
+    public class Country : KnkItemBase
     {
         #region Interface/Implementation
-        public GenreClass():base(new KnkTableEntity("Genres"))
+        public Country():base(new KnkTableEntity("vieCountries", "Countries"))
         {
         }
         #endregion Interface/Implementation
 
         #region Class Properties
         [AtributePrimaryKey]
-        public KnkEntityIdentifier IdGenre { get; set; }
-
-        public string Genre { get; set; }
+        public KnkEntityIdentifier IdCountry { get; set; }
+        public string CountryName { get; set; }
         #endregion Class Properties
 
         public override string ToString()
         {
-            return Genre;
+            return CountryName;
         }
-
     }
 }

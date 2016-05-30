@@ -58,7 +58,7 @@ namespace KnkMovieForms.Usercontrols
             if (_Movies != null)
             {
                 LoadCombo<Casting>(cmbArtist, "ArtistName", new Castings(_Movies.Connection).Datasource());
-                LoadCombo<GenreClass>(cmbGenres, "Genre", new Genres(_Movies.Connection).Datasource());
+                LoadCombo<Genre>(cmbGenres, "GenreName", new Genres(_Movies.Connection).Datasource());
                 LoadCombo<MovieSet>(cmbSaga, "Name", new MovieSets(_Movies.Connection).Datasource());
                 moviesWall.LoadMovies(_Movies);
             }
@@ -118,8 +118,7 @@ namespace KnkMovieForms.Usercontrols
         private void GenerateCriteria()
         {
             KnkCriteria<Movie, Movie> lCri = null;
-            KnkTableEntity lEntity = new KnkTableEntity("vieMovies");
-            lCri = new KnkCriteria<Movie, Movie>(new Movie(), lEntity);
+            lCri = new KnkCriteria<Movie, Movie>(new Movie(), new KnkTableEntity("vieMovies", "Movies"));
             if (!string.IsNullOrEmpty(txtSearch.Text))
             {
                 string[] lSearch = txtSearch.Text.Split(' ');

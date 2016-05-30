@@ -12,7 +12,7 @@ namespace KnkSolutionUsers.Entities
     public class User : KnkItemBase
     {
         #region Interface/Implementation
-        public User():base(new KnkTableEntity("Users"))
+        public User():base(new KnkTableEntity("vieUsers", "Users"))
         {
         }
         #endregion Interface/Implementation

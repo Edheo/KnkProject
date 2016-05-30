@@ -7,7 +7,7 @@ using KnkSolutionMovies.Entities;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class Genres : KnkList<GenreClass,GenreClass>
+    public class Genres : KnkList<Genre,Genre>
     {
         public Genres(KnkConnectionItf aConnection) 
         : base(aConnection)
@@ -15,16 +15,16 @@ namespace KnkSolutionMovies.Lists
 
         }
 
-        public override List<GenreClass> Datasource()
+        public override List<Genre> Datasource()
         {
-            return (from c in Items orderby c.Genre select c).ToList();
+            return (from c in Items orderby c.GenreName select c).ToList();
         }
     }
 
-    public class MovieGenres : KnkList<Movie, GenreClass>
+    public class MovieGenres : KnkList<Movie, Genre>
     {
         public MovieGenres(Movie aMovie) 
-        : base(aMovie.Connection(), new KnkCriteria<Movie, GenreClass>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieGenres")))
+        : base(aMovie.Connection(), new KnkCriteria<Movie, Genre>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieGenres", "MovieGenres")))
         {
 
         }
@@ -34,9 +34,9 @@ namespace KnkSolutionMovies.Lists
         {
         }
 
-        private static KnkCriteria<Movie, GenreClass> BuildCriteria(string aGenre)
+        private static KnkCriteria<Movie, Genre> BuildCriteria(string aGenre)
         {
-            KnkCriteria<Movie, GenreClass> lCri = new KnkCriteria<Movie, GenreClass>(new Movie(), new KnkTableEntityRelation<Movie>("vieMovieGenres"));
+            KnkCriteria<Movie, Genre> lCri = new KnkCriteria<Movie, Genre>(new Movie(), new KnkTableEntityRelation<Movie>("vieMovieGenres", "MovieGenres"));
             lCri.AddParameter(typeof(string), "Genre", OperatorsEnu.Like, $"%{aGenre}%");
             return lCri;
         }

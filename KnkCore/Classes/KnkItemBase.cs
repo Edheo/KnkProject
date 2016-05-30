@@ -90,13 +90,15 @@ namespace KnkCore
             }
         }
 
-        public int? UserCreationId { get; set; }
-        public int? UserModifiedId { get; set; }
-        public int? UserDeletedId { get; set; }
+        public bool Deleted { get; set; }
 
         public DateTime? CreationDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
+
+        public int? UserCreationId { get; set; }
+        public int? UserModifiedId { get; set; }
+        public int? UserDeletedId { get; set; }
 
         public abstract override string ToString();
 
