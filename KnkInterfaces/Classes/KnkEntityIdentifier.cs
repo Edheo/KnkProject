@@ -10,6 +10,14 @@ namespace KnkInterfaces.Classes
 {
     public class KnkEntityIdentifier : KnkEntityIdentifierItf
     {
+        public KnkEntityIdentifier():this(null)
+        {
+        }
+
+        public KnkEntityIdentifier(int? aValue)
+        {
+            SetInnerValue(aValue);
+        }
         //KnkEntityIdentifierItf
         private int? _value;
 
@@ -30,7 +38,7 @@ namespace KnkInterfaces.Classes
 
         public static implicit operator KnkEntityIdentifier(int value)
         {
-            return new KnkEntityIdentifier() { _value = value };
+            return new KnkEntityIdentifier(value);
         }
 
         public static implicit operator int(KnkEntityIdentifier value)

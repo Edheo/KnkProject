@@ -96,9 +96,9 @@ namespace KnkCore
         public DateTime? ModifiedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
 
-        public int? UserCreationId { get; set; }
-        public int? UserModifiedId { get; set; }
-        public int? UserDeletedId { get; set; }
+        public KnkEntityIdentifierItf UserCreationId { get; set; }
+        public KnkEntityIdentifierItf UserModifiedId { get; set; }
+        public KnkEntityIdentifierItf UserDeletedId { get; set; }
 
         public abstract override string ToString();
 
@@ -106,7 +106,11 @@ namespace KnkCore
         {
             T lNew = new T();
             lNew.SetParent(this.GetParent());
-            var lProperties = KnkInterfacesUtils.GetProperties<KnkItemItf>(this).Where(p => p.Name != this.PrimaryKey());
+            var lProperties = KnkInterfacesUtils.GetProperties<KnkItemItf>(this).Where(p => p.Name != this.PrimaryKey() 
+                && !KnkInterfacesUtils.CreatedFields().Contains(p.Name.ToLower())
+                && !KnkInterfacesUtils.DeletedFields().Contains(p.Name.ToLower())
+                && !KnkInterfacesUtils.ModifiedFields().Contains(p.Name.ToLower())
+                );
             foreach(var lProperty in lProperties)
             {
                 lNew.PropertySet(lProperty.Name, this.PropertyGet(lProperty.Name));
@@ -117,15 +121,26 @@ namespace KnkCore
         public void Update()
         {
             var lPrp = PropertyGet(PrimaryKey());
-            if(lPrp==null)
+            if (lPrp == null)
+            {
+                CreationDate = DateTime.Now;
+                UserCreationId = Connection().CurrentUserId();
                 _status = UpdateStatusEnu.New;
+            }
             else
+            {
+                ModifiedDate = DateTime.Now;
+                UserModifiedId = Connection().CurrentUserId();
                 _status = UpdateStatusEnu.Update;
+            }
         }
 
         public void Delete()
         {
             _status = UpdateStatusEnu.Delete;
+            Deleted = true;
+            DeletedDate = DateTime.Now;
+            UserDeletedId = Connection().CurrentUserId();;
         }
 
         public UpdateStatusEnu Status()

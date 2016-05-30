@@ -54,6 +54,7 @@
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\MovieCasting.cs" />
     <Compile Include="Entities\MovieSummary.cs" />
+    <Compile Include="Entities\MovieUser.cs" />
     <Compile Include="Extenders\FileExtender.cs" />
     <Compile Include="Extenders\MediaThumbExtender.cs" />
     <Compile Include="Extenders\MovieExtender.cs" />

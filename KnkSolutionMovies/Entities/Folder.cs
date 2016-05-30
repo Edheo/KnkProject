@@ -32,7 +32,6 @@ namespace KnkSolutionMovies.Entities
         public string strSettings { get; set; }
         public decimal? NoUpdate { get; set; }
         public decimal? Exclude { get; set; }
-        public DateTime DateAdded { get; set; }
         public KnkEntityIdentifier IdParentPath { get; set; }
         public KnkEntityIdentifier IdRoot { get; set; }
         public int? Files { get; set; }

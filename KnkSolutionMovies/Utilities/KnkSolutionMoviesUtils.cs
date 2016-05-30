@@ -60,6 +60,5 @@ namespace KnkSolutionMovies.Utilities
         {
             return new KnkEntityIdentifier<TDad, TReference>(aDad, aField);
         }
-
     }
 }

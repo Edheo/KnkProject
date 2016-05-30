@@ -32,7 +32,7 @@ namespace KnkMovieForms.Forms
             KnkCoreUtils.CreateInParameter<File, File>(_Folders.GetListIds(MovieParentFolders()), lCri, "IdRoot");
             _Files = new Files(aCon, lCri);
             grdRoots.AutoGenerateColumns = true;
-            grdRoots.DataSource = MovieParentFolders().Select(o => new { DateAdded = o.DateAdded, Path = o.Path, Files = o.Files }).ToList();
+            grdRoots.DataSource = MovieParentFolders().Select(o => new { DateAdded = o.CreationDate, Path = o.Path, Files = o.Files }).ToList();
         }
 
         private void OnScanFolders()
@@ -49,7 +49,7 @@ namespace KnkMovieForms.Forms
         private List<Folder> MovieParentFolders()
         {
             return (from f in _Folders.Items 
-            where f.IdParentPath.GetInnerValue() == null && (f.ContentType??string.Empty).Equals(_LibraryType) 
+            where f.IdParentPath?.GetInnerValue() == null && (f.ContentType??string.Empty).Equals(_LibraryType) 
             select f).ToList();
         }
 

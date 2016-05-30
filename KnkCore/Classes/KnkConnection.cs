@@ -156,5 +156,10 @@ namespace KnkCore
                 }
             }
         }
+
+        public KnkEntityIdentifierItf CurrentUserId()
+        {
+            return new KnkEntityIdentifier(1);
+        }
     }
 }

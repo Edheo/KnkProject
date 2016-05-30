@@ -13,7 +13,7 @@ namespace KnkCore
     {
         private readonly List<KnkParameterItf> _parameters = new List<KnkParameterItf>();
         private readonly KnkTableEntity _entityTable;
-
+        //Type aType, string aName, OperatorsEnu aOperator, object aValue
         public KnkCriteria(Tdad aItem) 
         : this(aItem, (new Tlst()).SourceEntity())
         {
@@ -29,6 +29,12 @@ namespace KnkCore
             _entityTable = aEntityTable as KnkTableEntity;
             KnkLinkFields = aItem.PrimaryKey(); 
             AddLinkParameters(aItem);
+        }
+
+        public KnkCriteria(KnkTableEntityItf aEntityTable, Type aType, string aName, OperatorsEnu aOperator, object aValue)
+        {
+            _entityTable = aEntityTable as KnkTableEntity;
+            AddParameter(aType, aName, aOperator, aValue);
         }
 
         private void AddLinkParameters(Tdad aItem)

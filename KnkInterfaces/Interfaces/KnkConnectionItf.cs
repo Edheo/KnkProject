@@ -38,5 +38,7 @@ namespace KnkInterfaces.Interfaces
 
         void SaveData<T>(List<T> aItems) where T : KnkItemItf, new();
 
+        KnkEntityIdentifierItf CurrentUserId();
+
     }
 }

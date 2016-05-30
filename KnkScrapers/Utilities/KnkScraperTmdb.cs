@@ -151,25 +151,57 @@ namespace KnkScrapers.Utilities
             var lDst = aMovieDst;
             if(lDst == null)
             {
+                //	string					Title
+                lDst.Title = lOrg.Title;
+                //	string					OriginalTitle
+                lDst.OriginalTitle = lOrg.OriginalTitle;
+                //	string					TagLine
+                lDst.TagLine = lOrg.TagLine;
+                //	string					Overview
+                string lText = lOrg.Overview;
+                //	string					Poster
+                //	string					Backdrop
+                //	bool					Adult
+                //	Collection				BelongsTo
+                //	int						Budget
+                //	IEnumerable<Genre>		Genres
+                //	string					HomePage
+                //	string					Imdb
+                lDst.ImdbId = lOrg.Imdb;
+                //	IEnumerable<Company>	Companies
+                //	IEnumerable<Country>	Countries
+                //	DateTime?				ReleaseDate
                 int? lYear = null;
                 if (lOrg.ReleaseDate != null) lYear = ((DateTime)lOrg.ReleaseDate).Year;
-                lDst.DateAdded = DateTime.Now;
-                //lMovieDst.IdSet=Needed to Search a set
-                lDst.ImdbId = lOrg.Imdb;
-                //lDst.MPARating=
-                lDst.OriginalTitle = lOrg.OriginalTitle;
-                lDst.Rating = lOrg.VoteAverage;
-                lDst.Seconds = lOrg.Runtime;
-                //lDst.Studio = lOrg;
-                lDst.TagLine = lOrg.TagLine;
-                lDst.Title = lOrg.Title;
-                lDst.TrailerUrl = lOrg.Videos.Results.FirstOrDefault()?.Site;
-                lDst.Votes = lOrg.VoteCount;
+                lDst.ReleaseDate = lOrg.ReleaseDate;
                 lDst.Year = lYear;
-                //Filling the summary
-                string lText = lOrg.Overview;
+                //	Int64					Revenue
+                //	int?					Runtime
+                lDst.Seconds = lOrg.Runtime;
+                //	IEnumerable<Language>	Languages
+                //	AlternativeTitles		AlternativeTitles
+                //	MediaCredits			Credits
+                //	Images					Images
+                //	Videos					Videos
+                lDst.TrailerUrl = lOrg.Videos.Results.FirstOrDefault()?.Site;
+                //	Keywords				Keywords
+                //	Releases				Releases
+                //	Translations			Translations
+                //	decimal					Popularity
+                //	decimal					VoteAverage
+                lDst.Rating = lOrg.VoteAverage;
+                //	int						VoteCount
+                lDst.Votes = lOrg.VoteCount;
+                //	string					Status
+                //	ExternalIds				External
+
             }
             return lDst;
+        }
+
+        private static void FillMovieOverview(KnkSolutionMovies.Entities.Movie aMovie, string aOvervies)
+        {
+
         }
     }
 }

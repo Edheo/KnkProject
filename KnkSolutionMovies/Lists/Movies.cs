@@ -8,10 +8,11 @@ namespace KnkSolutionMovies.Lists
     {
         public Movies():this(new KnkConnection())
         {
+
         }
 
         public Movies(KnkConnectionItf aConnection) 
-        : base(aConnection)
+        : base(aConnection, new KnkCriteria<Movie, Movie>(new KnkTableEntity("vieMovies", "Movies"), typeof(int), "IdUser", KnkInterfaces.Enumerations.OperatorsEnu.Equal, aConnection.CurrentUserId()))
         {
         }
 

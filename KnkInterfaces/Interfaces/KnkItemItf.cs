@@ -20,9 +20,9 @@ namespace KnkInterfaces.Interfaces
         KnkConnectionItf Connection();
         KnkTableEntityItf SourceEntity();
 
-        int? UserCreationId { get; set; }
-        int? UserModifiedId { get; set; }
-        int? UserDeletedId { get; set; }
+        KnkEntityIdentifierItf UserCreationId { get; set; }
+        KnkEntityIdentifierItf UserModifiedId { get; set; }
+        KnkEntityIdentifierItf UserDeletedId { get; set; }
 
         DateTime? CreationDate { get; set; }
         DateTime? ModifiedDate { get; set; }

@@ -49,7 +49,7 @@ namespace KnkDataSqlServer.Connection
             switch(aItem.Status())
             {
                 case UpdateStatusEnu.Delete:
-                    lCommand = KnkSqlServer.GetDynamicDelete(aItem);
+                    lCommand = KnkSqlServer.GetDynamicDelete(_Connection, aItem);
                     break;
                 case UpdateStatusEnu.Update:
                     lCommand = KnkSqlServer.GetDynamicUpdate(_Connection, aItem);

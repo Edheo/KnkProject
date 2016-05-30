@@ -19,7 +19,6 @@ namespace KnkCore
         public KnkEntityIdentifier(TDad aItem, string aProperty)
         : this(aItem, aProperty,aItem.Connection().GetItem<TReference>)
         {
-            
         }
 
         public KnkEntityIdentifier(TDad aItem, string aProperty, Func<int?, TReference> aLoad)

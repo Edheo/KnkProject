@@ -8,6 +8,7 @@ namespace KnkInterfaces.Interfaces
     {
         KnkConnectionItf Connection { get; set; }
         int Count();
+        void DeleteAll();
         bool SaveChanges();
         bool SaveChanges(UpdateStatusEnu aStatus);
         void Refresh();

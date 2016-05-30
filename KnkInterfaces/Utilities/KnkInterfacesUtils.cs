@@ -32,18 +32,20 @@ namespace KnkInterfaces.Utilities
                 //If property is generic list, continue
                 if (lPrp.PropertyType.IsGenericType && lPrp.PropertyType.GetGenericTypeDefinition() == typeof(List<>)) continue;
                 //Check for dbnull, return null if true, or convert to correct type
-                dynamic lValue;
-                if (lPrp.PropertyType.Equals(typeof(KnkEntityIdentifier)))
-                {
-                    lValue = (KnkEntityIdentifier)(Convert.IsDBNull(aRow[lPrp.Name]) ? null : (int?)Convert.ToInt32(aRow[lPrp.Name]));
-                }
-                else
-                {
-                    lValue = Convert.IsDBNull(aRow[lPrp.Name]) ? null : Convert.ChangeType(aRow[lPrp.Name], GetPropertyType(lPrp));
-                }
+                dynamic lValue = Convert.IsDBNull(aRow[lPrp.Name]) ? null : ChangeType(aRow[lPrp.Name], GetPropertyType(lPrp));
                 lPrp.SetValue(aItem, lValue);
             }
             return aItem;
+        }
+
+        private static object ChangeType(object aValue, Type aType)
+        {
+            if (aType == typeof(KnkEntityIdentifier))
+                return new KnkEntityIdentifier((int)aValue);
+            else if (aType == typeof(KnkEntityIdentifierItf))
+                return new KnkEntityIdentifier((int)aValue);
+            else
+                return Convert.ChangeType(aValue, aType);
         }
 
         public static PropertyInfo[] GetProperties<T>() where T : KnkItemItf, new()
@@ -150,5 +152,19 @@ namespace KnkInterfaces.Utilities
             }
         }
 
+        public static List<string> CreatedFields()
+        {
+            return new List<string>() { "usercreatedid", "createddate" };
+        }
+
+        public static List<string> ModifiedFields()
+        {
+            return new List<string>() { "usermodifiedid", "modifieddate" };
+        }
+
+        public static List<string> DeletedFields()
+        {
+            return new List<string>() { "userdeletedid", "deleteddate", "deleted" };
+        }
     }
 }

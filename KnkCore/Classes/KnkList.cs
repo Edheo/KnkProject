@@ -129,6 +129,13 @@ namespace KnkCore
             return lItem;
         }
 
+        public void DeleteAll()
+        {
+            foreach(var lItm in Items)
+            {
+                lItm.Delete();
+            }
+        }
     }
 
 

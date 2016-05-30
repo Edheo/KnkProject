@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -84,7 +85,9 @@ namespace KnkDataSqlServer.Utilities
             var lProperties = from prp in KnkInterfacesUtils.GetProperties<KnkItemItf>(aItem)
                               join fld in aCols.Cast<DataColumn>()
                               on prp.Name.ToLower() equals fld.ColumnName.ToLower()
-                              where (lAuto && prp.Name != lPk) || (!lAuto && prp.Name == lPk) || aItem.PropertyGet(prp.Name) != null
+                              where ((lAuto && prp.Name != lPk) || (!lAuto && prp.Name == lPk) || (aItem.PropertyGet(prp.Name) != null))
+                                && !KnkInterfacesUtils.ModifiedFields().Contains(prp.Name.ToLower())
+                                && !KnkInterfacesUtils.DeletedFields().Contains(prp.Name.ToLower())
                               select new { Property = $"[{prp.Name}]", Value = $"@{prp.Name}" };
 
             string lInsertFields = lProperties.Aggregate((i, j) => new { Property = $"{i.Property}, {j.Property}", Value=string.Empty }).Property;
@@ -123,6 +126,8 @@ namespace KnkDataSqlServer.Utilities
                               join fld in aCols.Cast<DataColumn>()
                               on prp.Name.ToLower() equals fld.ColumnName.ToLower()
                               where (prp.Name != lPk)
+                                && !KnkInterfacesUtils.CreatedFields().Contains(prp.Name.ToLower())
+                                && !KnkInterfacesUtils.DeletedFields().Contains(prp.Name.ToLower())
                               select $"[{prp.Name}] = @{prp.Name}";
 
             string lUpdateFields = lProperties.Aggregate((i, j) => $"{i}, {j}");
@@ -131,14 +136,31 @@ namespace KnkDataSqlServer.Utilities
             return $"Update {lUpdateTable} Set {lUpdateFields} Where {lWhereValues}";
         }
 
-        internal static string GetDynamicDelete<T>(T aItem)
+        internal static string GetDynamicDelete<T>(SqlConnection aCon, T aItem)
+            where T : KnkItemItf
+        {
+            return GetDynamicDelete(aItem, GetData(aCon, GetSimpleTableSelect(aItem.SourceEntity().TableBase)).Columns);
+        }
+
+        internal static string GetDynamicDelete<T>(T aItem, DataColumnCollection aCols)
             where T : KnkItemItf
         {
             string lPk = aItem.PrimaryKey();
             string lDeleteTable = $"[{aItem.SourceEntity().TableBase}]";
+            var lProperties = from prp in KnkInterfacesUtils.GetProperties<KnkItemItf>(aItem)
+                              join fld in aCols.Cast<DataColumn>()
+                              on prp.Name.ToLower() equals fld.ColumnName.ToLower()
+                              where (KnkInterfacesUtils.DeletedFields().Contains(prp.Name.ToLower()))
+                              select $"[{prp.Name}] = @{prp.Name}";
             string lWhereValues = $"[{lPk}] = @{lPk}";
 
-            return $"Delete {lDeleteTable} Where {lWhereValues}";
+            if (lProperties.Count() > 0)
+            {
+                string lUpdateFields = lProperties.Aggregate((i, j) => $"{i}, {j}");
+                return $"Update {lDeleteTable} Set {lUpdateFields} Where {lWhereValues}";
+            }
+            else
+                return $"Delete {lDeleteTable} Where {lWhereValues}";
         }
 
         internal static DataTable GetData(SqlConnection aCon, string aCommand)

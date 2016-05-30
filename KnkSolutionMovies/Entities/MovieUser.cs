@@ -9,23 +9,25 @@ using System.Threading.Tasks;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class CastingType : KnkItemBase
+    public class MovieUser : KnkItemBase
     {
         #region Interface/Implementation
-        public CastingType():base(new KnkTableEntity("vieCastingType", "CastingType"))
+        public MovieUser():base(new KnkTableEntity("vieMovieUsers", "MovieUsers"))
         {
         }
         #endregion Interface/Implementation
 
         #region Class Properties
         [AtributePrimaryKey]
-        public KnkEntityIdentifier IdCastingType { get; set; }
-        public string Type { get; set; }
+        public KnkEntityIdentifier IdMovieUser { get; set; }
+        public KnkEntityIdentifier IdMovie { get; set; }
+        public KnkEntityIdentifier IdUser { get; set; }
+        decimal? UserRating { get; set; }
         #endregion Class Properties
 
         public override string ToString()
         {
-            return Type;
+            return UserRating.ToString();
         }
     }
 }

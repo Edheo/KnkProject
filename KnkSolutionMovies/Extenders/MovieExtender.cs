@@ -147,10 +147,10 @@ namespace KnkSolutionMovies.Extenders
             get
             {
                 decimal lRet = _Movie.Rating;
-                if(_Movie.UserRating!=null)
-                {
-                    lRet = (lRet + (2 * (decimal)_Movie.UserRating)) / 3;
-                }
+                //if(_Movie.UserRating!=null)
+                //{
+                //    lRet = (lRet + (2 * (decimal)_Movie.UserRating)) / 3;
+                //}
                 return lRet;
             }
 

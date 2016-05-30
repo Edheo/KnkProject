@@ -35,8 +35,7 @@ namespace KnkSolutionMovies.Entities
         public string Studio { get; set; }
         public string TrailerUrl { get; set; }
         public KnkEntityIdentifier IdSet { get; set; }
-        public decimal? UserRating { get; set; }
-        public DateTime? DateAdded { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         #endregion
 

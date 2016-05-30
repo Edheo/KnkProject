@@ -31,10 +31,10 @@ namespace KnkMovieForms.Usercontrols
             picPoster.Filename = _Movie.Extender.Poster?.Extender.GetFileName();
             AddTagInfo("Title", $"{_Movie.Title}", "Original Title", $"{_Movie.OriginalTitle}");
             AddTagInfo("Year", $"{_Movie.Year}");
-            AddTagInfo("Date Added", $"{_Movie.DateAdded:dd/MM/yyyy}", "Saga", $"{_Movie.MovieSet}");
+            AddTagInfo("Date Added", $"{_Movie.CreationDate:dd/MM/yyyy}", "Saga", $"{_Movie.MovieSet}");
             AddTagInfo("Genre", $"{_Movie.Extender.Genres}", "Country", $"{_Movie.Extender.Countries}");
             AddTagInfo("Votes", $"{_Movie.Votes}", "Rating", $"{_Movie.Rating:0.0}");
-            AddTagInfo("User Rating", $"{_Movie.UserRating:0.0}", "Computed Rating", $"{_Movie.Extender.AveragedRate:0.0}");
+            AddTagInfo("User Rating", $"{_Movie.Extender.AveragedRate:0.0}", "Computed Rating", $"{_Movie.Extender.AveragedRate:0.0}");
 
             if (_Movie.Extender.Plays.Count() > 0)
             {
