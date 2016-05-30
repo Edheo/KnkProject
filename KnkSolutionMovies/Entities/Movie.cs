@@ -27,9 +27,9 @@ namespace KnkSolutionMovies.Entities
         public string TagLine { get; set; }
         public int Votes { get; set; }
         public decimal Rating { get; set; }
-        public int Year { get; set; }
+        public int? Year { get; set; }
         public string ImdbId { get; set; }
-        public int Seconds { get; set; }
+        public int? Seconds { get; set; }
         public string MPARating { get; set; }
         public string OriginalTitle { get; set; }
         public string Studio { get; set; }

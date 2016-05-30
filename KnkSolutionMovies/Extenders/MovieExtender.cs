@@ -8,22 +8,19 @@ namespace KnkSolutionMovies.Extenders
 {
     public class MovieExtender
     {
-        private readonly Movie _Movie;
-        public MovieExtender(Movie aMovie)
-        {
-            _Movie = aMovie;
-        }
-
-        #region References
-
         MovieCastings _Casting = null;
         MovieCountries _Countries = null;
         MovieFiles _Files = null;
         MovieGenres _Genres = null;
         MoviePictures _Pictures = null;
         MoviePlays _Views = null;
+        MovieSummaries _Summary = null;
 
-        #endregion References
+        private readonly Movie _Movie;
+        public MovieExtender(Movie aMovie)
+        {
+            _Movie = aMovie;
+        }
 
         #region Relationships
 
@@ -85,6 +82,15 @@ namespace KnkSolutionMovies.Extenders
             {
                 if (_Casting == null) _Casting = new MovieCastings(_Movie);
                 return _Casting;
+            }
+        }
+
+        public MovieSummaries Summary
+        {
+            get
+            {
+                if (_Summary == null) _Summary = new MovieSummaries(_Movie);
+                return _Summary;
             }
         }
 

@@ -25,12 +25,17 @@ namespace KnkScrapers.Services
 
         private void ScrapFile(File aFile)
         {
-            List<System.Net.TMDb.Movie> lResult = KnkScraperTmdb.FindMovies(aFile);
-            foreach(var lItm in lResult)
+            List<System.Net.TMDb.Movie> lResult = KnkScraperTmdb.FindMovies(aFile, "es-ES");
+            Movies lMovies = new Movies(_Files.Connection);
+            foreach (var lItm in lResult)
             {
-                string lMov = lItm.Title;
+                Movie lMov = KnkScraperTmdb.FindMovieInLibrary(lMovies, lItm);
+                lMov = KnkScraperTmdb.EnrichMovie(lItm, lMov);
+
             }
         }
+
+        
 
     }
 }

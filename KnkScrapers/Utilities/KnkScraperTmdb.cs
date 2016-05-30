@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.TMDb;
 using System.Threading;
@@ -8,9 +9,9 @@ namespace KnkScrapers.Utilities
 {
     internal static class KnkScraperTmdb
     {
-        public static List<Movie> FindMovies(KnkSolutionMovies.Entities.File aFile)
+        public static List<Movie> FindMovies(KnkSolutionMovies.Entities.File aFile, string aLanguage)
         {
-            var lTask1 = Task.Factory.StartNew(() => FindMoviesTsk(aFile));
+            var lTask1 = Task.Factory.StartNew(() => FindMoviesTsk(aFile, aLanguage));
             lTask1.Wait();
             return lTask1.Result.Result;
         }
@@ -51,7 +52,7 @@ namespace KnkScrapers.Utilities
             public int? Year;
         }
 
-        public static async Task<List<Movie>> FindMoviesTsk(KnkSolutionMovies.Entities.File aFile)
+        public static async Task<List<Movie>> FindMoviesTsk(KnkSolutionMovies.Entities.File aFile, string aLanguage)
         {
             using (var client = new ServiceClient("70fe8ec336e37f969f34bf2d69ca7f22"))
             {
@@ -73,11 +74,11 @@ namespace KnkScrapers.Utilities
 
                 foreach (var lItm in lItems)
                 {
-                    var movies = await client.Movies.SearchAsync(lItm.Title, "es", true, lItm.Year, false, 1, CancellationToken.None);
+                    var movies = await client.Movies.SearchAsync(lItm.Title, aLanguage, true, lItm.Year, false, 1, CancellationToken.None);
                     int count = movies.PageCount;
                     foreach (Movie lMovie in movies.Results)
                     {
-                        var movie = await client.Movies.GetAsync(lMovie.Id, "es", true, CancellationToken.None);
+                        var movie = await client.Movies.GetAsync(lMovie.Id, aLanguage, true, CancellationToken.None);
                         lLst.Add(movie);
                     }
                 }
@@ -86,11 +87,11 @@ namespace KnkScrapers.Utilities
                 {
                     foreach (var lItm in lItems)
                     {
-                        var movies = await client.Movies.SearchAsync(lItm.Title, "es", true, null, false, 1, CancellationToken.None);
+                        var movies = await client.Movies.SearchAsync(lItm.Title, aLanguage, true, null, false, 1, CancellationToken.None);
                         int count = movies.PageCount;
                         foreach (Movie lMovie in movies.Results)
                         {
-                            var movie = await client.Movies.GetAsync(lMovie.Id, "es", true, CancellationToken.None);
+                            var movie = await client.Movies.GetAsync(lMovie.Id, aLanguage, true, CancellationToken.None);
                             lLst.Add(movie);
                         }
                     }
@@ -131,5 +132,44 @@ namespace KnkScrapers.Utilities
             }
         }
 
+        public static KnkSolutionMovies.Entities.Movie FindMovieInLibrary(KnkSolutionMovies.Lists.Movies aMovies, Movie aMovie)
+        {
+            Movie lOrg = aMovie;
+            int? lYear = null;
+            if (lOrg.ReleaseDate != null) lYear = ((DateTime)lOrg.ReleaseDate).Year;
+            var lMovieDst = (from mov in aMovies.Items where mov.Title.ToLower() == lOrg.Title.ToLower() && mov.Year == lYear select mov).FirstOrDefault();
+            if (lMovieDst == null)
+            {
+                lMovieDst = aMovies.Create();
+            }
+            return lMovieDst;
+        }
+
+        public static KnkSolutionMovies.Entities.Movie EnrichMovie(Movie aMovieOrg, KnkSolutionMovies.Entities.Movie aMovieDst)
+        {
+            var lOrg = aMovieOrg;
+            var lDst = aMovieDst;
+            if(lDst == null)
+            {
+                int? lYear = null;
+                if (lOrg.ReleaseDate != null) lYear = ((DateTime)lOrg.ReleaseDate).Year;
+                lDst.DateAdded = DateTime.Now;
+                //lMovieDst.IdSet=Needed to Search a set
+                lDst.ImdbId = lOrg.Imdb;
+                //lDst.MPARating=
+                lDst.OriginalTitle = lOrg.OriginalTitle;
+                lDst.Rating = lOrg.VoteAverage;
+                lDst.Seconds = lOrg.Runtime;
+                //lDst.Studio = lOrg;
+                lDst.TagLine = lOrg.TagLine;
+                lDst.Title = lOrg.Title;
+                lDst.TrailerUrl = lOrg.Videos.Results.FirstOrDefault()?.Site;
+                lDst.Votes = lOrg.VoteCount;
+                lDst.Year = lYear;
+                //Filling the summary
+                string lText = lOrg.Overview;
+            }
+            return lDst;
+        }
     }
 }

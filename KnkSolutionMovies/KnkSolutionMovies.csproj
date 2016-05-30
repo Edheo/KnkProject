@@ -53,6 +53,7 @@
     <Compile Include="Entities\MediaThumb.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\MovieCasting.cs" />
+    <Compile Include="Entities\MovieSummary.cs" />
     <Compile Include="Extenders\FileExtender.cs" />
     <Compile Include="Extenders\MediaThumbExtender.cs" />
     <Compile Include="Extenders\MovieExtender.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Lists\MovieSets.cs" />
     <Compile Include="Lists\Movies.cs" />
     <Compile Include="Lists\Folders.cs" />
+    <Compile Include="Lists\MovieSummaries.cs" />
     <Compile Include="Lists\Pictures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\MovieSet.cs" />

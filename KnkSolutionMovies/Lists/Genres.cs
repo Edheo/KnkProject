@@ -40,6 +40,5 @@ namespace KnkSolutionMovies.Lists
             lCri.AddParameter(typeof(string), "Genre", OperatorsEnu.Like, $"%{aGenre}%");
             return lCri;
         }
-
     }
 }
