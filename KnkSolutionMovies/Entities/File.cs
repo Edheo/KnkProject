@@ -7,13 +7,6 @@ using System;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class MissingMovieFile : File
-    {
-        public MissingMovieFile():base(new KnkTableEntity("vieMovieMissing", "Files"))
-        {
-        }
-    }
-
     public class File : KnkItemBase
     {
         public readonly FileExtender Extender;
@@ -36,14 +29,22 @@ namespace KnkSolutionMovies.Entities
         public KnkEntityReference<Folder> IdPath { get; set; }
         public string Filename { get; set; }
         public DateTime DateAdded { get; set; }
-        public KnkEntityIdentifier IdRoot { get; set; }
+        public KnkEntityReference<Folder> IdRoot { get; set; }
         #endregion Class Properties
 
         public Folder Folder { get { return IdPath?.Value; } set { IdPath = new KnkEntityReference<Folder>(value); } }
+        public Folder Root { get { return IdRoot?.Value; } set { IdRoot = new KnkEntityReference<Folder>(value); } }
 
         public override string ToString()
         {
             return Folder?.Path + Filename;
+        }
+    }
+
+    public class MissingMovieFile : File
+    {
+        public MissingMovieFile() : base(new KnkTableEntity("vieMovieMissing", "Files"))
+        {
         }
     }
 }

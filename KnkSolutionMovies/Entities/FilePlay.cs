@@ -17,15 +17,16 @@ namespace KnkSolutionMovies.Entities
         #region Class Properties
         [AtributePrimaryKey]
         public KnkEntityIdentifier IdPlay { get; set; }
-        public int IdFile { get; set; }
+        public KnkEntityReference<File> IdFile { get; set; }
         public DateTime DatePlay { get; set; }
         public int Playlenght { get; set; }
         public bool Finishedplay { get; set; }
-
         public string Filename { get; set; }
         public string Path { get; set; }
 
         #endregion Class Properties
+
+        public File File { get { return IdFile?.Value; } set { IdFile = new KnkEntityReference<File>(value); } }
 
         public string Date()
         {

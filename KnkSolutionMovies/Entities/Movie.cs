@@ -37,12 +37,12 @@ namespace KnkSolutionMovies.Entities
 
         #endregion
 
+        public MovieSet MovieSet { get { return IdSet?.Value; } set { IdSet = new KnkEntityReference<MovieSet>(value); } }
+
         public override string ToString()
         {
             return $"{Title} ({Year})";
         }
-
-        public MovieSet MovieSet { get { return IdSet?.Value; } set { IdSet = new KnkEntityReference<MovieSet>(value); } }
 
     }
 
