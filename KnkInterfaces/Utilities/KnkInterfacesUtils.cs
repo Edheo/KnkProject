@@ -51,8 +51,6 @@ namespace KnkInterfaces.Utilities
                 return new KnkEntityIdentifier((int)aValue);
             else if (lType == typeof(KnkEntityIdentifierItf))
                 return new KnkEntityIdentifier((int)aValue);
-            //else if (lType == typeof(KnkEntityReference<Tdad, TReference>))
-            //    return new KnkEntityReference<Tdad, TReference>()
             else
             {
                 return Convert.ChangeType(aValue, lType);

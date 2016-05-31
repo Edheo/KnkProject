@@ -151,7 +151,7 @@ namespace KnkInterfaces.Classes
             if (conversionType.Equals(this.GetType()))
                 return _value;
             else
-                throw new NotImplementedException();
+                return _value;
         }
 
         public int CompareTo(object obj)
