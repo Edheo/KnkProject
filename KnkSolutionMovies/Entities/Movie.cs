@@ -42,17 +42,7 @@ namespace KnkSolutionMovies.Entities
             return $"{Title} ({Year})";
         }
 
-        public MovieSet MovieSet
-        {
-            get
-            {
-                return IdSet.Value;
-            }
-            set
-            {
-                IdSet.Value = value;
-            }
-        }
+        public MovieSet MovieSet { get { return IdSet?.Value; } set { IdSet = new KnkEntityReference<MovieSet>(value); } }
 
     }
 

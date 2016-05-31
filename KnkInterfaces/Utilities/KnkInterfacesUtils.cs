@@ -2,6 +2,7 @@
 using KnkInterfaces.Interfaces;
 using KnkInterfaces.PropertyAtributes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -43,15 +44,9 @@ namespace KnkInterfaces.Utilities
         private static object ChangeType<Titm>(object aValue, PropertyInfo aPrp)
         {
             var lType = GetPropertyType(aPrp);
-            //int lCua = aPrp.PropertyType.GenericTypeArguments.Count();
-            //if (lCua = 2 && lType.ToString().Contains("KnkEntityIdentifier"))
-            //{
-            //    var lType1 = aPrp.PropertyType.GenericTypeArguments[0];
-            //    var lType2 = aPrp.PropertyType.GenericTypeArguments[1];
-            //    var lAux=new KnkEntityIdentifier<>
-
-            //}
-            //else 
+            var lIsReference = lType.FullName.Contains("KnkEntityReference");
+            if (lIsReference)
+                return Activator.CreateInstance(aPrp.PropertyType, (int)aValue);
             if (lType == typeof(KnkEntityIdentifier))
                 return new KnkEntityIdentifier((int)aValue);
             else if (lType == typeof(KnkEntityIdentifierItf))
@@ -62,6 +57,7 @@ namespace KnkInterfaces.Utilities
             {
                 return Convert.ChangeType(aValue, lType);
             }
+
         }
 
         public static PropertyInfo[] GetProperties<T>() where T : KnkItemItf, new()

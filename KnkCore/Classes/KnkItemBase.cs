@@ -43,7 +43,10 @@ namespace KnkCore
 
         public KnkConnectionItf Connection()
         {
-            return this.GetParent()?.Connection;
+            if (this.GetParent() != null)
+                return this.GetParent()?.Connection;
+            else
+                return Utilities.KnkCoreUtils.GlobalConn;
         }
 
         public KnkTableEntityItf SourceEntity()

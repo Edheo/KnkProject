@@ -39,29 +39,9 @@ namespace KnkSolutionMovies.Entities
             return Path;
         }
 
-        public Folder ParentFolder
-        {
-            get
-            {
-                return IdParentPath?.Value;
-            }
-            set
-            {
-                IdParentPath.Value = value;
-            }
-        }
+        public Folder ParentFolder { get { return IdParentPath?.Value; } set { IdParentPath = new KnkEntityReference<Folder>(value); } }
 
-        public Folder RootFolder
-        {
-            get
-            {
-                return IdRoot?.Value;
-            }
-            set
-            {
-                IdRoot.Value = value;
-            }
-        }
+        public Folder RootFolder { get { return IdRoot?.Value; } set { IdRoot = new KnkEntityReference<Folder>(value); } }
 
 
     }

@@ -13,7 +13,7 @@ namespace KnkInterfaces.Interfaces
         void SetInnerValue(int? aValue);
     }
 
-    public interface KnkEntityIdentifierItf<TRef> : KnkEntityIdentifierItf, KnkReferenceItf<TRef>
+    public interface KnkEntityIdentifierItf<TRef> : KnkEntityIdentifierItf, KnkEntityReferenceItf<TRef>
         where TRef : KnkItemItf, new()
     {
     }

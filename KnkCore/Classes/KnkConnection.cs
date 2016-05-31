@@ -15,6 +15,7 @@ namespace KnkCore
 
         public KnkConnection(bool aTest)
         {
+            if (Utilities.KnkCoreUtils.GlobalConn == null) Utilities.KnkCoreUtils.GlobalConn = this;
         }
 
         public KnkConnection():this(false)

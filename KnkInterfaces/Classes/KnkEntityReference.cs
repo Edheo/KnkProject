@@ -14,39 +14,33 @@ namespace KnkInterfaces.Classes
     {
         private Tref _reference;
         private Func<int?, Tref> Load { get; set; }
+        private int? _value;
 
         public KnkEntityReference(int? aValue)
+        : this(aValue,(new Tref()).Connection().GetItem<Tref>)
         {
-            //ResetReference(aItem, aLoad);
+        }
+
+        public KnkEntityReference(Tref aItem)
+        : this(aItem, (new Tref()).Connection().GetItem<Tref>)
+        {
+        }
+
+        public KnkEntityReference(int? aValue, Func<int?, Tref> aLoad)
+        {
+            Load = aLoad;
+            ResetReference(aValue);
         }
 
         public KnkEntityReference(Tref aItem, Func<int?, Tref> aLoad)
         {
-            ResetReference(aItem, aLoad);
-        }
-
-        public void ResetReference(Tref aItem)
-        {
-            _reference = default(Tref);
-        }
-
-        public void ResetReference(Tref aItem, Func<int?, Tref> aLoad)
-        {
-            Release();
-            int? lValue = (int?)aItem?.PropertyGet(aItem.PrimaryKey());
-            if (aItem!=null && lValue!=null)
-                SetInnerValue(lValue);
             Load = aLoad;
+            ResetReference(aItem);
         }
 
         public int? GetInnerValue()
         {
-            var lRet = GetInnerValue();
-            if (lRet == null && _reference != null)
-            {
-                lRet = (int?)_reference.PropertyGet(_reference.PrimaryKey());
-            }
-            return lRet;
+            return _value;
         }
         #region member variables
 
@@ -55,45 +49,34 @@ namespace KnkInterfaces.Classes
         {
             get
             {
-                int? lValue = this.GetInnerValue();
-                if (lValue != null && lValue.HasValue && Load != null) 
-                {
-                    if(_reference == null) _reference = Load(lValue);
-                }
+                if (_value != null && _reference == null && Load != null) _reference = Load(_value);
                 return _reference;
             }
-            set
-            {
-                if (value != null)
-                {
-                    this._reference = value;
-                    string lVal = this._reference?.PrimaryKey();
-                    if (!string.IsNullOrEmpty(lVal))
-                    {
-                        KnkEntityIdentifier lEid = this._reference?.PropertyGet(lVal) as KnkEntityIdentifier;
-                        if (lEid != null) this.SetInnerValue(lEid.GetInnerValue());
-                    }
-                }
-            }
         }
         #endregion
-
-        #region properties
-
-        public void Release()
-        {
-            this.SetInnerValue(null);
-            Load = null;
-            _reference = default(Tref);
-        }
-        #endregion
-
-        private int? _value;
 
         public void SetInnerValue(int? aValue)
         {
-            _value = aValue;
+            ResetReference(aValue);
+        }
+
+        private void ResetReference(int? aValue)
+        {
             Release();
+            _value = aValue;
+        }
+
+        private void ResetReference(Tref aItem)
+        {
+            Release();
+            _reference = aItem;
+            _value = (_reference?.PropertyGet(_reference.PrimaryKey()) as KnkEntityIdentifier)?.GetInnerValue();
+        }
+
+        private void Release()
+        {
+            _value = null;
+            _reference = default(Tref);
         }
 
         public override string ToString()
@@ -103,6 +86,7 @@ namespace KnkInterfaces.Classes
 
         public static implicit operator KnkEntityReference<Tref>(int value)
         {
+            Tref lTre = new Tref();
             return new KnkEntityReference<Tref>(value);
         }
 

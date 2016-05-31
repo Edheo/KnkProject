@@ -35,17 +35,7 @@ namespace KnkSolutionMovies.Entities
             return $"{ArtistName} ({Role})";
         }
 
-        public CastingType CastingType
-        {
-            get
-            {
-                return IdCastingType?.Value;
-            }
-            set
-            {
-                IdCastingType.Value = value;
-            }
-        }
+        public CastingType CastingType { get { return IdCastingType?.Value; } set { IdCastingType = new KnkEntityReference<CastingType>(value); } }
 
     }
 }

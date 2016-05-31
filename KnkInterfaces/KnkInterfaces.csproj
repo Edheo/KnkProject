@@ -57,7 +57,7 @@
     <Compile Include="Interfaces\KnkDataModelerItf.cs" />
     <Compile Include="Interfaces\KnkListItf.cs" />
     <Compile Include="Interfaces\KnkParameterItf.cs" />
-    <Compile Include="Interfaces\KnkReferenceItf.cs" />
+    <Compile Include="Interfaces\KnkEntityReferenceItf.cs" />
     <Compile Include="Interfaces\KnkTableEntityItf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyAtributes\AtributePrimaryKey.cs" />

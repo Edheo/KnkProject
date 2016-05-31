@@ -39,17 +39,7 @@ namespace KnkSolutionMovies.Entities
         public KnkEntityIdentifier IdRoot { get; set; }
         #endregion Class Properties
 
-        public Folder Folder
-        {
-            get
-            {
-                return IdPath?.Value;
-            }
-            set
-            {
-                IdPath.Value = value;
-            }
-        }
+        public Folder Folder { get { return IdPath?.Value; } set { IdPath = new KnkEntityReference<Folder>(value); } }
 
         public override string ToString()
         {

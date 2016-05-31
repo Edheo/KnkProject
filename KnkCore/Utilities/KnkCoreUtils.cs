@@ -14,6 +14,8 @@ namespace KnkCore.Utilities
 {
     public static class KnkCoreUtils
     {
+        public static KnkConnectionItf GlobalConn;
+
         private static Rijndael Crypto(string aFile)
         {
             Rijndael lCrypto = Rijndael.Create();
