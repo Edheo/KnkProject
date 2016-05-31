@@ -138,7 +138,7 @@ namespace KnkScrapers.Services
                         lFol.strSettings = null;
                         lFol.NoUpdate = null;
                         lFol.Exclude = null;
-                        lFol.IdParentPath = aParentFolder.IdPath;
+                        lFol.IdParentPath.SetInnerValue(aParentFolder.IdPath);
                         lFol.IdRoot = aParentFolder.IdRoot;
                         _Folders.Add(lFol);
                     }

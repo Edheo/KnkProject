@@ -9,9 +9,6 @@ namespace KnkSolutionMovies.Entities
 {
     public class Folder : KnkItemBase
     {
-        KnkEntityIdentifier<Folder, Folder> _ParentFolder;
-        KnkEntityIdentifier<Folder, Folder> _RootFolder;
-
         #region Interface/Implementation
         public Folder():base(new KnkTableEntity("vieFolders", "Paths"))
         {
@@ -32,8 +29,8 @@ namespace KnkSolutionMovies.Entities
         public string strSettings { get; set; }
         public decimal? NoUpdate { get; set; }
         public decimal? Exclude { get; set; }
-        public KnkEntityIdentifier IdParentPath { get; set; }
-        public KnkEntityIdentifier IdRoot { get; set; }
+        public KnkEntityReference<Folder> IdParentPath { get; set; }
+        public KnkEntityReference<Folder> IdRoot { get; set; }
         public int? Files { get; set; }
         #endregion Class Properties
 
@@ -46,13 +43,11 @@ namespace KnkSolutionMovies.Entities
         {
             get
             {
-                if (_ParentFolder == null) _ParentFolder = KnkSolutionMoviesUtils.GetReference<Folder, Folder>(this, "IdParentPath");
-                return _ParentFolder?.Value;
+                return IdParentPath?.Value;
             }
             set
             {
-                if (_ParentFolder == null) _ParentFolder = KnkSolutionMoviesUtils.GetReference<Folder, Folder>(this, "IdParentPath");
-                _ParentFolder.Value = value;
+                IdParentPath.Value = value;
             }
         }
 
@@ -60,13 +55,11 @@ namespace KnkSolutionMovies.Entities
         {
             get
             {
-                if (_RootFolder == null) _RootFolder = KnkSolutionMoviesUtils.GetReference<Folder, Folder>(this, "IdParentPath");
-                return _RootFolder?.Value;
+                return IdRoot?.Value;
             }
             set
             {
-                if (_RootFolder == null) _RootFolder = KnkSolutionMoviesUtils.GetReference<Folder, Folder>(this, "IdParentPath");
-                _RootFolder.Value = value;
+                IdRoot.Value = value;
             }
         }
 

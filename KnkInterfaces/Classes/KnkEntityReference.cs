@@ -1,4 +1,5 @@
-﻿using KnkInterfaces.Interfaces;
+﻿using KnkInterfaces.Classes;
+using KnkInterfaces.Interfaces;
 using KnkInterfaces.Utilities;
 using System;
 using System.Collections.Generic;
@@ -8,50 +9,114 @@ using System.Threading.Tasks;
 
 namespace KnkInterfaces.Classes
 {
-    public class KnkEntityIdentifier : KnkEntityIdentifierItf
+    public class KnkEntityReference<Tref> : KnkEntityIdentifierItf<Tref>
+        where Tref : KnkItemItf, new()
     {
-        public KnkEntityIdentifier():this(null)
+        private Tref _reference;
+        private Func<int?, Tref> Load { get; set; }
+
+        public KnkEntityReference(int? aValue)
         {
+            //ResetReference(aItem, aLoad);
         }
 
-        public KnkEntityIdentifier(int? aValue)
+        public KnkEntityReference(Tref aItem, Func<int?, Tref> aLoad)
         {
-            SetInnerValue(aValue);
+            ResetReference(aItem, aLoad);
         }
+
+        public void ResetReference(Tref aItem)
+        {
+            _reference = default(Tref);
+        }
+
+        public void ResetReference(Tref aItem, Func<int?, Tref> aLoad)
+        {
+            Release();
+            int? lValue = (int?)aItem?.PropertyGet(aItem.PrimaryKey());
+            if (aItem!=null && lValue!=null)
+                SetInnerValue(lValue);
+            Load = aLoad;
+        }
+
+        public int? GetInnerValue()
+        {
+            var lRet = GetInnerValue();
+            if (lRet == null && _reference != null)
+            {
+                lRet = (int?)_reference.PropertyGet(_reference.PrimaryKey());
+            }
+            return lRet;
+        }
+        #region member variables
+
+
+        public Tref Value
+        {
+            get
+            {
+                int? lValue = this.GetInnerValue();
+                if (lValue != null && lValue.HasValue && Load != null) 
+                {
+                    if(_reference == null) _reference = Load(lValue);
+                }
+                return _reference;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    this._reference = value;
+                    string lVal = this._reference?.PrimaryKey();
+                    if (!string.IsNullOrEmpty(lVal))
+                    {
+                        KnkEntityIdentifier lEid = this._reference?.PropertyGet(lVal) as KnkEntityIdentifier;
+                        if (lEid != null) this.SetInnerValue(lEid.GetInnerValue());
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region properties
+
+        public void Release()
+        {
+            this.SetInnerValue(null);
+            Load = null;
+            _reference = default(Tref);
+        }
+        #endregion
 
         private int? _value;
-
-        public virtual int? GetInnerValue()
-        {
-            return _value;
-        }
 
         public void SetInnerValue(int? aValue)
         {
             _value = aValue;
+            Release();
         }
 
         public override string ToString()
         {
-            return GetInnerValue()?.ToString();
+            return Value?.ToString();
         }
 
-        public static implicit operator KnkEntityIdentifier(int value)
+        public static implicit operator KnkEntityReference<Tref>(int value)
         {
-            return new KnkEntityIdentifier(value);
+            return new KnkEntityReference<Tref>(value);
         }
 
-        public static implicit operator int(KnkEntityIdentifier value)
+        public static implicit operator int(KnkEntityReference<Tref> value)
         {
-            return (int)value._value;
+            return (int?)value?._value??0;
         }
 
-        public static implicit operator KnkEntityIdentifier(int? value)
+        public static implicit operator KnkEntityReference<Tref>(int? value)
         {
-            return new KnkEntityIdentifier() { _value = value };
+            return new KnkEntityReference<Tref>(value);
         }
 
-        public static implicit operator int? (KnkEntityIdentifier value)
+        public static implicit operator int? (KnkEntityReference<Tref> value)
         {
             return value?._value;
         }
@@ -160,8 +225,10 @@ namespace KnkInterfaces.Classes
 
             if (lObj == this.GetInnerValue())
                 return 0;
-            else 
+            else
                 return 1;
         }
+
+
     }
 }

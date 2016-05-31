@@ -158,7 +158,7 @@ namespace KnkScrapers.Utilities
                 //	string					TagLine
                 lDst.TagLine = lOrg.TagLine;
                 //	string					Overview
-                string lText = lOrg.Overview;
+                FillMovieOverview(lDst, lOrg.Overview);
                 //	string					Poster
                 //	string					Backdrop
                 //	bool					Adult
@@ -199,9 +199,21 @@ namespace KnkScrapers.Utilities
             return lDst;
         }
 
-        private static void FillMovieOverview(KnkSolutionMovies.Entities.Movie aMovie, string aOvervies)
+        private static void FillMovieOverview(KnkSolutionMovies.Entities.Movie aMovie, string aOverviews)
         {
+            var lSum = aMovie.Extender.Summary;
+            lSum.DeleteAll();
+            string[] lines = aOverviews.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            int lOrdinal = 1;
+            foreach(var lLine in lines)
+            {
+                var lLin = lSum.Create();
+                
+                lLin.Ordinal = lOrdinal;
+                lLin.SummaryItem = lLine;
 
+                lSum.Add(lLin);
+            }
         }
     }
 }

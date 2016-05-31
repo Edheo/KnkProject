@@ -9,8 +9,6 @@ namespace KnkSolutionMovies.Entities
 {
     public class Movie : KnkItemBase
     {
-        KnkEntityIdentifier<Movie, MovieSet> _MovieSet;
-
         public readonly MovieExtender Extender;
 
         #region Interface/Implementation
@@ -34,7 +32,7 @@ namespace KnkSolutionMovies.Entities
         public string OriginalTitle { get; set; }
         public string Studio { get; set; }
         public string TrailerUrl { get; set; }
-        public KnkEntityIdentifier IdSet { get; set; }
+        public KnkEntityReference<MovieSet> IdSet { get; set; }
         public DateTime? ReleaseDate { get; set; }
 
         #endregion
@@ -48,13 +46,11 @@ namespace KnkSolutionMovies.Entities
         {
             get
             {
-                if (_MovieSet == null) _MovieSet = KnkSolutionMoviesUtils.GetReference<Movie, MovieSet>(this, "IdMovieSet");
-                return _MovieSet?.Value;
+                return IdSet.Value;
             }
             set
             {
-                if (_MovieSet == null) _MovieSet = KnkSolutionMoviesUtils.GetReference<Movie, MovieSet>(this, "IdMovieSet");
-                _MovieSet.Value = value;
+                IdSet.Value = value;
             }
         }
 

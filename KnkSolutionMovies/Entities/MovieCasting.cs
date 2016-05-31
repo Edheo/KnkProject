@@ -13,8 +13,6 @@ namespace KnkSolutionMovies.Entities
 {
     public class MovieCasting : KnkItemBase
     {
-        KnkEntityIdentifier<MovieCasting, CastingType> _CastingType;
-
         #region Interface/Implementation
         public MovieCasting():base(new KnkTableEntity("vieMovieCasting", "MovieCasting"))
         {
@@ -26,7 +24,7 @@ namespace KnkSolutionMovies.Entities
         public KnkEntityIdentifier IdMovieCasting { get; set; }
         public KnkEntityIdentifier IdMovie { get; set; }
         public KnkEntityIdentifier IdCast { get; set; }
-        public KnkEntityIdentifier IdCastingType { get; set; }
+        public KnkEntityReference<CastingType> IdCastingType { get; set; }
         public int Ordinal { get; set; }
         public string Role { get; set; }
         public string ArtistName { get; set; }
@@ -41,13 +39,11 @@ namespace KnkSolutionMovies.Entities
         {
             get
             {
-                if (_CastingType == null) _CastingType = KnkSolutionMoviesUtils.GetReference<MovieCasting, CastingType>(this, "IdCastingType");
-                return _CastingType?.Value;
+                return IdCastingType?.Value;
             }
             set
             {
-                if (_CastingType == null) _CastingType = KnkSolutionMoviesUtils.GetReference<MovieCasting, CastingType>(this, "IdCastingType");
-                _CastingType.Value = value;
+                IdCastingType.Value = value;
             }
         }
 

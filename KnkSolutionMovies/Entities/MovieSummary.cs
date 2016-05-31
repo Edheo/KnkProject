@@ -20,8 +20,8 @@ namespace KnkSolutionMovies.Entities
         #region Class Properties
         [AtributePrimaryKey]
         public KnkEntityIdentifier IdSummary { get; set; }
-        public KnkEntityIdentifier IdMovie { get; set; }
-        public int Orginal { get; set; }
+        public KnkEntityReference<Movie> IdMovie { get; set; }
+        public int Ordinal { get; set; }
         public string SummaryItem { get; set; }
         #endregion Class Properties
 

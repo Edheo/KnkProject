@@ -16,8 +16,6 @@ namespace KnkSolutionMovies.Entities
 
     public class File : KnkItemBase
     {
-        KnkEntityIdentifier<File, Folder> _Folder;
-
         public readonly FileExtender Extender;
 
         #region Interface/Implementation
@@ -35,7 +33,7 @@ namespace KnkSolutionMovies.Entities
         #region Class Properties
         [AtributePrimaryKey]
         public KnkEntityIdentifier IdFile { get; set; }
-        public KnkEntityIdentifier IdPath { get; set; }
+        public KnkEntityReference<Folder> IdPath { get; set; }
         public string Filename { get; set; }
         public DateTime DateAdded { get; set; }
         public KnkEntityIdentifier IdRoot { get; set; }
@@ -45,14 +43,11 @@ namespace KnkSolutionMovies.Entities
         {
             get
             {
-                if (_Folder == null) _Folder = KnkSolutionMoviesUtils.GetReference<File,Folder>(this, "IdPath");
-                return _Folder?.Value;
+                return IdPath?.Value;
             }
             set
             {
-                if (_Folder == null) _Folder = KnkSolutionMoviesUtils.GetReference<File, Folder>(this, "IdPath");
-                _Folder.Value = value;
-                IdPath = value?.IdPath;
+                IdPath.Value = value;
             }
         }
 

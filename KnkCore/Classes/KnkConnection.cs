@@ -57,28 +57,27 @@ namespace KnkCore
             aList.FillFromList(aTable.AsEnumerable().Select(row => KnkInterfacesUtils.CopyRecord<Tlst>(aList, row)).ToList());
         }
 
-        public KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem)
-            where TDad : KnkItemItf
-            where TReference : KnkItemItf, new()
-        {
-            var lProperty = new TReference().PrimaryKey();
-            return SetReference(new KnkEntityIdentifier<TDad, TReference>(aItem, lProperty, GetItem<TReference>), aItem, lProperty);
-        }
+        //public KnkReferenceItf<TRef> GetReference<TDad, TRef>(TDad aItem)
+        //    where TDad : KnkItemItf
+        //    where TRef : KnkItemItf, new()
+        //{
+        //    return SetReference(new KnkEntityReference<TReference>(aItem, lProperty, GetItem<TReference>), aItem, lProperty);
+        //}
 
-        public KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem, string aProperty)
-            where TDad : KnkItemItf
-            where TReference : KnkItemItf, new()
-        {
-            return SetReference(new KnkEntityIdentifier<TDad, TReference>(aItem, aProperty, GetItem<TReference>),aItem, aProperty);
-        }
+        //public KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem, string aProperty)
+        //    where TDad : KnkItemItf
+        //    where TReference : KnkItemItf, new()
+        //{
+        //    return SetReference(new KnkEntityReference<TDad, TReference>(aItem, aProperty, GetItem<TReference>),aItem, aProperty);
+        //}
 
-        public KnkReferenceItf<TDad, TReference> SetReference<TDad, TReference>(KnkReferenceItf<TDad, TReference> aReference, TDad aItem, string aProperty)
-            where TDad : KnkItemItf
-            where TReference : KnkItemItf, new()
-        {
-            aReference.ResetReference(aItem, aProperty);
-            return aReference;
-        }
+        //public KnkReferenceItf<TDad, TReference> SetReference<TDad, TReference>(KnkReferenceItf<TDad, TReference> aReference, TDad aItem, string aProperty)
+        //    where TDad : KnkItemItf
+        //    where TReference : KnkItemItf, new()
+        //{
+        //    aReference.ResetReference(aItem, aProperty);
+        //    return aReference;
+        //}
 
         public KnkListItf<Tdad, Tlst> GetList<Tdad, Tlst>()
             where Tdad : KnkItemItf, new()

@@ -1,4 +1,4 @@
-﻿using KnkCore;
+﻿using KnkInterfaces.Classes;
 using KnkInterfaces.Interfaces;
 using System;
 using System.IO;
@@ -54,11 +54,11 @@ namespace KnkSolutionMovies.Utilities
             return new FileStream(aFilename, FileMode.Open, FileAccess.Read);
         }
 
-        internal static KnkEntityIdentifier<TDad, TReference> GetReference<TDad, TReference>(TDad aDad, string aField)
-        where TDad : KnkItemItf
-        where TReference : KnkItemItf, new()
-        {
-            return new KnkEntityIdentifier<TDad, TReference>(aDad, aField);
-        }
+        //internal static KnkEntityReference<TDad, TReference> GetReference<TDad, TReference>(TDad aDad, string aField)
+        //where TDad : KnkItemItf
+        //where TReference : KnkItemItf, new()
+        //{
+        //    return new KnkEntityReference<TDad, TReference>(aDad, aField);
+        //}
     }
 }

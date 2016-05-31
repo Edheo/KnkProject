@@ -12,14 +12,16 @@ namespace KnkInterfaces.Utilities
 {
     public static class KnkInterfacesUtils 
     {
-        public static T CopyRecord<T>(KnkListItf aOwner, DataRow aRow) where T : KnkItemItf, new()
+        public static Titm CopyRecord<Titm>(KnkListItf aOwner, DataRow aRow)
+            where Titm : KnkItemItf, new()
         {
-            T lNewItem = new T();
+            Titm lNewItem = new Titm();
             lNewItem.SetParent(aOwner);
-            return CopyRecord(lNewItem, aRow);
+            return CopyRecord<Titm>(lNewItem, aRow);
         }
 
-        public static T CopyRecord<T>(T aItem, DataRow aRow) where T: KnkItemItf, new()
+        public static Titm CopyRecord<Titm>(Titm aItem, DataRow aRow) 
+            where Titm: KnkItemItf, new()
         {
             //Get Properties
             var lJoined = from prp in aItem.GetType().GetProperties()
@@ -32,20 +34,34 @@ namespace KnkInterfaces.Utilities
                 //If property is generic list, continue
                 if (lPrp.PropertyType.IsGenericType && lPrp.PropertyType.GetGenericTypeDefinition() == typeof(List<>)) continue;
                 //Check for dbnull, return null if true, or convert to correct type
-                dynamic lValue = Convert.IsDBNull(aRow[lPrp.Name]) ? null : ChangeType(aRow[lPrp.Name], GetPropertyType(lPrp));
+                dynamic lValue = Convert.IsDBNull(aRow[lPrp.Name]) ? null : ChangeType<Titm>(aRow[lPrp.Name], lPrp);
                 lPrp.SetValue(aItem, lValue);
             }
             return aItem;
         }
 
-        private static object ChangeType(object aValue, Type aType)
+        private static object ChangeType<Titm>(object aValue, PropertyInfo aPrp)
         {
-            if (aType == typeof(KnkEntityIdentifier))
+            var lType = GetPropertyType(aPrp);
+            //int lCua = aPrp.PropertyType.GenericTypeArguments.Count();
+            //if (lCua = 2 && lType.ToString().Contains("KnkEntityIdentifier"))
+            //{
+            //    var lType1 = aPrp.PropertyType.GenericTypeArguments[0];
+            //    var lType2 = aPrp.PropertyType.GenericTypeArguments[1];
+            //    var lAux=new KnkEntityIdentifier<>
+
+            //}
+            //else 
+            if (lType == typeof(KnkEntityIdentifier))
                 return new KnkEntityIdentifier((int)aValue);
-            else if (aType == typeof(KnkEntityIdentifierItf))
+            else if (lType == typeof(KnkEntityIdentifierItf))
                 return new KnkEntityIdentifier((int)aValue);
+            //else if (lType == typeof(KnkEntityReference<Tdad, TReference>))
+            //    return new KnkEntityReference<Tdad, TReference>()
             else
-                return Convert.ChangeType(aValue, aType);
+            {
+                return Convert.ChangeType(aValue, lType);
+            }
         }
 
         public static PropertyInfo[] GetProperties<T>() where T : KnkItemItf, new()
@@ -138,6 +154,27 @@ namespace KnkInterfaces.Utilities
                 return null;
 
             KnkEntityIdentifier lVal = aVal as KnkEntityIdentifier;
+            if (lVal != null)
+                return lVal.GetInnerValue();
+
+            try
+            {
+                int lInt = (int)aVal;
+                return lInt;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static int? ObjectToKnkInt<Tref>(object aVal)
+        where Tref : KnkItemItf, new()
+        {
+            if (aVal == null)
+                return null;
+
+            KnkEntityReference<Tref> lVal = aVal as KnkEntityReference<Tref>;
             if (lVal != null)
                 return lVal.GetInnerValue();
 

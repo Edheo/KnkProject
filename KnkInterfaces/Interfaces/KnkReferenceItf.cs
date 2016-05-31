@@ -2,13 +2,12 @@
 
 namespace KnkInterfaces.Interfaces
 {
-    public interface KnkReferenceItf<TDad,TReference> 
-        where TDad : KnkItemItf
-        where TReference : KnkItemItf, new()
+    public interface KnkReferenceItf<TRef> 
+        where TRef : KnkItemItf, new()
     {
-        TReference Value { get; }
+        TRef Value { get; }
 
-        void ResetReference(TDad aItem, string aProperty);
-        void ResetReference(TDad aItem, string aProperty, Func<int?, TReference> load);
+        void ResetReference(TRef aItem);
+        void ResetReference(TRef aItem, Func<int?, TRef> load);
     }
 }

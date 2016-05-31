@@ -48,7 +48,6 @@
     <Compile Include="Classes\KnkConfigurer.cs" />
     <Compile Include="Classes\KnkConnection.cs" />
     <Compile Include="Classes\KnkCriteria.cs" />
-    <Compile Include="Classes\KnkEntityIdentifier.cs" />
     <Compile Include="Classes\KnkItemBase.cs" />
     <Compile Include="Classes\KnkList.cs" />
     <Compile Include="Classes\KnkParameter.cs" />

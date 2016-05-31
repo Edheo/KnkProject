@@ -44,6 +44,7 @@
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Classes\KnkEntityIdentifier.cs" />
+    <Compile Include="Classes\KnkEntityReference.cs" />
     <Compile Include="Enumerations\UpdateStatusEnu.cs" />
     <Compile Include="Interfaces\KnkEntityIdentifierItf.cs" />
     <Compile Include="Enumerations\ConnectionTypeEnu.cs" />
