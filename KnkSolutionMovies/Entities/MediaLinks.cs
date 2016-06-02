@@ -5,25 +5,25 @@ using KnkSolutionMovies.Extenders;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class MediaThumb: KnkItemBase
+    public class MediaLinks: KnkItemBase
     {
-        public readonly MediaThumbExtender Extender;
+        public readonly MediaLinkExtender Extender;
 
         #region Interface/Implementation
-        public MediaThumb():base(new KnkTableEntity("vieMediaThumbs", "MediaThumbs"))
+        public MediaLinks():base(new KnkTableEntity("vieMediaLinks", "MediaLinks"))
         {
-            Extender = new MediaThumbExtender(this);
+            Extender = new MediaLinkExtender(this);
         }
         #endregion Interface/Implementation
 
         #region Class Properties
         [AtributePrimaryKey]
-        public KnkEntityIdentifier IdThumb { get; set; }
+        public KnkEntityIdentifier IdLink { get; set; }
         public KnkEntityReference<Movie> IdMovie { get; set; }
         public KnkEntityReference<Casting> IdCast { get; set; }
         public KnkEntityIdentifier IdType { get; set; }
         public int Ordinal { get; set; }
-        public string Thumb { get; set; }
+        public string Link { get; set; }
         #endregion Class Properties
 
         public Movie Movie { get { return IdMovie?.Value; } set { IdMovie = new KnkEntityReference<Movie>(value); } }
@@ -31,7 +31,7 @@ namespace KnkSolutionMovies.Entities
 
         public override string ToString()
         {
-            return Thumb;
+            return Link;
         }
 
     }

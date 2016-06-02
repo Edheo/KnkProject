@@ -2,6 +2,7 @@
 using KnkInterfaces.Interfaces;
 using System.Linq;
 using System.Data;
+using System.Data.SqlClient;
 using KnkInterfaces.Enumerations;
 using KnkDataSqlServer.Utilities;
 using System;
@@ -10,7 +11,7 @@ namespace KnkDataSqlServer.Connection
 {
     public class KnkSqlConnection:KnkDataItf
     {
-        private System.Data.SqlClient.SqlConnection _Connection;
+        private SqlConnection _Connection;
 
         public KnkSqlConnection(KnkConfigurationItf aConf)
         {

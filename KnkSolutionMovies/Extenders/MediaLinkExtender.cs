@@ -6,13 +6,13 @@ using System.Xml;
 
 namespace KnkSolutionMovies.Extenders
 {
-    public class MediaThumbExtender
+    public class MediaLinkExtender
     {
-        private readonly MediaThumb _MediaThumb;
+        private readonly MediaLinks _MediaThumb;
 
         public object Connection { get; private set; }
 
-        public MediaThumbExtender(MediaThumb aMediaThumb)
+        public MediaLinkExtender(MediaLinks aMediaThumb)
         {
             _MediaThumb = aMediaThumb;
         }
@@ -20,7 +20,7 @@ namespace KnkSolutionMovies.Extenders
         public string GetImageUri()
         {
             XmlDocument lXml = new XmlDocument();
-            lXml.LoadXml(_MediaThumb.Thumb);
+            lXml.LoadXml(_MediaThumb.Link);
             return lXml.InnerText;
         }
 

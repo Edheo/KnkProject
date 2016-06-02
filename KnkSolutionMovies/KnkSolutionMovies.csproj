@@ -50,13 +50,13 @@
     <Compile Include="Entities\File.cs" />
     <Compile Include="Entities\Folder.cs" />
     <Compile Include="Entities\Genre.cs" />
-    <Compile Include="Entities\MediaThumb.cs" />
+    <Compile Include="Entities\MediaLinks.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\MovieCasting.cs" />
     <Compile Include="Entities\MovieSummary.cs" />
     <Compile Include="Entities\MovieUser.cs" />
     <Compile Include="Extenders\FileExtender.cs" />
-    <Compile Include="Extenders\MediaThumbExtender.cs" />
+    <Compile Include="Extenders\MediaLinkExtender.cs" />
     <Compile Include="Extenders\MovieExtender.cs" />
     <Compile Include="Lists\Countries.cs" />
     <Compile Include="Lists\FilePlays.cs" />

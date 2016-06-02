@@ -59,7 +59,7 @@ namespace KnkSolutionMovies.Extenders
             }
         }
 
-        public MediaThumb Poster
+        public MediaLinks Poster
         {
             get
             {

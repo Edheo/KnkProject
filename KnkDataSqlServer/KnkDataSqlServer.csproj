@@ -48,9 +48,6 @@
     <Compile Include="Utilities\KnkSqlServer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\KnkInterfaces\KnkInterfaces.csproj">
       <Project>{5492b331-33fe-4d82-bfc0-2a36ab7b89dc}</Project>
       <Name>KnkInterfaces</Name>

@@ -149,7 +149,7 @@ namespace KnkScrapers.Utilities
         {
             var lOrg = aMovieOrg;
             var lDst = aMovieDst;
-            if(lDst == null)
+            if(lDst != null)
             {
                 //	string					Title
                 lDst.Title = lOrg.Title;
@@ -182,6 +182,9 @@ namespace KnkScrapers.Utilities
                 //	AlternativeTitles		AlternativeTitles
                 //	MediaCredits			Credits
                 //	Images					Images
+                //var images = await client.Movies.GetImagesAsync(m.Id, null, CancellationToken.None);
+                //foreach (System.Net.TMDb.Image image in images.Posters)
+                //    Console.WriteLine(image.FilePath);
                 //	Videos					Videos
                 lDst.TrailerUrl = lOrg.Videos.Results.FirstOrDefault()?.Site;
                 //	Keywords				Keywords

@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class MoviePictures : KnkList<Movie, MediaThumb>
+    public class MoviePictures : KnkList<Movie, MediaLinks>
     {
         public MoviePictures(Movie aMovie) 
-        : base(aMovie.Connection(), new KnkCriteria<Movie, MediaThumb>(aMovie))
+        : base(aMovie.Connection(), new KnkCriteria<Movie, MediaLinks>(aMovie))
         {
         }
 
-        private MediaThumb _MediaThumb;
+        private MediaLinks _MediaThumb;
 
-        public MediaThumb Poster
+        public MediaLinks Poster
         {
             get
             {
