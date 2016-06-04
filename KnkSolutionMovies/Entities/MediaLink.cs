@@ -1,16 +1,15 @@
 ﻿using KnkCore;
-using KnkInterfaces.Classes;
 using KnkInterfaces.PropertyAtributes;
 using KnkSolutionMovies.Extenders;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class MediaLinks: KnkItemBase
+    public class MediaLink: KnkItemBase
     {
         public readonly MediaLinkExtender Extender;
 
         #region Interface/Implementation
-        public MediaLinks():base(new KnkTableEntity("vieMediaLinks", "MediaLinks"))
+        public MediaLink():base(new KnkTableEntity("vieMediaLinks", "MediaLinks"))
         {
             Extender = new MediaLinkExtender(this);
         }

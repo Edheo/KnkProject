@@ -1,4 +1,5 @@
 ﻿using KnkInterfaces.Interfaces;
+using KnkScrapers.Classes;
 using KnkScrapers.Utilities;
 using KnkSolutionMovies.Entities;
 using KnkSolutionMovies.Lists;
@@ -17,20 +18,21 @@ namespace KnkScrapers.Services
 
         public void ScrapFiles()
         {
+            EnrichCollections lCols = new EnrichCollections(_Files.Connection);
             foreach(var lFil in _Files.Items)
             {
-                ScrapFile(lFil);
+                ScrapFile(lFil, lCols);
             }
         }
 
-        private void ScrapFile(File aFile)
+        private void ScrapFile(File aFile, EnrichCollections aCols)
         {
             List<System.Net.TMDb.Movie> lResult = KnkScraperTmdb.FindMovies(aFile, "es-ES");
             Movies lMovies = new Movies(_Files.Connection);
             foreach (var lItm in lResult)
             {
                 Movie lMov = KnkScraperTmdb.FindMovieInLibrary(lMovies, lItm);
-                lMov = KnkScraperTmdb.EnrichMovie(lItm, lMov);
+                lMov = KnkScraperTmdb.EnrichMovie(aCols, lItm, lMov);
 
             }
         }

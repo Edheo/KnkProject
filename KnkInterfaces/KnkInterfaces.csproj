@@ -43,8 +43,6 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
-    <Compile Include="Classes\KnkEntityIdentifier.cs" />
-    <Compile Include="Classes\KnkEntityReference.cs" />
     <Compile Include="Enumerations\UpdateStatusEnu.cs" />
     <Compile Include="Interfaces\KnkEntityIdentifierItf.cs" />
     <Compile Include="Enumerations\ConnectionTypeEnu.cs" />
@@ -52,6 +50,7 @@
     <Compile Include="Enumerations\OperatorsEnu.cs" />
     <Compile Include="Interfaces\KnkCriteriaItf.cs" />
     <Compile Include="Interfaces\KnkDataItf.cs" />
+    <Compile Include="Interfaces\KnkEntityRelationItf.cs" />
     <Compile Include="Interfaces\KnkItemItf.cs" />
     <Compile Include="Interfaces\KnkConnectionItf.cs" />
     <Compile Include="Interfaces\KnkDataModelerItf.cs" />

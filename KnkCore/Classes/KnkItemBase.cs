@@ -3,9 +3,9 @@ using KnkInterfaces.Utilities;
 using KnkInterfaces.Interfaces;
 using System.Reflection;
 using System;
-using KnkInterfaces.Classes;
 using KnkInterfaces.Enumerations;
 using KnkInterfaces.PropertyAtributes;
+using KnkCore.Utilities;
 
 namespace KnkCore
 {
@@ -19,7 +19,7 @@ namespace KnkCore
         public KnkItemBase(KnkTableEntity aEntity)
         {
             _entity = aEntity;
-            _primarykey = KnkInterfacesUtils.GetPrimaryKey(this).Name;
+            _primarykey = KnkCoreUtils.GetPrimaryKey(this).Name;
         }
 
         public KnkListItf GetParent()

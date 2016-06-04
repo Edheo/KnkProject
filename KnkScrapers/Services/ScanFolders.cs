@@ -85,7 +85,6 @@ namespace KnkScrapers.Services
                             lFil.Filename = lFileName;
                             lFil.DateAdded = DateTime.Now;
                             lFil.Folder = aFolder;
-                            _Files.Add(lFil);
                             break;
                         case ".db":
                         case ".srt":

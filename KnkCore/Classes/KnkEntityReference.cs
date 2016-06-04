@@ -1,57 +1,102 @@
-﻿using KnkInterfaces.Interfaces;
+﻿using KnkCore.Utilities;
+using KnkInterfaces.Interfaces;
 using KnkInterfaces.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace KnkInterfaces.Classes
+namespace KnkCore
 {
-    public class KnkEntityIdentifier : KnkEntityIdentifierItf
+    public class KnkEntityReference<Tref> : KnkEntityIdentifierItf<Tref>
+        where Tref : KnkItemItf, new()
     {
-        public KnkEntityIdentifier():this(null)
-        {
-        }
-
-        public KnkEntityIdentifier(int? aValue)
-        {
-            SetInnerValue(aValue);
-        }
-
+        private Tref _reference;
+        private Func<int?, Tref> Load { get; set; }
         private int? _value;
 
-        public virtual int? GetInnerValue()
+        public KnkEntityReference(int? aValue)
+        : this(aValue,(new Tref()).Connection().GetItem<Tref>)
+        {
+        }
+
+        public KnkEntityReference(Tref aItem)
+        : this(aItem, (new Tref()).Connection().GetItem<Tref>)
+        {
+        }
+
+        public KnkEntityReference(int? aValue, Func<int?, Tref> aLoad)
+        {
+            Load = aLoad;
+            ResetReference(aValue);
+        }
+
+        public KnkEntityReference(Tref aItem, Func<int?, Tref> aLoad)
+        {
+            Load = aLoad;
+            ResetReference(aItem);
+        }
+
+        public int? GetInnerValue()
         {
             return _value;
         }
+        #region member variables
+
+
+        public Tref Value
+        {
+            get
+            {
+                if (_value != null && _reference == null && Load != null) _reference = Load(_value);
+                return _reference;
+            }
+        }
+        #endregion
 
         public void SetInnerValue(int? aValue)
         {
+            ResetReference(aValue);
+        }
+
+        private void ResetReference(int? aValue)
+        {
+            Release();
             _value = aValue;
+        }
+
+        private void ResetReference(Tref aItem)
+        {
+            Release();
+            _reference = aItem;
+            _value = (_reference?.PropertyGet(_reference.PrimaryKey()) as KnkEntityIdentifier)?.GetInnerValue();
+        }
+
+        private void Release()
+        {
+            _value = null;
+            _reference = default(Tref);
         }
 
         public override string ToString()
         {
-            return GetInnerValue()?.ToString();
+            return Value?.ToString();
         }
 
-        public static implicit operator KnkEntityIdentifier(int value)
+        public static implicit operator KnkEntityReference<Tref>(int value)
         {
-            return new KnkEntityIdentifier(value);
+            Tref lTre = new Tref();
+            return new KnkEntityReference<Tref>(value);
         }
 
-        public static implicit operator int(KnkEntityIdentifier value)
+        public static implicit operator int(KnkEntityReference<Tref> value)
         {
-            return (int)value._value;
+            return (int?)value?._value??0;
         }
 
-        public static implicit operator KnkEntityIdentifier(int? value)
+        public static implicit operator KnkEntityReference<Tref>(int? value)
         {
-            return new KnkEntityIdentifier() { _value = value };
+            return new KnkEntityReference<Tref>(value);
         }
 
-        public static implicit operator int? (KnkEntityIdentifier value)
+        public static implicit operator int? (KnkEntityReference<Tref> value)
         {
             return value?._value;
         }
@@ -151,17 +196,19 @@ namespace KnkInterfaces.Classes
             if (conversionType.Equals(this.GetType()))
                 return _value;
             else
-                return _value;
+                throw new NotImplementedException();
         }
 
         public int CompareTo(object obj)
         {
-            int? lObj = KnkInterfacesUtils.ObjectToKnkInt(obj);
+            int? lObj = KnkCoreUtils.ObjectToKnkInt(obj);
 
             if (lObj == this.GetInnerValue())
                 return 0;
-            else 
+            else
                 return 1;
         }
+
+
     }
 }

@@ -7,7 +7,7 @@ using KnkInterfaces.Enumerations;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class Castings : KnkList<Casting,Casting>
+    public class Castings : KnkList<Casting, Casting>
     {
         public Castings(KnkConnectionItf aConnection) 
         : base(aConnection)
@@ -23,11 +23,6 @@ namespace KnkSolutionMovies.Lists
 
     public class MovieCastings : KnkList<Movie,MovieCasting>
     { 
-        public MovieCastings(Movie aMovie) 
-        : base(aMovie.Connection(), new KnkCriteria<Movie, MovieCasting>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieCasting", "MovieCasting")))
-        {
-        }
-
         public MovieCastings(KnkConnectionItf aConnection,KnkCriteria<Movie, MovieCasting> aCriteria)
         : base(aConnection, aCriteria)
         {

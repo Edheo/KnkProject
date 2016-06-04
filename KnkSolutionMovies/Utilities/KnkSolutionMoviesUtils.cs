@@ -1,6 +1,4 @@
-﻿using KnkInterfaces.Classes;
-using KnkInterfaces.Interfaces;
-using System;
+﻿using System;
 using System.IO;
 using System.Net;
 

@@ -1,8 +1,11 @@
 ﻿using KnkInterfaces.Enumerations;
 using KnkInterfaces.Interfaces;
+using KnkInterfaces.PropertyAtributes;
+using KnkInterfaces.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Management;
@@ -125,6 +128,106 @@ namespace KnkCore.Utilities
             return lCri;
         }
 
+        public static Titm CopyRecord<Titm>(KnkListItf aOwner, DataRow aRow)
+            where Titm : KnkItemItf, new()
+        {
+            Titm lNewItem = new Titm();
+            lNewItem.SetParent(aOwner);
+            return CopyRecord<Titm>(lNewItem, aRow);
+        }
 
+        public static Titm CopyRecord<Titm>(Titm aItem, DataRow aRow)
+            where Titm : KnkItemItf, new()
+        {
+            //Get Properties
+            var lJoined = from prp in aItem.GetType().GetProperties()
+                          join fld in aRow.Table.Columns.Cast<DataColumn>()
+                          on prp.Name.ToLower() equals fld.ColumnName.ToLower()
+                          select prp;
+
+            foreach (PropertyInfo lPrp in lJoined)
+            {
+                //If property is generic list, continue
+                if (lPrp.PropertyType.IsGenericType && lPrp.PropertyType.GetGenericTypeDefinition() == typeof(List<>)) continue;
+                //Check for dbnull, return null if true, or convert to correct type
+                dynamic lValue = Convert.IsDBNull(aRow[lPrp.Name]) ? null : ChangeType<Titm>(aRow[lPrp.Name], lPrp);
+                lPrp.SetValue(aItem, lValue);
+            }
+            return aItem;
+        }
+
+        private static object ChangeType<Titm>(object aValue, PropertyInfo aPrp)
+        {
+            var lType = GetPropertyType(aPrp);
+            var lIsReference = lType.FullName.Contains("KnkEntityReference");
+            if (lIsReference)
+                return Activator.CreateInstance(aPrp.PropertyType, (int)aValue);
+            if (lType == typeof(KnkEntityIdentifier))
+                return new KnkEntityIdentifier((int)aValue);
+            else if (lType == typeof(KnkEntityIdentifierItf))
+                return new KnkEntityIdentifier((int)aValue);
+            else
+            {
+                return Convert.ChangeType(aValue, lType);
+            }
+
+        }
+
+        public static PropertyInfo GetPrimaryKey<T>(T item)
+            where T : KnkItemItf
+        {
+            return (from prp in KnkInterfacesUtils.GetProperties(item) where Attribute.IsDefined(prp, typeof(AtributePrimaryKey)) select prp).FirstOrDefault();
+        }
+
+        public static Type GetPropertyType(PropertyInfo aProperty)
+        {
+            return Nullable.GetUnderlyingType(aProperty.PropertyType) ?? aProperty.PropertyType;
+        }
+
+        public static int? ObjectToKnkInt(object aVal)
+        {
+            if (aVal == null)
+                return null;
+
+            KnkEntityIdentifier lVal = aVal as KnkEntityIdentifier;
+            if (lVal != null)
+                return lVal.GetInnerValue();
+
+            try
+            {
+                int lInt = (int)aVal;
+                return lInt;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static int? ObjectToKnkInt<Tref>(object aVal)
+        where Tref : KnkItemItf, new()
+        {
+            if (aVal == null)
+                return null;
+
+            KnkEntityReference<Tref> lVal = aVal as KnkEntityReference<Tref>;
+            if (lVal != null)
+                return lVal.GetInnerValue();
+
+            try
+            {
+                int lInt = (int)aVal;
+                return lInt;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static string CleanFileName(string aFileName)
+        {
+            return Path.GetInvalidFileNameChars().Aggregate(aFileName, (current, c) => current.Replace(c.ToString(), string.Empty));
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using KnkCore;
-using KnkInterfaces.Classes;
 using KnkInterfaces.PropertyAtributes;
 
 namespace KnkSolutionMovies.Entities

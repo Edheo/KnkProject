@@ -1,12 +1,6 @@
 ﻿using KnkCore;
-using KnkInterfaces.Classes;
 using KnkInterfaces.PropertyAtributes;
 using KnkSolutionUsers.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KnkSolutionMovies.Entities
 {

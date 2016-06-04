@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KnkInterfaces.Enumerations;
 using System;
+using KnkCore.Utilities;
 
 namespace KnkCore
 {
@@ -45,7 +46,7 @@ namespace KnkCore
                 var lPrp = lPrs.Where(p => p.Name.ToLower().Equals(lPar.ToLower())).FirstOrDefault();
                 if (lPrp != null && aItem.PropertyGet(lPrp.Name) != null)
                 {
-                    AddParameter(KnkInterfacesUtils.GetPropertyType(lPrp), lPrp.Name, OperatorsEnu.Equal, aItem.PropertyGet(lPrp.Name));
+                    AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lPrp.Name, OperatorsEnu.Equal, aItem.PropertyGet(lPrp.Name));
                 }
             }
             var lEnt = this.EntityRelation();
@@ -54,7 +55,7 @@ namespace KnkCore
                 var lPrp = KnkInterfacesUtils.GetProperties<Tdad>().Where(p => p.Name.Equals(aItem.PrimaryKey())).FirstOrDefault();
                 if (lPrp != null && aItem.PropertyGet(lEnt.RelatedKey)!=null)
                 {
-                    AddParameter(KnkInterfacesUtils.GetPropertyType(lPrp), lEnt.RelatedKey, OperatorsEnu.Equal, aItem.PropertyGet(lEnt.RelatedKey));
+                    AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lEnt.RelatedKey, OperatorsEnu.Equal, aItem.PropertyGet(lEnt.RelatedKey));
                 }
             }
 

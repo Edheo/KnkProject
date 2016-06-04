@@ -36,9 +36,9 @@ namespace KnkMovieForms.Usercontrols
             AddTagInfo("Votes", $"{_Movie.Votes}", "Rating", $"{_Movie.Rating:0.0}");
             AddTagInfo("User Rating", $"{_Movie.Extender.AveragedRate:0.0}", "Computed Rating", $"{_Movie.Extender.AveragedRate:0.0}");
 
-            if (_Movie.Extender.Plays.Count() > 0)
+            if (_Movie.Extender.Views.Count() > 0)
             {
-                AddTagInfo("Last Played", $"{_Movie.Extender.LastPlayed():dd/MM/yyyy}", "Plays", $"{_Movie.Extender.Plays.Count()}");
+                AddTagInfo("Last Played", $"{_Movie.Extender.LastViewed():dd/MM/yyyy}", "Plays", $"{_Movie.Extender.Views.Count()}");
             }
             AddTagInfo();
             AddTagInfo("Director", $"{_Movie.Extender.Director()}", "Writer", $"{_Movie.Extender.Writer()}");
@@ -50,11 +50,11 @@ namespace KnkMovieForms.Usercontrols
             }
 
             AddTagInfo();
-            var lPla = (from p in _Movie.Extender.Plays orderby p.DatePlay descending select p);
+            var lPla = (from p in _Movie.Extender.Views orderby p.DatePlay descending select p);
             if (lPla.Count() > 0)
             {
                 AddTagInfo(FontStyle.Bold, "Date", "File", "Time", "Path");
-                foreach (var lVie in _Movie.Extender.Plays)
+                foreach (var lVie in _Movie.Extender.Views)
                 {
                     AddTagInfo(lVie.Date(), lVie.Filename, lVie.Time(), lVie.Path);
                 }

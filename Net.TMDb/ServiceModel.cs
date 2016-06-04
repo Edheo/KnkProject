@@ -462,7 +462,7 @@ namespace System.Net.TMDb
 		public MediaCredits Credits { get; internal set; }
 		
 		[DataMember(Name = "images")]
-		public Images Images { get; internal set; }
+		public Images Images { get; set; }
 		
 		[DataMember(Name = "videos")]
 		public Videos Videos { get; internal set; }
@@ -605,7 +605,7 @@ namespace System.Net.TMDb
 	public class Videos
 	{
 		[DataMember(Name = "results")]
-		public IEnumerable<Video> Results { get; internal set; }
+		public IEnumerable<Video> Results { get; set; }
 	}
 	
 	[DataContract]

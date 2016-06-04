@@ -25,11 +25,6 @@ namespace KnkSolutionMovies.Lists
 
     public class MovieCountries : KnkList<Movie, Country>
     {
-        public MovieCountries(Movie aMovie)
-        : base(aMovie.Connection(), new KnkCriteria<Movie, Country>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieCountries", "MovieCountries")))
-        {
-        }
-
         public MovieCountries(KnkConnectionItf aConnection, KnkCriteria<Movie, Country> aCriteria)
         : base(aConnection, aCriteria)
         {

@@ -28,7 +28,7 @@ namespace WindowsFormsApplication2
             MessageBox.Show(lMov1.Title);
             MessageBox.Show(lMov1.MovieSet.Name);
 
-            MessageBox.Show(lMov1.Extender.Files.Count().ToString());
+            MessageBox.Show(lMov1.Files().Count().ToString());
             MessageBox.Show(lMov1.Extender.Genres.Count().ToString());
 
         }

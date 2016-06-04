@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<System.Net.TMDb.Movie>
+	<Adult>false</Adult>
+	<Backdrop>"/bVZNGCXhQMPpCCDr6HaYjqMULck.jpg"</Backdrop>
+	<Budget>0</Budget>
+	<HomePage>""</HomePage>
+	<Id>9378</Id>
+	<Imdb>"tt0245674"</Imdb>
+	<OriginalTitle>"Thir13en Ghosts"</OriginalTitle>
+	<Overview>"Arthur Kriticos y sus dos hijos, Kathy y Bobby, sólo se tienen los unos a los otros tras haberlo perdido todo. Jean, mujer de Arthur y madre de sus hijos, murió en un incendio que dejó al resto de la familia sin nada, hasta que de repente, Arthur hereda una extraña casa de su misterioso y excéntrico tío Cyrus. La casa está hecha de acero y de cristal y es una maravilla de la arquitectura moderna, con muchos espacios abiertos, impoluta y de líneas rectas. A Arthur y los chicos les cuesta creer su golpe de buena suerte, y al llegar a la nueva casa admiran la elegancia de sus paredes de cristal. Lo que no saben es que la casa de la luz guarda un oscuro secreto."</Overview>
+	<Popularity>1.15412</Popularity>
+	<Poster>"/6Qo3XbUzZMsY4a6n2DOk5iN2dx2.jpg"</Poster>
+	<Revenue>0</Revenue>
+	<Runtime>91</Runtime>
+	<Status>"Released"</Status>
+	<TagLine>"Hay fantasmas que nos rodean todo el tiempo. La mayoría de ellos no quieren hacernos daño. Sin embargo, hay excepciones ..."</TagLine>
+	<Title>"13 fantasmas"</Title>
+	<VoteAverage>5.2</VoteAverage>
+	<VoteCount>173</VoteCount>
+</System.Net.TMDb.Movie>

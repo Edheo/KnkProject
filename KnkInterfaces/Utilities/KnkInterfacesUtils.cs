@@ -1,8 +1,6 @@
-﻿using KnkInterfaces.Classes;
-using KnkInterfaces.Interfaces;
+﻿using KnkInterfaces.Interfaces;
 using KnkInterfaces.PropertyAtributes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,74 +11,6 @@ namespace KnkInterfaces.Utilities
 {
     public static class KnkInterfacesUtils 
     {
-        public static Titm CopyRecord<Titm>(KnkListItf aOwner, DataRow aRow)
-            where Titm : KnkItemItf, new()
-        {
-            Titm lNewItem = new Titm();
-            lNewItem.SetParent(aOwner);
-            return CopyRecord<Titm>(lNewItem, aRow);
-        }
-
-        public static Titm CopyRecord<Titm>(Titm aItem, DataRow aRow) 
-            where Titm: KnkItemItf, new()
-        {
-            //Get Properties
-            var lJoined = from prp in aItem.GetType().GetProperties()
-                          join fld in aRow.Table.Columns.Cast<DataColumn>()
-                          on prp.Name.ToLower() equals fld.ColumnName.ToLower()
-                          select prp;
-
-            foreach (PropertyInfo lPrp in lJoined)
-            {
-                //If property is generic list, continue
-                if (lPrp.PropertyType.IsGenericType && lPrp.PropertyType.GetGenericTypeDefinition() == typeof(List<>)) continue;
-                //Check for dbnull, return null if true, or convert to correct type
-                dynamic lValue = Convert.IsDBNull(aRow[lPrp.Name]) ? null : ChangeType<Titm>(aRow[lPrp.Name], lPrp);
-                lPrp.SetValue(aItem, lValue);
-            }
-            return aItem;
-        }
-
-        private static object ChangeType<Titm>(object aValue, PropertyInfo aPrp)
-        {
-            var lType = GetPropertyType(aPrp);
-            var lIsReference = lType.FullName.Contains("KnkEntityReference");
-            if (lIsReference)
-                return Activator.CreateInstance(aPrp.PropertyType, (int)aValue);
-            if (lType == typeof(KnkEntityIdentifier))
-                return new KnkEntityIdentifier((int)aValue);
-            else if (lType == typeof(KnkEntityIdentifierItf))
-                return new KnkEntityIdentifier((int)aValue);
-            else
-            {
-                return Convert.ChangeType(aValue, lType);
-            }
-
-        }
-
-        public static PropertyInfo[] GetProperties<T>() where T : KnkItemItf, new()
-        {
-            return GetProperties(new T());
-        }
-
-        public static PropertyInfo[] GetProperties<T>(T item) 
-            where T : KnkItemItf
-        {
-            return (from p in item.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance) where p.CanWrite select p).ToArray();
-        }
-
-        public static PropertyInfo GetPrimaryKey<T>(T item)
-            where T : KnkItemItf
-        {
-            return (from prp in GetProperties(item) where Attribute.IsDefined(prp, typeof(AtributePrimaryKey)) select prp).FirstOrDefault();
-        }
-
-        public static Type GetPropertyType(PropertyInfo aProperty)
-        {
-            return Nullable.GetUnderlyingType(aProperty.PropertyType) ?? aProperty.PropertyType;
-        }
-
-
         public static string GetEnumDescription(Enum value)
         {
             FieldInfo fi = value.GetType().GetField(value.ToString());
@@ -142,45 +72,15 @@ namespace KnkInterfaces.Utilities
             return dataTable;
         }
 
-        public static int? ObjectToKnkInt(object aVal)
+        public static PropertyInfo[] GetProperties<T>() where T : KnkItemItf, new()
         {
-            if (aVal == null)
-                return null;
-
-            KnkEntityIdentifier lVal = aVal as KnkEntityIdentifier;
-            if (lVal != null)
-                return lVal.GetInnerValue();
-
-            try
-            {
-                int lInt = (int)aVal;
-                return lInt;
-            }
-            catch
-            {
-                return null;
-            }
+            return GetProperties(new T());
         }
 
-        public static int? ObjectToKnkInt<Tref>(object aVal)
-        where Tref : KnkItemItf, new()
+        public static PropertyInfo[] GetProperties<T>(T item)
+            where T : KnkItemItf
         {
-            if (aVal == null)
-                return null;
-
-            KnkEntityReference<Tref> lVal = aVal as KnkEntityReference<Tref>;
-            if (lVal != null)
-                return lVal.GetInnerValue();
-
-            try
-            {
-                int lInt = (int)aVal;
-                return lInt;
-            }
-            catch
-            {
-                return null;
-            }
+            return (from p in item.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance) where p.CanWrite select p).ToArray();
         }
 
         public static List<string> CreatedFields()
@@ -197,5 +97,7 @@ namespace KnkInterfaces.Utilities
         {
             return new List<string>() { "userdeletedid", "deleteddate", "deleted" };
         }
+
+
     }
 }

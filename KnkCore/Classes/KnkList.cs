@@ -124,8 +124,14 @@ namespace KnkCore
 
         public Tlst Create()
         {
+            return Create(true);
+        }
+
+        public Tlst Create(bool aAddToList)
+        {
             Tlst lItem = new Tlst();
             lItem.SetParent(this);
+            if(aAddToList) Items.Add(lItem);
             return lItem;
         }
 
@@ -138,5 +144,21 @@ namespace KnkCore
         }
     }
 
+    //public class KnkList<Tlst> : KnkList<Tlst,Tlst>
+    //    where Tlst : KnkItemItf, new()
+    //{
+    //    public KnkList(KnkConnectionItf aConnection):base(aConnection)
+    //    {
+    //    }
+
+    //    public KnkList(KnkConnectionItf aConnection, List<Tlst> aList) : this(aConnection)
+    //    {
+    //        FillFromList(aList);
+    //    }
+
+    //    public KnkList(KnkConnectionItf aConnection, KnkCriteriaItf<Tlst, Tlst> aCriteria) : this(aConnection)
+    //    {
+    //    }
+    //}
 
 }

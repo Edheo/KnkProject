@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KnkScrapers.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.TMDb;
@@ -78,8 +79,9 @@ namespace KnkScrapers.Utilities
                     int count = movies.PageCount;
                     foreach (Movie lMovie in movies.Results)
                     {
-                        var movie = await client.Movies.GetAsync(lMovie.Id, aLanguage, true, CancellationToken.None);
-                        lLst.Add(movie);
+                        var lTask1 = Task.Factory.StartNew(() => GetMovieData(client, lMovie.Id, aLanguage));
+                        lTask1.Wait();
+                        lLst.Add(lTask1.Result.Result);
                     }
                 }
 
@@ -91,8 +93,9 @@ namespace KnkScrapers.Utilities
                         int count = movies.PageCount;
                         foreach (Movie lMovie in movies.Results)
                         {
-                            var movie = await client.Movies.GetAsync(lMovie.Id, aLanguage, true, CancellationToken.None);
-                            lLst.Add(movie);
+                            var lTask1 = Task.Factory.StartNew(() => GetMovieData(client, lMovie.Id, aLanguage));
+                            lTask1.Wait();
+                            lLst.Add(lTask1.Result.Result);
                         }
                     }
                 }
@@ -100,6 +103,22 @@ namespace KnkScrapers.Utilities
             }
         }
 
+        public static async Task<Movie> GetMovieData(ServiceClient aClient, int aIdMovie, string aLanguage)
+        {
+            var movie = await aClient.Movies.GetAsync(aIdMovie, aLanguage, true, CancellationToken.None);
+            movie.Images = await aClient.Movies.GetImagesAsync(movie.Id, aLanguage, CancellationToken.None);
+            movie.Videos.Results = await aClient.Movies.GetVideosAsync(movie.Id, aLanguage, CancellationToken.None);
+            
+            //var personIds = movie.Credits.Cast.Select(s => s.Id)
+            //    .Union(movie.Credits.Crew.Select(s => s.Id));
+
+            //foreach (var id in personIds)
+            //{
+            //    var person = await aClient.People.GetAsync(id, true, CancellationToken.None);
+            //}
+
+            return movie;
+        }
 
         static async Task Sample(CancellationToken cancellationToken)
         {
@@ -112,7 +131,7 @@ namespace KnkScrapers.Utilities
 
                     foreach (System.Net.TMDb.Movie m in movies.Results)
                     {
-                        var movie = await client.Movies.GetAsync(m.Id, null, true, cancellationToken);
+                        var movie = await client.Movies.GetAsync(m.Id, "es", true, cancellationToken);
 
                         var personIds = movie.Credits.Cast.Select(s => s.Id)
                             .Union(movie.Credits.Crew.Select(s => s.Id));
@@ -126,6 +145,7 @@ namespace KnkScrapers.Utilities
                             //    string filepath = Path.Combine("People", img.FilePath.TrimStart('/'));
                             //    await DownloadImage(img.FilePath, filepath, cancellationToken);
                             //}
+
                         }
                     }
                 }
@@ -145,46 +165,37 @@ namespace KnkScrapers.Utilities
             return lMovieDst;
         }
 
-        public static KnkSolutionMovies.Entities.Movie EnrichMovie(Movie aMovieOrg, KnkSolutionMovies.Entities.Movie aMovieDst)
+        public static KnkSolutionMovies.Entities.Movie EnrichMovie(EnrichCollections aPar, Movie aMovieOrg, KnkSolutionMovies.Entities.Movie aMovieDst)
         {
             var lOrg = aMovieOrg;
             var lDst = aMovieDst;
             if(lDst != null)
             {
-                //	string					Title
-                lDst.Title = lOrg.Title;
-                //	string					OriginalTitle
-                lDst.OriginalTitle = lOrg.OriginalTitle;
-                //	string					TagLine
-                lDst.TagLine = lOrg.TagLine;
-                //	string					Overview
-                FillMovieOverview(lDst, lOrg.Overview);
-                //	string					Poster
-                //	string					Backdrop
-                //	bool					Adult
-                //	Collection				BelongsTo
-                //	int						Budget
+                
+                lDst.Title = lOrg.Title;                    //	string					Title
+                lDst.OriginalTitle = lOrg.OriginalTitle;    //	string					OriginalTitle
+                lDst.TagLine = lOrg.TagLine;                //	string					TagLine
+                FillMovieOverview(lDst, lOrg.Overview);     //	string					Overview
+                //	string					Poster          Will be imported in Images
+                //	string					Backdrop        Will be imported in Images
+                lDst.AdultContent = lOrg.Adult;                    //	bool					Adult
+                //	Collection				BelongsTo       Will not be imported
+                lDst.Budget = lOrg.Budget;                  //	int						Budget
                 //	IEnumerable<Genre>		Genres
+                //aPar.CheckGenre
                 //	string					HomePage
                 //	string					Imdb
                 lDst.ImdbId = lOrg.Imdb;
                 //	IEnumerable<Company>	Companies
                 //	IEnumerable<Country>	Countries
-                //	DateTime?				ReleaseDate
-                int? lYear = null;
-                if (lOrg.ReleaseDate != null) lYear = ((DateTime)lOrg.ReleaseDate).Year;
-                lDst.ReleaseDate = lOrg.ReleaseDate;
-                lDst.Year = lYear;
-                //	Int64					Revenue
-                //	int?					Runtime
-                lDst.Seconds = lOrg.Runtime;
+                lDst.ReleaseDate = lOrg.ReleaseDate;        //	DateTime?				ReleaseDate
+                lDst.Year = lOrg.ReleaseDate?.Year;
+                lDst.Revenue = lOrg.Revenue;                //	Int64					Revenue
+                lDst.Seconds = lOrg.Runtime * 60;           //	int?					Runtime
                 //	IEnumerable<Language>	Languages
                 //	AlternativeTitles		AlternativeTitles
                 //	MediaCredits			Credits
                 //	Images					Images
-                //var images = await client.Movies.GetImagesAsync(m.Id, null, CancellationToken.None);
-                //foreach (System.Net.TMDb.Image image in images.Posters)
-                //    Console.WriteLine(image.FilePath);
                 //	Videos					Videos
                 lDst.TrailerUrl = lOrg.Videos.Results.FirstOrDefault()?.Site;
                 //	Keywords				Keywords
@@ -204,18 +215,15 @@ namespace KnkScrapers.Utilities
 
         private static void FillMovieOverview(KnkSolutionMovies.Entities.Movie aMovie, string aOverviews)
         {
-            var lSum = aMovie.Extender.Summary;
+            var lSum = aMovie.Summary();
             lSum.DeleteAll();
             string[] lines = aOverviews.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             int lOrdinal = 1;
             foreach(var lLine in lines)
             {
                 var lLin = lSum.Create();
-                
                 lLin.Ordinal = lOrdinal;
                 lLin.SummaryItem = lLine;
-
-                lSum.Add(lLin);
             }
         }
     }

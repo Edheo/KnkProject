@@ -1,5 +1,4 @@
-﻿using KnkCore;
-using KnkInterfaces.Classes;
+﻿using KnkCore.Utilities;
 using KnkInterfaces.Interfaces;
 using KnkInterfaces.Utilities;
 using System;
@@ -55,7 +54,7 @@ namespace KnkCore
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            aList.FillFromList(aTable.AsEnumerable().Select(row => KnkInterfacesUtils.CopyRecord<Tlst>(aList, row)).ToList());
+            aList.FillFromList(aTable.AsEnumerable().Select(row => KnkCoreUtils.CopyRecord<Tlst>(aList, row)).ToList());
         }
 
         //public KnkReferenceItf<TRef> GetReference<TDad, TRef>(TDad aItem)

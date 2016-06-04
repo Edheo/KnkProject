@@ -25,6 +25,7 @@ namespace KnkInterfaces.Interfaces
         List<KnkEntityIdentifierItf> GetListIds();
         List<KnkEntityIdentifierItf> GetListIds(List<Tlst> aItems);
         Tlst Create();
+        Tlst Create(bool aAddToList);
         void Add(Tlst aItem);
         bool SaveChanges(List<Tlst> aList);
         bool SaveChanges(List<Tlst> aList, UpdateStatusEnu aStatus);
