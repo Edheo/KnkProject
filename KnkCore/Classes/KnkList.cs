@@ -144,21 +144,20 @@ namespace KnkCore
         }
     }
 
-    //public class KnkList<Tlst> : KnkList<Tlst,Tlst>
-    //    where Tlst : KnkItemItf, new()
-    //{
-    //    public KnkList(KnkConnectionItf aConnection):base(aConnection)
-    //    {
-    //    }
+    public class KnkList<Tlst> : KnkList<Tlst, Tlst>
+        where Tlst : KnkItemItf, new()
+    {
+        public KnkList(KnkConnectionItf aConnection) : base(aConnection)
+        {
+        }
 
-    //    public KnkList(KnkConnectionItf aConnection, List<Tlst> aList) : this(aConnection)
-    //    {
-    //        FillFromList(aList);
-    //    }
+        public KnkList(KnkConnectionItf aConnection, List<Tlst> aList) : base(aConnection, aList)
+        {
+        }
 
-    //    public KnkList(KnkConnectionItf aConnection, KnkCriteriaItf<Tlst, Tlst> aCriteria) : this(aConnection)
-    //    {
-    //    }
-    //}
+        public KnkList(KnkConnectionItf aConnection, KnkCriteriaItf<Tlst, Tlst> aCriteria) : base(aConnection, aCriteria)
+        {
+        }
+    }
 
 }

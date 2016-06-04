@@ -4,7 +4,7 @@ using KnkSolutionMovies.Entities;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class Movies:KnkList<Movie, Movie>
+    public class Movies:KnkList<Movie>
     {
         public Movies():this(new KnkConnection())
         {

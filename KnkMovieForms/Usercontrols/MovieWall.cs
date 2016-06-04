@@ -57,9 +57,9 @@ namespace KnkMovieForms.Usercontrols
         {
             if (_Movies != null)
             {
-                LoadCombo<Casting>(cmbArtist, "ArtistName", new Castings(_Movies.Connection).Datasource());
-                LoadCombo<Genre>(cmbGenres, "GenreName", new Genres(_Movies.Connection).Datasource());
-                LoadCombo<MovieSet>(cmbSaga, "Name", new MovieSets(_Movies.Connection).Datasource());
+                if (cmbArtist.Items.Count.Equals(0)) LoadCombo<Casting>(cmbArtist, "ArtistName", new Castings(_Movies.Connection).Datasource());
+                if (cmbGenres.Items.Count.Equals(0)) LoadCombo<Genre>(cmbGenres, "GenreName", new Genres(_Movies.Connection).Datasource());
+                if (cmbSaga.Items.Count.Equals(0)) LoadCombo<MovieSet>(cmbSaga, "Name", new MovieSets(_Movies.Connection).Datasource());
                 moviesWall.LoadMovies(_Movies);
             }
         }
