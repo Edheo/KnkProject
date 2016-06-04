@@ -4,7 +4,7 @@ using System;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class FilePlay : KnkItemBase
+    public class FilePlay : KnkItem
     {
         #region Interface/Implementation
         public FilePlay():base(new KnkTableEntity("vieMoviePlays", "MoviePlays"))

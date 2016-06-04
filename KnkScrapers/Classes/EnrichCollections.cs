@@ -17,10 +17,24 @@ namespace KnkScrapers.Classes
             Genres = new Genres(aCon);
         }
 
+        public void FillGenres(Movie aMovie, List<string> aGenres)
+        {
+            aMovie.Genres().DeleteAll();
+            foreach (var lGenre in aGenres)
+            {
+                var lFound = aMovie.Genres().Items.Where(g => g.GenreName.ToLower().Equals(lGenre.ToLower())).FirstOrDefault();
+                if (lFound==null)
+                {
+                    lFound = CheckGenre(lGenre);
+                }
+                lFound.Update();
+            }
+        }
+
         public Genre CheckGenre(string aGenre)
         {
             var lGen = Genres.Items.Where(g => g.GenreName.ToLower().Equals(aGenre.ToLower())).FirstOrDefault();
-            if(lGen==null)
+            if (lGen == null)
             {
                 lGen = Genres.Create();
                 lGen.GenreName = aGenre;
@@ -29,22 +43,6 @@ namespace KnkScrapers.Classes
             return lGen;
         }
 
-        public void FillGenres(Movie aMovie, IEnumerable<string> aGenres)
-        {
-            //foreach(var lGen in aGenres)
-            //{
-            //    if(!aMovie.Extender.Genres)
-            //    CheckGenre(lGen);
-            //}
-            //var lGen = Genres.Items.Where(g => g.GenreName.ToLower().Equals(aGenre.ToLower())).FirstOrDefault();
-            //if (lGen == null)
-            //{
-            //    lGen = Genres.Create();
-            //    lGen.GenreName = aGenre;
-
-            //}
-            //return lGen;
-        }
 
     }
 }

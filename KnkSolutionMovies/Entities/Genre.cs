@@ -3,7 +3,7 @@ using KnkInterfaces.PropertyAtributes;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class Genre : KnkItemBase
+    public class Genre : KnkItem
     {
         #region Interface/Implementation
         public Genre():base(new KnkTableEntity("vieGenres", "Genres"))

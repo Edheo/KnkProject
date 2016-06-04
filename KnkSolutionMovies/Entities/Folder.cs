@@ -3,7 +3,7 @@ using KnkInterfaces.PropertyAtributes;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class Folder : KnkItemBase
+    public class Folder : KnkItem
     {
         #region Interface/Implementation
         public Folder():base(new KnkTableEntity("vieFolders", "Paths"))

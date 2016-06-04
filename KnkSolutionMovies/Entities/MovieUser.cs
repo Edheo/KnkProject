@@ -4,7 +4,7 @@ using KnkSolutionUsers.Entities;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class MovieUser : KnkItemBase
+    public class MovieUser : KnkItem
     {
         #region Interface/Implementation
         public MovieUser():base(new KnkTableEntity("vieMovieUsers", "MovieUsers"))

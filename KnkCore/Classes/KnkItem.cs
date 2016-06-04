@@ -9,14 +9,14 @@ using KnkCore.Utilities;
 
 namespace KnkCore
 {
-    public abstract class KnkItemBase : KnkItemItf
+    public abstract class KnkItem : KnkItemItf
     {
         private readonly KnkTableEntity _entity;
         private readonly string _primarykey;
         private UpdateStatusEnu _status = UpdateStatusEnu.NoChanges;
         private KnkListItf _parent;
 
-        public KnkItemBase(KnkTableEntity aEntity)
+        public KnkItem(KnkTableEntity aEntity)
         {
             _entity = aEntity;
             _primarykey = KnkCoreUtils.GetPrimaryKey(this).Name;

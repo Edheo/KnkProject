@@ -3,7 +3,7 @@ using KnkInterfaces.PropertyAtributes;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class Casting : KnkItemBase
+    public class Casting : KnkItem
     {
         #region Interface/Implementation
         public Casting():base(new KnkTableEntity("vieCasting", "Casting"))

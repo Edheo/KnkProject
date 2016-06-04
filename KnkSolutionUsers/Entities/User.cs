@@ -3,7 +3,7 @@ using KnkInterfaces.PropertyAtributes;
 
 namespace KnkSolutionUsers.Entities
 {
-    public class User : KnkItemBase
+    public class User : KnkItem
     {
         #region Interface/Implementation
         public User():base(new KnkTableEntity("vieUsers", "Users"))

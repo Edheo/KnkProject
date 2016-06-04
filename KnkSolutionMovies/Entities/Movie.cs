@@ -5,7 +5,7 @@ using System;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class Movie : KnkItemBase
+    public class Movie : KnkItem
     {
         public readonly MovieExtender Extender;
         KnkEntityRelation<Movie, Genre> _Genres;

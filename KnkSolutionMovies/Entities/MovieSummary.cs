@@ -4,7 +4,7 @@ using System;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class MovieSummary : KnkItemBase
+    public class MovieSummary : KnkItem
     {
         #region Interface/Implementation
         public MovieSummary():base(new KnkTableEntity("vieMovieSummaries", "MovieSummaries"))

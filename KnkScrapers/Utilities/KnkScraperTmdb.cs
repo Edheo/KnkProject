@@ -183,9 +183,8 @@ namespace KnkScrapers.Utilities
                 lDst.Budget = lOrg.Budget;                  //	int						Budget
                 //	IEnumerable<Genre>		Genres
                 //aPar.CheckGenre
-                //	string					HomePage
-                //	string					Imdb
-                lDst.ImdbId = lOrg.Imdb;
+                lDst.HomePage = lOrg.HomePage;              //	string					HomePage
+                lDst.ImdbId = lOrg.Imdb;                    //	string					Imdb
                 //	IEnumerable<Company>	Companies
                 //	IEnumerable<Country>	Countries
                 lDst.ReleaseDate = lOrg.ReleaseDate;        //	DateTime?				ReleaseDate

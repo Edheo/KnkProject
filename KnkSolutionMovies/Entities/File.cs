@@ -5,7 +5,7 @@ using System;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class File : KnkItemBase
+    public class File : KnkItem
     {
         public readonly FileExtender Extender;
 

@@ -4,7 +4,7 @@ using KnkSolutionMovies.Extenders;
 
 namespace KnkSolutionMovies.Entities
 {
-    public class MediaLink: KnkItemBase
+    public class MediaLink: KnkItem
     {
         public readonly MediaLinkExtender Extender;
 

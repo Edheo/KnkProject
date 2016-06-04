@@ -51,7 +51,7 @@
     <Compile Include="Classes\KnkEntityIdentifier.cs" />
     <Compile Include="Classes\KnkEntityReference.cs" />
     <Compile Include="Classes\KnkEntityRelation.cs" />
-    <Compile Include="Classes\KnkItemBase.cs" />
+    <Compile Include="Classes\KnkItem.cs" />
     <Compile Include="Classes\KnkList.cs" />
     <Compile Include="Classes\KnkParameter.cs" />
     <Compile Include="Classes\KnkTableEntity.cs" />
