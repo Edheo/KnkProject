@@ -4,12 +4,8 @@ using KnkSolutionMovies.Entities;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class Files : KnkList<File, File>
+    public class Files : KnkList<File>
     {
-        public Files() : this(new KnkConnection())
-        {
-        }
-
         public Files(KnkConnectionItf aConnection)
         : base(aConnection)
         {
@@ -22,7 +18,7 @@ namespace KnkSolutionMovies.Lists
 
     }
 
-    public class MissingMovies : KnkList<MissingMovieFile, MissingMovieFile>
+    public class MissingMovies : KnkList<MissingMovieFile>
     {
         public MissingMovies(KnkConnectionItf aConnection)
         : base(aConnection)

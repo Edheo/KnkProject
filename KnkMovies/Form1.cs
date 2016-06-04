@@ -1,4 +1,5 @@
-﻿using KnkSolutionMovies.Lists;
+﻿using KnkCore;
+using KnkSolutionMovies.Lists;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,7 @@ namespace KnkMovies
         public Form1()
         {
             InitializeComponent();
-            this.wallMovies.LoadMovies(new Movies());
+            this.wallMovies.LoadMovies(new Movies(new KnkConnection()));
         }
     }
 }

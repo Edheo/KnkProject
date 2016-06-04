@@ -80,9 +80,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KnkCore\KnkCore.csproj">
+      <Project>{ac26a539-d928-4701-92b4-af24968f7125}</Project>
+      <Name>KnkCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KnkForms\KnkForms.csproj">
       <Project>{103704df-9c53-4154-bce0-34d818c1ae29}</Project>
       <Name>KnkForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KnkInterfaces\KnkInterfaces.csproj">
+      <Project>{5492b331-33fe-4d82-bfc0-2a36ab7b89dc}</Project>
+      <Name>KnkInterfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\KnkMovieForms\KnkMovieForms.csproj">
       <Project>{cb0a8e67-edac-48ff-a3af-fc0c802e01d3}</Project>

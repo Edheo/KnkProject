@@ -4,7 +4,7 @@ using KnkSolutionMovies.Entities;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class Folders : KnkList<Folder, Folder>
+    public class Folders : KnkList<Folder>
     {
         public Folders(KnkConnectionItf aConnection) 
         : base(aConnection)
@@ -12,7 +12,7 @@ namespace KnkSolutionMovies.Lists
         }
     }
 
-    public class SubFolders : KnkList<Folder, Folder>
+    public class SubFolders : KnkList<Folder>
     {
         public SubFolders(Folder aFolder)
         : base(aFolder.Connection(), new KnkCriteria<Folder, Folder>(aFolder, new KnkTableEntityRelation<Folder>("vieFolders", "IdParentPath")))

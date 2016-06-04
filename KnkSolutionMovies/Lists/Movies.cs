@@ -6,11 +6,6 @@ namespace KnkSolutionMovies.Lists
 {
     public class Movies:KnkList<Movie>
     {
-        public Movies():this(new KnkConnection())
-        {
-
-        }
-
         public Movies(KnkConnectionItf aConnection) 
         : base(aConnection, new KnkCriteria<Movie, Movie>(new KnkTableEntity("vieMovies", "Movies"), typeof(int), "IdUser", KnkInterfaces.Enumerations.OperatorsEnu.Equal, aConnection.CurrentUserId()))
         {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class Countries : KnkList<Country, Country>
+    public class Countries : KnkList<Country>
     {
         public Countries(KnkConnectionItf aConnection)
         : base(aConnection)

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class MovieSets : KnkList<MovieSet, MovieSet>
+    public class MovieSets : KnkList<MovieSet>
     {
         public MovieSets(KnkConnectionItf aConnection)
         : base(aConnection)

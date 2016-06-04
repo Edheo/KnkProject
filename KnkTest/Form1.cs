@@ -18,7 +18,7 @@ namespace WindowsFormsApplication2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Movies lLst = new Movies();
+            Movies lLst = new Movies(new KnkConnection());
 
             MessageBox.Show(lLst.Items.Count().ToString());
 

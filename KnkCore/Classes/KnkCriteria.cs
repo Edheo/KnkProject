@@ -95,4 +95,13 @@ namespace KnkCore
             return _parameters.Count > 0;
         }
     }
+
+    public class KnkCriteria<Tlst> : KnkCriteria<Tlst, Tlst>
+        where Tlst : KnkItemItf, new()
+    {
+        public KnkCriteria(Tlst aItem)
+        : base(aItem, (new Tlst()).SourceEntity())
+        {
+        }
+    }
 }

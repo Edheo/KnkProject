@@ -7,7 +7,7 @@ using KnkInterfaces.Enumerations;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class Castings : KnkList<Casting, Casting>
+    public class Castings : KnkList<Casting>
     {
         public Castings(KnkConnectionItf aConnection) 
         : base(aConnection)
