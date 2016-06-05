@@ -103,17 +103,17 @@ namespace KnkInterfaces.Utilities
 
         public static List<string> CreatedFields()
         {
-            return new List<string>() { "usercreatedid", "createddate" };
+            return new List<string>() { "usercreatedid", "createddate", "createdtext" };
         }
 
         public static List<string> ModifiedFields()
         {
-            return new List<string>() { "usermodifiedid", "modifieddate" };
+            return new List<string>() { "usermodifiedid", "modifieddate", "modifiedtext" };
         }
 
         public static List<string> DeletedFields()
         {
-            return new List<string>() { "userdeletedid", "deleteddate", "deleted" };
+            return new List<string>() { "deleted", "userdeletedid", "deleteddate", "deletedtext"  };
         }
 
 

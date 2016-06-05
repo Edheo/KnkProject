@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KnkInterfaces.Enumerations;
+using System.ComponentModel;
 
 namespace KnkCore
 {
@@ -19,16 +20,23 @@ namespace KnkCore
             ModifiedDate = aItm.ModifiedDate;
             Object = aItm.GetType().Name;
             Action = aItm.Status().ToString();
-            Information = aItm.ToString();
+            Text = aItm.ToString();
+            Message = aItm.UpdateMessage();
         }
 
-        public string Object { get; }
+        [Browsable(false)]
         public KnkItemItf Item { get; }
+        [Browsable(false)]
         public KnkEntityIdentifierItf IdValue { get; }
-        public DateTime? CreationDate { get; }
-        public DateTime? DeletedDate { get; }
-        public DateTime? ModifiedDate { get; }
-        public string Information { get; }
+        public string Object { get; }
         public string Action { get; }
+        public string Text { get; }
+        public string Message { get; }
+
+        public DateTime? CreationDate { get; }
+        public DateTime? ModifiedDate { get; }
+
+        [Browsable(false)]
+        public DateTime? DeletedDate { get; }
     }
 }

@@ -46,7 +46,7 @@ namespace KnkMovieForms.Usercontrols
             AddTagInfo(FontStyle.Bold, "Role in Movie", "Artist Name");
             foreach (var lCast in _Movie.Extender.ArtistCasting())
             {
-                AddTagInfo(lCast.Role, lCast.ArtistName);
+                AddTagInfo(lCast.Role, lCast.Casting.ArtistName);
             }
 
             AddTagInfo();

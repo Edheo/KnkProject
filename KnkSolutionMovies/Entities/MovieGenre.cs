@@ -18,7 +18,7 @@ namespace KnkSolutionMovies.Entities
 
         #region Class Properties
         [AtributePrimaryKey]
-        public KnkEntityIdentifier IdMovieCasting { get; set; }
+        public KnkEntityIdentifier IdMovieGenre { get; set; }
         public KnkEntityReference<Movie> IdMovie { get; set; }
         public KnkEntityReference<Genre> IdGenre { get; set; }
         #endregion Class Properties

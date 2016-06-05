@@ -86,7 +86,7 @@ namespace KnkSolutionMovies.Entities
 
         public KnkEntityRelationItf<Movie, MediaLink> Pictures()
         {
-            if (_Pictures == null) _Pictures = new KnkEntityRelation<Movie, MediaLink>(this);
+            if (_Pictures == null) _Pictures = new KnkEntityRelation<Movie, MediaLink>(this, "vieMovieLinks");
             return _Pictures;
         }
 

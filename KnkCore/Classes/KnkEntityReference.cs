@@ -36,7 +36,12 @@ namespace KnkCore
 
         public int? GetInnerValue()
         {
-            return _value;
+            if (_reference != null)
+            {
+                return _reference.PrimaryKeyValue().GetInnerValue();
+            }
+            else
+                return _value;
         }
         #region member variables
 

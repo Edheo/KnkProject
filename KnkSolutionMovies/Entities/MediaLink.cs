@@ -30,7 +30,7 @@ namespace KnkSolutionMovies.Entities
 
         public override string ToString()
         {
-            return Link;
+            return Link??string.Empty;
         }
 
     }

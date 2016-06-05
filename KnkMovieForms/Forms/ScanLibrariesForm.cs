@@ -34,6 +34,9 @@ namespace KnkMovieForms.Forms
             grdRoots.DataSource = _Enricher.Roots.Select(o => new { DateAdded = o.CreationDate, Path = o.Path, Files = o.Files }).ToList();
 
             grdRoots.Width = GridRootsWidth();
+
+            grdResults.AutoGenerateColumns = true;
+            grdResults.DataSource = _Enricher.MissingMovies.Items;
         }
 
         private int GridRootsWidth()

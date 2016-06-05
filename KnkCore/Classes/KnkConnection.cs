@@ -11,10 +11,13 @@ namespace KnkCore
     public  class KnkConnection:KnkConnectionItf
     {
         KnkConfiguration _Config = new KnkConfiguration();
+        KnkItemItf _CurrentUser;
 
         public KnkConnection(bool aTest)
         {
-            if (Utilities.KnkCoreUtils.GlobalConn == null) Utilities.KnkCoreUtils.GlobalConn = this;
+            if (Utilities.KnkCoreUtils.GlobalConn == null && !aTest) Utilities.KnkCoreUtils.GlobalConn = this;
+            if (Utilities.KnkCoreUtils.GlobalConn != null)
+                this.Login(KnkCoreUtils.GlobalConn.CurrentUser());
         }
 
         public KnkConnection():this(false)
@@ -168,9 +171,15 @@ namespace KnkCore
             }
         }
 
-        public KnkEntityIdentifierItf CurrentUserId()
+        public KnkItemItf CurrentUser()
         {
-            return new KnkEntityIdentifier(1);
+            return _CurrentUser;
+        }
+
+        public KnkItemItf Login(KnkItemItf aUser)
+        {
+            _CurrentUser = aUser;
+            return CurrentUser();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace KnkSolutionMovies.Entities
     public class MovieCasting : KnkItem
     {
         #region Interface/Implementation
-        public MovieCasting():base(new KnkTableEntity("vieMovieCasting", "MovieCasting"))
+        public MovieCasting():base(new KnkTableEntity("vieMovieCasting", "MovieCastings"))
         {
         }
         #endregion Interface/Implementation
@@ -19,7 +19,6 @@ namespace KnkSolutionMovies.Entities
         public KnkEntityReference<CastingType> IdCastingType { get; set; }
         public int Ordinal { get; set; }
         public string Role { get; set; }
-        public string ArtistName { get; set; }
         #endregion Class Properties
 
         public Movie Movie { get { return IdMovie?.Value; } set { IdMovie = new KnkEntityReference<Movie>(value); } }
@@ -28,7 +27,7 @@ namespace KnkSolutionMovies.Entities
 
         public override string ToString()
         {
-            return $"{ArtistName} ({Role})";
+            return $"{Casting.ArtistName} ({Role})";
         }
     }
 }

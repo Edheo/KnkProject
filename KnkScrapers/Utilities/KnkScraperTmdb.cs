@@ -23,8 +23,8 @@ namespace KnkScrapers.Utilities
             List<string> lJoin = new List<string>();
             foreach(var lStr in lSplit)
             {
-                int lYear;
-                if(!(lStr.Length.Equals(4) && int.TryParse(lStr,out lYear)))
+                int? lYear = IsAYear(lStr);
+                if (lYear == null)
                 {
                     lJoin.Add(lStr);
                 }
@@ -34,21 +34,28 @@ namespace KnkScrapers.Utilities
             return lJoin.Aggregate((i, j) => $"{i} {j}");
         }
 
-        static List<int> YearsFromFilename(string aTitle)
+        static string YearsFromFilename(string aTitle, string aSearchTitle)
         {
             string[] lSplit = aTitle.Split(' ');
-            List<int> lJoin = new List<int>();
+            List<string> lJoin = new List<string>();
             foreach (var lStr in lSplit)
             {
-                int lYear;
-                if (lStr.Length.Equals(4) && int.TryParse(lStr, out lYear))
+                int? lYear = IsAYear(lStr);
+                if (lYear != null)
                 {
-                    lJoin.Add(lYear);
+                    lJoin.Add(lStr);
                 }
             }
-            return lJoin.OrderByDescending(i => i).ToList();
+            return lJoin.Aggregate((i, j) => $"{i};{j}");
         }
 
+        static int? IsAYear(string aText)
+        {
+            var lReturn = ToNullableInt32(aText);
+            if (!(lReturn != null && aText.Length.Equals(4) && lReturn > 1890 && lReturn <= DateTime.Now.Year + 1))
+                lReturn = null;
+            return lReturn;
+        }
         struct Titleyear
         {
             public string Title;
@@ -59,18 +66,28 @@ namespace KnkScrapers.Utilities
         {
             using (var client = new ServiceClient("70fe8ec336e37f969f34bf2d69ca7f22"))
             {
-                var lTitle = aFile.Extender.TitleFromFilename();
-                var lTitleNoYear = TitleWithoutYear(lTitle);
-                var lYears = YearsFromFilename(lTitle);
-                List<Titleyear> lItems = new List<Titleyear>();
-                if(lTitleNoYear.Length>4 && lYears.Count>0)
+                if (string.IsNullOrEmpty(aFile.TitleSearch))
                 {
-                    foreach(int lYear in lYears)
-                        lItems.Add(new Titleyear() { Title = lTitleNoYear, Year = lYear });
+                    aFile.TitleSearch = TitleWithoutYear(aFile.Extender.TitleFromFilename());
+                    aFile.Update("Extracted Title");
+                }
+                var lTitleNoYear = aFile.TitleSearch;
+                if (string.IsNullOrEmpty(aFile.YearSearch))
+                {
+                    aFile.YearSearch = YearsFromFilename(aFile.Extender.TitleFromFilename(), lTitleNoYear);
+                    if (aFile.Status() == KnkInterfaces.Enumerations.UpdateStatusEnu.NoChanges) aFile.Update("Extracted Years");
+                }
+                var lYears = aFile.YearSearch;
+
+                List<Titleyear> lItems = new List<Titleyear>();
+                if(lYears.Split(';').Length>0)
+                {
+                    foreach(string lYear in lYears.Split(';'))
+                        lItems.Add(new Titleyear() { Title = lTitleNoYear, Year = ToNullableInt32(lYear) });
                 }
                 else
                 {
-                    lItems.Add(new Titleyear() { Title = lTitle, Year = null });
+                    lItems.Add(new Titleyear() { Title = lTitleNoYear, Year = null });
                 }
 
                 List<Movie> lLst = new List<Movie>();
@@ -84,6 +101,7 @@ namespace KnkScrapers.Utilities
                         var lTask1 = Task.Factory.StartNew(() => GetMovieData(client, lMovie.Id, aLanguage));
                         lTask1.Wait();
                         lLst.Add(lTask1.Result.Result);
+                        break;
                     }
                 }
 
@@ -98,6 +116,7 @@ namespace KnkScrapers.Utilities
                             var lTask1 = Task.Factory.StartNew(() => GetMovieData(client, lMovie.Id, aLanguage));
                             lTask1.Wait();
                             lLst.Add(lTask1.Result.Result);
+                            break;
                         }
                     }
                 }
@@ -105,12 +124,19 @@ namespace KnkScrapers.Utilities
             }
         }
 
+        private static int? ToNullableInt32(this string s)
+        {
+            int i;
+            if (Int32.TryParse(s, out i)) return i;
+            return null;
+        }
+
         public static async Task<Movie> GetMovieData(ServiceClient aClient, int aIdMovie, string aLanguage)
         {
             var movie = await aClient.Movies.GetAsync(aIdMovie, aLanguage, true, CancellationToken.None);
-            //movie.Images = await aClient.Movies.GetImagesAsync(movie.Id, aLanguage, CancellationToken.None);
+            movie.Images = await aClient.Movies.GetImagesAsync(movie.Id, null, CancellationToken.None);
             //movie.Videos.Results = await aClient.Movies.GetVideosAsync(movie.Id, aLanguage, CancellationToken.None);
-            
+
             //var personIds = movie.Credits.Cast.Select(s => s.Id)
             //    .Union(movie.Credits.Crew.Select(s => s.Id));
 

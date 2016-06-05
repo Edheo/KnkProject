@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KnkSolutionUsers.Lists;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace KnkMovies
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             KnkForms.Utilities.KnkFormsUtils.CheckConfiguration();
+            Users lUsr = new Users();
+            lUsr.Connection.Login(lUsr.Items.FirstOrDefault());
             Application.Run(new Form1());
         }
     }

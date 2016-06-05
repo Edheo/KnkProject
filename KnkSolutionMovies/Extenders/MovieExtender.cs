@@ -64,14 +64,20 @@ namespace KnkSolutionMovies.Extenders
 
         public string Director()
         {
-            var lDir = (from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Director") orderby c.CastingType.Type descending, c.Ordinal select c);
-            return lDir?.OrderBy(g => g.Ordinal).Aggregate((i, j) => new MovieCasting { ArtistName  = (i.ArtistName + ", " + j.ArtistName) }).ArtistName;
+            string lRet = string.Empty;
+            var lDir = (from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Director") orderby c.CastingType.Type descending, c.Ordinal select c.Casting.ArtistName);
+            if (lDir.Count() > 0)
+                lRet = lDir.OrderBy(g => g).Aggregate((i, j) => $"{i}, {j}");
+            return lRet;
         }
 
         public string Writer()
         {
-            var lWri = (from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Writer") orderby c.CastingType.Type descending, c.Ordinal select c);
-            return lWri?.OrderBy(g => g.Ordinal).Aggregate((i, j) => new MovieCasting { ArtistName = (i.ArtistName + ", " + j.ArtistName) }).ArtistName;
+            string lRet = string.Empty;
+            var lWri = (from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Writer") orderby c.CastingType.Type descending, c.Ordinal select c.Casting.ArtistName);
+            if (lWri.Count() > 0)
+                lRet = lWri.OrderBy(g => g).Aggregate((i, j) => $"{i}, {j}");
+            return lRet;
         }
 
         public List<MovieCasting> ArtistCasting()

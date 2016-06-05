@@ -100,6 +100,10 @@
       <Project>{df1cedca-4b04-4270-8e1f-89f1921b6880}</Project>
       <Name>KnkSolutionMovies</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KnkSolutionUsers\KnkSolutionUsers.csproj">
+      <Project>{ca0db50d-ff6b-4543-9111-ab4153a09897}</Project>
+      <Name>KnkSolutionUsers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -26,7 +26,10 @@ namespace KnkSolutionMovies.Entities
         public KnkEntityIdentifier IdFile { get; set; }
         public KnkEntityReference<Folder> IdPath { get; set; }
         public string Filename { get; set; }
-        public DateTime DateAdded { get; set; }
+        public DateTime Filedate { get; set; }
+        public int Scraped { get; set; }
+        public string TitleSearch { get; set; }
+        public string YearSearch { get; set; }
         public KnkEntityReference<Folder> IdRoot { get; set; }
         #endregion Class Properties
 

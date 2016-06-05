@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace KnkDataSqlServer.Utilities
@@ -89,7 +90,7 @@ namespace KnkDataSqlServer.Utilities
                                 && aItem.PropertyGet(prp.Name)!=null
                                 && !KnkInterfacesUtils.ModifiedFields().Contains(prp.Name.ToLower())
                                 && !KnkInterfacesUtils.DeletedFields().Contains(prp.Name.ToLower())
-                              select new { Property = $"[{prp.Name}]", Value = $"@{prp.Name}" };
+                              select new { Property = $"[{prp.Name}]", Value = $"@{prp.Name} " };
 
             string lInsertFields = lProperties.Aggregate((i, j) => new { Property = $"{i.Property}, {j.Property}", Value=string.Empty }).Property;
             string lInsertValues = lProperties.Aggregate((i, j) => new { Property = string.Empty, Value = $"{i.Value}, {j.Value}" }).Value;
@@ -129,10 +130,10 @@ namespace KnkDataSqlServer.Utilities
                               where (prp.Name != lPk)
                                 && !KnkInterfacesUtils.CreatedFields().Contains(prp.Name.ToLower())
                                 && !KnkInterfacesUtils.DeletedFields().Contains(prp.Name.ToLower())
-                              select $"[{prp.Name}] = @{prp.Name}";
+                              select $"[{prp.Name}] = @{prp.Name} ";
 
             string lUpdateFields = lProperties.Aggregate((i, j) => $"{i}, {j}");
-            string lWhereValues = $"[{lPk}] = @{lPk}";
+            string lWhereValues = $"[{lPk}] = @{lPk} ";
 
             return $"Update {lUpdateTable} Set {lUpdateFields} Where {lWhereValues}";
         }
@@ -152,8 +153,8 @@ namespace KnkDataSqlServer.Utilities
                               join fld in aCols.Cast<DataColumn>()
                               on prp.Name.ToLower() equals fld.ColumnName.ToLower()
                               where (KnkInterfacesUtils.DeletedFields().Contains(prp.Name.ToLower()))
-                              select $"[{prp.Name}] = @{prp.Name}";
-            string lWhereValues = $"[{lPk}] = @{lPk}";
+                              select $"[{prp.Name}] = @{prp.Name} ";
+            string lWhereValues = $"[{lPk}] = @{lPk} ";
 
             if (lProperties.Count() > 0)
             {
@@ -231,27 +232,46 @@ namespace KnkDataSqlServer.Utilities
             }
 
             var lRet = KnkSqlServer.GetCommand(aConnection, lCommand);
+
+            var lExpectedParams = Regex.Matches(lCommand, @"\@\w+ ").Cast<Match>().Select(m => m.Value).ToList();
+            lExpectedParams = (from par in lExpectedParams select par.Replace("@", "").TrimEnd().TrimStart()).ToList();
+
             if (aCriteria != null)
             {
                 var lRestParameters = (from par in aCriteria.GetParameters() where par.Operator != KnkInterfaces.Enumerations.OperatorsEnu.In select par);
-                foreach (KnkParameterItf lPar in lRestParameters)
+
+                foreach (string lParameter in lExpectedParams)
                 {
-                    if (lPar.InnerParammerters.Count > 0)
+                    KnkParameterItf lPar = (from par in lRestParameters where par.ParameterName.ToLower().Equals(lParameter.ToLower()) select par).FirstOrDefault();
+                    if (lPar != null)
                     {
-                        foreach (KnkParameterItf lSubParameter in lPar.InnerParammerters)
+                        if(!lRet.Parameters.Contains(lParameter) && lPar.Value!=null)
+                            lRet.Parameters.AddWithValue(lPar.ParameterName, lPar.Value);
+                        else
+                            lRet.Parameters.AddWithValue(lPar.ParameterName, lPar.Value);
+                    }
+                    else
+                    {
+                        lPar= (from par in lRestParameters where par.InnerParammerters.Where(inp=>inp.ParameterName.Equals(lParameter.ToLower())).Any() select par).FirstOrDefault();
+                        if (lPar != null && lPar.InnerParammerters.Count > 0)
                         {
-                            if (lSubParameter.Value != null)
+                            foreach (KnkParameterItf lSubParameter in lPar.InnerParammerters)
                             {
-                                lRet.Parameters.AddWithValue(lSubParameter.ParameterName, lSubParameter.Value);
+                                if (!lRet.Parameters.Contains(lSubParameter.ParameterName) && lSubParameter.Value!=null)
+                                    lRet.Parameters.AddWithValue(lSubParameter.ParameterName, lSubParameter.Value);
+                                else
+                                    lRet.Parameters.AddWithValue(lSubParameter.ParameterName, lSubParameter.Value);
                             }
                         }
-
-                    }
-                    else if (lPar.Value != null)
-                    {
-                        lRet.Parameters.AddWithValue(lPar.ParameterName, lPar.Value);
                     }
                 }
+            }
+
+            var lChkBase = (from par in lRet.Parameters.Cast<SqlParameter>() select par.ParameterName).ToList();
+            var lChk = (from par in lExpectedParams where !lChkBase.Contains(par) select par);
+            if(lChk.Count()>0)
+            {
+                var lCua = lChk.Count();
             }
             return lRet;
         }
@@ -262,21 +282,38 @@ namespace KnkDataSqlServer.Utilities
         {
             string lCommand = aCommand;
 
+            var lExpectedParams = Regex.Matches(lCommand, @"\@\w+ ").Cast<Match>().Select(m => m.Value).ToList();
+            lExpectedParams = (from par in lExpectedParams select par.Replace("@", "").TrimEnd().TrimStart()).ToList();
+
             var lRet = KnkSqlServer.GetCommand(aConnection, lCommand);
             foreach(var lPrp in KnkInterfacesUtils.GetProperties<KnkItemItf>(aItem))
             {
-                if(lCommand.Contains("@" + lPrp.Name))
+                if(lCommand.Contains($"@{lPrp.Name} "))
                 {
                     var lValue = aItem.PropertyGet(lPrp.Name);
                     var lKid = lValue as KnkEntityIdentifierItf;
-                    if(lKid!=null)
-                        lRet.Parameters.AddWithValue(lPrp.Name, lKid.GetInnerValue());
+                    if (lKid != null)
+                    {
+                        int? lInt = lKid.GetInnerValue();
+                        if (lInt!=null)
+                            lRet.Parameters.AddWithValue(lPrp.Name, lInt);
+                        else
+                            lRet.Parameters.AddWithValue(lPrp.Name, DBNull.Value);
+                    }
                     else
                         lRet.Parameters.AddWithValue(lPrp.Name, lValue ?? DBNull.Value);
 
                 }
 
             }
+
+            var lChkBase = (from par in lRet.Parameters.Cast<SqlParameter>() select par.ParameterName).ToList();
+            var lChk = (from par in lExpectedParams where !lChkBase.Contains(par) select par);
+            if (lChk.Count() > 0)
+            {
+                var lCua = lChk.Count();
+            }
+
             return lRet;
         }
     }

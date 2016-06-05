@@ -85,9 +85,9 @@ namespace KnkCore
             return lLst.ToList();
         }
 
-        public void Add(Tlst aItem)
+        public void Add(Tlst aItem, string aMessage)
         {
-            aItem.Update();
+            aItem.Update(aMessage);
             this.Items.Add(aItem);
         }
 
@@ -129,14 +129,26 @@ namespace KnkCore
 
         public List<KnkChangeDescriptorItf> ListOfChanges()
         {
-            return ListOfChanges(ItemsChanged());
+            return ListOfChanges(Items);
         }
 
         public List<KnkChangeDescriptorItf> ListOfChanges(List<Tlst> aList)
         {
-            List<KnkChangeDescriptorItf> lRet = (from itm in aList where itm.Status() != UpdateStatusEnu.NoChanges select new KnkChangeDescriptor(itm)).Cast<KnkChangeDescriptorItf>().ToList();
+            List<KnkChangeDescriptorItf> lRet = (from itm in aList where !string.IsNullOrEmpty(itm.UpdateMessage()) select new KnkChangeDescriptor(itm)).Cast<KnkChangeDescriptorItf>().ToList();
             return lRet;
         }
+
+        public List<KnkChangeDescriptorItf> ItemsDescribed()
+        {
+            return ItemsDescribed(Items);
+        }
+
+        public List<KnkChangeDescriptorItf> ItemsDescribed(List<Tlst> aList)
+        {
+            List<KnkChangeDescriptorItf> lRet = (from itm in aList select new KnkChangeDescriptor(itm)).Cast<KnkChangeDescriptorItf>().ToList();
+            return lRet;
+        }
+
 
         public void Refresh()
         {
@@ -159,14 +171,13 @@ namespace KnkCore
             return lItem;
         }
 
-        public void DeleteAll()
+        public void DeleteAll(string aMessage)
         {
             foreach(var lItm in Items)
             {
-                lItm.Delete();
+                lItm.Delete(aMessage);
             }
         }
-
     }
 
     public class KnkList<Tlst> : KnkList<Tlst, Tlst>

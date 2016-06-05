@@ -91,13 +91,13 @@ namespace KnkCore
                 {
                     lRet = lCommand[0];
                 }
-                lRet = lRet.Replace("@Field", $"[{Name}]");
+                lRet = lRet.Replace("@Field ", $"[{Name}] ");
                 if (Value == null)
-                    lRet = lRet.Replace("@Value", $"null");
+                    lRet = lRet.Replace("@Value ", $"null ");
                 else
-                    lRet = lRet.Replace("@Value", $"@{ParameterName}");
+                    lRet = lRet.Replace("@Value ", $"@{ParameterName} ");
 
-                lRet = lRet.Replace("@List[Field]", $"@List[{ParameterName}]");
+                lRet = lRet.Replace("@List[Field] ", $"@List[{ParameterName}] ");
             }
             return lRet;
         }

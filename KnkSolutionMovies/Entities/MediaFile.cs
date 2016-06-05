@@ -18,7 +18,7 @@ namespace KnkSolutionMovies.Entities
 
         #region Class Properties
         [AtributePrimaryKey]
-        public KnkEntityIdentifier IdMovieFile { get; set; }
+        public KnkEntityIdentifier IdMediaFile { get; set; }
         public KnkEntityReference<Movie> IdMovie { get; set; }
         public KnkEntityReference<File> IdFile { get; set; }
         #endregion Class Properties
