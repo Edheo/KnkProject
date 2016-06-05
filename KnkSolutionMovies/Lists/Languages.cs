@@ -1,6 +1,4 @@
 ﻿using KnkCore;
-using KnkCore.Utilities;
-using KnkInterfaces.Enumerations;
 using KnkInterfaces.Interfaces;
 using KnkSolutionMovies.Entities;
 using System;
@@ -11,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class MovieSets : KnkList<MovieSet>
+    public class Languages : KnkList<Language>
     {
-        public MovieSets(KnkConnectionItf aConnection)
+        public Languages(KnkConnectionItf aConnection) 
         : base(aConnection)
         {
 
         }
 
-        public override List<MovieSet> Datasource()
+        public override List<Language> Datasource()
         {
             return (from c in Items orderby c.ToString() select c).ToList();
         }

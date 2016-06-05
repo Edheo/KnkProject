@@ -42,7 +42,7 @@ namespace KnkCore
         public T ReadItem<T>(T aItm) where T : KnkItemItf, new()
         {
             KnkListItf<T, T> lLst = new KnkList<T, T>(this);
-            KnkCriteria<T, T> lCri = new KnkCriteria<T, T>(aItm);
+            KnkCriteria<T, T> lCri = KnkCoreUtils.BuildEqualCriteria<T,T>(aItm, aItm.PrimaryKey(), aItm.PropertyGet(aItm.PrimaryKey()));
 
             FillList<T, T>(lLst, lCri);
 
@@ -151,7 +151,19 @@ namespace KnkCore
             {
                 if (lItm.Status() != KnkInterfaces.Enumerations.UpdateStatusEnu.NoChanges)
                 {
+                    var lType = lItm.Status();
                     lDat.SaveData(lItm);
+                    //If Saved check if it has chilrens
+                    var lMethods= KnkInterfacesUtils.GetMethodsRelations(lItm);
+                    foreach(var lMethod in lMethods)
+                    {
+                        var lResult = lMethod.Invoke(lItm, null) as KnkListItf;
+                        if (lResult != null)
+                        {
+                            lResult.SaveChanges();
+                        }
+                        lResult = null;
+                    }
                 }
             }
         }

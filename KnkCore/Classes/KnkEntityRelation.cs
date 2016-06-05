@@ -17,8 +17,15 @@ namespace KnkCore
         }
 
         public KnkEntityRelation(Tdad aItem, string aRelatedView)
-        : base(aItem.Connection(), new KnkCriteria<Tdad, Titm>(aItem, new KnkTableEntityRelation<Tdad>(aRelatedView, (new Titm().SourceEntity().TableBase))))
+        : base(aItem.Connection(), KnkCore.Utilities.KnkCoreUtils.BuildRelationCriteria<Tdad,Titm> (aItem,aRelatedView))
         {
+
         }
+
+        //public KnkEntityRelation(Tdad aItem, string aRelatedView)
+        //: base(aItem.Connection(), new KnkCriteria<Tdad, Titm>(aItem, new KnkTableEntityRelation<Tdad>(aRelatedView, (new Titm().SourceEntity().TableBase))))
+        //{
+
+        //}
     }
 }

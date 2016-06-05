@@ -128,6 +128,25 @@ namespace KnkCore.Utilities
             return lCri;
         }
 
+        public static KnkCriteria<Tdad, Titm> BuildEqualCriteria<Tdad, Titm>(Tdad aItem, string aField, object aValue)
+            where Tdad : KnkItemItf, new()
+            where Titm : KnkItemItf, new()
+        {
+            KnkCriteria<Tdad, Titm> lCri = new KnkCriteria<Tdad, Titm>(aItem);
+            lCri.AddParameter(typeof(int), aField, OperatorsEnu.Equal, aValue);
+            return lCri;
+        }
+
+        public static KnkCriteria<Tdad, Tlst> BuildRelationCriteria<Tdad, Tlst>(Tdad aItem, string aTableView)
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
+            var lEnt = new Tlst().SourceEntity();
+            KnkCriteria<Tdad, Tlst> lCri = new KnkCriteria<Tdad, Tlst>(aItem, new KnkTableEntityRelation<Tdad>(aTableView, lEnt.TableBase));
+            lCri.AddParameter(typeof(string), aItem.PrimaryKey(), OperatorsEnu.Equal, aItem.PropertyGet(aItem.PrimaryKey()));
+            return lCri;
+        }
+
         public static Titm CopyRecord<Titm>(KnkListItf aOwner, DataRow aRow)
             where Titm : KnkItemItf, new()
         {

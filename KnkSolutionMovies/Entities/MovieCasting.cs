@@ -30,7 +30,5 @@ namespace KnkSolutionMovies.Entities
         {
             return $"{ArtistName} ({Role})";
         }
-
-
     }
 }

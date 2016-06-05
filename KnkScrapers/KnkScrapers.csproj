@@ -42,8 +42,6 @@
   <ItemGroup>
     <Compile Include="Classes\EnrichCollections.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ScanFolders.cs" />
-    <Compile Include="Services\ScraperMovies.cs" />
     <Compile Include="Utilities\KnkScrapersUtils.cs" />
     <Compile Include="Utilities\KnkScraperTmdb.cs" />
   </ItemGroup>
@@ -60,6 +58,10 @@
       <Project>{DF1CEDCA-4B04-4270-8E1F-89F1921B6880}</Project>
       <Name>KnkSolutionMovies</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KnkSolutionUsers\KnkSolutionUsers.csproj">
+      <Project>{ca0db50d-ff6b-4543-9111-ab4153a09897}</Project>
+      <Name>KnkSolutionUsers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Net.TMDb\Hasseware.Net.TMDb.csproj">
       <Project>{0dd87046-97fe-41c9-8fa9-efa2c55b6129}</Project>
       <Name>Hasseware.Net.TMDb</Name>
@@ -68,6 +70,7 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

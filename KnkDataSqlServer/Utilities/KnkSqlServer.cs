@@ -85,7 +85,8 @@ namespace KnkDataSqlServer.Utilities
             var lProperties = from prp in KnkInterfacesUtils.GetProperties<KnkItemItf>(aItem)
                               join fld in aCols.Cast<DataColumn>()
                               on prp.Name.ToLower() equals fld.ColumnName.ToLower()
-                              where ((lAuto && prp.Name != lPk) || (!lAuto && prp.Name == lPk) || (aItem.PropertyGet(prp.Name) != null))
+                              where ((lAuto && prp.Name != lPk) || (!lAuto && prp.Name == lPk))
+                                && aItem.PropertyGet(prp.Name)!=null
                                 && !KnkInterfacesUtils.ModifiedFields().Contains(prp.Name.ToLower())
                                 && !KnkInterfacesUtils.DeletedFields().Contains(prp.Name.ToLower())
                               select new { Property = $"[{prp.Name}]", Value = $"@{prp.Name}" };

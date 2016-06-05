@@ -2,7 +2,7 @@
 using KnkCore.Utilities;
 using KnkInterfaces.Enumerations;
 using KnkInterfaces.Interfaces;
-using KnkScrapers.Services;
+using KnkScrapers.Classes;
 using KnkSolutionMovies.Entities;
 using KnkSolutionMovies.Lists;
 using System;
@@ -15,8 +15,8 @@ namespace KnkMovieForms.Forms
 {
     public partial class ScanLibrariesForm : Form
     {
-        Folders _Folders = null;
-        Files _Files = null;
+        KnkConnectionItf _Connnection;
+        EnrichCollections _Enricher;
         string _LibraryType = string.Empty;
 
         private ScanLibrariesForm()
@@ -26,63 +26,42 @@ namespace KnkMovieForms.Forms
 
         public ScanLibrariesForm(string aLibraryType, KnkConnectionItf aCon):this()
         {
+            _Connnection = aCon;
             _LibraryType = aLibraryType;
-            _Folders = new Folders(aCon);
-            KnkCriteria<File, File> lCri = new KnkCriteria<File, File>(new File());
-            KnkCoreUtils.CreateInParameter<File, File>(_Folders.GetListIds(MovieParentFolders()), lCri, "IdRoot");
-            _Files = new Files(aCon, lCri);
+            _Enricher = new EnrichCollections(_Connnection, aLibraryType);
+
             grdRoots.AutoGenerateColumns = true;
-            grdRoots.DataSource = MovieParentFolders().Select(o => new { DateAdded = o.CreationDate, Path = o.Path, Files = o.Files }).ToList();
+            grdRoots.DataSource = _Enricher.Roots.Select(o => new { DateAdded = o.CreationDate, Path = o.Path, Files = o.Files }).ToList();
+
+            grdRoots.Width = GridRootsWidth();
         }
 
-        private void OnScanFolders()
+        private int GridRootsWidth()
         {
-            ScanFolders lScan = new ScanFolders(MovieParentFolders(), _Folders, _Files);
-            var lLst = lScan.FoldersScanner();
-            var lResult1 = lLst.Folders.Select(f => new { Type="Folder", Selected = f.Status().Equals(UpdateStatusEnu.New), Action = f.Status().ToString(), Root=f.RootFolder.ToString(), Parent=f.ParentFolder.ToString(), Item = f.Path }).ToList();
-            var lResult2 = lLst.Files.Select(f => new { Type = "File", Selected = f.Status().Equals(UpdateStatusEnu.New), Action = f.Status().ToString(), Root = f.Folder.RootFolder?.ToString(), Parent = f.Folder?.ToString(), Item = f.Filename }).ToList();
-            var lResult = lResult1.Union(lResult2).ToList();
+            int width = 0;
+            foreach (DataGridViewColumn col in grdRoots.Columns)
+            {
+                width += col.Width;
+            }
+            width += grdRoots.RowHeadersWidth * 3;
+            return width;
+        }
+
+
+        private void OnSyncLibraries()
+        {
             grdResults.AutoGenerateColumns = true;
-            grdResults.DataSource = lResult;
-        }
-
-        private List<Folder> MovieParentFolders()
-        {
-            return (from f in _Folders.Items 
-            where f.IdParentPath?.GetInnerValue() == null && (f.ContentType??string.Empty).Equals(_LibraryType) 
-            select f).ToList();
+            grdResults.DataSource = _Enricher.StartScan();
         }
 
         private void butScan_Click(object sender, EventArgs e)
         {
-            OnScanFolders();
-        }
-
-        private void btnDeletes_Click(object sender, EventArgs e)
-        {
-            _Folders.SaveChanges(UpdateStatusEnu.Delete);
-            _Files.SaveChanges(UpdateStatusEnu.Delete);
+            OnSyncLibraries();
         }
 
         private void btnUpdates_Click(object sender, EventArgs e)
         {
-            var lFol = _Folders.Items;
-            var lFil = _Files.Items;
-            _Folders.SaveChanges(lFol, UpdateStatusEnu.Update);
-            _Folders.SaveChanges(UpdateStatusEnu.New);
-            _Files.SaveChanges(lFil, UpdateStatusEnu.Update);
-            _Files.SaveChanges(UpdateStatusEnu.New);
-        }
-
-        private void btnMissing_Click(object sender, EventArgs e)
-        {
-            OnScrapMissingFiles();
-        }
-
-        private void OnScrapMissingFiles()
-        {
-            ScraperMovies lEsc = new ScraperMovies(_Folders.Connection);
-            lEsc.ScrapFiles();
+            _Enricher.SaveChanges();
         }
     }
 }

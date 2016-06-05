@@ -83,6 +83,24 @@ namespace KnkInterfaces.Utilities
             return (from p in item.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance) where p.CanWrite select p).ToArray();
         }
 
+        public static MethodInfo[] GetMethods<T>(T item)
+            where T : KnkItemItf
+        {
+            return (from p in item.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance) select p).ToArray();
+        }
+
+        public static List<MethodInfo> GetMethodsRelations<T>(T item)
+            where T : KnkItemItf
+        {
+            var lReturn = (from m in GetMethods(item) 
+                where m.ReturnType.GenericTypeArguments.Count().Equals(2) 
+                && m.ReflectedType == item.GetType() 
+                && m.ReturnType.GetInterfaces().Contains(typeof(KnkListItf))
+                select m);
+            return lReturn.ToList();
+        }
+
+
         public static List<string> CreatedFields()
         {
             return new List<string>() { "usercreatedid", "createddate" };

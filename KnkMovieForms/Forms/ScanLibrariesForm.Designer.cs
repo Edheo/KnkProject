@@ -31,17 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScanLibrariesForm));
             this.pnlButtons = new System.Windows.Forms.Panel();
             this.btnUpdates = new KnkMovieForms.Usercontrols.MoviePicture();
-            this.btnDelete = new KnkMovieForms.Usercontrols.MoviePicture();
             this.btnScan = new KnkMovieForms.Usercontrols.MoviePicture();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.grdRoots = new System.Windows.Forms.DataGridView();
             this.grdResults = new System.Windows.Forms.DataGridView();
-            this.btnMissing = new KnkMovieForms.Usercontrols.MoviePicture();
             this.pnlButtons.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdRoots)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdResults)).BeginInit();
             this.SuspendLayout();
@@ -49,14 +42,12 @@
             // pnlButtons
             // 
             this.pnlButtons.BackColor = System.Drawing.Color.Black;
-            this.pnlButtons.Controls.Add(this.btnMissing);
             this.pnlButtons.Controls.Add(this.btnUpdates);
-            this.pnlButtons.Controls.Add(this.btnDelete);
             this.pnlButtons.Controls.Add(this.btnScan);
             this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlButtons.Location = new System.Drawing.Point(0, 0);
             this.pnlButtons.Name = "pnlButtons";
-            this.pnlButtons.Size = new System.Drawing.Size(674, 41);
+            this.pnlButtons.Size = new System.Drawing.Size(753, 41);
             this.pnlButtons.TabIndex = 7;
             // 
             // btnUpdates
@@ -75,7 +66,7 @@
             this.btnUpdates.FontstyleText = System.Drawing.FontStyle.Bold;
             this.btnUpdates.IsButton = true;
             this.btnUpdates.LineAlignment = System.Drawing.StringAlignment.Far;
-            this.btnUpdates.Location = new System.Drawing.Point(82, 0);
+            this.btnUpdates.Location = new System.Drawing.Point(41, 0);
             this.btnUpdates.Name = "btnUpdates";
             this.btnUpdates.Padding = new System.Windows.Forms.Padding(5);
             this.btnUpdates.RemarkColor = System.Drawing.Color.Black;
@@ -86,34 +77,6 @@
             this.btnUpdates.TabStop = false;
             this.btnUpdates.TextAlignment = System.Drawing.StringAlignment.Center;
             this.btnUpdates.Click += new System.EventHandler(this.btnUpdates_Click);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.BackColor = System.Drawing.Color.Black;
-            this.btnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnDelete.Caption = null;
-            this.btnDelete.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnDelete.FactorSize = 1F;
-            this.btnDelete.Filename = null;
-            this.btnDelete.FontColorCaption = System.Drawing.Color.White;
-            this.btnDelete.FontColorText = System.Drawing.Color.White;
-            this.btnDelete.FontName = "Verdana";
-            this.btnDelete.FontSize = 10;
-            this.btnDelete.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.btnDelete.FontstyleText = System.Drawing.FontStyle.Bold;
-            this.btnDelete.IsButton = true;
-            this.btnDelete.LineAlignment = System.Drawing.StringAlignment.Far;
-            this.btnDelete.Location = new System.Drawing.Point(41, 0);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Padding = new System.Windows.Forms.Padding(5);
-            this.btnDelete.RemarkColor = System.Drawing.Color.Black;
-            this.btnDelete.ResourceImage = ((System.Drawing.Image)(resources.GetObject("btnDelete.ResourceImage")));
-            this.btnDelete.Size = new System.Drawing.Size(41, 41);
-            this.btnDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btnDelete.TabIndex = 7;
-            this.btnDelete.TabStop = false;
-            this.btnDelete.TextAlignment = System.Drawing.StringAlignment.Center;
-            this.btnDelete.Click += new System.EventHandler(this.btnDeletes_Click);
             // 
             // btnScan
             // 
@@ -143,35 +106,18 @@
             this.btnScan.TextAlignment = System.Drawing.StringAlignment.Center;
             this.btnScan.Click += new System.EventHandler(this.butScan_Click);
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 41);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.grdRoots);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.grdResults);
-            this.splitContainer1.Size = new System.Drawing.Size(674, 422);
-            this.splitContainer1.SplitterDistance = 375;
-            this.splitContainer1.TabIndex = 8;
-            // 
             // grdRoots
             // 
             this.grdRoots.AllowUserToAddRows = false;
             this.grdRoots.AllowUserToDeleteRows = false;
             this.grdRoots.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.grdRoots.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdRoots.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdRoots.Location = new System.Drawing.Point(0, 0);
+            this.grdRoots.Dock = System.Windows.Forms.DockStyle.Left;
+            this.grdRoots.Location = new System.Drawing.Point(0, 41);
             this.grdRoots.Name = "grdRoots";
             this.grdRoots.ReadOnly = true;
-            this.grdRoots.Size = new System.Drawing.Size(375, 422);
-            this.grdRoots.TabIndex = 0;
+            this.grdRoots.Size = new System.Drawing.Size(356, 489);
+            this.grdRoots.TabIndex = 9;
             // 
             // grdResults
             // 
@@ -180,53 +126,22 @@
             this.grdResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.grdResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdResults.Location = new System.Drawing.Point(0, 0);
+            this.grdResults.Location = new System.Drawing.Point(356, 41);
             this.grdResults.Name = "grdResults";
-            this.grdResults.Size = new System.Drawing.Size(295, 422);
-            this.grdResults.TabIndex = 1;
-            // 
-            // btnMissing
-            // 
-            this.btnMissing.BackColor = System.Drawing.Color.Black;
-            this.btnMissing.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnMissing.Caption = null;
-            this.btnMissing.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnMissing.FactorSize = 1F;
-            this.btnMissing.Filename = null;
-            this.btnMissing.FontColorCaption = System.Drawing.Color.White;
-            this.btnMissing.FontColorText = System.Drawing.Color.White;
-            this.btnMissing.FontName = "Verdana";
-            this.btnMissing.FontSize = 10;
-            this.btnMissing.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.btnMissing.FontstyleText = System.Drawing.FontStyle.Bold;
-            this.btnMissing.IsButton = true;
-            this.btnMissing.LineAlignment = System.Drawing.StringAlignment.Far;
-            this.btnMissing.Location = new System.Drawing.Point(123, 0);
-            this.btnMissing.Name = "btnMissing";
-            this.btnMissing.Padding = new System.Windows.Forms.Padding(5);
-            this.btnMissing.RemarkColor = System.Drawing.Color.Black;
-            this.btnMissing.ResourceImage = ((System.Drawing.Image)(resources.GetObject("btnMissing.ResourceImage")));
-            this.btnMissing.Size = new System.Drawing.Size(41, 41);
-            this.btnMissing.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btnMissing.TabIndex = 9;
-            this.btnMissing.TabStop = false;
-            this.btnMissing.TextAlignment = System.Drawing.StringAlignment.Center;
-            this.btnMissing.Click += new System.EventHandler(this.btnMissing_Click);
+            this.grdResults.Size = new System.Drawing.Size(397, 489);
+            this.grdResults.TabIndex = 10;
             // 
             // ScanLibrariesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(674, 463);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(753, 530);
+            this.Controls.Add(this.grdResults);
+            this.Controls.Add(this.grdRoots);
             this.Controls.Add(this.pnlButtons);
             this.Name = "ScanLibrariesForm";
             this.Text = "ScanLibrariesForm";
             this.pnlButtons.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdRoots)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdResults)).EndInit();
             this.ResumeLayout(false);
@@ -236,12 +151,9 @@
         #endregion
 
         private System.Windows.Forms.Panel pnlButtons;
-        private Usercontrols.MoviePicture btnDelete;
         private Usercontrols.MoviePicture btnScan;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private Usercontrols.MoviePicture btnUpdates;
         private System.Windows.Forms.DataGridView grdRoots;
         private System.Windows.Forms.DataGridView grdResults;
-        private Usercontrols.MoviePicture btnUpdates;
-        private Usercontrols.MoviePicture btnMissing;
     }
 }

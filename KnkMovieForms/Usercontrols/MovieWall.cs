@@ -118,6 +118,8 @@ namespace KnkMovieForms.Usercontrols
         private void GenerateCriteria()
         {
             KnkCriteria<Movie, Movie> lCri = null;
+            KnkCoreUtils.CreateInParameter(new MovieCastings(_Movies.Connection, cmbArtist.Text), lCri, "IdMovie");
+
             lCri = new KnkCriteria<Movie, Movie>(new Movie(), new KnkTableEntity("vieMovies", "Movies"));
             if (!string.IsNullOrEmpty(txtSearch.Text))
             {

@@ -29,7 +29,7 @@ namespace KnkCore
         {
             _entityTable = aEntityTable as KnkTableEntity;
             KnkLinkFields = aItem.PrimaryKey(); 
-            AddLinkParameters(aItem);
+            //AddLinkParameters(aItem);
         }
 
         public KnkCriteria(KnkTableEntityItf aEntityTable, Type aType, string aName, OperatorsEnu aOperator, object aValue)
@@ -38,28 +38,45 @@ namespace KnkCore
             AddParameter(aType, aName, aOperator, aValue);
         }
 
-        private void AddLinkParameters(Tdad aItem)
-        {
-            var lPrs = KnkInterfacesUtils.GetProperties<Tlst>();
-            foreach (string lPar in KnkLinkFieldsList())
-            {
-                var lPrp = lPrs.Where(p => p.Name.ToLower().Equals(lPar.ToLower())).FirstOrDefault();
-                if (lPrp != null && aItem.PropertyGet(lPrp.Name) != null)
-                {
-                    AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lPrp.Name, OperatorsEnu.Equal, aItem.PropertyGet(lPrp.Name));
-                }
-            }
-            var lEnt = this.EntityRelation();
-            if (!string.IsNullOrEmpty(lEnt?.RelatedKey))
-            {
-                var lPrp = KnkInterfacesUtils.GetProperties<Tdad>().Where(p => p.Name.Equals(aItem.PrimaryKey())).FirstOrDefault();
-                if (lPrp != null && aItem.PropertyGet(lEnt.RelatedKey)!=null)
-                {
-                    AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lEnt.RelatedKey, OperatorsEnu.Equal, aItem.PropertyGet(lEnt.RelatedKey));
-                }
-            }
+        //private void AddLinkParameters(Tdad aItem)
+        //{
+        //    if (typeof(Tdad) == typeof(Tlst))
+        //    {
+        //        return;
+        //    }
 
-        }
+        //    var lPrs = KnkInterfacesUtils.GetProperties<Tlst>();
+        //    foreach (string lPar in KnkLinkFieldsList())
+        //    {
+        //        var lPrp = lPrs.Where(p => p.Name.ToLower().Equals(lPar.ToLower())).FirstOrDefault();
+        //        if (lPrp != null)
+        //        {
+        //            //if(aItem.PropertyGet(lPrp.Name) != null)
+        //            AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lPrp.Name, OperatorsEnu.Equal, aItem.PropertyGet(lPrp.Name));
+        //            //else if (typeof(Tdad) != typeof(Tlst))
+        //            //    AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lPrp.Name, OperatorsEnu.Equal, aItem.PropertyGet(lPrp.Name));
+        //        }
+        //    }
+        //    var lEnt = this.EntityRelation();
+        //    if (!string.IsNullOrEmpty(lEnt?.RelatedKey))
+        //    {
+        //        var lPrp = KnkInterfacesUtils.GetProperties<Tdad>().Where(p => p.Name.Equals(aItem.PrimaryKey())).FirstOrDefault();
+        //        if (lPrp != null)
+        //        {
+        //            //if(aItem.PropertyGet(lEnt.RelatedKey)!=null)
+        //            AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lEnt.RelatedKey, OperatorsEnu.Equal, aItem.PropertyGet(lEnt.RelatedKey));
+        //            //    AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lEnt.RelatedKey, OperatorsEnu.Equal, aItem.PropertyGet(lEnt.RelatedKey));
+        //        }
+        //    }
+        //}
+
+        //private bool IsARelationship()
+        //{
+        //    if (string.IsNullOrEmpty(this.EntityRelation()?.RelatedKey))
+        //        return false;
+        //    else
+        //        return true;
+        //}
 
         public string KnkLinkFields { get; }
 

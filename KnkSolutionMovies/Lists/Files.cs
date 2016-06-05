@@ -17,13 +17,4 @@ namespace KnkSolutionMovies.Lists
         }
 
     }
-
-    public class MissingMovies : KnkList<MissingMovieFile>
-    {
-        public MissingMovies(KnkConnectionItf aConnection)
-        : base(aConnection)
-        {
-        }
-    }
-
 }

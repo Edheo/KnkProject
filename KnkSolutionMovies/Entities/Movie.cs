@@ -1,4 +1,5 @@
 ﻿using KnkCore;
+using KnkInterfaces.Interfaces;
 using KnkInterfaces.PropertyAtributes;
 using KnkSolutionMovies.Extenders;
 using System;
@@ -8,13 +9,16 @@ namespace KnkSolutionMovies.Entities
     public class Movie : KnkItem
     {
         public readonly MovieExtender Extender;
-        KnkEntityRelation<Movie, Genre> _Genres;
-        KnkEntityRelation<Movie, File> _Files;
+        KnkEntityRelation<Movie, MovieGenre> _Genres;
+        KnkEntityRelation<Movie, MediaFile> _Files;
         KnkEntityRelation<Movie, MovieCasting> _Casting;
-        KnkEntityRelation<Movie, Country> _Countries;
+        KnkEntityRelation<Movie, MovieCountry> _Countries;
         KnkEntityRelation<Movie, MediaLink> _Pictures;
         KnkEntityRelation<Movie, MovieSummary> _Summary;
         KnkEntityRelation<Movie, FilePlay> _Plays;
+        KnkEntityRelation<Movie, MovieCompany> _Companies;
+        KnkEntityRelation<Movie, MovieLanguage> _Languages;
+        KnkEntityRelation<Movie, MovieUser> _Users;
 
         #region Interface/Implementation
         public Movie() : base(new KnkTableEntity("vieMovies", "Movies"))
@@ -32,6 +36,7 @@ namespace KnkSolutionMovies.Entities
         public decimal Rating { get; set; }
         public int? Year { get; set; }
         public string ImdbId { get; set; }
+        public int? TmdbId { get; set; }
         public int? Seconds { get; set; }
         public string MPARating { get; set; }
         public string OriginalTitle { get; set; }
@@ -43,51 +48,70 @@ namespace KnkSolutionMovies.Entities
         public decimal Budget { get; set; }
         public decimal Revenue { get; set; }
         public string HomePage { get; set; }
-
+        public decimal Popularity { get; set; }
+        public DateTime? ScrapedDate { get; set; }
         #endregion
 
         public MovieSet MovieSet { get { return IdSet?.Value; } set { IdSet = new KnkEntityReference<MovieSet>(value); } }
 
-        public KnkEntityRelation<Movie, Genre> Genres()
+        public KnkEntityRelationItf<Movie, MovieUser> Users()
         {
-            if (_Genres == null) _Genres = new KnkEntityRelation<Movie, Genre>(this, "vieMovieGenres");
+            if (_Users == null) _Users = new KnkEntityRelation<Movie, MovieUser>(this, "vieMovieUsers");
+            return _Users;
+        }
+
+        public KnkEntityRelationItf<Movie, MovieGenre> Genres()
+        {
+            if (_Genres == null) _Genres = new KnkEntityRelation<Movie, MovieGenre>(this, "vieMovieGenres");
             return _Genres;
         }
 
-        public KnkEntityRelation<Movie, File> Files()
+        public KnkEntityRelationItf<Movie, MediaFile> Files()
         {
-            if (_Files == null) _Files = new KnkEntityRelation<Movie, File>(this, "vieMovieFiles");
+            if (_Files == null) _Files = new KnkEntityRelation<Movie, MediaFile>(this, "vieMovieFiles");
             return _Files;
         }
 
-        public KnkEntityRelation<Movie, MovieCasting> Casting()
+        public KnkEntityRelationItf<Movie, MovieCasting> Casting()
         {
             if (_Casting == null) _Casting = new KnkEntityRelation<Movie, MovieCasting>(this);
             return _Casting;
         }
 
-        public KnkEntityRelation<Movie, Country> Countries()
+        public KnkEntityRelationItf<Movie, MovieCountry> Countries()
         {
-            if (_Countries == null) _Countries = new KnkEntityRelation<Movie, Country>(this, "vieMovieCountries");
+            if (_Countries == null) _Countries = new KnkEntityRelation<Movie, MovieCountry>(this, "vieMovieCountries");
             return _Countries;
         }
 
-        public KnkEntityRelation<Movie, MediaLink> Pictures()
+        public KnkEntityRelationItf<Movie, MediaLink> Pictures()
         {
             if (_Pictures == null) _Pictures = new KnkEntityRelation<Movie, MediaLink>(this);
             return _Pictures;
         }
 
-        public KnkEntityRelation<Movie, MovieSummary> Summary()
+        public KnkEntityRelationItf<Movie, MovieSummary> Summary()
         {
             if (_Summary == null) _Summary = new KnkEntityRelation<Movie, MovieSummary>(this);
             return _Summary;
         }
 
-        public KnkEntityRelation<Movie, FilePlay> Plays()
+        public KnkEntityRelationItf<Movie, FilePlay> Plays()
         {
             if (_Plays == null) _Plays = new KnkEntityRelation<Movie, FilePlay>(this, "vieMoviePlays");
             return _Plays;
+        }
+
+        public KnkEntityRelationItf<Movie, MovieCompany> Companies()
+        {
+            if (_Companies == null) _Companies = new KnkEntityRelation<Movie, MovieCompany>(this, "vieMovieCompanies");
+            return _Companies;
+        }
+
+        public KnkEntityRelationItf<Movie, MovieLanguage> Languages()
+        {
+            if (_Languages == null) _Languages = new KnkEntityRelation<Movie, MovieLanguage>(this, "vieMovieLanguages");
+            return _Languages;
         }
 
         public override string ToString()

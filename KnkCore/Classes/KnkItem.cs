@@ -124,6 +124,7 @@ namespace KnkCore
         public void Update()
         {
             var lPrp = PropertyGet(PrimaryKey());
+            Deleted = false;
             if (lPrp == null)
             {
                 CreationDate = DateTime.Now;

@@ -59,7 +59,10 @@ namespace KnkCore
         private void ResetReference(int? aValue)
         {
             Release();
-            _value = aValue;
+            if (aValue == 1)
+                _value = aValue;
+            else
+                _value = aValue;
         }
 
         private void ResetReference(Tref aItem)

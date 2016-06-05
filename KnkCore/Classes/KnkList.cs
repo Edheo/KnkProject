@@ -93,7 +93,7 @@ namespace KnkCore
 
         public bool SaveChanges()
         {
-            bool lRet = SaveChanges(Items);
+            bool lRet = SaveChanges(ItemsChanged());
             if (lRet) Refresh();
             return lRet;
         }
@@ -112,9 +112,30 @@ namespace KnkCore
 
         public bool SaveChanges(List<Tlst> aList, UpdateStatusEnu aStatus)
         {
-            var lChanges = (from itm in aList where itm.Status() != UpdateStatusEnu.NoChanges && (itm.Status() == aStatus || aStatus==UpdateStatusEnu.NoChanges )select itm).ToList();
+            var lChanges = (from itm in aList where (itm.Status() == aStatus || aStatus == UpdateStatusEnu.NoChanges) select itm).ToList();
             Connection.SaveData<Tlst>(lChanges);
             return true;
+        }
+
+        public List<Tlst> ItemsChanged()
+        {
+            return ItemsChanged(Items);
+        }
+
+        public List<Tlst> ItemsChanged(List<Tlst> aList)
+        {
+            return (from itm in aList where itm.Status() != UpdateStatusEnu.NoChanges select itm).ToList();
+        }
+
+        public List<KnkChangeDescriptorItf> ListOfChanges()
+        {
+            return ListOfChanges(ItemsChanged());
+        }
+
+        public List<KnkChangeDescriptorItf> ListOfChanges(List<Tlst> aList)
+        {
+            List<KnkChangeDescriptorItf> lRet = (from itm in aList where itm.Status() != UpdateStatusEnu.NoChanges select new KnkChangeDescriptor(itm)).Cast<KnkChangeDescriptorItf>().ToList();
+            return lRet;
         }
 
         public void Refresh()
@@ -131,7 +152,10 @@ namespace KnkCore
         {
             Tlst lItem = new Tlst();
             lItem.SetParent(this);
-            if(aAddToList) Items.Add(lItem);
+            if (aAddToList)
+            {
+                Items.Add(lItem);
+            }
             return lItem;
         }
 
@@ -142,6 +166,7 @@ namespace KnkCore
                 lItm.Delete();
             }
         }
+
     }
 
     public class KnkList<Tlst> : KnkList<Tlst, Tlst>

@@ -29,6 +29,8 @@ namespace KnkScrapers.Utilities
                     lJoin.Add(lStr);
                 }
             }
+            if (lJoin.Count.Equals(0))
+                lJoin.Add(lSplit.Max(e => e));
             return lJoin.Aggregate((i, j) => $"{i} {j}");
         }
 
@@ -106,8 +108,8 @@ namespace KnkScrapers.Utilities
         public static async Task<Movie> GetMovieData(ServiceClient aClient, int aIdMovie, string aLanguage)
         {
             var movie = await aClient.Movies.GetAsync(aIdMovie, aLanguage, true, CancellationToken.None);
-            movie.Images = await aClient.Movies.GetImagesAsync(movie.Id, aLanguage, CancellationToken.None);
-            movie.Videos.Results = await aClient.Movies.GetVideosAsync(movie.Id, aLanguage, CancellationToken.None);
+            //movie.Images = await aClient.Movies.GetImagesAsync(movie.Id, aLanguage, CancellationToken.None);
+            //movie.Videos.Results = await aClient.Movies.GetVideosAsync(movie.Id, aLanguage, CancellationToken.None);
             
             //var personIds = movie.Credits.Cast.Select(s => s.Id)
             //    .Union(movie.Credits.Crew.Select(s => s.Id));
@@ -149,80 +151,6 @@ namespace KnkScrapers.Utilities
                         }
                     }
                 }
-            }
-        }
-
-        public static KnkSolutionMovies.Entities.Movie FindMovieInLibrary(KnkSolutionMovies.Lists.Movies aMovies, Movie aMovie)
-        {
-            Movie lOrg = aMovie;
-            int? lYear = null;
-            if (lOrg.ReleaseDate != null) lYear = ((DateTime)lOrg.ReleaseDate).Year;
-            var lMovieDst = (from mov in aMovies.Items where mov.Title.ToLower() == lOrg.Title.ToLower() && mov.Year == lYear select mov).FirstOrDefault();
-            if (lMovieDst == null)
-            {
-                lMovieDst = aMovies.Create();
-            }
-            return lMovieDst;
-        }
-
-        public static KnkSolutionMovies.Entities.Movie EnrichMovie(EnrichCollections aPar, Movie aMovieOrg, KnkSolutionMovies.Entities.Movie aMovieDst)
-        {
-            var lOrg = aMovieOrg;
-            var lDst = aMovieDst;
-            if(lDst != null)
-            {
-                
-                lDst.Title = lOrg.Title;                    //	string					Title
-                lDst.OriginalTitle = lOrg.OriginalTitle;    //	string					OriginalTitle
-                lDst.TagLine = lOrg.TagLine;                //	string					TagLine
-                FillMovieOverview(lDst, lOrg.Overview);     //	string					Overview
-                //	string					Poster          Will be imported in Images
-                //	string					Backdrop        Will be imported in Images
-                lDst.AdultContent = lOrg.Adult;                    //	bool					Adult
-                //	Collection				BelongsTo       Will not be imported
-                lDst.Budget = lOrg.Budget;                  //	int						Budget
-                //	IEnumerable<Genre>		Genres
-                //aPar.CheckGenre
-                lDst.HomePage = lOrg.HomePage;              //	string					HomePage
-                lDst.ImdbId = lOrg.Imdb;                    //	string					Imdb
-                //	IEnumerable<Company>	Companies
-                //	IEnumerable<Country>	Countries
-                lDst.ReleaseDate = lOrg.ReleaseDate;        //	DateTime?				ReleaseDate
-                lDst.Year = lOrg.ReleaseDate?.Year;
-                lDst.Revenue = lOrg.Revenue;                //	Int64					Revenue
-                lDst.Seconds = lOrg.Runtime * 60;           //	int?					Runtime
-                //	IEnumerable<Language>	Languages
-                //	AlternativeTitles		AlternativeTitles
-                //	MediaCredits			Credits
-                //	Images					Images
-                //	Videos					Videos
-                lDst.TrailerUrl = lOrg.Videos.Results.FirstOrDefault()?.Site;
-                //	Keywords				Keywords
-                //	Releases				Releases
-                //	Translations			Translations
-                //	decimal					Popularity
-                //	decimal					VoteAverage
-                lDst.Rating = lOrg.VoteAverage;
-                //	int						VoteCount
-                lDst.Votes = lOrg.VoteCount;
-                //	string					Status
-                //	ExternalIds				External
-
-            }
-            return lDst;
-        }
-
-        private static void FillMovieOverview(KnkSolutionMovies.Entities.Movie aMovie, string aOverviews)
-        {
-            var lSum = aMovie.Summary();
-            lSum.DeleteAll();
-            string[] lines = aOverviews.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            int lOrdinal = 1;
-            foreach(var lLine in lines)
-            {
-                var lLin = lSum.Create();
-                lLin.Ordinal = lOrdinal;
-                lLin.SummaryItem = lLine;
             }
         }
     }

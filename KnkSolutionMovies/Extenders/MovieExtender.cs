@@ -22,7 +22,8 @@ namespace KnkSolutionMovies.Extenders
         {
             get
             {
-                return _Movie.Genres().Items.OrderBy(g=>g.GenreName).Aggregate((i, j) => new Genre { GenreName = (i.GenreName + ", " + j.GenreName) }).GenreName;
+                var lAux = _Movie.Genres().Items.Select(g => g.ToString());
+                return lAux.OrderBy(g=>g).Aggregate((i, j) => $"{i}, {j}");
             }
         }
 
@@ -42,7 +43,8 @@ namespace KnkSolutionMovies.Extenders
         {
             get
             {
-                return _Movie.Countries().Items.OrderBy(c=>c.CountryName).Aggregate((i, j) => new Country { CountryName = (i.CountryName + ", " + j.CountryName) }).CountryName;
+                var lAux = _Movie.Countries().Items.Select(g => g.ToString());
+                return lAux.OrderBy(g => g).Aggregate((i, j) => $"{i}, {j}");
             }
         }
 
@@ -63,13 +65,13 @@ namespace KnkSolutionMovies.Extenders
         public string Director()
         {
             var lDir = (from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Director") orderby c.CastingType.Type descending, c.Ordinal select c);
-            return lDir.OrderBy(g => g.Ordinal).Aggregate((i, j) => new MovieCasting { ArtistName  = (i.ArtistName + ", " + j.ArtistName) }).ArtistName;
+            return lDir?.OrderBy(g => g.Ordinal).Aggregate((i, j) => new MovieCasting { ArtistName  = (i.ArtistName + ", " + j.ArtistName) }).ArtistName;
         }
 
         public string Writer()
         {
             var lWri = (from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Writer") orderby c.CastingType.Type descending, c.Ordinal select c);
-            return lWri.OrderBy(g => g.Ordinal).Aggregate((i, j) => new MovieCasting { ArtistName = (i.ArtistName + ", " + j.ArtistName) }).ArtistName;
+            return lWri?.OrderBy(g => g.Ordinal).Aggregate((i, j) => new MovieCasting { ArtistName = (i.ArtistName + ", " + j.ArtistName) }).ArtistName;
         }
 
         public List<MovieCasting> ArtistCasting()

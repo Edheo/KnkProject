@@ -22,17 +22,4 @@ namespace KnkSolutionMovies.Lists
             return (from c in Items orderby c.CountryName select c).ToList();
         }
     }
-
-    public class MovieCountries : KnkList<Movie, Country>
-    {
-        public MovieCountries(KnkConnectionItf aConnection, KnkCriteria<Movie, Country> aCriteria)
-        : base(aConnection, aCriteria)
-        {
-        }
-
-        public MovieCountries(KnkConnectionItf aConnection, string aCountry)
-        : base(aConnection, KnkCore.Utilities.KnkCoreUtils.BuildLikeCriteria<Movie, Country>("Country", aCountry, "vieMovieCountries", "IdCountry"))
-        {
-        }
-    }
 }

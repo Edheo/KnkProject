@@ -20,6 +20,9 @@ namespace KnkInterfaces.Interfaces
     {
         List<Tlst> FillFromList(List<Tlst> aList);
         List<Tlst> Items { get; }
+        List<Tlst> ItemsChanged();
+        List<Tlst> ItemsChanged(List<Tlst> aList);
+
         List<Tlst> Datasource();
         KnkCriteriaItf<Tdad, Tlst> GetCriteria();
         List<KnkEntityIdentifierItf> GetListIds();
@@ -27,7 +30,12 @@ namespace KnkInterfaces.Interfaces
         Tlst Create();
         Tlst Create(bool aAddToList);
         void Add(Tlst aItem);
+
         bool SaveChanges(List<Tlst> aList);
         bool SaveChanges(List<Tlst> aList, UpdateStatusEnu aStatus);
+
+
+        List<KnkChangeDescriptorItf> ListOfChanges();
+        List<KnkChangeDescriptorItf> ListOfChanges(List<Tlst> aList);
     }
 }
