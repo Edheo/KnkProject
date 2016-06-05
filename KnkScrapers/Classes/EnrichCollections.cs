@@ -451,7 +451,7 @@ namespace KnkScrapers.Classes
 
         void ScanFiles(Folder aFolder)
         {
-            var lFiles = Files.Items.OrderByDescending(e => e.IdFile.GetInnerValue());
+            //var lFiles = Files.Items.OrderByDescending(e => e.IdFile.GetInnerValue());
             foreach (var lFile in System.IO.Directory.GetFiles(aFolder.Path))
             {
                 string lFileName = System.IO.Path.GetFileName(lFile);
@@ -466,9 +466,6 @@ namespace KnkScrapers.Classes
                         case ".mkv":
                         case ".mpg":
                             lFil = Files.Create();
-                            lFil.Filename = lFileName;
-                            lFil.Filedate = lInfo.LastWriteTime;
-                            lFil.Folder = aFolder;
                             break;
                         case ".db":
                         case ".srt":
@@ -476,6 +473,13 @@ namespace KnkScrapers.Classes
                             break;
                         default:
                             break;
+                    }
+                    if (lFil != null)
+                    {
+                        lFil.Filename = lFileName;
+                        lFil.Filedate = lInfo.LastWriteTime;
+                        lFil.Folder = aFolder;
+                        lFil.Update("New File Scanned");
                     }
                 }
             }
@@ -504,8 +508,7 @@ namespace KnkScrapers.Classes
                 else
                 {
                     DateTime lDat = System.IO.File.GetLastWriteTime(lFile.ToString());
-                    int lSeconds = Math.Abs((int)(lDat - lFile.Filedate).TotalMinutes);
-                    if (lSeconds>0)
+                    if (lDat < lFile.Filedate)
                     {
                         lFile.Filedate = lDat;
                         lFile.Update("Filedate Changed");
