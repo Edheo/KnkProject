@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
@@ -13,23 +12,11 @@ namespace KnkMovieForms.Usercontrols
         delegate void delNoParams();
         delegate void delSetPicture(Image aImg);
         private string _Filename;
-        private string _Text;
-        private string _FontName = "Verdana";
-        private FontStyle _FontstyleCaption = FontStyle.Bold;
-        private FontStyle _FontstyleText = FontStyle.Regular;
-        private StringAlignment _TextAlignment = StringAlignment.Center;
-        private StringAlignment _LineAlignment = StringAlignment.Center;
-        private Color _FontColorCaption = Color.White;
-        private Color _FontColorText = Color.White;
         private Color _RemarkColor = Color.Red;
         private Image _ResourceImage;
-        private int? _FontSize;
-        private string _Caption;
         private float _Factor;
         private PictureBoxSizeMode _SizeMode;
         public bool _isButton;
-
-        private bool _horizontal;
 
         public MoviePicture()
         {
@@ -37,31 +24,7 @@ namespace KnkMovieForms.Usercontrols
             //this.picValue.Paint += (sender, e) => { PaintCenteredText(e.Graphics); };
         }
 
-        [Description("TextAlignment"), Category("Data")]
-        public StringAlignment TextAlignment { get { return _TextAlignment; } set { _TextAlignment = value; } }
-        public StringAlignment LineAlignment { get { return _LineAlignment; } set { _LineAlignment = value; } }
-        public string FontName { get { return _FontName; } set { _FontName = value; } }
-        public FontStyle FontstyleCaption { get { return _FontstyleCaption; } set { _FontstyleCaption = value; } }
-        public FontStyle FontstyleText { get { return _FontstyleText; } set { _FontstyleText = value; } }
-        public bool Horizontal { get { return _horizontal; } set { _horizontal = value; } }
-        [Description("Caption"), Category("Data")]
-        public string Caption
-        {
-            get { return _Caption; }
-            set
-            {
-                _Caption = value;
-                if (InvokeRequired)
-                    this.Invoke(new delNoParams(this.Refresh));
-                else
-                    this.Refresh();
-
-            }
-        }
-        public new string Text { get { return _Text; } set { _Text = value; } }
         public PictureBoxSizeMode SizeMode { get { return _SizeMode; } set { _SizeMode = value; } }
-        public Color FontColorCaption { get { return _FontColorCaption; } set { _FontColorCaption = value; } }
-        public Color FontColorText { get { return _FontColorText; } set { _FontColorText = value; } }
         public Color RemarkColor
         {
             get { return _RemarkColor; }
@@ -82,7 +45,6 @@ namespace KnkMovieForms.Usercontrols
                 _ResourceImage = KnkMovieFormsUtils.ResizeImage(value, this.ClientSize.Width, this.ClientSize.Height);
             }
         }
-        public int? FontSize { get { return _FontSize; } set { _FontSize = value; } }
         public bool IsButton
         {
             get
@@ -122,15 +84,6 @@ namespace KnkMovieForms.Usercontrols
         
         public float FactorSize { get { return _Factor; } set { _Factor = value; } }
 
-        public StringFormat StringFormat()
-        {
-            return new StringFormat()
-            {
-                Alignment = TextAlignment,
-                LineAlignment = LineAlignment
-            };
-        }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -138,60 +91,6 @@ namespace KnkMovieForms.Usercontrols
             if (!string.IsNullOrEmpty(_Filename) && _ResourceImage!=null)
             {
                 e.Graphics.DrawImage(_ResourceImage, 0, 0, ClientSize.Width, ClientSize.Height);
-            }
-            PaintCenteredText(e.Graphics);
-        }
-
-        private void PaintCenteredText(Graphics aGraphics)
-        {
-            var lRectangle = ClientRectangle;
-            if (!string.IsNullOrEmpty(Caption) && StringFormat().LineAlignment == StringAlignment.Far)
-            {
-                var lFormat = StringFormat();
-                lFormat.LineAlignment = StringAlignment.Near;
-                using (var lFontBase = new Font(FontName, 10, this.FontstyleCaption))
-                {
-                    var lSize = aGraphics.MeasureString(Caption, lFontBase);
-                    float lFontScale = 1;
-                    if (!Horizontal) { if (lSize.Width > lRectangle.Width) lFontScale = lSize.Width / lRectangle.Width; }
-                    else lRectangle = new Rectangle(0, 0, (int)lSize.Width, lRectangle.Height);
-
-                    using (Font lFont = new Font(lFontBase.FontFamily, lFontBase.SizeInPoints / lFontScale, this.FontstyleCaption, GraphicsUnit.Point))
-                    {
-                        aGraphics.DrawString(Caption, lFont, new SolidBrush(FontColorCaption), lRectangle, lFormat);
-                    }
-                    if (!Horizontal)
-                    {
-                        lRectangle = new Rectangle(0, (int)lSize.Height, ClientRectangle.Width, ClientRectangle.Height - (int)lSize.Height);
-                    }
-                    else
-                    {
-                        lRectangle = new Rectangle(lRectangle.Width, 0, ClientRectangle.Width - (int)lSize.Width, ClientRectangle.Height);
-                    }
-                }
-            }
-            if (!string.IsNullOrEmpty(Text))
-            {
-                if (_FontSize == null)
-                {
-                    using (var lFontBase = new Font(FontName, 10, this.FontstyleText))
-                    {
-                        var lSize = aGraphics.MeasureString(Text, lFontBase);
-                        var lFontScale = Math.Max(lSize.Width / lRectangle.Width, lSize.Height / lRectangle.Height);
-                        using (Font lFont = new Font(lFontBase.FontFamily, lFontBase.SizeInPoints / lFontScale, this.FontstyleText, GraphicsUnit.Point))
-                        {
-                            aGraphics.DrawString(Text, lFont, new SolidBrush(FontColorText), lRectangle, StringFormat());
-                        }
-                    }
-                }
-                else
-                {
-                    using (Font lFont = new Font(FontName, (int)_FontSize, this.FontstyleText))
-                    {
-                        aGraphics.DrawString(Text, lFont, new SolidBrush(FontColorText), lRectangle, StringFormat());
-                    }
-                }
-
             }
         }
 

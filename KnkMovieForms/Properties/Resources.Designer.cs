@@ -133,6 +133,26 @@ namespace KnkMovieForms.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap btnScan_ResourceImage {
+            get {
+                object obj = ResourceManager.GetObject("btnScan.ResourceImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap btnUpdates_ResourceImage {
+            get {
+                object obj = ResourceManager.GetObject("btnUpdates.ResourceImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CD {
             get {
                 object obj = ResourceManager.GetObject("CD", resourceCulture);

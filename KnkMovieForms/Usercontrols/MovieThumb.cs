@@ -34,18 +34,8 @@ namespace KnkMovieForms.Usercontrols
         private void SetMovie(Movie aMovie)
         {
             _Movie = aMovie;
-            picVals.Caption = aMovie.ToString();
             picPoster.Filename = _Movie.Extender.Poster?.Extender.GetFileName();
-            string lText = $"Votes:{_Movie.Votes} Rating:{_Movie.Rating:0.0}";
-            //if (_Movie.UserRating != null)
-            //{
-            //    lText = lText + $"\r\nUser Rating:{_Movie.UserRating:0.0} Value:{_Movie.Extender.AveragedRate:0.0}";
-            //}
-            if (_Movie.ViewedTimes>0)
-            { 
-                lText = lText + $"\r\nLast:{_Movie.LastViewed:dd/MM/yyyy} Views:{_Movie.ViewedTimes}";
-            }
-            picVals.Text = lText;
+            picVals.SetValues(aMovie.Year?.ToString(), aMovie.Title);
         }
 
         private void OnRemarkMovie(object sender, EventArgs e)

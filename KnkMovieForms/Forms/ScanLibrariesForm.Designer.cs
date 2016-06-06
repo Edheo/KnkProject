@@ -28,12 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScanLibrariesForm));
             this.pnlButtons = new System.Windows.Forms.Panel();
-            this.btnUpdates = new KnkMovieForms.Usercontrols.MoviePicture();
-            this.btnScan = new KnkMovieForms.Usercontrols.MoviePicture();
             this.grdRoots = new System.Windows.Forms.DataGridView();
             this.grdResults = new System.Windows.Forms.DataGridView();
+            this.btnUpdates = new System.Windows.Forms.Button();
+            this.btnScan = new System.Windows.Forms.Button();
             this.pnlButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdRoots)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdResults)).BeginInit();
@@ -49,62 +48,6 @@
             this.pnlButtons.Name = "pnlButtons";
             this.pnlButtons.Size = new System.Drawing.Size(753, 41);
             this.pnlButtons.TabIndex = 7;
-            // 
-            // btnUpdates
-            // 
-            this.btnUpdates.BackColor = System.Drawing.Color.Black;
-            this.btnUpdates.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnUpdates.Caption = null;
-            this.btnUpdates.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnUpdates.FactorSize = 1F;
-            this.btnUpdates.Filename = null;
-            this.btnUpdates.FontColorCaption = System.Drawing.Color.White;
-            this.btnUpdates.FontColorText = System.Drawing.Color.White;
-            this.btnUpdates.FontName = "Verdana";
-            this.btnUpdates.FontSize = 10;
-            this.btnUpdates.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.btnUpdates.FontstyleText = System.Drawing.FontStyle.Bold;
-            this.btnUpdates.IsButton = true;
-            this.btnUpdates.LineAlignment = System.Drawing.StringAlignment.Far;
-            this.btnUpdates.Location = new System.Drawing.Point(41, 0);
-            this.btnUpdates.Name = "btnUpdates";
-            this.btnUpdates.Padding = new System.Windows.Forms.Padding(5);
-            this.btnUpdates.RemarkColor = System.Drawing.Color.Black;
-            this.btnUpdates.ResourceImage = ((System.Drawing.Image)(resources.GetObject("btnUpdates.ResourceImage")));
-            this.btnUpdates.Size = new System.Drawing.Size(41, 41);
-            this.btnUpdates.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btnUpdates.TabIndex = 8;
-            this.btnUpdates.TabStop = false;
-            this.btnUpdates.TextAlignment = System.Drawing.StringAlignment.Center;
-            this.btnUpdates.Click += new System.EventHandler(this.btnUpdates_Click);
-            // 
-            // btnScan
-            // 
-            this.btnScan.BackColor = System.Drawing.Color.Black;
-            this.btnScan.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnScan.Caption = null;
-            this.btnScan.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnScan.FactorSize = 1F;
-            this.btnScan.Filename = null;
-            this.btnScan.FontColorCaption = System.Drawing.Color.White;
-            this.btnScan.FontColorText = System.Drawing.Color.White;
-            this.btnScan.FontName = "Verdana";
-            this.btnScan.FontSize = 10;
-            this.btnScan.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.btnScan.FontstyleText = System.Drawing.FontStyle.Bold;
-            this.btnScan.IsButton = true;
-            this.btnScan.LineAlignment = System.Drawing.StringAlignment.Far;
-            this.btnScan.Location = new System.Drawing.Point(0, 0);
-            this.btnScan.Name = "btnScan";
-            this.btnScan.Padding = new System.Windows.Forms.Padding(5);
-            this.btnScan.RemarkColor = System.Drawing.Color.Black;
-            this.btnScan.ResourceImage = ((System.Drawing.Image)(resources.GetObject("btnScan.ResourceImage")));
-            this.btnScan.Size = new System.Drawing.Size(41, 41);
-            this.btnScan.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.btnScan.TabIndex = 5;
-            this.btnScan.TabStop = false;
-            this.btnScan.TextAlignment = System.Drawing.StringAlignment.Center;
-            this.btnScan.Click += new System.EventHandler(this.butScan_Click);
             // 
             // grdRoots
             // 
@@ -131,6 +74,38 @@
             this.grdResults.Size = new System.Drawing.Size(397, 489);
             this.grdResults.TabIndex = 10;
             // 
+            // btnUpdates
+            // 
+            this.btnUpdates.BackColor = System.Drawing.Color.Transparent;
+            this.btnUpdates.BackgroundImage = global::KnkMovieForms.Properties.Resources.btnUpdates_ResourceImage;
+            this.btnUpdates.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnUpdates.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnUpdates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdates.Location = new System.Drawing.Point(41, 0);
+            this.btnUpdates.Name = "btnUpdates";
+            this.btnUpdates.Padding = new System.Windows.Forms.Padding(5);
+            this.btnUpdates.Size = new System.Drawing.Size(41, 41);
+            this.btnUpdates.TabIndex = 8;
+            this.btnUpdates.TabStop = false;
+            this.btnUpdates.UseVisualStyleBackColor = false;
+            this.btnUpdates.Click += new System.EventHandler(this.btnUpdates_Click);
+            // 
+            // btnScan
+            // 
+            this.btnScan.BackColor = System.Drawing.Color.Transparent;
+            this.btnScan.BackgroundImage = global::KnkMovieForms.Properties.Resources.btnScan_ResourceImage;
+            this.btnScan.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnScan.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnScan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnScan.Location = new System.Drawing.Point(0, 0);
+            this.btnScan.Name = "btnScan";
+            this.btnScan.Padding = new System.Windows.Forms.Padding(5);
+            this.btnScan.Size = new System.Drawing.Size(41, 41);
+            this.btnScan.TabIndex = 5;
+            this.btnScan.TabStop = false;
+            this.btnScan.UseVisualStyleBackColor = false;
+            this.btnScan.Click += new System.EventHandler(this.butScan_Click);
+            // 
             // ScanLibrariesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -151,8 +126,8 @@
         #endregion
 
         private System.Windows.Forms.Panel pnlButtons;
-        private Usercontrols.MoviePicture btnScan;
-        private Usercontrols.MoviePicture btnUpdates;
+        private System.Windows.Forms.Button btnScan;
+        private System.Windows.Forms.Button btnUpdates;
         private System.Windows.Forms.DataGridView grdRoots;
         private System.Windows.Forms.DataGridView grdResults;
     }

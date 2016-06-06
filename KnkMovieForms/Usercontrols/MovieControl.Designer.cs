@@ -28,11 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MovieControl));
             this.tblPanel = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.picHead = new KnkMovieForms.Usercontrols.MoviePicture();
-            this.btnClose = new KnkMovieForms.Usercontrols.MoviePicture();
+            this.picHead = new KnkMovieForms.Usercontrols.MovieLabel();
+            this.btnClose = new System.Windows.Forms.Button();
             this.picPoster = new KnkMovieForms.Usercontrols.MoviePicture();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -69,71 +68,40 @@
             this.picHead.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.picHead.Caption = null;
             this.picHead.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picHead.FactorSize = 0F;
-            this.picHead.Filename = null;
             this.picHead.FontColorCaption = System.Drawing.Color.DeepSkyBlue;
             this.picHead.FontColorText = System.Drawing.Color.PaleTurquoise;
             this.picHead.FontName = "Verdana";
-            this.picHead.FontSize = null;
             this.picHead.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.picHead.FontstyleText = System.Drawing.FontStyle.Regular;
+            this.picHead.FontstyleText = System.Drawing.FontStyle.Bold;
             this.picHead.Horizontal = true;
-            this.picHead.IsButton = false;
-            this.picHead.LineAlignment = System.Drawing.StringAlignment.Far;
             this.picHead.Location = new System.Drawing.Point(0, 0);
             this.picHead.Name = "picHead";
-            this.picHead.RemarkColor = System.Drawing.Color.Red;
-            this.picHead.ResourceImage = null;
             this.picHead.Size = new System.Drawing.Size(455, 32);
-            this.picHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
             this.picHead.TabIndex = 4;
-            this.picHead.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
             // btnClose
             // 
-            this.btnClose.BackColor = System.Drawing.Color.DimGray;
-            this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnClose.Caption = null;
+            this.btnClose.BackColor = System.Drawing.Color.Transparent;
+            this.btnClose.BackgroundImage = global::KnkMovieForms.Properties.Resources.Close;
+            this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnClose.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnClose.FactorSize = 1F;
-            this.btnClose.Filename = null;
-            this.btnClose.FontColorCaption = System.Drawing.Color.White;
-            this.btnClose.FontColorText = System.Drawing.Color.White;
-            this.btnClose.FontName = "Verdana";
-            this.btnClose.FontSize = null;
-            this.btnClose.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.btnClose.FontstyleText = System.Drawing.FontStyle.Regular;
-            this.btnClose.Horizontal = false;
-            this.btnClose.IsButton = true;
-            this.btnClose.LineAlignment = System.Drawing.StringAlignment.Center;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Location = new System.Drawing.Point(455, 0);
             this.btnClose.Name = "btnClose";
             this.btnClose.Padding = new System.Windows.Forms.Padding(5);
-            this.btnClose.RemarkColor = System.Drawing.Color.DimGray;
-            this.btnClose.ResourceImage = ((System.Drawing.Image)(resources.GetObject("btnClose.ResourceImage")));
             this.btnClose.Size = new System.Drawing.Size(32, 32);
-            this.btnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
             this.btnClose.TabIndex = 3;
-            this.btnClose.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.button1_Click);
             // 
             // picPoster
             // 
             this.picPoster.BackColor = System.Drawing.Color.Black;
             this.picPoster.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.picPoster.Caption = null;
             this.picPoster.Dock = System.Windows.Forms.DockStyle.Left;
             this.picPoster.FactorSize = 0F;
             this.picPoster.Filename = null;
-            this.picPoster.FontColorCaption = System.Drawing.Color.White;
-            this.picPoster.FontColorText = System.Drawing.Color.White;
-            this.picPoster.FontName = "Verdana";
-            this.picPoster.FontSize = null;
-            this.picPoster.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.picPoster.FontstyleText = System.Drawing.FontStyle.Regular;
-            this.picPoster.Horizontal = false;
             this.picPoster.IsButton = false;
-            this.picPoster.LineAlignment = System.Drawing.StringAlignment.Center;
             this.picPoster.Location = new System.Drawing.Point(0, 32);
             this.picPoster.Name = "picPoster";
             this.picPoster.RemarkColor = System.Drawing.Color.Red;
@@ -142,7 +110,6 @@
             this.picPoster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
             this.picPoster.TabIndex = 3;
             this.picPoster.TabStop = false;
-            this.picPoster.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
             // MovieControl
             // 
@@ -163,7 +130,7 @@
         private MoviePicture picPoster;
         private System.Windows.Forms.TableLayoutPanel tblPanel;
         private System.Windows.Forms.Panel panel1;
-        private MoviePicture btnClose;
-        private MoviePicture picHead;
+        private System.Windows.Forms.Button btnClose;
+        private MovieLabel picHead;
     }
 }

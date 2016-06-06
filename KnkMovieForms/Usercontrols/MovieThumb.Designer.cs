@@ -31,7 +31,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.pnlBar = new System.Windows.Forms.Panel();
             this.picPoster = new KnkMovieForms.Usercontrols.MoviePicture();
-            this.picVals = new KnkMovieForms.Usercontrols.MoviePicture();
+            this.picVals = new KnkMovieForms.Usercontrols.MovieLabel();
             this.panel1.SuspendLayout();
             this.pnlBar.SuspendLayout();
             this.SuspendLayout();
@@ -61,22 +61,18 @@
             // 
             this.picPoster.BackColor = System.Drawing.Color.Black;
             this.picPoster.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.picPoster.Caption = null;
             this.picPoster.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picPoster.FactorSize = 0F;
             this.picPoster.Filename = null;
-            this.picPoster.FontColorCaption = System.Drawing.Color.White;
-            this.picPoster.FontColorText = System.Drawing.Color.White;
-            this.picPoster.FontName = "Verdana";
-            this.picPoster.FontSize = null;
-            this.picPoster.LineAlignment = System.Drawing.StringAlignment.Center;
+            this.picPoster.IsButton = false;
             this.picPoster.Location = new System.Drawing.Point(0, 0);
             this.picPoster.Name = "picPoster";
+            this.picPoster.RemarkColor = System.Drawing.Color.Red;
             this.picPoster.ResourceImage = null;
             this.picPoster.Size = new System.Drawing.Size(240, 360);
             this.picPoster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picPoster.TabIndex = 0;
             this.picPoster.TabStop = false;
-            this.picPoster.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
             // picVals
             // 
@@ -84,21 +80,20 @@
             this.picVals.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.picVals.Caption = null;
             this.picVals.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picVals.Filename = null;
             this.picVals.FontColorCaption = System.Drawing.Color.LightSkyBlue;
             this.picVals.FontColorText = System.Drawing.Color.White;
             this.picVals.FontName = "Verdana";
-            this.picVals.FontSize = null;
-            this.picVals.LineAlignment = System.Drawing.StringAlignment.Far;
+            this.picVals.FontSizeCaption = 12;
+            this.picVals.FontSizeText = 10;
+            this.picVals.FontstyleCaption = System.Drawing.FontStyle.Bold;
+            this.picVals.FontstyleText = System.Drawing.FontStyle.Regular;
+            this.picVals.Horizontal = true;
             this.picVals.Location = new System.Drawing.Point(0, 0);
             this.picVals.Margin = new System.Windows.Forms.Padding(0);
             this.picVals.Name = "picVals";
-            this.picVals.ResourceImage = null;
             this.picVals.Size = new System.Drawing.Size(240, 50);
-            this.picVals.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picVals.TabIndex = 3;
             this.picVals.TabStop = false;
-            this.picVals.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
             // MovieThumb
             // 
@@ -121,6 +116,6 @@
         private MoviePicture picPoster;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel pnlBar;
-        private MoviePicture picVals;
+        private MovieLabel picVals;
     }
 }

@@ -99,6 +99,11 @@ namespace KnkCore
             return (int?)value?._value??0;
         }
 
+        public static implicit operator KnkEntityReference<Tref>(Tref value)
+        {
+            return new KnkEntityReference<Tref>(value);
+        }
+
         public static implicit operator KnkEntityReference<Tref>(int? value)
         {
             return new KnkEntityReference<Tref>(value);

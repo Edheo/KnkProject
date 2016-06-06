@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MovieWall));
             this.pnlSearch = new System.Windows.Forms.Panel();
             this.tblCriterias = new System.Windows.Forms.TableLayoutPanel();
             this.cmbSaga = new System.Windows.Forms.ComboBox();
@@ -40,12 +39,13 @@
             this.chkViewed = new System.Windows.Forms.CheckBox();
             this.lblSearch = new System.Windows.Forms.Label();
             this.lblArtist = new System.Windows.Forms.Label();
-            this.pnlButtons = new System.Windows.Forms.Panel();
-            this.butScan = new KnkMovieForms.Usercontrols.MoviePicture();
-            this.btnClear = new KnkMovieForms.Usercontrols.MoviePicture();
-            this.btnSearch = new KnkMovieForms.Usercontrols.MoviePicture();
-            this.moviesWall = new KnkMovieForms.Usercontrols.MovieWallLayout();
             this.cmbSort = new System.Windows.Forms.ComboBox();
+            this.lblCount = new KnkMovieForms.Usercontrols.MovieLabel();
+            this.pnlButtons = new System.Windows.Forms.Panel();
+            this.butScan = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.moviesWall = new KnkMovieForms.Usercontrols.MovieWallLayout();
             this.pnlSearch.SuspendLayout();
             this.tblCriterias.SuspendLayout();
             this.pnlButtons.SuspendLayout();
@@ -80,6 +80,7 @@
             this.tblCriterias.Controls.Add(this.lblSearch, 0, 0);
             this.tblCriterias.Controls.Add(this.lblArtist, 2, 0);
             this.tblCriterias.Controls.Add(this.cmbSort, 4, 1);
+            this.tblCriterias.Controls.Add(this.lblCount, 4, 2);
             this.tblCriterias.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblCriterias.ForeColor = System.Drawing.Color.White;
             this.tblCriterias.Location = new System.Drawing.Point(0, 0);
@@ -96,7 +97,7 @@
             // 
             this.cmbSaga.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbSaga.FormattingEnabled = true;
-            this.cmbSaga.Location = new System.Drawing.Point(408, 33);
+            this.cmbSaga.Location = new System.Drawing.Point(408, 34);
             this.cmbSaga.Name = "cmbSaga";
             this.cmbSaga.Size = new System.Drawing.Size(237, 21);
             this.cmbSaga.TabIndex = 8;
@@ -105,10 +106,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(330, 36);
+            this.label2.Location = new System.Drawing.Point(330, 37);
             this.label2.Margin = new System.Windows.Forms.Padding(6);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 18);
+            this.label2.Size = new System.Drawing.Size(69, 19);
             this.label2.TabIndex = 7;
             this.label2.Text = "Saga";
             // 
@@ -116,7 +117,7 @@
             // 
             this.cmbGenres.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbGenres.FormattingEnabled = true;
-            this.cmbGenres.Location = new System.Drawing.Point(84, 33);
+            this.cmbGenres.Location = new System.Drawing.Point(84, 34);
             this.cmbGenres.Name = "cmbGenres";
             this.cmbGenres.Size = new System.Drawing.Size(237, 21);
             this.cmbGenres.TabIndex = 6;
@@ -125,10 +126,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(6, 36);
+            this.label1.Location = new System.Drawing.Point(6, 37);
             this.label1.Margin = new System.Windows.Forms.Padding(6);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 18);
+            this.label1.Size = new System.Drawing.Size(69, 19);
             this.label1.TabIndex = 5;
             this.label1.Text = "Genre";
             // 
@@ -159,7 +160,7 @@
             this.chkViewed.Location = new System.Drawing.Point(654, 6);
             this.chkViewed.Margin = new System.Windows.Forms.Padding(6);
             this.chkViewed.Name = "chkViewed";
-            this.chkViewed.Size = new System.Drawing.Size(150, 18);
+            this.chkViewed.Size = new System.Drawing.Size(150, 19);
             this.chkViewed.TabIndex = 4;
             this.chkViewed.Text = "Viewed";
             this.chkViewed.ThreeState = true;
@@ -182,9 +183,38 @@
             this.lblArtist.Location = new System.Drawing.Point(330, 6);
             this.lblArtist.Margin = new System.Windows.Forms.Padding(6);
             this.lblArtist.Name = "lblArtist";
-            this.lblArtist.Size = new System.Drawing.Size(69, 18);
+            this.lblArtist.Size = new System.Drawing.Size(69, 19);
             this.lblArtist.TabIndex = 2;
             this.lblArtist.Text = "Artist";
+            // 
+            // cmbSort
+            // 
+            this.cmbSort.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbSort.FormattingEnabled = true;
+            this.cmbSort.Location = new System.Drawing.Point(651, 34);
+            this.cmbSort.Name = "cmbSort";
+            this.cmbSort.Size = new System.Drawing.Size(156, 21);
+            this.cmbSort.TabIndex = 9;
+            // 
+            // lblCount
+            // 
+            this.lblCount.BackColor = System.Drawing.Color.Black;
+            this.lblCount.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.lblCount.Caption = null;
+            this.lblCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblCount.FontColorCaption = System.Drawing.Color.White;
+            this.lblCount.FontColorText = System.Drawing.Color.CornflowerBlue;
+            this.lblCount.FontName = "Verdana";
+            this.lblCount.FontSizeCaption = null;
+            this.lblCount.FontSizeText = null;
+            this.lblCount.FontstyleCaption = System.Drawing.FontStyle.Bold;
+            this.lblCount.FontstyleText = System.Drawing.FontStyle.Regular;
+            this.lblCount.Horizontal = false;
+            this.lblCount.Location = new System.Drawing.Point(652, 65);
+            this.lblCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.lblCount.Name = "lblCount";
+            this.lblCount.Size = new System.Drawing.Size(154, 25);
+            this.lblCount.TabIndex = 10;
             // 
             // pnlButtons
             // 
@@ -200,85 +230,49 @@
             // 
             // butScan
             // 
-            this.butScan.BackColor = System.Drawing.Color.Black;
-            this.butScan.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.butScan.Caption = null;
+            this.butScan.BackColor = System.Drawing.Color.Transparent;
+            this.butScan.BackgroundImage = global::KnkMovieForms.Properties.Resources.btnScan_ResourceImage;
+            this.butScan.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.butScan.Dock = System.Windows.Forms.DockStyle.Left;
-            this.butScan.FactorSize = 1F;
-            this.butScan.Filename = null;
-            this.butScan.FontColorCaption = System.Drawing.Color.White;
-            this.butScan.FontColorText = System.Drawing.Color.White;
-            this.butScan.FontName = "Verdana";
-            this.butScan.FontSize = 10;
-            this.butScan.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.butScan.FontstyleText = System.Drawing.FontStyle.Bold;
-            this.butScan.IsButton = true;
-            this.butScan.LineAlignment = System.Drawing.StringAlignment.Far;
+            this.butScan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.butScan.Location = new System.Drawing.Point(0, 0);
             this.butScan.Name = "butScan";
             this.butScan.Padding = new System.Windows.Forms.Padding(5);
-            this.butScan.RemarkColor = System.Drawing.Color.Black;
-            this.butScan.ResourceImage = ((System.Drawing.Image)(resources.GetObject("butScan.ResourceImage")));
             this.butScan.Size = new System.Drawing.Size(41, 41);
-            this.butScan.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.butScan.TabIndex = 7;
             this.butScan.TabStop = false;
-            this.butScan.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.butScan.UseVisualStyleBackColor = false;
             this.butScan.Click += new System.EventHandler(this.butScan_Load);
             // 
             // btnClear
             // 
-            this.btnClear.BackColor = System.Drawing.Color.Black;
-            this.btnClear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnClear.Caption = null;
+            this.btnClear.BackColor = System.Drawing.Color.Transparent;
+            this.btnClear.BackgroundImage = global::KnkMovieForms.Properties.Resources.Delete;
+            this.btnClear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnClear.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnClear.FactorSize = 1F;
-            this.btnClear.Filename = null;
-            this.btnClear.FontColorCaption = System.Drawing.Color.White;
-            this.btnClear.FontColorText = System.Drawing.Color.White;
-            this.btnClear.FontName = "Verdana";
-            this.btnClear.FontSize = 10;
-            this.btnClear.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.btnClear.FontstyleText = System.Drawing.FontStyle.Bold;
-            this.btnClear.IsButton = true;
-            this.btnClear.LineAlignment = System.Drawing.StringAlignment.Far;
-            this.btnClear.Location = new System.Drawing.Point(687, 0);
+            this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClear.Location = new System.Drawing.Point(728, 0);
             this.btnClear.Name = "btnClear";
             this.btnClear.Padding = new System.Windows.Forms.Padding(5);
-            this.btnClear.RemarkColor = System.Drawing.Color.Black;
-            this.btnClear.ResourceImage = ((System.Drawing.Image)(resources.GetObject("btnClear.ResourceImage")));
             this.btnClear.Size = new System.Drawing.Size(41, 41);
-            this.btnClear.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnClear.TabIndex = 6;
             this.btnClear.TabStop = false;
-            this.btnClear.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.btnClear.UseVisualStyleBackColor = false;
             // 
             // btnSearch
             // 
-            this.btnSearch.BackColor = System.Drawing.Color.Black;
-            this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnSearch.Caption = null;
+            this.btnSearch.BackColor = System.Drawing.Color.Transparent;
+            this.btnSearch.BackgroundImage = global::KnkMovieForms.Properties.Resources.Home;
+            this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSearch.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnSearch.FactorSize = 2F;
-            this.btnSearch.Filename = null;
-            this.btnSearch.FontColorCaption = System.Drawing.Color.White;
-            this.btnSearch.FontColorText = System.Drawing.Color.White;
-            this.btnSearch.FontName = "Verdana";
-            this.btnSearch.FontSize = 10;
-            this.btnSearch.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.btnSearch.FontstyleText = System.Drawing.FontStyle.Bold;
-            this.btnSearch.IsButton = true;
-            this.btnSearch.LineAlignment = System.Drawing.StringAlignment.Far;
-            this.btnSearch.Location = new System.Drawing.Point(728, 0);
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.Location = new System.Drawing.Point(769, 0);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Padding = new System.Windows.Forms.Padding(5);
-            this.btnSearch.RemarkColor = System.Drawing.Color.Black;
-            this.btnSearch.ResourceImage = ((System.Drawing.Image)(resources.GetObject("btnSearch.ResourceImage")));
-            this.btnSearch.Size = new System.Drawing.Size(82, 41);
-            this.btnSearch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.btnSearch.Size = new System.Drawing.Size(41, 41);
             this.btnSearch.TabIndex = 5;
             this.btnSearch.TabStop = false;
-            this.btnSearch.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.btnSearch.UseVisualStyleBackColor = false;
             // 
             // moviesWall
             // 
@@ -288,15 +282,6 @@
             this.moviesWall.Name = "moviesWall";
             this.moviesWall.Size = new System.Drawing.Size(810, 403);
             this.moviesWall.TabIndex = 1;
-            // 
-            // cmbSort
-            // 
-            this.cmbSort.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbSort.FormattingEnabled = true;
-            this.cmbSort.Location = new System.Drawing.Point(651, 33);
-            this.cmbSort.Name = "cmbSort";
-            this.cmbSort.Size = new System.Drawing.Size(156, 21);
-            this.cmbSort.TabIndex = 9;
             // 
             // MovieWall
             // 
@@ -331,9 +316,10 @@
         private System.Windows.Forms.ComboBox cmbSaga;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel pnlButtons;
-        private MoviePicture btnClear;
-        private MoviePicture btnSearch;
-        private MoviePicture butScan;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Button butScan;
         private System.Windows.Forms.ComboBox cmbSort;
+        private MovieLabel lblCount;
     }
 }

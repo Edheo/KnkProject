@@ -30,12 +30,14 @@ namespace KnkMovieForms.Usercontrols
         {
             InitializeComponent();
             InitComboSort();
-            btnClear.Factor(new System.Drawing.Size(1, 1));
-            btnSearch.Factor(new System.Drawing.Size(1, 1));
-            _Initialized = true;
-            btnSearch.AnimationStop();
-            moviesWall.LoadingItems += (s, e) => { OnStart(); };
+            //moviesWall.LoadingItems += (s, e) => { OnStart(); };
             moviesWall.LoadedItems += (s, e) => { OnFinish(); };
+            _Initialized = true;
+        }
+
+        private void OnFinish()
+        {
+            lblCount.Text = $"{moviesWall.LoadedMovies()}/{_Movies.Count()}";
         }
 
         public MovieWall(KnkConnection aCon) : this()
@@ -50,17 +52,6 @@ namespace KnkMovieForms.Usercontrols
             cmbSort.DisplayMember = "Key";
             cmbSort.ValueMember = "Value";
             cmbSort.SelectedValue = "CreationDate:Desc";
-        }
-
-        private void OnStart()
-        {
-            btnSearch.AnimationStart();
-        }
-
-        private void OnFinish()
-        {
-            btnSearch.Caption = $"{moviesWall.LoadedMovies()}/{_Movies.Count()}";
-            btnSearch.AnimationStop();
         }
 
         private void LoadMovies(Movies aMovies)

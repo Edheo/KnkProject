@@ -30,6 +30,7 @@ namespace KnkScrapers.Classes
         internal readonly Countries Countries;
         internal readonly Languages Languages;
         internal readonly Castings Castings;
+        internal readonly CastingTypes CastingTypes;
 
         public EnrichCollections(KnkConnectionItf aCon, string aLibraryType)
         {
@@ -56,6 +57,7 @@ namespace KnkScrapers.Classes
             Countries = new Countries(aCon);
             Languages = new Languages(aCon);
             Castings = new Castings(aCon);
+            CastingTypes = new CastingTypes(aCon);
         }
 
         public List<KnkChangeDescriptorItf> StartScan()
@@ -142,7 +144,7 @@ namespace KnkScrapers.Classes
                 lDst.ScrapedDate = DateTime.Now;
                 FillUser(lDst, aMovieDst.Connection().CurrentUser());                                           //  It belongs to the user
                 FillFile(lDst, aFomFile);                                       //  File from library
-                FillOverviews(lDst, lOrg.Overview);                             //	string					Overview
+                FillSummaries(lDst, lOrg.Overview);                             //	string					Overview
                 FillGenres(lDst, lOrg.Genres.ToList());                         //	IEnumerable<Genre>		Genres
                 FillCompanies(lDst, lOrg.Companies.ToList());                   //	IEnumerable<Company>	Companies
                 FillCountries(lDst, lOrg.Countries.ToList());                   //	IEnumerable<Country>	Countries
@@ -173,24 +175,61 @@ namespace KnkScrapers.Classes
             {
                 CheckMovieCasting(lItm, aMovie);
             }
+            foreach (var lItm in aCredits.Crew)
+            {
+                CheckMovieCasting(lItm, aMovie);
+            }
+        }
+
+        CastingType CheckCastingType(string aType)
+        {
+            var lFound = CastingTypes.Items.Where(g => g.Type.ToLower().Equals(aType.ToLower())).FirstOrDefault();
+            var lReturn = lFound;
+            if (lFound == null)
+            {
+                lReturn = CastingTypes.Create();
+                lReturn.Type = aType;
+            }
+            return lReturn;
         }
 
         MovieCasting CheckMovieCasting(System.Net.TMDb.MediaCast aItem, Movie aMovie)
         {
-            var lFound = aMovie.Casting().Items.Where(g => g.Casting.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
+            var lType = CheckCastingType("Actor");
+            var lFound = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && g.Casting.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
             var lReturn = lFound;
             if (lFound == null)
             {
                 lReturn = aMovie.Casting().Create();
                 lReturn.Movie = aMovie;
             }
+            lReturn.IdCastingType = lType;
+            lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
             lReturn.Casting = CheckCasting(aItem);
             lReturn.Role = aItem.Character;
             lReturn.Update("Scraper checked Movie Casting");
             return lReturn;
         }
 
-        Casting CheckCasting(System.Net.TMDb.MediaCast aItem)
+        MovieCasting CheckMovieCasting(System.Net.TMDb.MediaCrew aItem, Movie aMovie)
+        {
+            var lType = CheckCastingType(aItem.Job);
+            var lFound = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && g.Casting.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
+            var lReturn = lFound;
+            if (lFound == null)
+            {
+                lReturn = aMovie.Casting().Create();
+                lReturn.Movie = aMovie;
+            }
+            lReturn.IdCastingType = lType;
+            lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
+            lReturn.Casting = CheckCasting(aItem);
+            lReturn.Role = aItem.Job;
+            lReturn.Update("Scraper checked Movie Casting");
+            return lReturn;
+        }
+
+        Casting CheckCasting(System.Net.TMDb.MediaCredit aItem)
         {
             var lChk = Castings.Items.Where(g => g.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
             if (lChk == null)
@@ -198,8 +237,20 @@ namespace KnkScrapers.Classes
                 lChk = Castings.Create();
             }
             lChk.ArtistName = aItem.Name;
+            if (aItem.Person != null)
+            {
+                lChk.BirthDay = aItem.Person.BirthDay;
+                lChk.DeathDay = aItem.Person.DeathDay;
+                lChk.BirthPlace = aItem.Person.BirthPlace;
+                lChk.ImdbId = aItem.Person.External.Imdb;
+                lChk.TmdbId = aItem.Person.Id.ToString();
+                lChk.TvdbId = aItem.Person.External.Tvdb?.ToString();
+                FillBiography(lChk, aItem.Person.Biography);
+                FillNames(lChk, aItem.Person);
+                foreach (var lImg in aItem.Person.Images.Results)
+                    CheckMediaLink(lImg.FilePath, null, lChk, 1);
+            }
             lChk.Update("Scraper checked Casting");
-            CheckMediaLink(aItem.Profile, null, lChk, 1);
             return lChk;
         }
 
@@ -450,10 +501,44 @@ namespace KnkScrapers.Classes
             return lReturn;
         }
 
-        void FillOverviews(Movie aMovie, string aOverviews)
+        void FillBiography(Casting aCasting, string aBiography)
+        {
+            var lBio = aCasting.Biography();
+            lBio.DeleteAll("Scrap replaces old Biography");
+            string[] lines = aBiography?.Split(new string[] { ". " }, StringSplitOptions.None);
+            if (lines != null)
+            {
+                int lOrdinal = 1;
+                foreach (var lLine in lines)
+                {
+                    var lLin = lBio.Create();
+                    lLin.Casting = aCasting;
+                    lLin.Ordinal = lOrdinal;
+                    lLin.Text = lLine + ".";
+                    lLin.Update("Scraper added Biography");
+                }
+            }
+        }
+
+        void FillNames(Casting aCasting, System.Net.TMDb.Person aPerson)
+        {
+            var lNam = aCasting.Names();
+            lNam.DeleteAll("Scraper replaces old Names");
+            foreach (var lNamPer in aPerson.KnownAs)
+            {
+                var Found = lNam.Items.Find(n => n.Name.ToLower().Equals(lNamPer.ToLower()));
+                if (Found == null) Found = lNam.Create();
+                Found.Casting = aCasting;
+                Found.Name = lNamPer;
+                Found.Update("Scraper added Name");
+            }
+        }
+
+
+        void FillSummaries(Movie aMovie, string aOverviews)
         {
             var lSum = aMovie.Summary();
-            lSum.DeleteAll("Scrap replaces old Summaries");
+            lSum.DeleteAll("Scraper replaces old Summaries");
             string[] lines = aOverviews?.Split(new string[] { ". " }, StringSplitOptions.None);
             if (lines != null)
             {
@@ -463,6 +548,7 @@ namespace KnkScrapers.Classes
                     var lLin = lSum.Create();
                     lLin.Ordinal = lOrdinal;
                     lLin.SummaryItem = lLine + ".";
+                    lLin.Update("Scraper added Sumary");
                 }
             }
         }
@@ -600,6 +686,7 @@ namespace KnkScrapers.Classes
             lResult = lResult.Union(Languages.ListOfChanges()).ToList();
             lResult = lResult.Union(Countries.ListOfChanges()).ToList();
             lResult = lResult.Union(Companies.ListOfChanges()).ToList();
+            lResult = lResult.Union(CastingTypes.ListOfChanges()).ToList();
             return lResult;
         }
 
@@ -611,6 +698,7 @@ namespace KnkScrapers.Classes
             Languages.SaveChanges();
             Countries.SaveChanges();
             Companies.SaveChanges();
+            CastingTypes.SaveChanges();
             Castings.SaveChanges();
             Movies.SaveChanges();
         }

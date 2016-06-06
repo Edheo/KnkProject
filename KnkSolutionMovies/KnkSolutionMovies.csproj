@@ -44,6 +44,8 @@
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Entities\Casting.cs" />
+    <Compile Include="Entities\CastingBiography.cs" />
+    <Compile Include="Entities\CastingName.cs" />
     <Compile Include="Entities\CastingType.cs" />
     <Compile Include="Entities\Company.cs" />
     <Compile Include="Entities\Country.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="Extenders\FileExtender.cs" />
     <Compile Include="Extenders\MediaLinkExtender.cs" />
     <Compile Include="Extenders\MovieExtender.cs" />
+    <Compile Include="Lists\CastingTypes.cs" />
     <Compile Include="Lists\Companies.cs" />
     <Compile Include="Lists\Countries.cs" />
     <Compile Include="Lists\Castings.cs" />

@@ -62,6 +62,12 @@
     <Compile Include="Usercontrols\MovieControl.Designer.cs">
       <DependentUpon>MovieControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Usercontrols\MovieLabel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Usercontrols\MovieLabel.Designer.cs">
+      <DependentUpon>MovieLabel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Usercontrols\MoviePicture.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -99,9 +105,13 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Usercontrols\MovieControl.resx">
       <DependentUpon>MovieControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Usercontrols\MovieLabel.resx">
+      <DependentUpon>MovieLabel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Usercontrols\MoviePicture.resx">
       <DependentUpon>MoviePicture.cs</DependentUpon>
@@ -177,6 +187,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Write.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btnScan.ResourceImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btnUpdates.ResourceImage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

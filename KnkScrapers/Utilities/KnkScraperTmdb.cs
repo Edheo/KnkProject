@@ -135,16 +135,15 @@ namespace KnkScrapers.Utilities
         {
             var movie = await aClient.Movies.GetAsync(aIdMovie, aLanguage, true, CancellationToken.None);
             movie.Images = await aClient.Movies.GetImagesAsync(movie.Id, null, CancellationToken.None);
-            //movie.Videos.Results = await aClient.Movies.GetVideosAsync(movie.Id, aLanguage, CancellationToken.None);
-
-            //var personIds = movie.Credits.Cast.Select(s => s.Id)
-            //    .Union(movie.Credits.Crew.Select(s => s.Id));
-
-            //foreach (var id in personIds)
-            //{
-            //    var person = await aClient.People.GetAsync(id, true, CancellationToken.None);
-            //}
-
+            movie.Videos.Results = await aClient.Movies.GetVideosAsync(movie.Id, aLanguage, CancellationToken.None);
+            foreach(var lCast in movie.Credits.Cast)
+            {
+                lCast.Person = await aClient.People.GetAsync(lCast.Id, true, CancellationToken.None);
+            }
+            foreach (var lCast in movie.Credits.Crew)
+            {
+                lCast.Person = await aClient.People.GetAsync(lCast.Id, true, CancellationToken.None);
+            }
             return movie;
         }
 

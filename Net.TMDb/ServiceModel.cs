@@ -548,9 +548,11 @@ namespace System.Net.TMDb
 
 		[DataMember(Name = "profile_path")]
 		public string Profile { get; internal set; }
-	}
 
-	[DataContract]
+        public Person Person { get; set; }
+    }
+
+    [DataContract]
 	public class MediaCast : MediaCredit
 	{
 		[DataMember(Name = "character")]

@@ -20,8 +20,9 @@ namespace System.Net.TMDb
 		private readonly string baseUrl;
 		private readonly HttpClient client;
 		private bool disposed = false;
+        private static DateTime? _LastRequest;
 
-		private static readonly JsonSerializerSettings jsonSettings;
+        private static readonly JsonSerializerSettings jsonSettings;
         private static readonly string[] externalSources;
 		
 		#region Constructors
@@ -51,6 +52,25 @@ namespace System.Net.TMDb
 			this.Reviews = new ReviewContext(this);
 			this.Settings = new SystemContext(this);
 		}
+
+        public static void WaitTime()
+        {
+            if(_LastRequest==null)
+            {
+                _LastRequest = DateTime.Now;
+                return;
+            }
+            else
+            {
+                while ((DateTime.Now - (DateTime)_LastRequest).TotalSeconds < 0.75)
+                {
+                    Thread.Sleep(1000);
+                }
+                _LastRequest = DateTime.Now;
+                return;
+            }
+
+        }
 
 		static ServiceClient()
 		{
@@ -201,7 +221,7 @@ namespace System.Net.TMDb
 		private Task<HttpResponseMessage> GetAsync(string cmd, IDictionary<string, object> parameters, CancellationToken cancellationToken)
 		{
 			TaskCompletionSource<HttpResponseMessage> tcs = new TaskCompletionSource<HttpResponseMessage>();
-
+            WaitTime();
 			this.client.GetAsync(CreateRequestUri(cmd, parameters),
 				HttpCompletionOption.ResponseHeadersRead, cancellationToken)
 				.ContinueWith(t => HandleResponseCompletion(t, tcs));
@@ -902,9 +922,10 @@ namespace System.Net.TMDb
 
 			public async Task<Person> GetAsync(int id, bool appendAll, CancellationToken cancellationToken)
 			{
-				string cmd = String.Format("person/{0}", id);
+                string cmd = String.Format("person/{0}", id);
 				var parameters = new Dictionary<string, object>();
 				if (appendAll) parameters.Add("append_to_response", "images,external_ids");
+                parameters.Add("language", "es-ES");
 
 				var response = await client.GetAsync(cmd, parameters, cancellationToken).ConfigureAwait(false);
 				return await Deserialize<Person>(response);
