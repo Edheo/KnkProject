@@ -12,12 +12,6 @@ namespace KnkSolutionMovies.Lists
 {
     public class MovieMovieSets : KnkList<Movie, MovieSet>
     {
-        //public MovieMovieSets(Movie aMovie)
-        //: base(aMovie.Connection(), new KnkCriteria<Movie, MovieSet>(aMovie, new KnkTableEntityRelation<Movie>("vieMovieMovieSets", "MovieSets")))
-        //{
-
-        //}
-
         public MovieMovieSets(KnkConnectionItf aConnection, string aName)
         : base(aConnection, KnkCoreUtils.BuildLikeCriteria<Movie, MovieSet>("Name", aName, "vieMovieMovieSets", "IdSet"))
         {

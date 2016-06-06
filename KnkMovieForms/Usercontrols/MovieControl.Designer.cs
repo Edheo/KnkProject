@@ -31,8 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MovieControl));
             this.tblPanel = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.picPoster = new KnkMovieForms.Usercontrols.MoviePicture();
+            this.picHead = new KnkMovieForms.Usercontrols.MoviePicture();
             this.btnClose = new KnkMovieForms.Usercontrols.MoviePicture();
+            this.picPoster = new KnkMovieForms.Usercontrols.MoviePicture();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,12 +49,13 @@
             this.tblPanel.Location = new System.Drawing.Point(200, 32);
             this.tblPanel.Name = "tblPanel";
             this.tblPanel.RowCount = 1;
-            this.tblPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tblPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 449F));
             this.tblPanel.Size = new System.Drawing.Size(287, 449);
             this.tblPanel.TabIndex = 4;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.picHead);
             this.panel1.Controls.Add(this.btnClose);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -61,31 +63,31 @@
             this.panel1.Size = new System.Drawing.Size(487, 32);
             this.panel1.TabIndex = 0;
             // 
-            // picPoster
+            // picHead
             // 
-            this.picPoster.BackColor = System.Drawing.Color.Black;
-            this.picPoster.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.picPoster.Caption = null;
-            this.picPoster.Dock = System.Windows.Forms.DockStyle.Left;
-            this.picPoster.FactorSize = 0F;
-            this.picPoster.Filename = null;
-            this.picPoster.FontColorCaption = System.Drawing.Color.White;
-            this.picPoster.FontColorText = System.Drawing.Color.White;
-            this.picPoster.FontName = "Verdana";
-            this.picPoster.FontSize = null;
-            this.picPoster.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.picPoster.FontstyleText = System.Drawing.FontStyle.Regular;
-            this.picPoster.IsButton = false;
-            this.picPoster.LineAlignment = System.Drawing.StringAlignment.Center;
-            this.picPoster.Location = new System.Drawing.Point(0, 32);
-            this.picPoster.Name = "picPoster";
-            this.picPoster.RemarkColor = System.Drawing.Color.Red;
-            this.picPoster.ResourceImage = null;
-            this.picPoster.Size = new System.Drawing.Size(200, 449);
-            this.picPoster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
-            this.picPoster.TabIndex = 3;
-            this.picPoster.TabStop = false;
-            this.picPoster.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.picHead.BackColor = System.Drawing.Color.Black;
+            this.picHead.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.picHead.Caption = null;
+            this.picHead.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picHead.FactorSize = 0F;
+            this.picHead.Filename = null;
+            this.picHead.FontColorCaption = System.Drawing.Color.DeepSkyBlue;
+            this.picHead.FontColorText = System.Drawing.Color.PaleTurquoise;
+            this.picHead.FontName = "Verdana";
+            this.picHead.FontSize = null;
+            this.picHead.FontstyleCaption = System.Drawing.FontStyle.Bold;
+            this.picHead.FontstyleText = System.Drawing.FontStyle.Regular;
+            this.picHead.Horizontal = true;
+            this.picHead.IsButton = false;
+            this.picHead.LineAlignment = System.Drawing.StringAlignment.Far;
+            this.picHead.Location = new System.Drawing.Point(0, 0);
+            this.picHead.Name = "picHead";
+            this.picHead.RemarkColor = System.Drawing.Color.Red;
+            this.picHead.ResourceImage = null;
+            this.picHead.Size = new System.Drawing.Size(455, 32);
+            this.picHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
+            this.picHead.TabIndex = 4;
+            this.picHead.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
             // btnClose
             // 
@@ -101,6 +103,7 @@
             this.btnClose.FontSize = null;
             this.btnClose.FontstyleCaption = System.Drawing.FontStyle.Bold;
             this.btnClose.FontstyleText = System.Drawing.FontStyle.Regular;
+            this.btnClose.Horizontal = false;
             this.btnClose.IsButton = true;
             this.btnClose.LineAlignment = System.Drawing.StringAlignment.Center;
             this.btnClose.Location = new System.Drawing.Point(455, 0);
@@ -113,6 +116,33 @@
             this.btnClose.TabIndex = 3;
             this.btnClose.TextAlignment = System.Drawing.StringAlignment.Center;
             this.btnClose.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // picPoster
+            // 
+            this.picPoster.BackColor = System.Drawing.Color.Black;
+            this.picPoster.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.picPoster.Caption = null;
+            this.picPoster.Dock = System.Windows.Forms.DockStyle.Left;
+            this.picPoster.FactorSize = 0F;
+            this.picPoster.Filename = null;
+            this.picPoster.FontColorCaption = System.Drawing.Color.White;
+            this.picPoster.FontColorText = System.Drawing.Color.White;
+            this.picPoster.FontName = "Verdana";
+            this.picPoster.FontSize = null;
+            this.picPoster.FontstyleCaption = System.Drawing.FontStyle.Bold;
+            this.picPoster.FontstyleText = System.Drawing.FontStyle.Regular;
+            this.picPoster.Horizontal = false;
+            this.picPoster.IsButton = false;
+            this.picPoster.LineAlignment = System.Drawing.StringAlignment.Center;
+            this.picPoster.Location = new System.Drawing.Point(0, 32);
+            this.picPoster.Name = "picPoster";
+            this.picPoster.RemarkColor = System.Drawing.Color.Red;
+            this.picPoster.ResourceImage = null;
+            this.picPoster.Size = new System.Drawing.Size(200, 449);
+            this.picPoster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
+            this.picPoster.TabIndex = 3;
+            this.picPoster.TabStop = false;
+            this.picPoster.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
             // MovieControl
             // 
@@ -134,5 +164,6 @@
         private System.Windows.Forms.TableLayoutPanel tblPanel;
         private System.Windows.Forms.Panel panel1;
         private MoviePicture btnClose;
+        private MoviePicture picHead;
     }
 }

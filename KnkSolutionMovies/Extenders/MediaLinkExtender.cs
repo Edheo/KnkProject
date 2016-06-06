@@ -18,16 +18,9 @@ namespace KnkSolutionMovies.Extenders
             _MediaLink = aMediaThumb;
         }
 
-        public string GetImageUri()
-        {
-            XmlDocument lXml = new XmlDocument();
-            lXml.LoadXml(_MediaLink.Link);
-            return lXml.InnerText;
-        }
-
         public string GetFileName()
         {
-            string lFrom = GetImageUri();
+            string lFrom = _MediaLink.ToString();
             KnkConnection lConf = _MediaLink.Connection() as KnkConnection;
             string lFolder = lConf.Configuration().GetMediaFolder(typeof(Movie));
 

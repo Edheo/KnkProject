@@ -27,9 +27,11 @@ namespace KnkMovieForms.Usercontrols
         private void SetMovie(Movie aMovie)
         {
             _Movie = aMovie;
+            picHead.Caption = _Movie.Year?.ToString();
+            picHead.Text = _Movie.Title;
             tblPanel.RowStyles.Clear();
             picPoster.Filename = _Movie.Extender.Poster?.Extender.GetFileName();
-            AddTagInfo("Title", $"{_Movie.Title}", "Original Title", $"{_Movie.OriginalTitle}");
+            //AddTagInfo("Title", $"{_Movie.Title}", "Original Title", $"{_Movie.OriginalTitle}");
             AddTagInfo("Year", $"{_Movie.Year}");
             AddTagInfo("Date Added", $"{_Movie.CreationDate:dd/MM/yyyy}", "Saga", $"{_Movie.MovieSet}");
             AddTagInfo("Genre", $"{_Movie.Extender.Genres}", "Country", $"{_Movie.Extender.Countries}");

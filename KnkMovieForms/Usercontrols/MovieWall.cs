@@ -185,10 +185,8 @@ namespace KnkMovieForms.Usercontrols
 
         private void GenerateCriteria()
         {
-            KnkCriteria<Movie, Movie> lCri = null;
-            //KnkCoreUtils.CreateInParameter(new MovieCastings(_Movies.Connection, cmbArtist.Text), lCri, "IdMovie");
-
-            lCri = new KnkCriteria<Movie, Movie>(new Movie(), new KnkTableEntity("vieMovies", "Movies"));
+            KnkCriteria<Movie, Movie> lCri = new KnkCriteria<Movie, Movie>(new Movie(), new KnkTableEntity("vieMovies", "Movies"));
+            KnkCoreUtils.CreateInParameter(new MovieUsers(_Connection), lCri, "IdMovie");
             if (!string.IsNullOrEmpty(txtSearch.Text))
             {
                 string[] lSearch = txtSearch.Text.Split(' ');
@@ -204,28 +202,28 @@ namespace KnkMovieForms.Usercontrols
 
             if (!string.IsNullOrEmpty(cmbArtist.Text))
             {
-                KnkCoreUtils.CreateInParameter(new MovieCastings(_Connection, cmbArtist.Text), lCri, "IdMovie");
+                KnkCoreUtils.CreateInParameter(new MovieCastings(_Connection, $"%{cmbArtist.Text}%"), lCri, "IdMovie");
             }
 
             if (!string.IsNullOrEmpty(cmbGenres.Text))
             {
-                KnkCoreUtils.CreateInParameter(new MovieGenres(_Connection, cmbGenres.Text), lCri, "IdMovie");
+                KnkCoreUtils.CreateInParameter(new MovieGenres(_Connection, $"%{cmbGenres.Text}%"), lCri, "IdMovie");
             }
 
             if (!string.IsNullOrEmpty(cmbSaga.Text))
             {
-                KnkCoreUtils.CreateInParameter(new MovieMovieSets(_Connection, cmbSaga.Text), lCri, "IdMovie");
+                KnkCoreUtils.CreateInParameter(new MovieMovieSets(_Connection, $"%{cmbSaga.Text}%"), lCri, "IdMovie");
             }
 
             if (!chkViewed.CheckState.Equals(CheckState.Indeterminate))
             {
                 if(chkViewed.Checked)
                 {
-                    lCri.AddParameter(typeof(int), "Plays", OperatorsEnu.GreatThan, $"0");
+                    lCri.AddParameter(typeof(int), "ViewedTimes", OperatorsEnu.GreatThan, $"0");
                 }
                 else
                 {
-                    lCri.AddParameter(typeof(int), "Plays", OperatorsEnu.LowerThan, $"1");
+                    lCri.AddParameter(typeof(int), "ViewedTimes", OperatorsEnu.LowerThan, $"1");
                 }
             }
             if (!lCri.HasParameters())

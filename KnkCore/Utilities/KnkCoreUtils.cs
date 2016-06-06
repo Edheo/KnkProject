@@ -123,8 +123,15 @@ namespace KnkCore.Utilities
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
+            return BuildCriteria<Tdad, Tlst>(aField, OperatorsEnu.Like, aValue, aTable, aFieldId);
+        }
+
+        public static KnkCriteria<Tdad, Tlst> BuildCriteria<Tdad, Tlst>(string aField, OperatorsEnu aOperator, object aValue, string aTable, string aFieldId)
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
             KnkCriteria<Tdad, Tlst> lCri = new KnkCriteria<Tdad, Tlst>(new Tdad(), new KnkTableEntityRelation<Tdad>(aTable, aFieldId));
-            lCri.AddParameter(typeof(string), aField, OperatorsEnu.Like, $"%{aValue}%");
+            lCri.AddParameter(typeof(string), aField, aOperator, aValue);
             return lCri;
         }
 

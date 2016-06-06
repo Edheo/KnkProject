@@ -22,7 +22,9 @@ namespace KnkSolutionMovies.Entities
         public KnkEntityReference<Casting> IdCasting { get; set; }
         public KnkEntityIdentifier IdType { get; set; }
         public int Ordinal { get; set; }
-        public string Link { get; set; }
+        public string Site { get; set; }
+        public string SiteThumbnail { get; set; }
+        public string Value { get; set; }
         #endregion Class Properties
 
         public Movie Movie { get { return IdMovie?.Value; } set { IdMovie = new KnkEntityReference<Movie>(value); } }
@@ -30,7 +32,7 @@ namespace KnkSolutionMovies.Entities
 
         public override string ToString()
         {
-            return Link??string.Empty;
+            return string.Format(Site, Value);
         }
 
     }

@@ -29,6 +29,8 @@ namespace KnkMovieForms.Usercontrols
         private PictureBoxSizeMode _SizeMode;
         public bool _isButton;
 
+        private bool _horizontal;
+
         public MoviePicture()
         {
             InitializeComponent();
@@ -41,6 +43,7 @@ namespace KnkMovieForms.Usercontrols
         public string FontName { get { return _FontName; } set { _FontName = value; } }
         public FontStyle FontstyleCaption { get { return _FontstyleCaption; } set { _FontstyleCaption = value; } }
         public FontStyle FontstyleText { get { return _FontstyleText; } set { _FontstyleText = value; } }
+        public bool Horizontal { get { return _horizontal; } set { _horizontal = value; } }
         [Description("Caption"), Category("Data")]
         public string Caption
         {
@@ -150,13 +153,21 @@ namespace KnkMovieForms.Usercontrols
                 {
                     var lSize = aGraphics.MeasureString(Caption, lFontBase);
                     float lFontScale = 1;
-                    if (lSize.Width > lRectangle.Width) lFontScale = lSize.Width / lRectangle.Width;
+                    if (!Horizontal) { if (lSize.Width > lRectangle.Width) lFontScale = lSize.Width / lRectangle.Width; }
+                    else lRectangle = new Rectangle(0, 0, (int)lSize.Width, lRectangle.Height);
+
                     using (Font lFont = new Font(lFontBase.FontFamily, lFontBase.SizeInPoints / lFontScale, this.FontstyleCaption, GraphicsUnit.Point))
                     {
                         aGraphics.DrawString(Caption, lFont, new SolidBrush(FontColorCaption), lRectangle, lFormat);
                     }
-                    lRectangle.Size = new Size(lRectangle.Size.Width, lRectangle.Size.Height - (int)lSize.Height);
-                    lRectangle.Location = new Point(lRectangle.Location.X, lRectangle.Location.Y + (int)lSize.Height);
+                    if (!Horizontal)
+                    {
+                        lRectangle = new Rectangle(0, (int)lSize.Height, ClientRectangle.Width, ClientRectangle.Height - (int)lSize.Height);
+                    }
+                    else
+                    {
+                        lRectangle = new Rectangle(lRectangle.Width, 0, ClientRectangle.Width - (int)lSize.Width, ClientRectangle.Height);
+                    }
                 }
             }
             if (!string.IsNullOrEmpty(Text))

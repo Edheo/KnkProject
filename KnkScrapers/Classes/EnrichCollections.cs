@@ -128,8 +128,8 @@ namespace KnkScrapers.Classes
                 lDst.Seconds = lOrg.Runtime * 60;                               //	int?					Runtime
                 //	AlternativeTitles		AlternativeTitles                   Will not be imported
                 FillCasting(lDst, lOrg.Credits);                                //	MediaCredits			Credits
-                FillMediaLinks(lDst, lOrg.Images);                              //	Images					Images
-                //	Videos					Videos
+                FillMediaLinks(lDst, lOrg.Images, lOrg.Videos);                 //	Images					Images
+                                                                                //	Videos					Videos
                 lDst.TrailerUrl = lOrg.Videos.Results.FirstOrDefault()?.Site;
                 //	Keywords				Keywords
                 //	Releases				Releases
@@ -203,7 +203,7 @@ namespace KnkScrapers.Classes
             return lChk;
         }
 
-        void FillMediaLinks(Movie aMovie, System.Net.TMDb.Images aImages)
+        void FillMediaLinks(Movie aMovie, System.Net.TMDb.Images aImages, System.Net.TMDb.Videos aVideos)
         {
             aMovie.Pictures().DeleteAll("Scrap replaces old images");
             foreach (var lItem in aImages.Posters.ToList())
@@ -214,23 +214,39 @@ namespace KnkScrapers.Classes
             {
                 CheckMediaLink(lItem.FilePath, aMovie, null, 2); //Fanarts
             }
+            foreach (var lItem in aVideos.Results.ToList())
+            {
+                CheckMediaLink(lItem.Key, aMovie, null, 3); //Videos
+            }
         }
 
         MediaLink CheckMediaLink(string aUrl, Movie aMovie, Casting aCasting, int aidType)
         {
-            //sample=<thumb aspect="poster" preview="http://image.tmdb.org/t/p/w500/ivdzLXCVgPUyjphKbbB40z8FQp8.jpg">http://image.tmdb.org/t/p/original/ivdzLXCVgPUyjphKbbB40z8FQp8.jpg</thumb>
-            string lBuiUrl = $"<thumb aspect=\"poster\" preview=\"http://image.tmdb.org/t/p/w500{aUrl}\">http://image.tmdb.org/t/p/original{aUrl}</thumb>";
+            string lValue = aUrl.Replace("/", "");
+            string lSite = "http://image.tmdb.org/t/p/original/{0}";
+            string lSiteThumbnail = "http://image.tmdb.org/t/p/w500/{0}";
+            if(aidType.Equals(3))
+            {
+                lSite = "https://www.youtube.com/watch?v={0}";
+                lSiteThumbnail = "http://img.youtube.com/vi/{0}/default.jpg";
+            }
+
             MediaLink lFound = null;
             int lMax = 0;
             if (aMovie != null)
             {
-                lFound = aMovie.Pictures().Items.Where(g => g.ToString().ToLower().Equals(lBuiUrl.ToLower())).FirstOrDefault();
+                lFound = aMovie.Pictures().Items.Where(g => g.ToString().ToLower().Equals(lValue.ToLower())).FirstOrDefault();
                 if (aMovie.Pictures().Items.Count > 0) lMax = aMovie.Pictures().Items.Max(p => p.Ordinal);
             }
-            if (aCasting != null && lFound == null)
+            if (aCasting != null)
             {
-                lFound = aCasting.Pictures().Items.Where(g => g.ToString().ToLower().Equals(lBuiUrl.ToLower())).FirstOrDefault();
-                if (aCasting.Pictures().Items.Count > 0) lMax = aCasting.Pictures().Items.Max(p => p.Ordinal);
+                //lSite = "http://thetvdb.com/banners/actors/{0}";
+                //lSiteThumbnail = "http://image.tmdb.org/t/p/w500/{0}";
+                if (lFound == null)
+                {
+                    lFound = aCasting.Pictures().Items.Where(g => g.ToString().ToLower().Equals(lValue.ToLower())).FirstOrDefault();
+                    if (aCasting.Pictures().Items.Count > 0) lMax = aCasting.Pictures().Items.Max(p => p.Ordinal);
+                }
             }
             var lReturn = lFound;
             if (lFound == null)
@@ -245,7 +261,9 @@ namespace KnkScrapers.Classes
                 lReturn.Ordinal = lMax + 1;
             }
             lReturn.IdType = aidType;
-            lReturn.Link = lBuiUrl;
+            lReturn.Site = lSite;
+            lReturn.SiteThumbnail = lSiteThumbnail;
+            lReturn.Value = lValue;
             lReturn.Update("Scraper checked Link");
             return lReturn;
         }

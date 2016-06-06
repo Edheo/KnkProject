@@ -13,15 +13,8 @@ namespace KnkSolutionMovies.Lists
     public class MovieGenres : KnkList<Movie, Genre>
     {
         public MovieGenres(KnkConnectionItf aConnection, string aGenre)
-        : base(aConnection, BuildCriteria(aGenre))
+        : base(aConnection, KnkCore.Utilities.KnkCoreUtils.BuildLikeCriteria<Movie, Genre>("GenreName", aGenre, "vieMovieGenres", "IdCasting"))
         {
-        }
-
-        private static KnkCriteria<Movie, Genre> BuildCriteria(string aGenre)
-        {
-            KnkCriteria<Movie, Genre> lCri = new KnkCriteria<Movie, Genre>(new Movie(), new KnkTableEntityRelation<Movie>("vieMovieGenres", "MovieGenres"));
-            lCri.AddParameter(typeof(string), "GenreName", OperatorsEnu.Like, $"%{aGenre}%");
-            return lCri;
         }
     }
 }
