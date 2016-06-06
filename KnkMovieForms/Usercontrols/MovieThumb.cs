@@ -41,9 +41,9 @@ namespace KnkMovieForms.Usercontrols
             //{
             //    lText = lText + $"\r\nUser Rating:{_Movie.UserRating:0.0} Value:{_Movie.Extender.AveragedRate:0.0}";
             //}
-            if (_Movie.Extender.Views.Count()>0)
+            if (_Movie.ViewedTimes>0)
             { 
-                lText = lText + $"\r\nLast:{_Movie.Extender.LastViewed():dd/MM/yyyy} Views:{_Movie.Extender.Views.Count()}";
+                lText = lText + $"\r\nLast:{_Movie.LastViewed:dd/MM/yyyy} Views:{_Movie.ViewedTimes}";
             }
             picVals.Text = lText;
         }

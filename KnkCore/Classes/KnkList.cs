@@ -55,9 +55,27 @@ namespace KnkCore
             }
         }
 
+        public string SortProperty { get; set; }
+
+        public bool SortDirectionAsc { get; set; }
+
         public virtual List<Tlst> Datasource()
         {
-            return Items;
+            List<Tlst> lRet = new List<Tlst>();
+            if (!string.IsNullOrEmpty(SortProperty))
+            {
+                if(SortDirectionAsc)
+                {
+                    lRet = (from itm in Items orderby itm.PropertyGet(SortProperty) select itm).ToList();
+                }
+                else
+                {
+                    lRet = (from itm in Items orderby itm.PropertyGet(SortProperty) descending select itm).ToList();
+                }
+            }
+            else
+                lRet = Items;
+            return lRet;
         }
 
         public KnkCriteriaItf<Tdad, Tlst> GetCriteria()

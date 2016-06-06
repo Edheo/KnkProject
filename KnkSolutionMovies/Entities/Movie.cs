@@ -52,6 +52,11 @@ namespace KnkSolutionMovies.Entities
         public DateTime? ScrapedDate { get; set; }
         #endregion
 
+        public DateTime? LastViewed { get; set; }
+        public int? ViewedTimes { get; set; }
+        public DateTime? LastPlayed { get; set; }
+        public int? PlayedTimes { get; set; }
+
         public MovieSet MovieSet { get { return IdSet?.Value; } set { IdSet = new KnkEntityReference<MovieSet>(value); } }
 
         public KnkEntityRelationItf<Movie, MovieUser> Users()

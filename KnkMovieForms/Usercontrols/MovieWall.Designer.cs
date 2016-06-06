@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MovieWall));
             this.pnlSearch = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tblCriterias = new System.Windows.Forms.TableLayoutPanel();
             this.cmbSaga = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbGenres = new System.Windows.Forms.ComboBox();
@@ -41,53 +41,56 @@
             this.lblSearch = new System.Windows.Forms.Label();
             this.lblArtist = new System.Windows.Forms.Label();
             this.pnlButtons = new System.Windows.Forms.Panel();
-            this.moviesWall = new KnkMovieForms.Usercontrols.MovieWallLayout();
             this.butScan = new KnkMovieForms.Usercontrols.MoviePicture();
             this.btnClear = new KnkMovieForms.Usercontrols.MoviePicture();
             this.btnSearch = new KnkMovieForms.Usercontrols.MoviePicture();
+            this.moviesWall = new KnkMovieForms.Usercontrols.MovieWallLayout();
+            this.cmbSort = new System.Windows.Forms.ComboBox();
             this.pnlSearch.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tblCriterias.SuspendLayout();
             this.pnlButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlSearch
             // 
             this.pnlSearch.BackColor = System.Drawing.Color.Black;
-            this.pnlSearch.Controls.Add(this.tableLayoutPanel1);
+            this.pnlSearch.Controls.Add(this.tblCriterias);
             this.pnlSearch.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlSearch.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnlSearch.Location = new System.Drawing.Point(0, 41);
             this.pnlSearch.Name = "pnlSearch";
-            this.pnlSearch.Size = new System.Drawing.Size(810, 62);
+            this.pnlSearch.Size = new System.Drawing.Size(810, 93);
             this.pnlSearch.TabIndex = 0;
             // 
-            // tableLayoutPanel1
+            // tblCriterias
             // 
-            this.tableLayoutPanel1.ColumnCount = 5;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.cmbSaga, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.cmbGenres, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.cmbArtist, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtSearch, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.chkViewed, 4, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblSearch, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblArtist, 2, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.ForeColor = System.Drawing.Color.White;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(810, 62);
-            this.tableLayoutPanel1.TabIndex = 2;
+            this.tblCriterias.ColumnCount = 5;
+            this.tblCriterias.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tblCriterias.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tblCriterias.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tblCriterias.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tblCriterias.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tblCriterias.Controls.Add(this.cmbSaga, 3, 1);
+            this.tblCriterias.Controls.Add(this.label2, 2, 1);
+            this.tblCriterias.Controls.Add(this.cmbGenres, 1, 1);
+            this.tblCriterias.Controls.Add(this.label1, 0, 1);
+            this.tblCriterias.Controls.Add(this.cmbArtist, 3, 0);
+            this.tblCriterias.Controls.Add(this.txtSearch, 1, 0);
+            this.tblCriterias.Controls.Add(this.chkViewed, 4, 0);
+            this.tblCriterias.Controls.Add(this.lblSearch, 0, 0);
+            this.tblCriterias.Controls.Add(this.lblArtist, 2, 0);
+            this.tblCriterias.Controls.Add(this.cmbSort, 4, 1);
+            this.tblCriterias.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblCriterias.ForeColor = System.Drawing.Color.White;
+            this.tblCriterias.Location = new System.Drawing.Point(0, 0);
+            this.tblCriterias.Name = "tblCriterias";
+            this.tblCriterias.RowCount = 4;
+            this.tblCriterias.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tblCriterias.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tblCriterias.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tblCriterias.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tblCriterias.Size = new System.Drawing.Size(810, 93);
+            this.tblCriterias.TabIndex = 2;
             // 
             // cmbSaga
             // 
@@ -195,15 +198,6 @@
             this.pnlButtons.Size = new System.Drawing.Size(810, 41);
             this.pnlButtons.TabIndex = 6;
             // 
-            // moviesWall
-            // 
-            this.moviesWall.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.moviesWall.Location = new System.Drawing.Point(0, 103);
-            this.moviesWall.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.moviesWall.Name = "moviesWall";
-            this.moviesWall.Size = new System.Drawing.Size(810, 434);
-            this.moviesWall.TabIndex = 1;
-            // 
             // butScan
             // 
             this.butScan.BackColor = System.Drawing.Color.Black;
@@ -286,6 +280,24 @@
             this.btnSearch.TabStop = false;
             this.btnSearch.TextAlignment = System.Drawing.StringAlignment.Center;
             // 
+            // moviesWall
+            // 
+            this.moviesWall.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.moviesWall.Location = new System.Drawing.Point(0, 134);
+            this.moviesWall.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.moviesWall.Name = "moviesWall";
+            this.moviesWall.Size = new System.Drawing.Size(810, 403);
+            this.moviesWall.TabIndex = 1;
+            // 
+            // cmbSort
+            // 
+            this.cmbSort.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbSort.FormattingEnabled = true;
+            this.cmbSort.Location = new System.Drawing.Point(651, 33);
+            this.cmbSort.Name = "cmbSort";
+            this.cmbSort.Size = new System.Drawing.Size(156, 21);
+            this.cmbSort.TabIndex = 9;
+            // 
             // MovieWall
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -297,8 +309,8 @@
             this.Size = new System.Drawing.Size(810, 537);
             this.SizeChanged += new System.EventHandler(this.MovieWall_SizeChanged);
             this.pnlSearch.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.tblCriterias.ResumeLayout(false);
+            this.tblCriterias.PerformLayout();
             this.pnlButtons.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -313,7 +325,7 @@
         private System.Windows.Forms.Label lblArtist;
         private System.Windows.Forms.ComboBox cmbArtist;
         private System.Windows.Forms.CheckBox chkViewed;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tblCriterias;
         private System.Windows.Forms.ComboBox cmbGenres;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbSaga;
@@ -322,5 +334,6 @@
         private MoviePicture btnClear;
         private MoviePicture btnSearch;
         private MoviePicture butScan;
+        private System.Windows.Forms.ComboBox cmbSort;
     }
 }

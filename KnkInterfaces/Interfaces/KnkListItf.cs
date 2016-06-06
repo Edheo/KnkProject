@@ -12,6 +12,9 @@ namespace KnkInterfaces.Interfaces
         bool SaveChanges();
         bool SaveChanges(UpdateStatusEnu aStatus);
         void Refresh();
+
+        string SortProperty { get; set; }
+        bool SortDirectionAsc { get; set; }
     }
 
     public interface KnkListItf<Tdad, Tlst> : KnkListItf

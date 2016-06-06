@@ -17,7 +17,6 @@ namespace KnkMovies
         public Form1()
         {
             InitializeComponent();
-            this.wallMovies.LoadMovies(new Movies(new KnkConnection()));
         }
     }
 }

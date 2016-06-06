@@ -91,7 +91,7 @@ namespace KnkMovieForms.Usercontrols
             this.flowMovies.SuspendLayout();
             int lMovies = LoadedMovies();
             int i = 1;
-            foreach (var lMovie in _Movies.Items)
+            foreach (var lMovie in _Movies.Datasource())
             {
                 if (i > lMovies)
                 {

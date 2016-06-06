@@ -48,20 +48,6 @@ namespace KnkSolutionMovies.Extenders
             }
         }
 
-        public List<FilePlay> Views
-        {
-            get
-            {
-                return _Movie.Plays().Items.Where(v => v.Finishedplay == true).ToList();
-            }
-        }
-
-        public DateTime? LastViewed()
-        {
-            var lLast = (from p in Views orderby p.DatePlay descending select p).FirstOrDefault();
-            return lLast?.DatePlay;
-        }
-
         public string Director()
         {
             string lRet = string.Empty;

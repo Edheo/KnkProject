@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.wallMovies = new KnkMovieForms.Usercontrols.MovieWall();
+            this.wallMovies = new KnkMovieForms.Usercontrols.MovieWall(new KnkCore.KnkConnection());
             this.SuspendLayout();
             // 
             // wallMovies

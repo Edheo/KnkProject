@@ -80,7 +80,17 @@ namespace KnkInterfaces.Utilities
         public static PropertyInfo[] GetProperties<T>(T item)
             where T : KnkItemItf
         {
-            return (from p in item.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance) where p.CanWrite select p).ToArray();
+            return GetProperties(item, true);
+        }
+
+        public static PropertyInfo[] GetProperties<T>(T item, bool aWritableOnes)
+            where T : KnkItemItf
+        {
+            if(aWritableOnes)
+                return (from p in item.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance) where p.CanWrite select p).ToArray();
+            else
+                return (from p in item.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance) select p).ToArray();
+
         }
 
         public static MethodInfo[] GetMethods<T>(T item)
