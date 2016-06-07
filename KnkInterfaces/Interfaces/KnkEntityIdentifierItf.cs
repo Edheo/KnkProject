@@ -9,12 +9,6 @@ namespace KnkInterfaces.Interfaces
 {
     public interface KnkEntityIdentifierItf : IConvertible, IComparable
     {
-        int? GetInnerValue();
-        void SetInnerValue(int? aValue);
-    }
-
-    public interface KnkEntityIdentifierItf<TRef> : KnkEntityIdentifierItf, KnkEntityReferenceItf<TRef>
-        where TRef : KnkItemItf, new()
-    {
+        int? Value { get; set; }
     }
 }

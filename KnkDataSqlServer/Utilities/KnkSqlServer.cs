@@ -132,7 +132,7 @@ namespace KnkDataSqlServer.Utilities
                                 && !KnkInterfacesUtils.DeletedFields().Contains(prp.Name.ToLower())
                               select $"[{prp.Name}] = @{prp.Name} ";
 
-            string lUpdateFields = lProperties.Aggregate((i, j) => $"{i}, {j}");
+            string lUpdateFields = KnkInterfacesUtils.ConcatStrings(lProperties.ToList());
             string lWhereValues = $"[{lPk}] = @{lPk} ";
 
             return $"Update {lUpdateTable} Set {lUpdateFields} Where {lWhereValues}";
@@ -158,7 +158,7 @@ namespace KnkDataSqlServer.Utilities
 
             if (lProperties.Count() > 0)
             {
-                string lUpdateFields = lProperties.Aggregate((i, j) => $"{i}, {j}");
+                string lUpdateFields = KnkInterfacesUtils.ConcatStrings(lProperties.ToList());
                 return $"Update {lDeleteTable} Set {lUpdateFields} Where {lWhereValues}";
             }
             else
@@ -294,7 +294,7 @@ namespace KnkDataSqlServer.Utilities
                     var lKid = lValue as KnkEntityIdentifierItf;
                     if (lKid != null)
                     {
-                        int? lInt = lKid.GetInnerValue();
+                        int? lInt = lKid.Value;
                         if (lInt!=null)
                             lRet.Parameters.AddWithValue(lPrp.Name, lInt);
                         else

@@ -126,6 +126,18 @@ namespace KnkInterfaces.Utilities
             return new List<string>() { "deleted", "userdeletedid", "deleteddate", "deletedtext"  };
         }
 
+        public static string ConcatStrings(List<String> aList)
+        {
+            return ConcatStrings(aList, ", ");
+        }
+
+        public static string ConcatStrings(List<String> aList, string aDelimiter)
+        {
+            string lRet = string.Empty;
+            if (aList.Count() > 0)
+                lRet = aList.OrderBy(g => g).Aggregate((i, j) => $"{i}{aDelimiter}{j}");
+            return lRet;
+        }
 
     }
 }

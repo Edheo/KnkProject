@@ -23,12 +23,12 @@ namespace KnkSolutionMovies.Entities
         public KnkEntityReference<Company> IdCompany { get; set; }
         #endregion Class Properties
 
-        public Movie Movie { get { return IdMovie?.Value; } }
-        public Company Company { get { return IdCompany?.Value; } }
+        public Movie Movie { get { return IdMovie?.Reference; } }
+        public Company Company { get { return IdCompany?.Reference; } }
 
         public override string ToString()
         {
-            return IdCompany?.Value.ToString();
+            return IdCompany?.Reference.ToString();
         }
     }
 }

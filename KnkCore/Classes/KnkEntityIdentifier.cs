@@ -11,30 +11,33 @@ namespace KnkCore
 {
     public class KnkEntityIdentifier : KnkEntityIdentifierItf
     {
+        private int? _value;
+
         public KnkEntityIdentifier():this(null)
         {
         }
 
         public KnkEntityIdentifier(int? aValue)
         {
-            SetInnerValue(aValue);
+            Value = aValue;
         }
 
-        private int? _value;
-
-        public virtual int? GetInnerValue()
+        public virtual int? Value
         {
-            return _value;
-        }
+            get
+            {
+                return _value;
+            }
 
-        public void SetInnerValue(int? aValue)
-        {
-            _value = aValue;
+            set
+            {
+                _value = value;
+            }
         }
 
         public override string ToString()
         {
-            return GetInnerValue()?.ToString();
+            return Value?.ToString();
         }
 
         public static implicit operator KnkEntityIdentifier(int value)
@@ -74,32 +77,32 @@ namespace KnkCore
 
         public bool ToBoolean(IFormatProvider provider)
         {
-            return (bool)Convert.ChangeType(_value ?? 0, typeof(bool), provider);
+            return Convert.ToBoolean(_value ?? 0);
         }
 
         public char ToChar(IFormatProvider provider)
         {
-            return (char)Convert.ChangeType(_value, typeof(char), provider);
+            return Convert.ToChar(_value ?? 0);
         }
 
         public sbyte ToSByte(IFormatProvider provider)
         {
-            throw new NotImplementedException();
+            return Convert.ToSByte(_value ?? 0);
         }
 
         public byte ToByte(IFormatProvider provider)
         {
-            throw new NotImplementedException();
+            return Convert.ToByte(_value ?? 0);
         }
 
         public short ToInt16(IFormatProvider provider)
         {
-            return (Int16)Convert.ChangeType(_value, typeof(Int16), provider);
+            return Convert.ToInt16(_value ?? 0);
         }
 
         public ushort ToUInt16(IFormatProvider provider)
         {
-            return (UInt16)Convert.ChangeType(_value, typeof(UInt16), provider);
+            return Convert.ToUInt16(_value ?? 0);
         }
 
         public int ToInt32(IFormatProvider provider)
@@ -109,32 +112,32 @@ namespace KnkCore
 
         public uint ToUInt32(IFormatProvider provider)
         {
-            throw new NotImplementedException();
+            return Convert.ToUInt32(_value ?? 0);
         }
 
         public long ToInt64(IFormatProvider provider)
         {
-            throw new NotImplementedException();
+            return _value ?? 0;
         }
 
         public ulong ToUInt64(IFormatProvider provider)
         {
-            throw new NotImplementedException();
+            return Convert.ToUInt64(_value ?? 0);
         }
 
         public float ToSingle(IFormatProvider provider)
         {
-            throw new NotImplementedException();
+            return _value ?? 0;
         }
 
         public double ToDouble(IFormatProvider provider)
         {
-            throw new NotImplementedException();
+            return _value ?? 0;
         }
 
         public decimal ToDecimal(IFormatProvider provider)
         {
-            throw new NotImplementedException();
+            return _value ?? 0;
         }
 
         public DateTime ToDateTime(IFormatProvider provider)
@@ -149,17 +152,14 @@ namespace KnkCore
 
         public object ToType(Type conversionType, IFormatProvider provider)
         {
-            if (conversionType.Equals(this.GetType()))
-                return _value;
-            else
-                return _value;
+            return _value;
         }
 
         public int CompareTo(object obj)
         {
             int? lObj = KnkCoreUtils.ObjectToKnkInt(obj);
 
-            if (lObj == this.GetInnerValue())
+            if (lObj == this.Value)
                 return 0;
             else 
                 return 1;

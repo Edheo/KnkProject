@@ -20,8 +20,8 @@ namespace KnkSolutionMovies.Entities
         decimal? UserRating { get; set; }
         #endregion Class Properties
 
-        public Movie Movie { get { return IdMovie?.Value; } }
-        public User User { get { return IdUser?.Value; } }
+        public Movie Movie { get { return IdMovie?.Reference; } }
+        public User User { get { return IdUser?.Reference; } }
 
         public override string ToString()
         {

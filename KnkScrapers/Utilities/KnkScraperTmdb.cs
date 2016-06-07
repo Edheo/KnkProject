@@ -1,4 +1,4 @@
-﻿using KnkScrapers.Classes;
+﻿using KnkInterfaces.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +31,7 @@ namespace KnkScrapers.Utilities
             }
             if (lJoin.Count.Equals(0))
                 lJoin.Add(lSplit.Max(e => e));
-            return lJoin.Aggregate((i, j) => $"{i} {j}");
+            return KnkInterfacesUtils.ConcatStrings(lJoin, " ");
         }
 
         static string YearsFromFilename(string aTitle, string aSearchTitle)
@@ -46,7 +46,7 @@ namespace KnkScrapers.Utilities
                     lJoin.Add(lStr);
                 }
             }
-            return lJoin.Aggregate((i, j) => $"{i};{j}");
+            return KnkInterfacesUtils.ConcatStrings(lJoin,";");
         }
 
         static int? IsAYear(string aText)

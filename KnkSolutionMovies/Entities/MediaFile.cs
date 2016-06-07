@@ -23,8 +23,8 @@ namespace KnkSolutionMovies.Entities
         public KnkEntityReference<File> IdFile { get; set; }
         #endregion Class Properties
 
-        public Movie Movie { get { return IdMovie?.Value; } }
-        public File File { get { return IdFile?.Value; } }
+        public Movie Movie { get { return IdMovie?.Reference; } }
+        public File File { get { return IdFile?.Reference; } }
 
         public override string ToString()
         {

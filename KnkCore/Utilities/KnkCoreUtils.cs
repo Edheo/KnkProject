@@ -114,7 +114,7 @@ namespace KnkCore.Utilities
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            var lLst = (from e in aList select e.GetInnerValue());
+            var lLst = (from e in aList select e.Value);
             var lStr = String.Join(",", lLst.ToArray());
             aCriteria.AddParameter(typeof(string), aField, OperatorsEnu.In, lStr);
         }
@@ -216,9 +216,7 @@ namespace KnkCore.Utilities
                 return null;
 
             KnkEntityIdentifier lVal = aVal as KnkEntityIdentifier;
-            if (lVal != null)
-                return lVal.GetInnerValue();
-
+            if (lVal != null) return lVal.Value;
             try
             {
                 int lInt = (int)aVal;
@@ -233,22 +231,7 @@ namespace KnkCore.Utilities
         public static int? ObjectToKnkInt<Tref>(object aVal)
         where Tref : KnkItemItf, new()
         {
-            if (aVal == null)
-                return null;
-
-            KnkEntityReference<Tref> lVal = aVal as KnkEntityReference<Tref>;
-            if (lVal != null)
-                return lVal.GetInnerValue();
-
-            try
-            {
-                int lInt = (int)aVal;
-                return lInt;
-            }
-            catch
-            {
-                return null;
-            }
+            return ObjectToKnkInt(aVal);
         }
 
         public static string CleanFileName(string aFileName)

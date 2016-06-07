@@ -37,12 +37,12 @@ namespace KnkScrapers.Classes
             Folders = new Folders(aCon);
 
             Roots = (from f in Folders.Items
-                     where f.IdParentPath?.GetInnerValue() == null && (f.ContentType ?? string.Empty).Equals(aLibraryType)
+                     where f.IdParentPath?.Value == null && (f.ContentType ?? string.Empty).Equals(aLibraryType)
                      select f).ToList();
 
             FoldersToScan = (from fol in Folders.Items
                              join rot in Roots
-                             on fol.IdRoot.GetInnerValue() equals rot.IdPath.GetInnerValue()
+                             on fol.IdRoot.Value equals rot.IdPath.Value
                              orderby fol.IdPath descending
                              select fol).ToList();
 
@@ -70,7 +70,7 @@ namespace KnkScrapers.Classes
         {
             MissingFiles = (from fil in Files.Items
                             join mis in MissingMovies.Items
-                            on (fil.IdFile?.GetInnerValue()) ?? 0 equals mis.IdFile.GetInnerValue()
+                            on (fil.IdFile?.Value) ?? 0 equals mis.IdFile.Value
                             where !fil.IsChanged()
                             select fil).ToList();
             ScrapFiles();

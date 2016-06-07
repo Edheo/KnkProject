@@ -2,9 +2,9 @@
 
 namespace KnkInterfaces.Interfaces
 {
-    public interface KnkEntityReferenceItf<TRef> 
+    public interface KnkEntityReferenceItf<TRef> : KnkEntityIdentifierItf
         where TRef : KnkItemItf, new()
     {
-        TRef Value { get; }
+        TRef Reference { get; }
     }
 }

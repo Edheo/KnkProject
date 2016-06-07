@@ -1,6 +1,5 @@
-﻿using KnkSolutionMovies.Entities;
-using KnkSolutionMovies.Lists;
-using System;
+﻿using KnkInterfaces.Utilities;
+using KnkSolutionMovies.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,8 +21,7 @@ namespace KnkSolutionMovies.Extenders
         {
             get
             {
-                var lAux = _Movie.Genres().Items.Select(g => g.ToString());
-                return lAux.OrderBy(g=>g).Aggregate((i, j) => $"{i}, {j}");
+                return KnkInterfacesUtils.ConcatStrings(_Movie.Genres().Items.Select(g => g.ToString()).ToList());
             }
         }
 
@@ -43,27 +41,18 @@ namespace KnkSolutionMovies.Extenders
         {
             get
             {
-                var lAux = _Movie.Countries().Items.Select(g => g.ToString());
-                return lAux.OrderBy(g => g).Aggregate((i, j) => $"{i}, {j}");
+                return KnkInterfacesUtils.ConcatStrings(_Movie.Countries().Items.Select(g => g.ToString()).ToList());
             }
         }
 
         public string Director()
         {
-            string lRet = string.Empty;
-            var lDir = (from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Director") orderby c.CastingType.Type descending, c.Ordinal select c.Casting.ArtistName);
-            if (lDir.Count() > 0)
-                lRet = lDir.OrderBy(g => g).Aggregate((i, j) => $"{i}, {j}");
-            return lRet;
+            return KnkInterfacesUtils.ConcatStrings((from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Director") orderby c.CastingType.Type descending, c.Ordinal select c.Casting.ArtistName).ToList());
         }
 
         public string Writer()
         {
-            string lRet = string.Empty;
-            var lWri = (from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Writer") orderby c.CastingType.Type descending, c.Ordinal select c.Casting.ArtistName);
-            if (lWri.Count() > 0)
-                lRet = lWri.OrderBy(g => g).Aggregate((i, j) => $"{i}, {j}");
-            return lRet;
+            return KnkInterfacesUtils.ConcatStrings((from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Writer") orderby c.CastingType.Type descending, c.Ordinal select c.Casting.ArtistName).ToList());
         }
 
         public List<MovieCasting> ArtistCasting()

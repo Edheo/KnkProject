@@ -110,8 +110,7 @@ namespace KnkCore
             {
                 foreach(DataRow lRow in lDat.Rows)
                 {
-                    KnkEntityIdentifierItf lValue = new KnkEntityIdentifier();
-                    lValue.SetInnerValue((int)lRow[0]);
+                    KnkEntityIdentifierItf lValue = new KnkEntityIdentifier((int)lRow[0]);
                     lLst.Add(lValue);
                 }
             }
