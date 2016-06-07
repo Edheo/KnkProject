@@ -133,16 +133,54 @@ namespace KnkScrapers.Utilities
 
         public static async Task<Movie> GetMovieData(ServiceClient aClient, int aIdMovie, string aLanguage)
         {
-            var movie = await aClient.Movies.GetAsync(aIdMovie, aLanguage, true, CancellationToken.None);
-            movie.Images = await aClient.Movies.GetImagesAsync(movie.Id, null, CancellationToken.None);
-            movie.Videos.Results = await aClient.Movies.GetVideosAsync(movie.Id, aLanguage, CancellationToken.None);
-            foreach(var lCast in movie.Credits.Cast)
+            Movie movie = null;
+            try
             {
-                lCast.Person = await aClient.People.GetAsync(lCast.Id, true, CancellationToken.None);
+                movie = await aClient.Movies.GetAsync(aIdMovie, aLanguage, true, CancellationToken.None);
+                movie.Images = await aClient.Movies.GetImagesAsync(movie.Id, null, CancellationToken.None);
+                movie.Videos.Results = await aClient.Movies.GetVideosAsync(movie.Id, aLanguage, CancellationToken.None);
+                foreach (var lCast in movie.Credits.Cast)
+                {
+                    lCast.Person = await aClient.People.GetAsync(lCast.Id, true, CancellationToken.None);
+                }
+                foreach (var lCast in movie.Credits.Crew)
+                {
+                    switch (lCast.Job)
+                    {
+                        case "Writer":
+                        case "Director":
+                        case "Producer":
+                            lCast.Person = await aClient.People.GetAsync(lCast.Id, true, CancellationToken.None);
+                            break;
+                        case "Screenplay":
+                        case "Property Master":
+                        case "Storyboard":
+                        case "Costume Supervisor":
+                        case "Music":
+                        case "Characters":
+                        case "Director of Photography":
+                        case "Editor":
+                        case "Casting":
+                        case "Casting Associate":
+                        case "Art Direction":
+                        case "Art Department Coordinator":
+                        case "Art Department Assistant":
+                        case "Production Design":
+                        case "Set Decoration":
+                        case "Costume Design":
+                        case "Assistant Costume Designer":
+                        case "Set Costumer":
+                        case "Makeup Designer":
+                            break;
+                        default:
+                            string ljob = lCast.Job;
+                            break;
+                    }
+                }
             }
-            foreach (var lCast in movie.Credits.Crew)
+            catch
             {
-                lCast.Person = await aClient.People.GetAsync(lCast.Id, true, CancellationToken.None);
+
             }
             return movie;
         }

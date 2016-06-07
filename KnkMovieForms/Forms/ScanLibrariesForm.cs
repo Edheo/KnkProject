@@ -51,20 +51,31 @@ namespace KnkMovieForms.Forms
         }
 
 
-        private void OnSyncLibraries()
+        private void OnSyncFiles()
         {
             grdResults.AutoGenerateColumns = true;
-            grdResults.DataSource = _Enricher.StartScan();
+            grdResults.DataSource = _Enricher.StartScanFiles();
+        }
+
+        private void OnSyncScraper()
+        {
+            grdResults.AutoGenerateColumns = true;
+            grdResults.DataSource = _Enricher.StartScanScraper();
         }
 
         private void butScan_Click(object sender, EventArgs e)
         {
-            OnSyncLibraries();
+            OnSyncFiles();
         }
 
         private void btnUpdates_Click(object sender, EventArgs e)
         {
             _Enricher.SaveChanges();
+        }
+
+        private void btnScrap_Click(object sender, EventArgs e)
+        {
+            OnSyncScraper();
         }
     }
 }

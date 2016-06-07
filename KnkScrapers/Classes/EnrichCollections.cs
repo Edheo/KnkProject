@@ -60,22 +60,19 @@ namespace KnkScrapers.Classes
             CastingTypes = new CastingTypes(aCon);
         }
 
-        public List<KnkChangeDescriptorItf> StartScan()
+        public List<KnkChangeDescriptorItf> StartScanFiles()
         {
             FoldersScanner();
+            return Result();
+        }
 
-            var lFilesChanged = (from itm in Files.ItemsChanged() where itm.Status() != KnkInterfaces.Enumerations.UpdateStatusEnu.Delete select itm).ToList();
-
-            var lJoined = from fil in Files.Items
-                          join mis in MissingMovies.Items
-                          on (fil.IdFile?.GetInnerValue())??0 equals mis.IdFile.GetInnerValue()
-                          where !fil.IsChanged()
-                          select fil;
-
-            MissingFiles = lJoined.Union(lFilesChanged).ToList();
-
-            MissingFiles = MissingFiles.OrderByDescending(m => m.CreationDate).ToList();
-
+        public List<KnkChangeDescriptorItf> StartScanScraper()
+        {
+            MissingFiles = (from fil in Files.Items
+                            join mis in MissingMovies.Items
+                            on (fil.IdFile?.GetInnerValue()) ?? 0 equals mis.IdFile.GetInnerValue()
+                            where !fil.IsChanged()
+                            select fil).ToList();
             ScrapFiles();
             return Result();
         }
@@ -187,46 +184,50 @@ namespace KnkScrapers.Classes
             var lReturn = lFound;
             if (lFound == null)
             {
-                lReturn = CastingTypes.Create();
-                lReturn.Type = aType;
+                lFound = lReturn;
             }
             return lReturn;
         }
 
-        MovieCasting CheckMovieCasting(System.Net.TMDb.MediaCast aItem, Movie aMovie)
+        void CheckMovieCasting(System.Net.TMDb.MediaCast aItem, Movie aMovie)
         {
             var lType = CheckCastingType("Actor");
-            var lFound = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && g.Casting.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
-            var lReturn = lFound;
-            if (lFound == null)
+            if (lType != null)
             {
-                lReturn = aMovie.Casting().Create();
-                lReturn.Movie = aMovie;
+                var lFound = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && g.Casting.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
+                var lReturn = lFound;
+                if (lFound == null)
+                {
+                    lReturn = aMovie.Casting().Create();
+                    lReturn.Movie = aMovie;
+                }
+                lReturn.IdCastingType = lType;
+                lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
+                lReturn.Casting = CheckCasting(aItem);
+                lReturn.Role = aItem.Character;
+                lReturn.Update("Scraper checked Movie Casting");
             }
-            lReturn.IdCastingType = lType;
-            lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
-            lReturn.Casting = CheckCasting(aItem);
-            lReturn.Role = aItem.Character;
-            lReturn.Update("Scraper checked Movie Casting");
-            return lReturn;
         }
 
-        MovieCasting CheckMovieCasting(System.Net.TMDb.MediaCrew aItem, Movie aMovie)
+        void CheckMovieCasting(System.Net.TMDb.MediaCrew aItem, Movie aMovie)
         {
             var lType = CheckCastingType(aItem.Job);
-            var lFound = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && g.Casting.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
-            var lReturn = lFound;
-            if (lFound == null)
+            if (lType != null)
             {
-                lReturn = aMovie.Casting().Create();
-                lReturn.Movie = aMovie;
+
+                var lFound = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && g.Casting.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
+                var lReturn = lFound;
+                if (lFound == null)
+                {
+                    lReturn = aMovie.Casting().Create();
+                    lReturn.Movie = aMovie;
+                }
+                lReturn.IdCastingType = lType;
+                lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
+                lReturn.Casting = CheckCasting(aItem);
+                lReturn.Role = aItem.Job;
+                lReturn.Update("Scraper checked Movie Casting");
             }
-            lReturn.IdCastingType = lType;
-            lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
-            lReturn.Casting = CheckCasting(aItem);
-            lReturn.Role = aItem.Job;
-            lReturn.Update("Scraper checked Movie Casting");
-            return lReturn;
         }
 
         Casting CheckCasting(System.Net.TMDb.MediaCredit aItem)
@@ -546,6 +547,7 @@ namespace KnkScrapers.Classes
                 foreach (var lLine in lines)
                 {
                     var lLin = lSum.Create();
+                    lLin.IdMovie = aMovie;
                     lLin.Ordinal = lOrdinal;
                     lLin.SummaryItem = lLine + ".";
                     lLin.Update("Scraper added Sumary");
@@ -612,7 +614,8 @@ namespace KnkScrapers.Classes
                 else
                 {
                     DateTime lDat = System.IO.File.GetLastWriteTime(lFile.ToString());
-                    if (lDat < lFile.Filedate)
+                    int lSeconds = (int)Math.Abs((lDat - lFile.Filedate).TotalSeconds);
+                    if (lSeconds!=0)
                     {
                         lFile.Filedate = lDat;
                         lFile.Update("Filedate Changed");

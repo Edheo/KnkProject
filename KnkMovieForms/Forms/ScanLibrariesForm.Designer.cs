@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             this.pnlButtons = new System.Windows.Forms.Panel();
-            this.grdRoots = new System.Windows.Forms.DataGridView();
-            this.grdResults = new System.Windows.Forms.DataGridView();
             this.btnUpdates = new System.Windows.Forms.Button();
             this.btnScan = new System.Windows.Forms.Button();
+            this.grdRoots = new System.Windows.Forms.DataGridView();
+            this.grdResults = new System.Windows.Forms.DataGridView();
+            this.btnScrap = new System.Windows.Forms.Button();
             this.pnlButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdRoots)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdResults)).BeginInit();
@@ -41,6 +42,7 @@
             // pnlButtons
             // 
             this.pnlButtons.BackColor = System.Drawing.Color.Black;
+            this.pnlButtons.Controls.Add(this.btnScrap);
             this.pnlButtons.Controls.Add(this.btnUpdates);
             this.pnlButtons.Controls.Add(this.btnScan);
             this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Top;
@@ -48,31 +50,6 @@
             this.pnlButtons.Name = "pnlButtons";
             this.pnlButtons.Size = new System.Drawing.Size(753, 41);
             this.pnlButtons.TabIndex = 7;
-            // 
-            // grdRoots
-            // 
-            this.grdRoots.AllowUserToAddRows = false;
-            this.grdRoots.AllowUserToDeleteRows = false;
-            this.grdRoots.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.grdRoots.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdRoots.Dock = System.Windows.Forms.DockStyle.Left;
-            this.grdRoots.Location = new System.Drawing.Point(0, 41);
-            this.grdRoots.Name = "grdRoots";
-            this.grdRoots.ReadOnly = true;
-            this.grdRoots.Size = new System.Drawing.Size(356, 489);
-            this.grdRoots.TabIndex = 9;
-            // 
-            // grdResults
-            // 
-            this.grdResults.AllowUserToAddRows = false;
-            this.grdResults.AllowUserToDeleteRows = false;
-            this.grdResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.grdResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdResults.Location = new System.Drawing.Point(356, 41);
-            this.grdResults.Name = "grdResults";
-            this.grdResults.Size = new System.Drawing.Size(397, 489);
-            this.grdResults.TabIndex = 10;
             // 
             // btnUpdates
             // 
@@ -106,6 +83,47 @@
             this.btnScan.UseVisualStyleBackColor = false;
             this.btnScan.Click += new System.EventHandler(this.butScan_Click);
             // 
+            // grdRoots
+            // 
+            this.grdRoots.AllowUserToAddRows = false;
+            this.grdRoots.AllowUserToDeleteRows = false;
+            this.grdRoots.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.grdRoots.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdRoots.Dock = System.Windows.Forms.DockStyle.Left;
+            this.grdRoots.Location = new System.Drawing.Point(0, 41);
+            this.grdRoots.Name = "grdRoots";
+            this.grdRoots.ReadOnly = true;
+            this.grdRoots.Size = new System.Drawing.Size(356, 489);
+            this.grdRoots.TabIndex = 9;
+            // 
+            // grdResults
+            // 
+            this.grdResults.AllowUserToAddRows = false;
+            this.grdResults.AllowUserToDeleteRows = false;
+            this.grdResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.grdResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grdResults.Location = new System.Drawing.Point(356, 41);
+            this.grdResults.Name = "grdResults";
+            this.grdResults.Size = new System.Drawing.Size(397, 489);
+            this.grdResults.TabIndex = 10;
+            // 
+            // btnScrap
+            // 
+            this.btnScrap.BackColor = System.Drawing.Color.Transparent;
+            this.btnScrap.BackgroundImage = global::KnkMovieForms.Properties.Resources.btnScan_ResourceImage;
+            this.btnScrap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnScrap.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnScrap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnScrap.Location = new System.Drawing.Point(82, 0);
+            this.btnScrap.Name = "btnScrap";
+            this.btnScrap.Padding = new System.Windows.Forms.Padding(5);
+            this.btnScrap.Size = new System.Drawing.Size(41, 41);
+            this.btnScrap.TabIndex = 9;
+            this.btnScrap.TabStop = false;
+            this.btnScrap.UseVisualStyleBackColor = false;
+            this.btnScrap.Click += new System.EventHandler(this.btnScrap_Click);
+            // 
             // ScanLibrariesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -130,5 +148,6 @@
         private System.Windows.Forms.Button btnUpdates;
         private System.Windows.Forms.DataGridView grdRoots;
         private System.Windows.Forms.DataGridView grdResults;
+        private System.Windows.Forms.Button btnScrap;
     }
 }
