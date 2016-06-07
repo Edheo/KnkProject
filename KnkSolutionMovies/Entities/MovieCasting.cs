@@ -21,9 +21,9 @@ namespace KnkSolutionMovies.Entities
         public string Role { get; set; }
         #endregion Class Properties
 
-        public Movie Movie { get { return IdMovie?.Value; } set { IdMovie = new KnkEntityReference<Movie>(value); } }
-        public Casting Casting { get { return IdCasting?.Value; } set { IdCasting = new KnkEntityReference<Casting>(value); } }
-        public CastingType CastingType { get { return IdCastingType?.Value; } set { IdCastingType = new KnkEntityReference<CastingType>(value); } }
+        public Movie Movie { get { return IdMovie?.Value; } }
+        public Casting Casting { get { return IdCasting?.Value; } }
+        public CastingType CastingType { get { return IdCastingType?.Value; } }
 
         public override string ToString()
         {

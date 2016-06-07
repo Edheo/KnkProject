@@ -199,11 +199,11 @@ namespace KnkScrapers.Classes
                 if (lFound == null)
                 {
                     lReturn = aMovie.Casting().Create();
-                    lReturn.Movie = aMovie;
+                    lReturn.IdMovie = aMovie;
                 }
                 lReturn.IdCastingType = lType;
                 lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
-                lReturn.Casting = CheckCasting(aItem);
+                lReturn.IdCasting = CheckCasting(aItem);
                 lReturn.Role = aItem.Character;
                 lReturn.Update("Scraper checked Movie Casting");
             }
@@ -220,11 +220,11 @@ namespace KnkScrapers.Classes
                 if (lFound == null)
                 {
                     lReturn = aMovie.Casting().Create();
-                    lReturn.Movie = aMovie;
+                    lReturn.IdMovie = aMovie;
                 }
                 lReturn.IdCastingType = lType;
                 lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
-                lReturn.Casting = CheckCasting(aItem);
+                lReturn.IdCasting = CheckCasting(aItem);
                 lReturn.Role = aItem.Job;
                 lReturn.Update("Scraper checked Movie Casting");
             }
@@ -308,8 +308,8 @@ namespace KnkScrapers.Classes
                 else if(aCasting!=null)
                     lReturn = aCasting.Pictures().Create();
 
-                lReturn.Movie = aMovie;
-                lReturn.Casting = aCasting;
+                lReturn.IdMovie = aMovie;
+                lReturn.IdCasting = aCasting;
                 lReturn.Ordinal = lMax + 1;
             }
             lReturn.IdType = aidType;
@@ -331,9 +331,9 @@ namespace KnkScrapers.Classes
             if (lFound == null)
             {
                 lReturn = lUsers.Create();
-                lReturn.Movie = aMovie;
+                lReturn.IdMovie = aMovie;
             }
-            lReturn.User = lUsr;
+            lReturn.IdUser = lUsr;
             lReturn.Update("Movie added to User");
             return lReturn;
         }
@@ -381,9 +381,9 @@ namespace KnkScrapers.Classes
             if (lFound == null)
             {
                 lReturn = aMovie.Languages().Create();
-                lReturn.Movie = aMovie;
+                lReturn.IdMovie = aMovie;
             }
-            lReturn.Language = CheckLanguage(aItem);
+            lReturn.IdLanguage = CheckLanguage(aItem);
             lReturn.Update("Scraper checked Language");
             return lReturn;
         }
@@ -408,9 +408,9 @@ namespace KnkScrapers.Classes
             if (lFound == null)
             {
                 lReturn = aMovie.Countries().Create();
-                lReturn.Movie = aMovie;
+                lReturn.IdMovie = aMovie;
             }
-            lReturn.Country = CheckCountry(aItem);
+            lReturn.IdCountry = CheckCountry(aItem);
             lReturn.Update("Scraper checked Country");
             return lReturn;
         }
@@ -446,9 +446,9 @@ namespace KnkScrapers.Classes
             if (lFound == null)
             {
                 lReturn = aMovie.Genres().Create();
-                lReturn.Movie = aMovie;
+                lReturn.IdMovie = aMovie;
             }
-            lReturn.Genre = CheckGenre(aItem);
+            lReturn.IdGenre = CheckGenre(aItem);
             lReturn.Update("Scraper checked Genre");
             return lReturn;
         }
@@ -477,9 +477,9 @@ namespace KnkScrapers.Classes
             if (lFound == null)
             {
                 lReturn = aMovie.Companies().Create();
-                lReturn.Movie = aMovie;
+                lReturn.IdMovie = aMovie;
             }
-            lReturn.Company = CheckCompany(aItem);
+            lReturn.IdCompany = CheckCompany(aItem);
             lReturn.Update("Scraper checked Company");
             return lReturn;
         }
@@ -495,9 +495,9 @@ namespace KnkScrapers.Classes
             if(lFound == null)
             {
                 lReturn = lFiles.Create();
-                lReturn.Movie = aMovie;
+                lReturn.IdMovie = aMovie;
             }
-            lReturn.File = aFile;
+            lReturn.IdFile = aFile;
             lReturn.Update("File assigned to Movie");
             return lReturn;
         }
@@ -513,7 +513,7 @@ namespace KnkScrapers.Classes
                 foreach (var lLine in lines)
                 {
                     var lLin = lBio.Create();
-                    lLin.Casting = aCasting;
+                    lLin.IdCasting = aCasting;
                     lLin.Ordinal = lOrdinal;
                     lLin.Text = lLine + ".";
                     lLin.Update("Scraper added Biography");
@@ -529,7 +529,7 @@ namespace KnkScrapers.Classes
             {
                 var Found = lNam.Items.Find(n => n.Name.ToLower().Equals(lNamPer.ToLower()));
                 if (Found == null) Found = lNam.Create();
-                Found.Casting = aCasting;
+                Found.IdCasting = aCasting;
                 Found.Name = lNamPer;
                 Found.Update("Scraper added Name");
             }
@@ -584,7 +584,7 @@ namespace KnkScrapers.Classes
                     {
                         lFil.Filename = lFileName;
                         lFil.Filedate = lInfo.LastWriteTime;
-                        lFil.Folder = aFolder;
+                        lFil.IdPath = aFolder;
                         lFil.Update("New File Scanned");
                     }
                 }
@@ -644,8 +644,8 @@ namespace KnkScrapers.Classes
                         lFol.strSettings = null;
                         lFol.NoUpdate = null;
                         lFol.Exclude = null;
-                        lFol.ParentFolder = aParentFolder;
-                        lFol.RootFolder = aParentFolder.RootFolder;
+                        lFol.IdParentPath = aParentFolder;
+                        lFol.IdRoot = aParentFolder.RootFolder;
                         lFol.Update("Folder added to Library");
                     }
                     var lDirs = System.IO.Directory.GetDirectories(aFolder);

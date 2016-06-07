@@ -52,11 +52,5 @@ namespace KnkSolutionMovies.Utilities
             return new FileStream(aFilename, FileMode.Open, FileAccess.Read);
         }
 
-        //internal static KnkEntityReference<TDad, TReference> GetReference<TDad, TReference>(TDad aDad, string aField)
-        //where TDad : KnkItemItf
-        //where TReference : KnkItemItf, new()
-        //{
-        //    return new KnkEntityReference<TDad, TReference>(aDad, aField);
-        //}
     }
 }

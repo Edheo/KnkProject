@@ -23,8 +23,8 @@ namespace KnkSolutionMovies.Entities
         public KnkEntityReference<Language> IdLanguage { get; set; }
         #endregion Class Properties
 
-        public Movie Movie { get { return IdMovie?.Value; } set { IdMovie = new KnkEntityReference<Movie>(value); } }
-        public Language Language { get { return IdLanguage?.Value; } set { IdLanguage = new KnkEntityReference<Language>(value); } }
+        public Movie Movie { get { return IdMovie?.Value; } }
+        public Language Language { get { return IdLanguage?.Value; } }
 
         public override string ToString()
         {

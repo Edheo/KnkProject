@@ -23,8 +23,8 @@ namespace KnkSolutionMovies.Entities
         public KnkEntityReference<Company> IdCompany { get; set; }
         #endregion Class Properties
 
-        public Movie Movie { get { return IdMovie?.Value; } set { IdMovie = new KnkEntityReference<Movie>(value); } }
-        public Company Company { get { return IdCompany?.Value; } set { IdCompany = new KnkEntityReference<Company>(value); } }
+        public Movie Movie { get { return IdMovie?.Value; } }
+        public Company Company { get { return IdCompany?.Value; } }
 
         public override string ToString()
         {

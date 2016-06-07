@@ -25,7 +25,7 @@ namespace KnkSolutionMovies.Entities
 
         #endregion Class Properties
 
-        public File File { get { return IdFile?.Value; } set { IdFile = new KnkEntityReference<File>(value); } }
+        public File File { get { return IdFile?.Value; } }
 
         public string Date()
         {
