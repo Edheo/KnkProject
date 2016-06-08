@@ -40,7 +40,7 @@ namespace KnkCore
         {
             get
             {
-                if (_reference != null) base.Value = _reference.PrimaryKeyValue().Value;
+                if (_reference != null && !_reference.IsNew()) base.Value = _reference.PrimaryKeyValue().Value;
                 return base.Value;
             }
 

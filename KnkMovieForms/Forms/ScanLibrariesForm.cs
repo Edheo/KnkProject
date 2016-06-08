@@ -7,8 +7,11 @@ using KnkSolutionMovies.Entities;
 using KnkSolutionMovies.Lists;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KnkMovieForms.Forms
@@ -54,13 +57,23 @@ namespace KnkMovieForms.Forms
         private void OnSyncFiles()
         {
             grdResults.AutoGenerateColumns = true;
-            grdResults.DataSource = _Enricher.StartScanFiles();
+
+            var thread = new Thread(() => _Enricher.StartScanFiles());
+            thread.Start();
+            //var lRet = Task.Run(() => _Enricher.StartScanFiles());
+            grdResults.DataSource = _Enricher.Results;
+            timer1.Start();
         }
 
         private void OnSyncScraper()
         {
             grdResults.AutoGenerateColumns = true;
-            grdResults.DataSource = _Enricher.StartScanScraper();
+            var thread = new Thread(() => _Enricher.StartScanScraper());
+            thread.Start();
+            //var lRet = Task.Run(_Enricher.StartScanScraper);
+
+            grdResults.DataSource = _Enricher.Results;
+            //timer1.Start();
         }
 
         private void butScan_Click(object sender, EventArgs e)
@@ -77,5 +90,6 @@ namespace KnkMovieForms.Forms
         {
             OnSyncScraper();
         }
+
     }
 }

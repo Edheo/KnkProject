@@ -23,8 +23,6 @@ namespace KnkSolutionMovies.Entities
         public string Name { get; set; }
         #endregion Class Properties
 
-        public Casting Casting { get { return IdCasting?.Reference; } }
-
         public override string ToString()
         {
             return Name;

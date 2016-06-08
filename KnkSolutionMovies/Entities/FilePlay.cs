@@ -25,8 +25,6 @@ namespace KnkSolutionMovies.Entities
 
         #endregion Class Properties
 
-        public File File { get { return IdFile?.Reference; } }
-
         public string Date()
         {
             return DatePlay.ToString("dd/MM/yyyy");

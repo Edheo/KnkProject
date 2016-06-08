@@ -35,9 +35,5 @@ namespace KnkSolutionMovies.Entities
             return Path;
         }
 
-        public Folder ParentFolder { get { return IdParentPath?.Reference; } }
-        public Folder RootFolder { get { return IdRoot?.Reference; } }
-
-
     }
 }

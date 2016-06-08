@@ -14,7 +14,9 @@ namespace KnkSolutionMovies.Entities
         #region Class Properties
         [AtributePrimaryKey]
         public KnkEntityIdentifier IdCastingType { get; set; }
+        public string Department { get; set; }
         public string Type { get; set; }
+        public bool ImportCrew { get; set; }
         #endregion Class Properties
 
         public override string ToString()

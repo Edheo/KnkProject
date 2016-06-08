@@ -185,7 +185,7 @@ namespace KnkCore
 
         public bool IsNew()
         {
-            return CreationDate == null;
+            return PrimaryKeyValue() == null;
         }
 
         public bool IsChanged()

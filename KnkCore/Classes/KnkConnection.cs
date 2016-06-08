@@ -154,6 +154,7 @@ namespace KnkCore
                 if (lItm.Status() != KnkInterfaces.Enumerations.UpdateStatusEnu.NoChanges)
                 {
                     var lType = lItm.Status();
+                    DebugerCondition(lItm);
                     lDat.SaveData(lItm);
                     //If Saved check if it has chilrens
                     var lMethods= KnkInterfacesUtils.GetMethodsRelations(lItm);
@@ -167,6 +168,17 @@ namespace KnkCore
                         lResult = null;
                     }
                 }
+            }
+        }
+
+        void DebugerCondition(object aItem)
+        {
+            bool lStop = false;
+            KnkItem lItm = aItem as KnkItem;
+            if(lItm!=null && lItm.Status()==KnkInterfaces.Enumerations.UpdateStatusEnu.New)
+            {
+                if (lItm.PrimaryKey().Equals("IdCasting"))
+                    lStop = true;
             }
         }
 

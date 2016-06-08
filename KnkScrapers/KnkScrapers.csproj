@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\EnrichCollections.cs" />
+    <Compile Include="Classes\EnrichCollentionsTmdb.cs">
+      <DependentUpon>EnrichCollections.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\KnkScrapersUtils.cs" />
     <Compile Include="Utilities\KnkScraperTmdb.cs" />
