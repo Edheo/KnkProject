@@ -145,6 +145,7 @@ namespace KnkCore
                 ModifiedText = _UpdateMessage;
                 _status = UpdateStatusEnu.Update;
             }
+            GetParent()?.Messages?.Add(new KnkChangeDescriptor(this));
         }
 
         public void Delete(string aMessage)
@@ -155,6 +156,7 @@ namespace KnkCore
             DeletedDate = DateTime.Now;
             UserDeletedId = Connection().CurrentUser().PrimaryKeyValue();
             DeletedText = _UpdateMessage;
+            GetParent()?.Messages?.Add(new KnkChangeDescriptor(this));
         }
 
         public string UpdateMessage()

@@ -21,6 +21,7 @@ namespace KnkMovieForms.Forms
         KnkConnectionItf _Connnection;
         EnrichCollections _Enricher;
         string _LibraryType = string.Empty;
+        BindingSource _Bing = new BindingSource();
 
         private ScanLibrariesForm()
         {
@@ -56,24 +57,76 @@ namespace KnkMovieForms.Forms
 
         private void OnSyncFiles()
         {
-            grdResults.AutoGenerateColumns = true;
+            if (!_Enricher.IsBusy)
+            {
+                //System.Windows.Forms.Timer lTim = new System.Windows.Forms.Timer();
+                //lTim.Interval = 2000;
+                //lTim.Tick += (sender, args) =>
+                //{
+                //    grdResults.DataSource = typeof(List<>);
+                //    _Bing.ResetBindings(true);
+                //    grdResults.DataSource = _Bing;
+                //};
+                //lTim.Start();
+                _Bing.DataSource = _Enricher.Results;
 
-            var thread = new Thread(() => _Enricher.StartScanFiles());
-            thread.Start();
-            //var lRet = Task.Run(() => _Enricher.StartScanFiles());
-            grdResults.DataSource = _Enricher.Results;
-            timer1.Start();
+                var bw = new BackgroundWorker();
+                bw.WorkerReportsProgress = true;
+                btnScan.Image = global::KnkMovieForms.Properties.Resources.Ani200_2;
+                bw.DoWork += (sender, args) =>
+                {
+                    _Enricher.StartScanner(bw);
+                };
+                bw.ProgressChanged += (sender, args) =>
+                {
+                    grdResults.DataSource = typeof(List<>);
+                    _Bing.ResetBindings(true);
+                    grdResults.DataSource = _Bing;
+                };
+                bw.RunWorkerCompleted += (sender, args) =>
+                {
+                    btnScan.Image = global::KnkMovieForms.Properties.Resources.btnScan_ResourceImage;
+                };
+                bw.RunWorkerAsync(); // starts the background worker
+            }
+            grdResults.DataSource = _Bing;
         }
 
-        private void OnSyncScraper()
+        private void OnSaveChanges()
         {
-            grdResults.AutoGenerateColumns = true;
-            var thread = new Thread(() => _Enricher.StartScanScraper());
-            thread.Start();
-            //var lRet = Task.Run(_Enricher.StartScanScraper);
+            if (!_Enricher.IsBusy)
+            {
+                System.Windows.Forms.Timer lTim = new System.Windows.Forms.Timer();
+                lTim.Interval = 2000;
+                lTim.Tick += (sender, args) =>
+                {
+                    grdResults.DataSource = typeof(List<>);
+                    _Bing.ResetBindings(true);
+                    grdResults.DataSource = _Bing;
+                };
+                lTim.Start();
 
-            grdResults.DataSource = _Enricher.Results;
-            //timer1.Start();
+                var bw = new BackgroundWorker();
+                bw.WorkerReportsProgress = true;
+                btnScan.Image = global::KnkMovieForms.Properties.Resources.Ani200_2;
+                bw.DoWork += (sender, args) =>
+                {
+                    _Enricher.SaveChanges(bw);
+                };
+                //bw.ProgressChanged += (sender, args) =>
+                //{
+                //    grdResults.DataSource = typeof(List<>);
+                //    _Bing.ResetBindings(true);
+                //    grdResults.DataSource = _Bing;
+                //};
+                bw.RunWorkerCompleted += (sender, args) =>
+                {
+                    btnScan.Image = global::KnkMovieForms.Properties.Resources.btnScan_ResourceImage;
+                    lTim.Stop();
+                };
+                bw.RunWorkerAsync(); // starts the background worker
+            }
+            grdResults.DataSource = _Bing;
         }
 
         private void butScan_Click(object sender, EventArgs e)
@@ -83,13 +136,7 @@ namespace KnkMovieForms.Forms
 
         private void btnUpdates_Click(object sender, EventArgs e)
         {
-            _Enricher.SaveChanges();
+            OnSaveChanges();
         }
-
-        private void btnScrap_Click(object sender, EventArgs e)
-        {
-            OnSyncScraper();
-        }
-
     }
 }

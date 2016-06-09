@@ -44,19 +44,23 @@ namespace KnkDataSqlServer.Connection
             return KnkSqlServer.GetListIds(_Connection, aCriteria);
         }
 
-        public void SaveData<T>(T aItem) where T : KnkItemItf, new()
+        public string SaveData<T>(T aItem) where T : KnkItemItf, new()
         {
             string lCommand = string.Empty;
+            string lReturn = string.Empty;
             switch(aItem.Status())
             {
                 case UpdateStatusEnu.Delete:
                     lCommand = KnkSqlServer.GetDynamicDelete(_Connection, aItem);
+                    lReturn = "Database Deleted";
                     break;
                 case UpdateStatusEnu.Update:
                     lCommand = KnkSqlServer.GetDynamicUpdate(_Connection, aItem);
+                    lReturn = "Database Updated";
                     break;
                 case UpdateStatusEnu.New:
                     lCommand = KnkSqlServer.GetDynamicInsert(_Connection, aItem);
+                    lReturn = "Database Added";
                     break;
             }
             DataTable lTbl = KnkSqlServer.GetData(KnkSqlServer.GetCommand(_Connection, aItem, lCommand));
@@ -67,7 +71,7 @@ namespace KnkDataSqlServer.Connection
                 var lCon = aItem.Connection();
                 lCon.ReadItem(aItem);
             }
-
+            return lReturn;
         }
 
 

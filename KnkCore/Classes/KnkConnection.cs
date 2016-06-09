@@ -149,13 +149,21 @@ namespace KnkCore
         public void SaveData<T>(List<T> aItems) where T : KnkItemItf, new()
         {
             var lDat = GetConnection(typeof(T));
+            var lMessage = string.Empty;
             foreach (var lItm in aItems)
             {
                 if (lItm.Status() != KnkInterfaces.Enumerations.UpdateStatusEnu.NoChanges)
                 {
                     var lType = lItm.Status();
-                    DebugerCondition(lItm);
-                    lDat.SaveData(lItm);
+                    try
+                    {
+                        lMessage = lDat.SaveData(lItm);
+                    }
+                    catch(Exception lExc)
+                    {
+                        lMessage = lExc.Message;
+                    }
+                    lItm.GetParent()?.UpdateMessage(lItm, lMessage);
                     //If Saved check if it has chilrens
                     var lMethods= KnkInterfacesUtils.GetMethodsRelations(lItm);
                     foreach(var lMethod in lMethods)

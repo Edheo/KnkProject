@@ -41,7 +41,6 @@ namespace KnkSolutionMovies.Entities
         public string MPARating { get; set; }
         public string OriginalTitle { get; set; }
         public string Studio { get; set; }
-        public string TrailerUrl { get; set; }
         public KnkEntityReference<MovieSet> IdSet { get; set; }
         public DateTime? ReleaseDate { get; set; }
         public bool AdultContent { get; set; }

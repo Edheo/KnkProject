@@ -8,6 +8,7 @@ using KnkSolutionMovies.Lists;
 using KnkSolutionUsers.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,12 @@ namespace KnkScrapers.Classes
 {
     public partial class EnrichCollections
     {
-        DataTable Results = new DataTable();
+        public List<KnkChangeDescriptorItf> Results;
+        KnkChangeDescriptorItf Status = null;
         public readonly List<Folder> Roots;
         internal readonly List<Folder> FoldersToScan;
         internal List<File> MissingFiles;
-
+        BackgroundWorker _Worker;
         public readonly MissingMovies MissingMovies;
 
         internal readonly Files Files;
@@ -34,14 +36,23 @@ namespace KnkScrapers.Classes
         internal readonly Castings Castings;
         internal readonly CastingTypes CastingTypes;
 
+        public bool IsScanning { get; private set; }
+        public bool IsSaving { get; private set; }
+        public bool IsBusy { get { return IsSaving || IsScanning; } }
+
         public EnrichCollections(KnkConnectionItf aCon, string aLibraryType)
         {
-            Folders = new Folders(aCon);
+            Results = new List<KnkChangeDescriptorItf>();
+            Status = new KnkChangeDescriptor(DateTime.Now, "Libraries", "Loading Data", "Folders");
+            Results.Add(Status);
+            Folders = new Folders(aCon) { Messages = Results };
 
+            Status.UpdateMessage("Loading Data", "Roots");
             Roots = (from f in Folders.Items
                      where f.IdParentPath?.Value == null && (f.ContentType ?? string.Empty).Equals(aLibraryType)
                      select f).ToList();
 
+            Status.UpdateMessage("Loading Data", "Folders to Scan");
             FoldersToScan = (from fol in Folders.Items
                              join rot in Roots
                              on fol.IdRoot.Value equals rot.IdPath.Value
@@ -52,34 +63,31 @@ namespace KnkScrapers.Classes
             KnkCoreUtils.CreateInParameter<File, File>(Folders.GetListIds(Roots), lCri, "IdRoot");
 
             MissingMovies = new MissingMovies(aCon);
-            Files = new Files(aCon, lCri);
-            Movies = new Movies(aCon);
+            Files = new Files(aCon, lCri) { Messages = Results };
+            Movies = new Movies(aCon) { Messages = Results };
             Genres = new Genres(aCon);
             Companies = new Companies(aCon);
             Countries = new Countries(aCon);
             Languages = new Languages(aCon);
-            Castings = new Castings(aCon);
+            Castings = new Castings(aCon) { Messages = Results };
             CastingTypes = new CastingTypes(aCon);
         }
 
-        void AddItemToResult(KnkInterfaces.Interfaces.KnkItemItf aItm)
+        public void StartScanner(BackgroundWorker aWorker)
         {
-            if(Results.)
-            Results.Add(new KnkChangeDescriptor(aItm));
+            if (!IsBusy)
+            {
+                IsScanning = true;
+                _Worker = aWorker;
+                FoldersScanner();
+                Scraper();
+                IsScanning = false;
+            }
         }
 
-        void AddItem(KnkItemItf aItm)
+        void Scraper()
         {
-            Results.Add(new KnkChangeDescriptor(aItm));
-        }
-
-        public void StartScanFiles()
-        {
-            FoldersScanner();
-        }
-
-        public void StartScanScraper()
-        {
+            Status.UpdateMessage("Loading Missing Files", "Scraper");
             MissingFiles = (from fil in Files.Items
                             join mis in MissingMovies.Items
                             on (fil.IdFile?.Value) ?? 0 equals mis.IdFile.Value
@@ -87,7 +95,7 @@ namespace KnkScrapers.Classes
                             where !fil.IsChanged()
                             select fil).ToList();
             ScrapFiles();
-            //Result();
+            Status.UpdateMessage("Process Finished", string.Empty);
         }
 
         void ScrapFiles()
@@ -105,6 +113,7 @@ namespace KnkScrapers.Classes
 
         bool ScrapFile(File aFile)
         {
+            Status.UpdateMessage("Scraping", aFile.Filename);
             var lOrg = FindMovies(aFile, "es-ES").FirstOrDefault();
             if (lOrg != null)
             {
@@ -117,7 +126,7 @@ namespace KnkScrapers.Classes
                 aFile.Scraped++;
                 aFile.Update("No Tmdb movie found!!");
             }
-            AddItemToResult(aFile);
+            _Worker?.ReportProgress(0);
             return lOrg != null;
         }
 
@@ -143,10 +152,6 @@ namespace KnkScrapers.Classes
                 lDst.Revenue = lOrg.Revenue;                                    //	Int64					Revenue
                 lDst.Seconds = lOrg.Runtime * 60;                               //	int?					Runtime
                 //	AlternativeTitles		AlternativeTitles                   Will not be imported
-                FillCasting(lDst, lOrg.Credits);                                //	MediaCredits			Credits
-                FillMediaLinks(lDst, lOrg.Images, lOrg.Videos);                 //	Images					Images
-                                                                                //	Videos					Videos
-                lDst.TrailerUrl = lOrg.Videos.Results.FirstOrDefault()?.Site;
                 //	Keywords				Keywords
                 //	Releases				Releases
                 //	Translations			Translations
@@ -156,9 +161,13 @@ namespace KnkScrapers.Classes
                 //	string					Status
                 //	ExternalIds				External
                 lDst.ScrapedDate = DateTime.Now;
+                FillCasting(lDst, lOrg.Credits);                                //	MediaCredits			Credits
+                _Worker?.ReportProgress(0);
+                FillMediaLinks(lDst, lOrg.Images, lOrg.Videos);                 //	Images					Images
                 FillUser(lDst, aMovieDst.Connection().CurrentUser());                                           //  It belongs to the user
                 FillFile(lDst, aFomFile);                                       //  File from library
                 FillSummaries(lDst, lOrg.Overview);                             //	string					Overview
+                _Worker?.ReportProgress(0);
                 FillGenres(lDst, lOrg.Genres.ToList());                         //	IEnumerable<Genre>		Genres
                 FillCompanies(lDst, lOrg.Companies.ToList());                   //	IEnumerable<Company>	Companies
                 FillCountries(lDst, lOrg.Countries.ToList());                   //	IEnumerable<Country>	Countries
@@ -167,7 +176,6 @@ namespace KnkScrapers.Classes
                     lDst.Update("Movie Scraped From Tmdb");
                 else
                     lDst.Update("Movie Re-Scraped From Tmdb");
-                AddItemToResult(lDst);
             }
             return lDst;
         }
@@ -209,7 +217,6 @@ namespace KnkScrapers.Classes
             {
                 lReturn.Department = aDepartment;
                 lReturn.Update("Scrap updates Casting Types");
-                AddItemToResult(lReturn);
             }
             return lReturn;
         }
@@ -231,7 +238,6 @@ namespace KnkScrapers.Classes
                 lReturn.IdCasting = CheckCasting(aItem);
                 lReturn.Role = aItem.Character;
                 lReturn.Update("Scraper checked Movie Casting");
-                AddItemToResult(lReturn);
             }
         }
 
@@ -253,7 +259,6 @@ namespace KnkScrapers.Classes
                 lReturn.IdCasting = CheckCasting(aItem);
                 lReturn.Role = aItem.Job;
                 lReturn.Update("Scraper checked Movie Casting");
-                AddItemToResult(lReturn);
             }
         }
 
@@ -279,7 +284,6 @@ namespace KnkScrapers.Classes
                     CheckMediaLink(lImg.FilePath, null, lChk, 1);
             }
             lChk.Update("Scraper checked Casting");
-            AddItemToResult(lChk);
             return lChk;
         }
 
@@ -297,6 +301,18 @@ namespace KnkScrapers.Classes
             foreach (var lItem in aVideos.Results.ToList())
             {
                 CheckMediaLink(lItem.Key, aMovie, null, 3); //Videos
+            }
+        }
+
+        void FillMediaFile(Movie aMovie, File aFile)
+        {
+            var lReturn = aMovie.Files().Items.Find(f => f.IdFile.Reference.Filename.ToLower().Equals(aFile.Filename.ToLower()));
+            if (lReturn == null)
+            {
+                lReturn = aMovie.Files().Create();
+                lReturn.IdMovie = aMovie;
+                lReturn.IdFile = aFile;
+                lReturn.Update("Scrapert Linked File & Movie");
             }
         }
 
@@ -345,7 +361,6 @@ namespace KnkScrapers.Classes
             lReturn.SiteThumbnail = lSiteThumbnail;
             lReturn.Value = lValue;
             lReturn.Update("Scraper checked Link");
-            AddItemToResult(lReturn);
             return lReturn;
         }
 
@@ -364,7 +379,6 @@ namespace KnkScrapers.Classes
             }
             lReturn.IdUser = lUsr;
             lReturn.Update("Movie added to User");
-            AddItemToResult(lReturn);
             return lReturn;
         }
 
@@ -415,7 +429,6 @@ namespace KnkScrapers.Classes
             }
             lReturn.IdLanguage = CheckLanguage(aItem);
             lReturn.Update("Scraper checked Language");
-            AddItemToResult(lReturn);
             return lReturn;
         }
 
@@ -429,7 +442,6 @@ namespace KnkScrapers.Classes
             lChk.Code = aItem.Code;
             lChk.Name = aItem.Name;
             lChk.Update("Scraper checked Language");
-            AddItemToResult(lChk);
             return lChk;
         }
 
@@ -444,7 +456,6 @@ namespace KnkScrapers.Classes
             }
             lReturn.IdCountry = CheckCountry(aItem);
             lReturn.Update("Scraper checked Country");
-            AddItemToResult(lReturn);
             return lReturn;
         }
 
@@ -457,7 +468,6 @@ namespace KnkScrapers.Classes
             }
             lChk.CountryName = aItem.Name;
             lChk.Update("Scraper checked Country");
-            AddItemToResult(lChk);
             return lChk;
         }
 
@@ -470,7 +480,6 @@ namespace KnkScrapers.Classes
             }
             lChk.GenreName = aItem.Name;
             lChk.Update("Scraper checked Genre");
-            AddItemToResult(lChk);
             return lChk;
         }
 
@@ -485,7 +494,6 @@ namespace KnkScrapers.Classes
             }
             lReturn.IdGenre = CheckGenre(aItem);
             lReturn.Update("Scraper checked Genre");
-            AddItemToResult(lReturn);
             return lReturn;
         }
 
@@ -503,7 +511,6 @@ namespace KnkScrapers.Classes
             lChk.Logo = aItem.Logo;
             if (aItem.Parent != null) lChk.IdParentCompany = CheckCompany(aItem.Parent);
             lChk.Update("Scraper checked Company");
-            AddItemToResult(lChk);
             return lChk;
         }
 
@@ -518,7 +525,6 @@ namespace KnkScrapers.Classes
             }
             lReturn.IdCompany = CheckCompany(aItem);
             lReturn.Update("Scraper checked Company");
-            AddItemToResult(lReturn);
             return lReturn;
         }
 
@@ -537,7 +543,6 @@ namespace KnkScrapers.Classes
             }
             lReturn.IdFile = aFile;
             lReturn.Update("File assigned to Movie");
-            AddItemToResult(lReturn);
             return lReturn;
         }
 
@@ -556,7 +561,6 @@ namespace KnkScrapers.Classes
                     lLin.Ordinal = lOrdinal;
                     lLin.Text = lLine + ".";
                     lLin.Update("Scraper added Biography");
-                    AddItemToResult(lLin);
                 }
             }
         }
@@ -572,7 +576,6 @@ namespace KnkScrapers.Classes
                 Found.IdCasting = aCasting;
                 Found.Name = lNamPer;
                 Found.Update("Scraper added Name");
-                AddItemToResult(Found);
             }
         }
 
@@ -592,7 +595,6 @@ namespace KnkScrapers.Classes
                     lLin.Ordinal = lOrdinal;
                     lLin.SummaryItem = lLine + ".";
                     lLin.Update("Scraper added Sumary");
-                    AddItemToResult(lLin);
                 }
             }
         }
@@ -603,6 +605,7 @@ namespace KnkScrapers.Classes
             foreach (var lFile in System.IO.Directory.GetFiles(aFolder.Path))
             {
                 string lFileName = System.IO.Path.GetFileName(lFile);
+                Status.UpdateMessage("Scanning Files", lFileName);
                 System.IO.FileInfo lInfo = new System.IO.FileInfo(lFile);
                 var lFil = Files.Items.Where(e => e.Filename.ToLower().Equals(lFileName.ToLower()) && e.IdPath.Reference.Path.ToLower().Equals(aFolder.Path.ToLower())).FirstOrDefault();
                 if (lFil == null)
@@ -628,9 +631,9 @@ namespace KnkScrapers.Classes
                         lFil.Filedate = lInfo.LastWriteTime;
                         lFil.IdPath = aFolder;
                         lFil.Update("New File Scanned");
-                        AddItemToResult(lFil);
                     }
                 }
+                _Worker?.ReportProgress(0);
             }
         }
 
@@ -652,6 +655,7 @@ namespace KnkScrapers.Classes
 
             foreach (var lFile in Files.Items)
             {
+                Status.UpdateMessage("Checking Files", lFile.Filename);
                 if (!System.IO.File.Exists(lFile.ToString()))
                     lFile.Delete("Missing File");
                 else
@@ -662,14 +666,15 @@ namespace KnkScrapers.Classes
                     {
                         lFile.Filedate = lDat;
                         lFile.Update("Filedate Changed");
-                        AddItemToResult(lFile);
                     }
                 }
             }
+            Status.UpdateMessage("Scanner", "Process Finissed");
         }
 
         private void ScanFolder(string aFolder, Folder aParentFolder)
         {
+            Status.UpdateMessage("Scanning Folders", aFolder);
             bool lAvailable;
             var lFol = Folders.Items.Find(e => e.Path.Equals(aFolder));
             if (CheckFolder(aFolder, out lAvailable))
@@ -691,7 +696,6 @@ namespace KnkScrapers.Classes
                         lFol.IdParentPath = aParentFolder;
                         lFol.IdRoot = aParentFolder.IdRoot.Reference;
                         lFol.Update("Folder added to Library");
-                        AddItemToResult(lFol);
                     }
                     var lDirs = System.IO.Directory.GetDirectories(aFolder);
                     {
@@ -710,6 +714,7 @@ namespace KnkScrapers.Classes
             {
                 if (lFol != null) lFol.Delete("Folder check Fails");
             }
+            _Worker?.ReportProgress(0);
         }
 
         bool CheckFolder(string aFolder)
@@ -723,31 +728,32 @@ namespace KnkScrapers.Classes
             return (KnkScrapersUtils.DirectoryExists(aFolder, out aAvailable));
         }
 
-        void Result()
+        public void SaveChanges(BackgroundWorker aWorker)
         {
-            //Results.Clear();
-            //Results = Results.Union(Folders.ListOfChanges()).ToList();
-            //Results = Results.Union(Files.ListOfChanges()).ToList();
-            //Results = Results.Union(Movies.ListOfChanges()).ToList();
-            //Results = Results.Union(Genres.ListOfChanges()).ToList();
-            //Results = Results.Union(Castings.ListOfChanges()).ToList();
-            //Results = Results.Union(Languages.ListOfChanges()).ToList();
-            //Results = Results.Union(Countries.ListOfChanges()).ToList();
-            //Results = Results.Union(Companies.ListOfChanges()).ToList();
-            //Results = Results.Union(CastingTypes.ListOfChanges()).ToList();
-        }
-
-        public void SaveChanges()
-        {
-            Folders.SaveChanges();
-            Files.SaveChanges();
-            CastingTypes.SaveChanges();
-            Genres.SaveChanges();
-            Languages.SaveChanges();
-            Countries.SaveChanges();
-            Companies.SaveChanges();
-            Castings.SaveChanges();
-            Movies.SaveChanges();
+            if (!IsBusy)
+            {
+                IsSaving = true;
+                _Worker = aWorker;
+                Folders.SaveChanges();
+                aWorker.ReportProgress(0);
+                Files.SaveChanges();
+                aWorker.ReportProgress(0);
+                CastingTypes.SaveChanges();
+                aWorker.ReportProgress(0);
+                Genres.SaveChanges();
+                aWorker.ReportProgress(0);
+                Languages.SaveChanges();
+                aWorker.ReportProgress(0);
+                Countries.SaveChanges();
+                aWorker.ReportProgress(0);
+                Companies.SaveChanges();
+                aWorker.ReportProgress(0);
+                Castings.SaveChanges();
+                aWorker.ReportProgress(0);
+                Movies.SaveChanges();
+                aWorker.ReportProgress(0);
+                IsSaving = false;
+            }
         }
     }
 }

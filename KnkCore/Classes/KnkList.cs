@@ -16,6 +16,7 @@ namespace KnkCore
         public KnkConnectionItf Connection { get; set; }
         KnkCriteriaItf<Tdad, Tlst> _Criteria;
         List<Tlst> _List = null;
+        List<KnkChangeDescriptorItf> _Messages = new List<KnkChangeDescriptorItf>();
 
         public KnkList(KnkConnectionItf aConnection)
         {
@@ -58,6 +59,19 @@ namespace KnkCore
         public string SortProperty { get; set; }
 
         public bool SortDirectionAsc { get; set; }
+
+        public List<KnkChangeDescriptorItf> Messages
+        {
+            get
+            {
+                return _Messages;
+            }
+
+            set
+            {
+                _Messages = value;
+            }
+        }
 
         public virtual List<Tlst> Datasource()
         {
@@ -145,29 +159,6 @@ namespace KnkCore
             return (from itm in aList where itm.Status() != UpdateStatusEnu.NoChanges select itm).ToList();
         }
 
-        public List<KnkChangeDescriptorItf> ListOfChanges()
-        {
-            return ListOfChanges(Items);
-        }
-
-        public List<KnkChangeDescriptorItf> ListOfChanges(List<Tlst> aList)
-        {
-            List<KnkChangeDescriptorItf> lRet = (from itm in aList where !string.IsNullOrEmpty(itm.UpdateMessage()) select new KnkChangeDescriptor(itm)).Cast<KnkChangeDescriptorItf>().ToList();
-            return lRet;
-        }
-
-        public List<KnkChangeDescriptorItf> ItemsDescribed()
-        {
-            return ItemsDescribed(Items);
-        }
-
-        public List<KnkChangeDescriptorItf> ItemsDescribed(List<Tlst> aList)
-        {
-            List<KnkChangeDescriptorItf> lRet = (from itm in aList select new KnkChangeDescriptor(itm)).Cast<KnkChangeDescriptorItf>().ToList();
-            return lRet;
-        }
-
-
         public void Refresh()
         {
             _List = null;
@@ -195,6 +186,41 @@ namespace KnkCore
             {
                 lItm.Delete(aMessage);
             }
+        }
+
+        public KnkChangeDescriptorItf AddMessage(KnkItemItf aItem)
+        {
+            return AddMessage(new KnkChangeDescriptor(aItem));
+        }
+
+        public KnkChangeDescriptorItf UpdateMessage(KnkItemItf aItem, string aMessage)
+        {
+            KnkItemItf lItm = aItem;
+            var lFound = Messages?.Find(m => m.Item == lItm);
+            if (Messages != null)
+            {
+                if(lFound==null)
+                {
+                    AddMessage(aItem);
+                }
+                lFound.UpdateMessage(aItem.Status().ToString(), aMessage);
+            }
+            return lFound;
+        }
+
+        public KnkChangeDescriptorItf AddMessage(KnkChangeDescriptorItf aMessage)
+        {
+            if (Messages != null)
+            {
+                int lCua = Messages.Count;
+                bool lHas = lCua > 0 && Messages[0].Item == null;
+                if (!lHas || lCua <= 1)
+                    Messages.Add(aMessage);
+                else
+                    Messages.Insert(1, aMessage);
+                return aMessage;
+            }
+            return null;
         }
     }
 

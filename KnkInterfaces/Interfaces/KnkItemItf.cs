@@ -16,6 +16,7 @@ namespace KnkInterfaces.Interfaces
         KnkEntityIdentifierItf PrimaryKeyValue();
 
         KnkListItf GetParent();
+
         void SetParent(KnkListItf aParent);
 
         KnkConnectionItf Connection();

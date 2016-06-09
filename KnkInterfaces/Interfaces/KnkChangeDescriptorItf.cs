@@ -23,5 +23,7 @@ namespace KnkInterfaces.Interfaces
         DateTime? ModifiedDate { get; }
         [Browsable(false)]
         DateTime? DeletedDate { get; }
+
+        void UpdateMessage(string aAction, string aMessage);
     }
 }
