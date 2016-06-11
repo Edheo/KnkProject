@@ -106,10 +106,13 @@ namespace KnkInterfaces.Utilities
                 where m.ReturnType.GenericTypeArguments.Count().Equals(2) 
                 && m.ReflectedType == item.GetType() 
                 && m.ReturnType.GetInterfaces().Contains(typeof(KnkListItf))
+                && m.Name!="GetParent"
                 select m);
-            return lReturn.ToList();
+            if(lReturn.Count()>0)            
+                return lReturn.ToList();
+            else
+                return lReturn.ToList();
         }
-
 
         public static List<string> CreatedFields()
         {

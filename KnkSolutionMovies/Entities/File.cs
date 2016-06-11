@@ -37,6 +37,11 @@ namespace KnkSolutionMovies.Entities
         {
             return IdPath.Reference?.Path + Filename;
         }
+
+        public override void Update(string aMessage)
+        {
+            base.Update(aMessage);
+        }
     }
 
     public class MissingMovieFile : File

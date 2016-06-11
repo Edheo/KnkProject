@@ -12,8 +12,9 @@ namespace KnkSolutionMovies.Lists
     public class MovieCastings : KnkList<Movie, MovieCasting>
     {
         public MovieCastings(KnkConnectionItf aConnection, string aArtistName)
-        : base(aConnection, KnkCore.Utilities.KnkCoreUtils.BuildLikeCriteria<Movie, MovieCasting>("ArtistName", aArtistName, "vieMovieCasting", "IdCasting"))
+        : base(aConnection)
         {
+            Criteria = KnkCore.Utilities.KnkCoreUtils.BuildLikeCriteria<Movie, MovieCasting>(this, "ArtistName", aArtistName, "vieMovieCasting", "IdCasting");
         }
     }
 }

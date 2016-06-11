@@ -18,5 +18,6 @@ namespace KnkInterfaces.Interfaces
         where Tlst : KnkItemItf, new()
     {
         KnkTableEntityRelationItf<Tdad> EntityRelation();
+        KnkListItf<Tdad,Tlst> Parent { get; set; }
     }
 }

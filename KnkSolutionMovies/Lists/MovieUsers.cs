@@ -18,13 +18,15 @@ namespace KnkSolutionMovies.Lists
         }
 
         public MovieUsers(KnkConnectionItf aConnection)
-        : base(aConnection, KnkCore.Utilities.KnkCoreUtils.BuildLikeCriteria<Movie, MovieUser>("IdUser", aConnection.CurrentUser().PrimaryKeyValue().ToString(), "vieMovieUsers", "IdMovieUser"))
+        : base(aConnection)
         {
+            Criteria = KnkCore.Utilities.KnkCoreUtils.BuildLikeCriteria(this, "IdUser", aConnection.CurrentUser().PrimaryKeyValue().ToString(), "vieMovieUsers", "IdMovieUser");
         }
 
         public MovieUsers(KnkConnectionItf aConnection, int aIdUser)
-        : base(aConnection, KnkCore.Utilities.KnkCoreUtils.BuildEqualCriteria<Movie, MovieUser>(new Movie(), "IdUser", aIdUser))
+        : base(aConnection)
         {
+            Criteria = KnkCore.Utilities.KnkCoreUtils.BuildEqualCriteria(this, "IdUser", aIdUser);
         }
     }
 }

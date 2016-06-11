@@ -10,7 +10,6 @@ namespace KnkInterfaces.Interfaces
         int Count();
         void DeleteAll(string aMessage);
         bool SaveChanges();
-        bool SaveChanges(UpdateStatusEnu aStatus);
         void Refresh();
 
         string SortProperty { get; set; }
@@ -33,13 +32,12 @@ namespace KnkInterfaces.Interfaces
         List<Tlst> ItemsChanged(List<Tlst> aList);
 
         List<Tlst> Datasource();
-        KnkCriteriaItf<Tdad, Tlst> GetCriteria();
+        KnkCriteriaItf<Tdad, Tlst> Criteria { get; set; }
         List<KnkEntityIdentifierItf> GetListIds();
         List<KnkEntityIdentifierItf> GetListIds(List<Tlst> aItems);
         Tlst Create();
         Tlst Create(bool aAddToList);
         void Add(Tlst aItem, string aMessage);
         bool SaveChanges(List<Tlst> aList);
-        bool SaveChanges(List<Tlst> aList, UpdateStatusEnu aStatus);
     }
 }

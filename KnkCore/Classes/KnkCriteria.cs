@@ -9,26 +9,28 @@ using KnkCore.Utilities;
 namespace KnkCore
 {
     public class KnkCriteria<Tdad, Tlst> : KnkCriteriaItf<Tdad, Tlst> 
-        where Tdad :KnkItemItf, new()
+        where Tdad : KnkItemItf, new()
         where Tlst : KnkItemItf, new()
     {
         private readonly List<KnkParameterItf> _parameters = new List<KnkParameterItf>();
         private readonly KnkTableEntity _entityTable;
+        private KnkListItf<Tdad, Tlst> _parent;
         //Type aType, string aName, OperatorsEnu aOperator, object aValue
-        public KnkCriteria(Tdad aItem) 
-        : this(aItem, (new Tlst()).SourceEntity())
+        public KnkCriteria(KnkListItf<Tdad, Tlst> aParent) 
+        : this(aParent, (new Tlst()).SourceEntity())
         {
         }
 
-        public KnkCriteria(Tdad aItem, KnkTableEntityRelationItf<Tlst> aEntityTable)
-        : this(aItem, (KnkTableEntityItf)aEntityTable)
+        public KnkCriteria(KnkListItf<Tdad, Tlst> aParent, KnkTableEntityRelationItf<Tlst> aEntityTable)
+        : this(aParent, (KnkTableEntityItf)aEntityTable)
         {
         }
 
-        public KnkCriteria(Tdad aItem, KnkTableEntityItf aEntityTable)
+        public KnkCriteria(KnkListItf<Tdad, Tlst> aParent, KnkTableEntityItf aEntityTable)
         {
             _entityTable = aEntityTable as KnkTableEntity;
-            KnkLinkFields = aItem.PrimaryKey(); 
+            _parent = aParent;
+            KnkLinkFields = new Tdad().PrimaryKey(); 
             //AddLinkParameters(aItem);
         }
 
@@ -38,47 +40,19 @@ namespace KnkCore
             AddParameter(aType, aName, aOperator, aValue);
         }
 
-        //private void AddLinkParameters(Tdad aItem)
-        //{
-        //    if (typeof(Tdad) == typeof(Tlst))
-        //    {
-        //        return;
-        //    }
-
-        //    var lPrs = KnkInterfacesUtils.GetProperties<Tlst>();
-        //    foreach (string lPar in KnkLinkFieldsList())
-        //    {
-        //        var lPrp = lPrs.Where(p => p.Name.ToLower().Equals(lPar.ToLower())).FirstOrDefault();
-        //        if (lPrp != null)
-        //        {
-        //            //if(aItem.PropertyGet(lPrp.Name) != null)
-        //            AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lPrp.Name, OperatorsEnu.Equal, aItem.PropertyGet(lPrp.Name));
-        //            //else if (typeof(Tdad) != typeof(Tlst))
-        //            //    AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lPrp.Name, OperatorsEnu.Equal, aItem.PropertyGet(lPrp.Name));
-        //        }
-        //    }
-        //    var lEnt = this.EntityRelation();
-        //    if (!string.IsNullOrEmpty(lEnt?.RelatedKey))
-        //    {
-        //        var lPrp = KnkInterfacesUtils.GetProperties<Tdad>().Where(p => p.Name.Equals(aItem.PrimaryKey())).FirstOrDefault();
-        //        if (lPrp != null)
-        //        {
-        //            //if(aItem.PropertyGet(lEnt.RelatedKey)!=null)
-        //            AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lEnt.RelatedKey, OperatorsEnu.Equal, aItem.PropertyGet(lEnt.RelatedKey));
-        //            //    AddParameter(KnkCoreUtils.GetPropertyType(lPrp), lEnt.RelatedKey, OperatorsEnu.Equal, aItem.PropertyGet(lEnt.RelatedKey));
-        //        }
-        //    }
-        //}
-
-        //private bool IsARelationship()
-        //{
-        //    if (string.IsNullOrEmpty(this.EntityRelation()?.RelatedKey))
-        //        return false;
-        //    else
-        //        return true;
-        //}
-
         public string KnkLinkFields { get; }
+
+        public KnkListItf<Tdad, Tlst> Parent
+        {
+            get
+            {
+                return _parent;
+            }
+            set
+            {
+                _parent = value;
+            }
+        }
 
         private List<string> KnkLinkFieldsList()
         {
@@ -116,8 +90,8 @@ namespace KnkCore
     public class KnkCriteria<Tlst> : KnkCriteria<Tlst, Tlst>
         where Tlst : KnkItemItf, new()
     {
-        public KnkCriteria(Tlst aItem)
-        : base(aItem, (new Tlst()).SourceEntity())
+        public KnkCriteria(KnkListItf<Tlst,Tlst> aParent)
+        : base(aParent, (new Tlst()).SourceEntity())
         {
         }
     }

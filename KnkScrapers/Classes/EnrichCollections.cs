@@ -18,7 +18,7 @@ namespace KnkScrapers.Classes
 {
     public partial class EnrichCollections
     {
-        public List<KnkChangeDescriptorItf> Results;
+        private List<KnkChangeDescriptorItf> Results;
         KnkChangeDescriptorItf Status = null;
         public readonly List<Folder> Roots;
         internal readonly List<Folder> FoldersToScan;
@@ -59,11 +59,11 @@ namespace KnkScrapers.Classes
                              orderby fol.IdPath descending
                              select fol).ToList();
 
-            KnkCriteria<File, File> lCri = new KnkCriteria<File, File>(new File());
-            KnkCoreUtils.CreateInParameter<File, File>(Folders.GetListIds(Roots), lCri, "IdRoot");
 
             MissingMovies = new MissingMovies(aCon);
-            Files = new Files(aCon, lCri) { Messages = Results };
+            Files = new Files(aCon) { Messages = Results };
+            Files.Criteria = new KnkCriteria<File, File>(Files);
+            KnkCoreUtils.CreateInParameter<File, File>(Folders.GetListIds(Roots), Files.Criteria, "IdRoot");
             Movies = new Movies(aCon) { Messages = Results };
             Genres = new Genres(aCon);
             Companies = new Companies(aCon);
@@ -95,7 +95,7 @@ namespace KnkScrapers.Classes
                             where !fil.IsChanged()
                             select fil).ToList();
             ScrapFiles();
-            Status.UpdateMessage("Process Finished", string.Empty);
+            Status.UpdateMessage("Scraping", "Process Finished");
         }
 
         void ScrapFiles()
@@ -161,8 +161,12 @@ namespace KnkScrapers.Classes
                 //	string					Status
                 //	ExternalIds				External
                 lDst.ScrapedDate = DateTime.Now;
-                FillCasting(lDst, lOrg.Credits);                                //	MediaCredits			Credits
+                if (lDst.IsNew())
+                    lDst.Update("Movie Scraped From Tmdb");
+                else
+                    lDst.Update("Movie Re-Scraped From Tmdb");
                 _Worker?.ReportProgress(0);
+                FillCasting(lDst, lOrg.Credits);                                //	MediaCredits			Credits
                 FillMediaLinks(lDst, lOrg.Images, lOrg.Videos);                 //	Images					Images
                 FillUser(lDst, aMovieDst.Connection().CurrentUser());                                           //  It belongs to the user
                 FillFile(lDst, aFomFile);                                       //  File from library
@@ -172,10 +176,6 @@ namespace KnkScrapers.Classes
                 FillCompanies(lDst, lOrg.Companies.ToList());                   //	IEnumerable<Company>	Companies
                 FillCountries(lDst, lOrg.Countries.ToList());                   //	IEnumerable<Country>	Countries
                 FillLanguages(lDst, lOrg.Languages.ToList());                   //	IEnumerable<Language>	Languages
-                if(lDst.IsNew())
-                    lDst.Update("Movie Scraped From Tmdb");
-                else
-                    lDst.Update("Movie Re-Scraped From Tmdb");
             }
             return lDst;
         }
@@ -657,19 +657,24 @@ namespace KnkScrapers.Classes
             {
                 Status.UpdateMessage("Checking Files", lFile.Filename);
                 if (!System.IO.File.Exists(lFile.ToString()))
+                {
                     lFile.Delete("Missing File");
+                    _Worker.ReportProgress(0);
+                }
                 else
                 {
                     DateTime lDat = System.IO.File.GetLastWriteTime(lFile.ToString());
                     int lSeconds = (int)Math.Abs((lDat - lFile.Filedate).TotalSeconds);
-                    if (lSeconds!=0)
+                    if (lSeconds != 0)
                     {
                         lFile.Filedate = lDat;
                         lFile.Update("Filedate Changed");
+                        _Worker.ReportProgress(0);
                     }
                 }
             }
-            Status.UpdateMessage("Scanner", "Process Finissed");
+            Status.UpdateMessage("Scanning", "Process Finissed");
+            _Worker.ReportProgress(0);
         }
 
         private void ScanFolder(string aFolder, Folder aParentFolder)
@@ -734,26 +739,53 @@ namespace KnkScrapers.Classes
             {
                 IsSaving = true;
                 _Worker = aWorker;
+
+                Status.UpdateMessage("Saving Changes", "Folders");
+                aWorker.ReportProgress(0);
                 Folders.SaveChanges();
+
+                Status.UpdateMessage("Saving Changes", "Files");
                 aWorker.ReportProgress(0);
                 Files.SaveChanges();
+
+                Status.UpdateMessage("Saving Changes", "Casting Types");
                 aWorker.ReportProgress(0);
                 CastingTypes.SaveChanges();
+
+                Status.UpdateMessage("Saving Changes", "Genres");
                 aWorker.ReportProgress(0);
                 Genres.SaveChanges();
+
+                Status.UpdateMessage("Saving Changes", "Languages");
                 aWorker.ReportProgress(0);
                 Languages.SaveChanges();
+
+                Status.UpdateMessage("Saving Changes", "Countries");
                 aWorker.ReportProgress(0);
                 Countries.SaveChanges();
+
+                Status.UpdateMessage("Saving Changes", "Companies");
                 aWorker.ReportProgress(0);
                 Companies.SaveChanges();
+
+                Status.UpdateMessage("Saving Changes", "Castings");
                 aWorker.ReportProgress(0);
                 Castings.SaveChanges();
+
+                Status.UpdateMessage("Saving Changes", "Movies");
                 aWorker.ReportProgress(0);
                 Movies.SaveChanges();
+
+                Status.UpdateMessage("Saving Changes", "Process Finished");
                 aWorker.ReportProgress(0);
+
                 IsSaving = false;
             }
+        }
+
+        public List<KnkChangeDescriptorItf> DataSource()
+        {
+            return (from res in Results orderby (res.ModifiedDate ?? res.CreationDate) descending select res).ToList();
         }
     }
 }

@@ -50,7 +50,7 @@ namespace KnkCore
             {
                 if(_List==null)
                 {
-                    FillFromList(Connection.GetList(GetCriteria()).Items);
+                    FillFromList(Connection.GetList(Criteria).Items);
                 }
                 return _List;
             }
@@ -92,21 +92,29 @@ namespace KnkCore
             return lRet;
         }
 
-        public KnkCriteriaItf<Tdad, Tlst> GetCriteria()
+        public KnkCriteriaItf<Tdad, Tlst> Criteria
         {
-            if (_Criteria == null)
+            get
             {
-                KnkItemItf lDad = new Tdad();
-                lDad.SetParent(this);
-                _Criteria = new KnkCriteria<Tdad, Tlst>((Tdad)lDad);
+                if (_Criteria == null)
+                {
+                    KnkItemItf lDad = new Tdad();
+                    lDad.SetParent(this);
+                    _Criteria = new KnkCriteria<Tdad, Tlst>(this);
+                }
+                return _Criteria;
             }
-            return _Criteria;
+            set
+            {
+                _Criteria = value;
+                _Criteria.Parent = this;
+            }
         }
 
         public List<KnkEntityIdentifierItf> GetListIds()
         {
             if (_List == null)
-                return Connection.GetListIds(GetCriteria());
+                return Connection.GetListIds(Criteria);
             else
                 return GetListIds(Items);
         }
@@ -132,22 +140,11 @@ namespace KnkCore
 
         public bool SaveChanges(List<Tlst> aList)
         {
-            return SaveChanges(aList, UpdateStatusEnu.NoChanges);
-        }
-
-        public bool SaveChanges(UpdateStatusEnu aStatus)
-        {
-            bool lRet = SaveChanges(Items, aStatus);
-            if (lRet) Refresh();
-            return lRet;
-        }
-
-        public bool SaveChanges(List<Tlst> aList, UpdateStatusEnu aStatus)
-        {
-            var lChanges = (from itm in aList where (itm.Status() == aStatus || aStatus == UpdateStatusEnu.NoChanges) select itm).ToList();
+            var lChanges = (from itm in aList where itm.Status()!=UpdateStatusEnu.NoChanges select itm).ToList();
             Connection.SaveData<Tlst>(lChanges);
             return true;
         }
+
 
         public List<Tlst> ItemsChanged()
         {
@@ -212,12 +209,13 @@ namespace KnkCore
         {
             if (Messages != null)
             {
-                int lCua = Messages.Count;
-                bool lHas = lCua > 0 && Messages[0].Item == null;
-                if (!lHas || lCua <= 1)
-                    Messages.Add(aMessage);
-                else
-                    Messages.Insert(1, aMessage);
+                //int lCua = Messages.Count;
+                //bool lHas = lCua > 0 && Messages[0].Item == null;
+                //if (!lHas || lCua <= 1)
+                //    Messages.Add(aMessage);
+                //else
+                //    Messages.Insert(1, aMessage);
+                Messages.Add(aMessage);
                 return aMessage;
             }
             return null;

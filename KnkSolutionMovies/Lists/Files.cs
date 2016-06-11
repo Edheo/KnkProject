@@ -10,10 +10,5 @@ namespace KnkSolutionMovies.Lists
         : base(aConnection)
         {
         }
-
-        public Files(KnkConnectionItf aConnection, KnkCriteriaItf<File, File> aCriteria)
-        : base(aConnection, aCriteria)
-        {
-        }
     }
 }

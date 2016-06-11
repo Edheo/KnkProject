@@ -74,7 +74,7 @@ namespace KnkDataSqlServer.Utilities
         internal static string GetDynamicInsert<T>(SqlConnection aCon, T aItem)
             where T : KnkItemItf
         {
-            return GetDynamicInsert(aItem, GetData(aCon, GetSimpleTableSelect(aItem.SourceEntity().TableBase)).Columns);
+            return GetDynamicInsert(aItem, GetData(aCon, GetSimpleTableSelect(aItem.SourceEntity().TableBase,true)).Columns);
         }
 
         private static string GetDynamicInsert<T>(T aItem, DataColumnCollection aCols )

@@ -45,7 +45,7 @@ namespace KnkCore
         public T ReadItem<T>(T aItm) where T : KnkItemItf, new()
         {
             KnkListItf<T, T> lLst = new KnkList<T, T>(this);
-            KnkCriteria<T, T> lCri = KnkCoreUtils.BuildEqualCriteria<T,T>(aItm, aItm.PrimaryKey(), aItm.PropertyGet(aItm.PrimaryKey()));
+            KnkCriteria<T, T> lCri = KnkCoreUtils.BuildEqualCriteria<T,T>(aItm.GetParent<T,T>(), aItm.PrimaryKey(), aItm.PropertyGet(aItm.PrimaryKey()));
 
             FillList<T, T>(lLst, lCri);
 
@@ -60,34 +60,12 @@ namespace KnkCore
             aList.FillFromList(aTable.AsEnumerable().Select(row => KnkCoreUtils.CopyRecord<Tlst>(aList, row)).ToList());
         }
 
-        //public KnkReferenceItf<TRef> GetReference<TDad, TRef>(TDad aItem)
-        //    where TDad : KnkItemItf
-        //    where TRef : KnkItemItf, new()
-        //{
-        //    return SetReference(new KnkEntityReference<TReference>(aItem, lProperty, GetItem<TReference>), aItem, lProperty);
-        //}
-
-        //public KnkReferenceItf<TDad, TReference> GetReference<TDad, TReference>(TDad aItem, string aProperty)
-        //    where TDad : KnkItemItf
-        //    where TReference : KnkItemItf, new()
-        //{
-        //    return SetReference(new KnkEntityReference<TDad, TReference>(aItem, aProperty, GetItem<TReference>),aItem, aProperty);
-        //}
-
-        //public KnkReferenceItf<TDad, TReference> SetReference<TDad, TReference>(KnkReferenceItf<TDad, TReference> aReference, TDad aItem, string aProperty)
-        //    where TDad : KnkItemItf
-        //    where TReference : KnkItemItf, new()
-        //{
-        //    aReference.ResetReference(aItem, aProperty);
-        //    return aReference;
-        //}
-
         public KnkListItf<Tdad, Tlst> GetList<Tdad, Tlst>()
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
             KnkListItf<Tdad, Tlst> lLst = new KnkList<Tdad, Tlst>(this);
-            lLst = FillList(lLst, lLst.GetCriteria());
+            lLst = FillList(lLst, lLst.Criteria);
             return lLst;
         }
 
@@ -96,9 +74,7 @@ namespace KnkCore
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            KnkListItf<Tdad, Tlst> lLst = new KnkList<Tdad, Tlst>(this);
-            lLst = FillList(lLst, aCriteria);
-            return lLst;
+            return FillList(aCriteria.Parent, aCriteria);
         }
 
         public List<KnkEntityIdentifierItf> GetListIds<Tdad, Tlst>(KnkCriteriaItf<Tdad, Tlst> aCriteria)
@@ -132,7 +108,7 @@ namespace KnkCore
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            return FillList(aList, aList.GetCriteria());
+            return FillList(aList, aList.Criteria);
         }
 
         public KnkListItf<Tdad, Tlst> FillList<Tdad, Tlst>(KnkListItf<Tdad, Tlst> aList, KnkCriteriaItf<Tdad, Tlst> aCriteria)
@@ -176,17 +152,6 @@ namespace KnkCore
                         lResult = null;
                     }
                 }
-            }
-        }
-
-        void DebugerCondition(object aItem)
-        {
-            bool lStop = false;
-            KnkItem lItm = aItem as KnkItem;
-            if(lItm!=null && lItm.Status()==KnkInterfaces.Enumerations.UpdateStatusEnu.New)
-            {
-                if (lItm.PrimaryKey().Equals("IdCasting"))
-                    lStop = true;
             }
         }
 

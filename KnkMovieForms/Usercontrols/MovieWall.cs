@@ -21,7 +21,6 @@ namespace KnkMovieForms.Usercontrols
         delegate void delLoadComboList<T>(ComboBox aCombo, List<T> aList);
 
         public event CancelEventHandler PerformSearch;
-        private KnkCriteria<Movie,Movie> _CurrentCriteria;
         private readonly KnkConnection _Connection;
         private Movies _Movies;
         bool _Initialized = false;
@@ -152,8 +151,8 @@ namespace KnkMovieForms.Usercontrols
             }
             if (!lCancel)
             {
-                GenerateCriteria();
-                Movies lMov = new Movies(_Connection, _CurrentCriteria);
+                Movies lMov = new Movies(_Connection);
+                lMov.Criteria = GetCriteria(lMov);
                 string[] lSort = cmbSort.SelectedValue.ToString().Split(':');
                 lMov.SortProperty = lSort[0];
                 if (lSort[1].Equals("Asc"))
@@ -174,9 +173,9 @@ namespace KnkMovieForms.Usercontrols
             chkViewed.CheckState = CheckState.Indeterminate;
         }
 
-        private void GenerateCriteria()
+        private KnkCriteria<Movie, Movie> GetCriteria(Movies aList)
         {
-            KnkCriteria<Movie, Movie> lCri = new KnkCriteria<Movie, Movie>(new Movie(), new KnkTableEntity("vieMovies", "Movies"));
+            KnkCriteria<Movie, Movie> lCri = new KnkCriteria<Movie, Movie>(aList, new KnkTableEntity("vieMovies", "Movies"));
             KnkCoreUtils.CreateInParameter(new MovieUsers(_Connection), lCri, "IdMovie");
             if (!string.IsNullOrEmpty(txtSearch.Text))
             {
@@ -219,7 +218,7 @@ namespace KnkMovieForms.Usercontrols
             }
             if (!lCri.HasParameters())
                 lCri = null;
-            _CurrentCriteria = lCri;
+            return lCri;
         }
 
         private void btnSearch_Click(object sender, EventArgs e)

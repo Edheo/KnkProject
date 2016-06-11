@@ -13,8 +13,9 @@ namespace KnkSolutionMovies.Lists
     public class MovieGenres : KnkList<Movie, Genre>
     {
         public MovieGenres(KnkConnectionItf aConnection, string aGenre)
-        : base(aConnection, KnkCore.Utilities.KnkCoreUtils.BuildLikeCriteria<Movie, Genre>("GenreName", aGenre, "vieMovieGenres", "IdCasting"))
+        : base(aConnection)
         {
+            Criteria = KnkCore.Utilities.KnkCoreUtils.BuildLikeCriteria(this, "GenreName", aGenre, "vieMovieGenres", "IdCasting");
         }
     }
 }

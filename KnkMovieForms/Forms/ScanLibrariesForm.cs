@@ -21,7 +21,7 @@ namespace KnkMovieForms.Forms
         KnkConnectionItf _Connnection;
         EnrichCollections _Enricher;
         string _LibraryType = string.Empty;
-        BindingSource _Bing = new BindingSource();
+        //BindingSource _Bing = new BindingSource();
 
         private ScanLibrariesForm()
         {
@@ -68,7 +68,9 @@ namespace KnkMovieForms.Forms
                 //    grdResults.DataSource = _Bing;
                 //};
                 //lTim.Start();
-                _Bing.DataSource = _Enricher.Results;
+
+
+                //_Bing.DataSource = List<KnkChangeDescriptorItf>.Results;
 
                 var bw = new BackgroundWorker();
                 bw.WorkerReportsProgress = true;
@@ -77,56 +79,41 @@ namespace KnkMovieForms.Forms
                 {
                     _Enricher.StartScanner(bw);
                 };
-                bw.ProgressChanged += (sender, args) =>
-                {
-                    grdResults.DataSource = typeof(List<>);
-                    _Bing.ResetBindings(true);
-                    grdResults.DataSource = _Bing;
-                };
-                bw.RunWorkerCompleted += (sender, args) =>
-                {
-                    btnScan.Image = global::KnkMovieForms.Properties.Resources.btnScan_ResourceImage;
-                };
+                bw.ProgressChanged += (sender, args) => { ProcessChanged(); };
+                bw.RunWorkerCompleted += (sender, args) => { ProcessFinished(); };
                 bw.RunWorkerAsync(); // starts the background worker
             }
-            grdResults.DataSource = _Bing;
+            grdResults.DataSource = _Enricher.DataSource();
+        }
+
+        void ProcessChanged()
+        {
+            grdResults.DataSource = typeof(List<>);
+            grdResults.DataSource = _Enricher.DataSource();
+        }
+
+        void ProcessFinished()
+        {
+            btnScan.Image = global::KnkMovieForms.Properties.Resources.btnScan_ResourceImage;
+            btnUpdates.Image = global::KnkMovieForms.Properties.Resources.btnUpdates_ResourceImage;
         }
 
         private void OnSaveChanges()
         {
             if (!_Enricher.IsBusy)
             {
-                System.Windows.Forms.Timer lTim = new System.Windows.Forms.Timer();
-                lTim.Interval = 2000;
-                lTim.Tick += (sender, args) =>
-                {
-                    grdResults.DataSource = typeof(List<>);
-                    _Bing.ResetBindings(true);
-                    grdResults.DataSource = _Bing;
-                };
-                lTim.Start();
-
                 var bw = new BackgroundWorker();
                 bw.WorkerReportsProgress = true;
-                btnScan.Image = global::KnkMovieForms.Properties.Resources.Ani200_2;
+                btnUpdates.Image = global::KnkMovieForms.Properties.Resources.Ani200_6;
                 bw.DoWork += (sender, args) =>
                 {
                     _Enricher.SaveChanges(bw);
                 };
-                //bw.ProgressChanged += (sender, args) =>
-                //{
-                //    grdResults.DataSource = typeof(List<>);
-                //    _Bing.ResetBindings(true);
-                //    grdResults.DataSource = _Bing;
-                //};
-                bw.RunWorkerCompleted += (sender, args) =>
-                {
-                    btnScan.Image = global::KnkMovieForms.Properties.Resources.btnScan_ResourceImage;
-                    lTim.Stop();
-                };
+                bw.ProgressChanged += (sender, args) => { ProcessChanged(); };
+                bw.RunWorkerCompleted += (sender, args) => { ProcessFinished(); };
                 bw.RunWorkerAsync(); // starts the background worker
             }
-            grdResults.DataSource = _Bing;
+            grdResults.DataSource = _Enricher.DataSource();
         }
 
         private void butScan_Click(object sender, EventArgs e)

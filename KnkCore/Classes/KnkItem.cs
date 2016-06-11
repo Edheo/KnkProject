@@ -30,7 +30,7 @@ namespace KnkCore
 
         public void SetParent(KnkListItf aParent)
         {
-            _status = UpdateStatusEnu.NoChanges;
+            //_status = UpdateStatusEnu.NoChanges;
             _parent = aParent;
         }
 
@@ -126,7 +126,7 @@ namespace KnkCore
             return lNew;
         }
 
-        public void Update(string aMessage)
+        public virtual void Update(string aMessage)
         {
             var lPrp = PropertyGet(PrimaryKey());
             _UpdateMessage = aMessage;
@@ -145,7 +145,7 @@ namespace KnkCore
                 ModifiedText = _UpdateMessage;
                 _status = UpdateStatusEnu.Update;
             }
-            GetParent()?.Messages?.Add(new KnkChangeDescriptor(this));
+            GetParent()?.AddMessage(new KnkChangeDescriptor(this));
         }
 
         public void Delete(string aMessage)
@@ -193,6 +193,13 @@ namespace KnkCore
         public bool IsChanged()
         {
             return Status() != UpdateStatusEnu.NoChanges;
+        }
+
+        public KnkListItf<Tdad, Tlst> GetParent<Tdad, Tlst>()
+            where Tdad : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
+        {
+            return _parent as KnkListItf<Tdad,Tlst>;
         }
     }
 }

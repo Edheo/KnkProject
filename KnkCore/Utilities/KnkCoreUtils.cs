@@ -103,53 +103,52 @@ namespace KnkCore.Utilities
             return string.Join(".", lNames);
         }
 
-        public static void CreateInParameter<Tdad, Tlst>(KnkList<Tdad, Tlst> aList, KnkCriteria<Tdad, Tdad> aCriteria, string aField)
+        public static void CreateInParameter<Tdad, Tlst>(KnkListItf<Tdad, Tlst> aList, KnkCriteriaItf<Tdad, Tdad> aCriteria, string aField)
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
             CreateInParameter<Tdad, Tlst>(aList.GetListIds(), aCriteria, aField);
         }
 
-        public static void CreateInParameter<Tdad, Tlst>(List<KnkEntityIdentifierItf> aList, KnkCriteria<Tdad, Tdad> aCriteria, string aField)
+        public static void CreateInParameter<Tdad, Tlst>(List<KnkEntityIdentifierItf> aList, KnkCriteriaItf<Tdad, Tdad> aCriteria, string aField)
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            var lLst = (from e in aList select e.Value);
-            var lStr = String.Join(",", lLst.ToArray());
+            var lStr = KnkInterfacesUtils.ConcatStrings((from a in aList select a.Value.ToString()).ToList());
             aCriteria.AddParameter(typeof(string), aField, OperatorsEnu.In, lStr);
         }
 
-        public static KnkCriteria<Tdad, Tlst> BuildLikeCriteria<Tdad, Tlst>(string aField, string aValue, string aTable, string aFieldId)
+        public static KnkCriteria<Tdad, Tlst> BuildLikeCriteria<Tdad, Tlst>(KnkListItf<Tdad, Tlst> aList, string aField, string aValue, string aTable, string aFieldId)
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            return BuildCriteria<Tdad, Tlst>(aField, OperatorsEnu.Like, aValue, aTable, aFieldId);
+            return BuildCriteria<Tdad, Tlst>(aList, aField, OperatorsEnu.Like, aValue, aTable, aFieldId);
         }
 
-        public static KnkCriteria<Tdad, Tlst> BuildCriteria<Tdad, Tlst>(string aField, OperatorsEnu aOperator, object aValue, string aTable, string aFieldId)
+        public static KnkCriteria<Tdad, Tlst> BuildCriteria<Tdad, Tlst>(KnkListItf<Tdad,Tlst> aList, string aField, OperatorsEnu aOperator, object aValue, string aTable, string aFieldId)
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
-            KnkCriteria<Tdad, Tlst> lCri = new KnkCriteria<Tdad, Tlst>(new Tdad(), new KnkTableEntityRelation<Tdad>(aTable, aFieldId));
+            KnkCriteria<Tdad, Tlst> lCri = new KnkCriteria<Tdad, Tlst>(aList, new KnkTableEntityRelation<Tdad>(aTable, aFieldId));
             lCri.AddParameter(typeof(string), aField, aOperator, aValue);
             return lCri;
         }
 
-        public static KnkCriteria<Tdad, Titm> BuildEqualCriteria<Tdad, Titm>(Tdad aItem, string aField, object aValue)
+        public static KnkCriteria<Tdad, Tlst> BuildEqualCriteria<Tdad, Tlst>(KnkListItf<Tdad, Tlst> aList, string aField, object aValue)
             where Tdad : KnkItemItf, new()
-            where Titm : KnkItemItf, new()
+            where Tlst : KnkItemItf, new()
         {
-            KnkCriteria<Tdad, Titm> lCri = new KnkCriteria<Tdad, Titm>(aItem);
+            KnkCriteria<Tdad, Tlst> lCri = new KnkCriteria<Tdad, Tlst>(aList);
             lCri.AddParameter(typeof(int), aField, OperatorsEnu.Equal, aValue);
             return lCri;
         }
 
-        public static KnkCriteria<Tdad, Tlst> BuildRelationCriteria<Tdad, Tlst>(Tdad aItem, string aTableView)
+        public static KnkCriteria<Tdad, Tlst> BuildRelationCriteria<Tdad, Tlst>(KnkListItf<Tdad, Tlst> aList, Tdad aItem, string aTableView)
             where Tdad : KnkItemItf, new()
             where Tlst : KnkItemItf, new()
         {
             var lEnt = new Tlst().SourceEntity();
-            KnkCriteria<Tdad, Tlst> lCri = new KnkCriteria<Tdad, Tlst>(aItem, new KnkTableEntityRelation<Tdad>(aTableView, lEnt.TableBase));
+            KnkCriteria<Tdad, Tlst> lCri = new KnkCriteria<Tdad, Tlst>(aList, new KnkTableEntityRelation<Tdad>(aTableView, lEnt.TableBase));
             lCri.AddParameter(typeof(string), aItem.PrimaryKey(), OperatorsEnu.Equal, aItem.PropertyGet(aItem.PrimaryKey()));
             return lCri;
         }

@@ -12,20 +12,14 @@ namespace KnkCore
         where Titm : KnkItemItf, new()
     {
         public KnkEntityRelation(Tdad aItem)
-        :this(aItem, (new Titm().SourceEntity()).SourceTable)
+        :this(aItem, (new Titm()).SourceEntity().SourceTable)
         {
         }
 
         public KnkEntityRelation(Tdad aItem, string aRelatedView)
-        : base(aItem.Connection(), KnkCore.Utilities.KnkCoreUtils.BuildRelationCriteria<Tdad,Titm> (aItem,aRelatedView))
+        : base(aItem.Connection())
         {
-
+            this.Criteria = KnkCore.Utilities.KnkCoreUtils.BuildRelationCriteria(this, aItem, aRelatedView);
         }
-
-        //public KnkEntityRelation(Tdad aItem, string aRelatedView)
-        //: base(aItem.Connection(), new KnkCriteria<Tdad, Titm>(aItem, new KnkTableEntityRelation<Tdad>(aRelatedView, (new Titm().SourceEntity().TableBase))))
-        //{
-
-        //}
     }
 }

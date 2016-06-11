@@ -15,8 +15,9 @@ namespace KnkSolutionMovies.Lists
     public class SubFolders : KnkList<Folder>
     {
         public SubFolders(Folder aFolder)
-        : base(aFolder.Connection(), new KnkCriteria<Folder, Folder>(aFolder, new KnkTableEntityRelation<Folder>("vieFolders", "IdParentPath")))
+        : base(aFolder.Connection())
         {
+            Criteria = new KnkCriteria<Folder, Folder>(this, new KnkTableEntityRelation<Folder>("vieFolders", "IdParentPath"));
         }
     }
 }
