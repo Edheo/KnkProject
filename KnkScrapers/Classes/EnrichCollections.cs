@@ -20,11 +20,14 @@ namespace KnkScrapers.Classes
     {
         private List<KnkChangeDescriptorItf> Results;
         KnkChangeDescriptorItf Status = null;
-        public readonly List<Folder> Roots;
-        internal readonly List<Folder> FoldersToScan;
         internal List<File> MissingFiles;
+        internal List<MovieOldfashion> OldfashionMovies;
         BackgroundWorker _Worker;
-        public readonly MissingMovies MissingMovies;
+        public readonly MoviesMissing MoviesMissing;
+        public readonly MoviesOldfashioned MoviesOldfashion;
+
+        public readonly List<Folder> Roots;
+        internal List<Folder> FoldersToScan;
 
         internal readonly Files Files;
         internal readonly Folders Folders;
@@ -43,34 +46,75 @@ namespace KnkScrapers.Classes
         public EnrichCollections(KnkConnectionItf aCon, string aLibraryType)
         {
             Results = new List<KnkChangeDescriptorItf>();
-            Status = new KnkChangeDescriptor(DateTime.Now, "Libraries", "Loading Data", "Folders");
-            Results.Add(Status);
+            Status = new KnkChangeDescriptor("Loading Data", "Folders");
+
             Folders = new Folders(aCon) { Messages = Results };
 
-            Status.UpdateMessage("Loading Data", "Roots");
             Roots = (from f in Folders.Items
                      where f.IdParentPath?.Value == null && (f.ContentType ?? string.Empty).Equals(aLibraryType)
                      select f).ToList();
 
-            Status.UpdateMessage("Loading Data", "Folders to Scan");
+            Files = new Files(aCon) { Messages = Results };
+            MoviesMissing = new MoviesMissing(aCon);
+            MoviesOldfashion = new MoviesOldfashioned(aCon);
+            Files.Criteria = new KnkCriteria<File, File>(Files);
+            KnkCoreUtils.CreateInParameter<File, File>(Folders.GetListIds(Roots), Files.Criteria, "IdRoot");
+            
+            Movies = new Movies(aCon) { Messages = Results };
+            Genres = new Genres(aCon);
+            Companies = new Companies(aCon);
+            Countries = new Countries(aCon);
+            Languages = new Languages(aCon);
+            Castings = new Castings(aCon);
+            CastingTypes = new CastingTypes(aCon);
+            Reset(false, true, true, true, false);
+        }
+
+        public void Reset(bool aInitLibraries, bool aIncludeMissing, bool aIncludeOldfashion, bool aClearResutls, bool aStatus)
+        {
+            if (aInitLibraries)
+            {
+                Files.Refresh();
+                MoviesMissing.Refresh();
+                MoviesOldfashion.Refresh();
+                Folders.Refresh();
+                Movies.Refresh();
+                Genres.Refresh();
+                Companies.Refresh();
+                Countries.Refresh();
+                Languages.Refresh();
+                Castings.Refresh();
+                CastingTypes.Refresh();
+            }
             FoldersToScan = (from fol in Folders.Items
                              join rot in Roots
                              on fol.IdRoot.Value equals rot.IdPath.Value
                              orderby fol.IdPath descending
                              select fol).ToList();
 
+            if (aIncludeMissing)
+            {
+                MissingFiles = (from fil in Files.Items
+                                join mis in MoviesMissing.Items
+                                on (fil.IdFile?.Value) ?? 0 equals mis.IdFile.Value
+                                where !fil.IsChanged()
+                                select fil).ToList();
+                MissingFiles = MissingFiles.Union(Files.ItemsChanged()).ToList();
+                MissingFiles = MissingFiles.OrderBy(fil => fil.Filedate).ToList();
+            }
 
-            MissingMovies = new MissingMovies(aCon);
-            Files = new Files(aCon) { Messages = Results };
-            Files.Criteria = new KnkCriteria<File, File>(Files);
-            KnkCoreUtils.CreateInParameter<File, File>(Folders.GetListIds(Roots), Files.Criteria, "IdRoot");
-            Movies = new Movies(aCon) { Messages = Results };
-            Genres = new Genres(aCon);
-            Companies = new Companies(aCon);
-            Countries = new Countries(aCon);
-            Languages = new Languages(aCon);
-            Castings = new Castings(aCon) { Messages = Results };
-            CastingTypes = new CastingTypes(aCon);
+            if (aIncludeOldfashion)
+            {
+                OldfashionMovies = MoviesOldfashion.Items.Take(5).ToList();
+            }
+
+            if (aClearResutls)
+            {
+                Results.Clear();
+                if(aStatus) Results.Add(Status);
+                if (aIncludeMissing) Results.AddRange((from itm in MissingFiles select new KnkChangeDescriptor(itm)).ToList());
+                if (aIncludeOldfashion) Results.AddRange((from itm in OldfashionMovies select new KnkChangeDescriptor(itm)).ToList());
+            }
         }
 
         public void StartScanner(BackgroundWorker aWorker)
@@ -78,6 +122,7 @@ namespace KnkScrapers.Classes
             if (!IsBusy)
             {
                 IsScanning = true;
+                Reset(true, true, true, true, true);
                 _Worker = aWorker;
                 FoldersScanner();
                 Scraper();
@@ -88,12 +133,6 @@ namespace KnkScrapers.Classes
         void Scraper()
         {
             Status.UpdateMessage("Loading Missing Files", "Scraper");
-            MissingFiles = (from fil in Files.Items
-                            join mis in MissingMovies.Items
-                            on (fil.IdFile?.Value) ?? 0 equals mis.IdFile.Value
-                            orderby fil.CreationDate
-                            where !fil.IsChanged()
-                            select fil).ToList();
             ScrapFiles();
             Status.UpdateMessage("Scraping", "Process Finished");
         }
@@ -107,7 +146,15 @@ namespace KnkScrapers.Classes
                 {
                     i++;
                 }
-                if (i >= 3) break;
+                if (i > 5) break;
+            }
+            if(i<=5)
+            {
+                foreach(var mov in OldfashionMovies)
+                {
+
+                    if (i > 5) break;
+                }
             }
         }
 
@@ -738,6 +785,9 @@ namespace KnkScrapers.Classes
             if (!IsBusy)
             {
                 IsSaving = true;
+
+                Reset(false, false, true, true, true);
+
                 _Worker = aWorker;
 
                 Status.UpdateMessage("Saving Changes", "Folders");

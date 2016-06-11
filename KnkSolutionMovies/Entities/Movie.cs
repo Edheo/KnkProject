@@ -21,7 +21,11 @@ namespace KnkSolutionMovies.Entities
         KnkEntityRelation<Movie, MovieUser> _Users;
 
         #region Interface/Implementation
-        public Movie() : base(new KnkTableEntity("vieMovies", "Movies"))
+        public Movie() : this(new KnkTableEntity("vieMovies", "Movies"))
+        {
+        }
+
+        internal Movie(KnkTableEntity aEntity) : base(aEntity)
         {
             Extender = new MovieExtender(this);
         }
@@ -125,4 +129,10 @@ namespace KnkSolutionMovies.Entities
 
     }
 
+    public class MovieOldfashion : Movie
+    {
+        public MovieOldfashion() : base(new KnkTableEntity("vieMovieOldfashion", "Movies"))
+        {
+        }
+    }
 }

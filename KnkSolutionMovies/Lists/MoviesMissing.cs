@@ -4,9 +4,9 @@ using KnkSolutionMovies.Entities;
 
 namespace KnkSolutionMovies.Lists
 {
-    public class MissingMovies : KnkList<MissingMovieFile>
+    public class MoviesMissing : KnkList<MissingMovieFile>
     {
-        public MissingMovies(KnkConnectionItf aConnection)
+        public MoviesMissing(KnkConnectionItf aConnection)
         : base(aConnection)
         {
         }

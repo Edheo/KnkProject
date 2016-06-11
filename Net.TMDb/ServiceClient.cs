@@ -259,7 +259,9 @@ namespace System.Net.TMDb
 		private static void HandleResponseCompletion(Task<HttpResponseMessage> task, TaskCompletionSource<HttpResponseMessage> tcs)
 		{
 			if (task.IsCanceled) tcs.TrySetCanceled();
-			else if (!task.Result.IsSuccessStatusCode)
+            else if (task.IsFaulted)
+                tcs.TrySetException(task.Exception);
+            else if (!task.Result.IsSuccessStatusCode)
 			{
 				if (task.Result.Content != null)
 				{

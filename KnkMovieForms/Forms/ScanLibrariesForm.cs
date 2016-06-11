@@ -40,7 +40,7 @@ namespace KnkMovieForms.Forms
             grdRoots.Width = GridRootsWidth();
 
             grdResults.AutoGenerateColumns = true;
-            grdResults.DataSource = _Enricher.MissingMovies.Items;
+            grdResults.DataSource = _Enricher.DataSource();
         }
 
         private int GridRootsWidth()
@@ -59,19 +59,6 @@ namespace KnkMovieForms.Forms
         {
             if (!_Enricher.IsBusy)
             {
-                //System.Windows.Forms.Timer lTim = new System.Windows.Forms.Timer();
-                //lTim.Interval = 2000;
-                //lTim.Tick += (sender, args) =>
-                //{
-                //    grdResults.DataSource = typeof(List<>);
-                //    _Bing.ResetBindings(true);
-                //    grdResults.DataSource = _Bing;
-                //};
-                //lTim.Start();
-
-
-                //_Bing.DataSource = List<KnkChangeDescriptorItf>.Results;
-
                 var bw = new BackgroundWorker();
                 bw.WorkerReportsProgress = true;
                 btnScan.Image = global::KnkMovieForms.Properties.Resources.Ani200_2;
@@ -94,8 +81,8 @@ namespace KnkMovieForms.Forms
 
         void ProcessFinished()
         {
-            btnScan.Image = global::KnkMovieForms.Properties.Resources.btnScan_ResourceImage;
-            btnUpdates.Image = global::KnkMovieForms.Properties.Resources.btnUpdates_ResourceImage;
+            btnScan.Image = null;
+            btnUpdates.Image = null;
         }
 
         private void OnSaveChanges()

@@ -74,13 +74,14 @@
     <Compile Include="Lists\Files.cs" />
     <Compile Include="Lists\Genres.cs" />
     <Compile Include="Lists\Languages.cs" />
-    <Compile Include="Lists\MissingMovies.cs" />
+    <Compile Include="Lists\MoviesMissing.cs" />
     <Compile Include="Lists\MovieCastings.cs" />
     <Compile Include="Lists\MovieGenres.cs" />
     <Compile Include="Lists\MovieMovieSet.cs" />
     <Compile Include="Lists\MovieSets.cs" />
     <Compile Include="Lists\Movies.cs" />
     <Compile Include="Lists\Folders.cs" />
+    <Compile Include="Lists\MoviesOldfashioned.cs" />
     <Compile Include="Lists\MovieUsers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\MovieSet.cs" />

@@ -48,24 +48,11 @@ namespace KnkScrapers.Classes
 
                 List<Movie> lLst = new List<Movie>();
 
-                foreach (var lItm in lItems)
-                {
-                    var movies = await client.Movies.SearchAsync(lItm.Title, aLanguage, true, lItm.Year, false, 1, CancellationToken.None);
-                    int count = movies.PageCount;
-                    foreach (Movie lMovie in movies.Results)
-                    {
-                        var lTask1 = Task.Factory.StartNew(() => GetMovieData(client, lMovie.Id, aLanguage));
-                        lTask1.Wait();
-                        lLst.Add(lTask1.Result.Result);
-                        break;
-                    }
-                }
-
-                if (lLst.Count == 0)
+                try
                 {
                     foreach (var lItm in lItems)
                     {
-                        var movies = await client.Movies.SearchAsync(lItm.Title, aLanguage, true, null, false, 1, CancellationToken.None);
+                        var movies = await client.Movies.SearchAsync(lItm.Title, aLanguage, true, lItm.Year, false, 1, CancellationToken.None);
                         int count = movies.PageCount;
                         foreach (Movie lMovie in movies.Results)
                         {
@@ -75,7 +62,28 @@ namespace KnkScrapers.Classes
                             break;
                         }
                     }
+
+                    if (lLst.Count == 0)
+                    {
+                        foreach (var lItm in lItems)
+                        {
+                            var movies = await client.Movies.SearchAsync(lItm.Title, aLanguage, true, null, false, 1, CancellationToken.None);
+                            int count = movies.PageCount;
+                            foreach (Movie lMovie in movies.Results)
+                            {
+                                var lTask1 = Task.Factory.StartNew(() => GetMovieData(client, lMovie.Id, aLanguage));
+                                lTask1.Wait();
+                                lLst.Add(lTask1.Result.Result);
+                                break;
+                            }
+                        }
+                    }
                 }
+                catch(Exception lExc)
+                {
+                    this.Results.Add(new KnkCore.KnkChangeDescriptor("Tmdb Scraper", "FindMovies", lExc.Message));
+                }
+
                 return lLst;
             }
         }

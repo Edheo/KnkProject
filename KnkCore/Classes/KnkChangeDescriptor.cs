@@ -18,17 +18,22 @@ namespace KnkCore
             CreationDate = aItm.CreationDate;
             DeletedDate = aItm.DeletedDate;
             ModifiedDate = aItm.ModifiedDate;
-            Object = aItm.GetType().Name;
             Action = aItm.Status().ToString();
             Text = aItm.ToString();
             Message = aItm.UpdateMessage();
         }
 
-        public KnkChangeDescriptor(DateTime aDate, string aObject, string aAction, string aText)
+        public KnkChangeDescriptor(string aAction, string aText)
+        : this(aAction, aText, string.Empty)
         {
-            CreationDate = aDate;
-            Object = aObject;
+
+        }
+
+        public KnkChangeDescriptor(string aAction, string aText, string aMessage)
+        {
+            CreationDate = DateTime.Now;
             Action = aAction;
+            Message = aMessage;
             Text = aText;
         }
 
@@ -36,7 +41,13 @@ namespace KnkCore
         public KnkItemItf Item { get; }
         [Browsable(false)]
         public KnkEntityIdentifierItf IdValue { get; }
-        public string Object { get; }
+        public string Object
+        {
+            get
+            {
+                return Item?.GetType().Name;
+            }
+        }
         public string Action { get; private set; }
         public string Text { get; private set; }
         public string Message { get; private set; }

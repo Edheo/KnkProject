@@ -116,7 +116,7 @@ namespace KnkDataSqlServer.Utilities
         internal static string GetDynamicUpdate<T>(SqlConnection aCon, T aItem)
             where T : KnkItemItf
         {
-            return GetDynamicUpdate(aItem, GetData(aCon, GetSimpleTableSelect(aItem.SourceEntity().TableBase)).Columns);
+            return GetDynamicUpdate(aItem, GetData(aCon, GetSimpleTableSelect(aItem.SourceEntity().TableBase, true)).Columns);
         }
 
         private static string GetDynamicUpdate<T>(T aItem, DataColumnCollection aCols)
@@ -141,7 +141,7 @@ namespace KnkDataSqlServer.Utilities
         internal static string GetDynamicDelete<T>(SqlConnection aCon, T aItem)
             where T : KnkItemItf
         {
-            return GetDynamicDelete(aItem, GetData(aCon, GetSimpleTableSelect(aItem.SourceEntity().TableBase)).Columns);
+            return GetDynamicDelete(aItem, GetData(aCon, GetSimpleTableSelect(aItem.SourceEntity().TableBase, true)).Columns);
         }
 
         internal static string GetDynamicDelete<T>(T aItem, DataColumnCollection aCols)

@@ -198,7 +198,7 @@ namespace KnkCore
             {
                 if(lFound==null)
                 {
-                    AddMessage(aItem);
+                    lFound = AddMessage(aItem);
                 }
                 lFound.UpdateMessage(aItem.Status().ToString(), aMessage);
             }
