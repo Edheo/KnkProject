@@ -52,16 +52,8 @@ namespace KnkMovieForms.Usercontrols
             }
 
             AddTagInfo();
-            //if (_Movie.PlayedTimes > 0)
-            //{
-            //    AddTagInfo(FontStyle.Bold, "Date", "File", "Time", "Path");
-            //    foreach (var lVie in _Movie.Extender.Views)
-            //    {
-            //        AddTagInfo(lVie.Date(), lVie.Filename, lVie.Time(), lVie.Path);
-            //    }
-            //}
 
-            //AddTagInfo();
+            txtSummary.Text = _Movie.Extender.Summary;
         }
 
         public Movie Movie
@@ -137,5 +129,6 @@ namespace KnkMovieForms.Usercontrols
         {
             OnClose();
         }
+
     }
 }

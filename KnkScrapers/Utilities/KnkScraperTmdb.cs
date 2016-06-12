@@ -24,7 +24,7 @@ namespace KnkScrapers.Utilities
             }
             if (lJoin.Count.Equals(0))
                 lJoin.Add(lSplit.Max(e => e));
-            return KnkInterfacesUtils.ConcatStrings(lJoin, " ");
+            return KnkInterfacesUtils.ConcatStrings(lJoin,true, " ");
         }
 
         public static string YearsFromFilename(string aTitle, string aSearchTitle)
@@ -39,7 +39,7 @@ namespace KnkScrapers.Utilities
                     lJoin.Add(lStr);
                 }
             }
-            return KnkInterfacesUtils.ConcatStrings(lJoin,";");
+            return KnkInterfacesUtils.ConcatStrings(lJoin, false,";");
         }
 
         static int? IsAYear(string aText)

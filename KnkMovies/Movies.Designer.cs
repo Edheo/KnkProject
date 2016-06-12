@@ -28,25 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.wallMovies = new KnkMovieForms.Usercontrols.MovieWall();
+            this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             this.SuspendLayout();
             // 
             // wallMovies
             // 
             this.wallMovies.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.wallMovies.Location = new System.Drawing.Point(0, 0);
+            this.wallMovies.Location = new System.Drawing.Point(20, 60);
             this.wallMovies.Name = "wallMovies";
-            this.wallMovies.Size = new System.Drawing.Size(892, 591);
+            this.wallMovies.Size = new System.Drawing.Size(852, 511);
             this.wallMovies.TabIndex = 0;
             // 
-            // Form1
+            // metroStyleManager
+            // 
+            this.metroStyleManager.Owner = this;
+            this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // Movies
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(892, 591);
             this.Controls.Add(this.wallMovies);
-            this.Name = "Form1";
+            this.Name = "Movies";
             this.Text = "Form1";
+            this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -54,6 +64,8 @@
 
         private KnkMovieForms.Usercontrols.MovieWall wallMovies;
         #endregion
+
+        private MetroFramework.Components.MetroStyleManager metroStyleManager;
     }
 }
 

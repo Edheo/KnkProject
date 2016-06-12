@@ -1,5 +1,6 @@
 ﻿using KnkInterfaces.Utilities;
 using KnkSolutionMovies.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,6 +23,15 @@ namespace KnkSolutionMovies.Extenders
             get
             {
                 return KnkInterfacesUtils.ConcatStrings(_Movie.Genres().Items.Select(g => g.ToString()).ToList());
+            }
+        }
+
+        public string Summary
+        {
+            get
+            {
+                var lLst = (from sum in _Movie.Summary().Items orderby sum.IdSummary.Value select sum).ToList();
+                return KnkInterfacesUtils.ConcatStrings(lLst.Select(g => g.ToString()).ToList(), true, Environment.NewLine);
             }
         }
 
