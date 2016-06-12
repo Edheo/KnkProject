@@ -1,22 +1,16 @@
-﻿using KnkCore;
-using KnkCore.Utilities;
-using KnkInterfaces.Enumerations;
-using KnkInterfaces.Interfaces;
+﻿using KnkInterfaces.Interfaces;
 using KnkScrapers.Classes;
-using KnkSolutionMovies.Entities;
-using KnkSolutionMovies.Lists;
+using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace KnkMovieForms.Forms
 {
-    public partial class ScanLibrariesForm : Form
+    public partial class ScanLibrariesForm : MetroForm
     {
         KnkConnectionItf _Connnection;
         EnrichCollections _Enricher;

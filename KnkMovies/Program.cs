@@ -20,7 +20,7 @@ namespace KnkMovies
             KnkForms.Utilities.KnkFormsUtils.CheckConfiguration();
             Users lUsr = new Users();
             lUsr.Connection.Login(lUsr.Items.FirstOrDefault());
-            Application.Run(new Form1());
+            Application.Run(new Movies());
         }
     }
 }

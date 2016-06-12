@@ -21,17 +21,18 @@ namespace KnkMovieForms.Usercontrols
         delegate void delLoadComboList<T>(ComboBox aCombo, List<T> aList);
 
         public event CancelEventHandler PerformSearch;
-        private readonly KnkConnection _Connection;
+        private KnkConnection _Connection;
         private Movies _Movies;
         bool _Initialized = false;
 
-        private MovieWall()
+        public MovieWall()
         {
             InitializeComponent();
             InitComboSort();
             //moviesWall.LoadingItems += (s, e) => { OnStart(); };
             moviesWall.LoadedItems += (s, e) => { OnFinish(); };
             _Initialized = true;
+            OnPerformSearch();
         }
 
         private void OnFinish()
@@ -39,10 +40,11 @@ namespace KnkMovieForms.Usercontrols
             lblCount.Text = $"{moviesWall.LoadedMovies()}/{_Movies.Count()}";
         }
 
-        public MovieWall(KnkConnection aCon) : this()
+        public KnkConnectionItf Connection()
         {
-            _Connection = aCon;
-            OnPerformSearch();
+            if(_Connection==null)
+                _Connection = new KnkConnection();
+            return _Connection;
         }
 
         private void  InitComboSort()
@@ -64,9 +66,9 @@ namespace KnkMovieForms.Usercontrols
         {
             if (_Movies != null)
             {
-                if (cmbArtist.Items.Count.Equals(0)) LoadCombo<Casting>(cmbArtist, "ArtistName", new Castings(_Connection).Datasource());
-                if (cmbGenres.Items.Count.Equals(0)) LoadCombo<Genre>(cmbGenres, "GenreName", new Genres(_Connection).Datasource());
-                if (cmbSaga.Items.Count.Equals(0)) LoadCombo<MovieSet>(cmbSaga, "Name", new MovieSets(_Connection).Datasource());
+                if (cmbArtist.Items.Count.Equals(0)) LoadCombo<Casting>(cmbArtist, "ArtistName", new Castings(Connection()).Datasource());
+                if (cmbGenres.Items.Count.Equals(0)) LoadCombo<Genre>(cmbGenres, "GenreName", new Genres(Connection()).Datasource());
+                if (cmbSaga.Items.Count.Equals(0)) LoadCombo<MovieSet>(cmbSaga, "Name", new MovieSets(Connection()).Datasource());
                 moviesWall.LoadMovies(_Movies);
             }
         }
@@ -143,6 +145,7 @@ namespace KnkMovieForms.Usercontrols
         private void OnPerformSearch()
         {
             bool lCancel = false;
+            if ((LicenseManager.UsageMode == LicenseUsageMode.Designtime)) return;
             if (PerformSearch != null)
             {
                 CancelEventArgs lArgs = new CancelEventArgs();
@@ -151,7 +154,7 @@ namespace KnkMovieForms.Usercontrols
             }
             if (!lCancel)
             {
-                Movies lMov = new Movies(_Connection);
+                Movies lMov = new Movies(Connection());
                 lMov.Criteria = GetCriteria(lMov);
                 string[] lSort = cmbSort.SelectedValue.ToString().Split(':');
                 lMov.SortProperty = lSort[0];
@@ -176,7 +179,7 @@ namespace KnkMovieForms.Usercontrols
         private KnkCriteria<Movie, Movie> GetCriteria(Movies aList)
         {
             KnkCriteria<Movie, Movie> lCri = new KnkCriteria<Movie, Movie>(aList, new KnkTableEntity("vieMovies", "Movies"));
-            KnkCoreUtils.CreateInParameter(new MovieUsers(_Connection), lCri, "IdMovie");
+            KnkCoreUtils.CreateInParameter(new MovieUsers(Connection()), lCri, "IdMovie");
             if (!string.IsNullOrEmpty(txtSearch.Text))
             {
                 string[] lSearch = txtSearch.Text.Split(' ');
@@ -192,17 +195,17 @@ namespace KnkMovieForms.Usercontrols
 
             if (!string.IsNullOrEmpty(cmbArtist.Text))
             {
-                KnkCoreUtils.CreateInParameter(new MovieCastings(_Connection, $"%{cmbArtist.Text}%"), lCri, "IdMovie");
+                KnkCoreUtils.CreateInParameter(new MovieCastings(Connection(), $"%{cmbArtist.Text}%"), lCri, "IdMovie");
             }
 
             if (!string.IsNullOrEmpty(cmbGenres.Text))
             {
-                KnkCoreUtils.CreateInParameter(new MovieGenres(_Connection, $"%{cmbGenres.Text}%"), lCri, "IdMovie");
+                KnkCoreUtils.CreateInParameter(new MovieGenres(Connection(), $"%{cmbGenres.Text}%"), lCri, "IdMovie");
             }
 
             if (!string.IsNullOrEmpty(cmbSaga.Text))
             {
-                KnkCoreUtils.CreateInParameter(new MovieMovieSets(_Connection, $"%{cmbSaga.Text}%"), lCri, "IdMovie");
+                KnkCoreUtils.CreateInParameter(new MovieMovieSets(Connection(), $"%{cmbSaga.Text}%"), lCri, "IdMovie");
             }
 
             if (!chkViewed.CheckState.Equals(CheckState.Indeterminate))
@@ -244,7 +247,7 @@ namespace KnkMovieForms.Usercontrols
 
         private void butScan_Load(object sender, EventArgs e)
         {
-            ScanLibrariesForm lFrm = new ScanLibrariesForm("movies", _Connection);
+            ScanLibrariesForm lFrm = new ScanLibrariesForm("movies", Connection());
             lFrm.Show();
         }
     }

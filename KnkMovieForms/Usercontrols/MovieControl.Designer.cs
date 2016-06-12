@@ -33,7 +33,12 @@
             this.picHead = new KnkMovieForms.Usercontrols.MovieLabel();
             this.btnClose = new System.Windows.Forms.Button();
             this.picPoster = new KnkMovieForms.Usercontrols.MoviePicture();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tblPanel
@@ -44,12 +49,11 @@
             this.tblPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tblPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tblPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
-            this.tblPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblPanel.Location = new System.Drawing.Point(200, 32);
+            this.tblPanel.Location = new System.Drawing.Point(18, 46);
             this.tblPanel.Name = "tblPanel";
             this.tblPanel.RowCount = 1;
             this.tblPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 449F));
-            this.tblPanel.Size = new System.Drawing.Size(287, 449);
+            this.tblPanel.Size = new System.Drawing.Size(168, 118);
             this.tblPanel.TabIndex = 4;
             // 
             // panel1
@@ -71,6 +75,8 @@
             this.picHead.FontColorCaption = System.Drawing.Color.DeepSkyBlue;
             this.picHead.FontColorText = System.Drawing.Color.PaleTurquoise;
             this.picHead.FontName = "Verdana";
+            this.picHead.FontSizeCaption = null;
+            this.picHead.FontSizeText = null;
             this.picHead.FontstyleCaption = System.Drawing.FontStyle.Bold;
             this.picHead.FontstyleText = System.Drawing.FontStyle.Bold;
             this.picHead.Horizontal = true;
@@ -111,17 +117,52 @@
             this.picPoster.TabIndex = 3;
             this.picPoster.TabStop = false;
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(200, 32);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(287, 449);
+            this.tabControl1.TabIndex = 5;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.tblPanel);
+            this.tabPage1.ForeColor = System.Drawing.Color.DarkGray;
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(279, 423);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(192, 74);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
             // MovieControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.tblPanel);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.picPoster);
             this.Controls.Add(this.panel1);
             this.Name = "MovieControl";
             this.Size = new System.Drawing.Size(487, 481);
             this.panel1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -132,5 +173,8 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnClose;
         private MovieLabel picHead;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }

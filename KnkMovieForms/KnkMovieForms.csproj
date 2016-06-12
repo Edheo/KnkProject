@@ -147,6 +147,22 @@
       <Project>{ca0db50d-ff6b-4543-9111-ab4153a09897}</Project>
       <Name>KnkSolutionUsers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MetroFramework.Design\MetroFramework.Design.csproj">
+      <Project>{7316584d-9a16-4280-a8ab-6d45198c6e4d}</Project>
+      <Name>MetroFramework.Design</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroFramework.Fonts\MetroFramework.Fonts.csproj">
+      <Project>{5a2fcae8-c2fa-41bd-90ea-16103ea07b26}</Project>
+      <Name>MetroFramework.Fonts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroFramework\MetroFramework.csproj">
+      <Project>{bb41ac8b-cbed-4387-a7e0-4567edb3f57f}</Project>
+      <Name>MetroFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vlc.DotNet.Forms\Vlc.DotNet.Forms.csproj">
+      <Project>{914de831-4dfa-44f6-96c1-27cf3b89a2cd}</Project>
+      <Name>Vlc.DotNet.Forms</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
