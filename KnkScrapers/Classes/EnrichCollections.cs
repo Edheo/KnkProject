@@ -21,7 +21,7 @@ namespace KnkScrapers.Classes
         private List<KnkChangeDescriptorItf> Results;
         KnkChangeDescriptorItf Status = null;
         internal List<File> MissingFiles;
-        internal List<MovieOldfashion> OldfashionMovies;
+        internal List<Movie> OldfashionMovies;
         BackgroundWorker _Worker;
         public readonly MoviesMissing MoviesMissing;
         public readonly MoviesOldfashioned MoviesOldfashion;
@@ -105,7 +105,12 @@ namespace KnkScrapers.Classes
 
             if (aIncludeOldfashion)
             {
-                OldfashionMovies = MoviesOldfashion.Items.Take(5).ToList();
+                OldfashionMovies = (from mov in Movies.Items
+                                    join old in MoviesOldfashion.Items
+                                    on (mov.IdMovie?.Value) ?? 0 equals old.IdMovie.Value
+                                    orderby mov.ScrapedDate
+                                    where !mov.IsChanged()
+                                    select mov).Take(5).ToList();
             }
 
             if (aClearResutls)
@@ -132,7 +137,6 @@ namespace KnkScrapers.Classes
 
         void Scraper()
         {
-            Status.UpdateMessage("Loading Missing Files", "Scraper");
             ScrapFiles();
             Status.UpdateMessage("Scraping", "Process Finished");
         }
@@ -150,9 +154,10 @@ namespace KnkScrapers.Classes
             }
             if(i<=5)
             {
-                foreach(var mov in OldfashionMovies)
+                foreach (var mov in OldfashionMovies)
                 {
-
+                    EnrichMovie(FindMovie(mov.Title, mov.Year, "es-ES").FirstOrDefault(),mov as KnkSolutionMovies.Entities.Movie);
+                    i++;
                     if (i > 5) break;
                 }
             }
@@ -161,27 +166,35 @@ namespace KnkScrapers.Classes
         bool ScrapFile(File aFile)
         {
             Status.UpdateMessage("Scraping", aFile.Filename);
-            var lOrg = FindMovies(aFile, "es-ES").FirstOrDefault();
-            if (lOrg != null)
-            {
-                EnrichMovie(lOrg, FindMovieInLibrary(lOrg), aFile);
-                aFile.Scraped = 1;
-                aFile.Update("Movie found in Tmdb");
-            }
-            else
-            {
-                aFile.Scraped++;
-                aFile.Update("No Tmdb movie found!!");
-            }
-            _Worker?.ReportProgress(0);
+            var lOrg = FindMovie(aFile, "es-ES").FirstOrDefault();
+            EnrichFile(lOrg, FindMovieInLibrary(lOrg), aFile);
             return lOrg != null;
         }
 
-        Movie EnrichMovie(System.Net.TMDb.Movie aMovieOrg, Movie aMovieDst, File aFomFile)
+        Movie EnrichFile(System.Net.TMDb.Movie aMovieOrg, Movie aMovieDst, File aFomFile)
         {
             var lOrg = aMovieOrg;
             var lDst = aMovieDst;
-            if (lDst != null)
+            if (lOrg!=null && lDst != null)
+            {
+                FillFile(lDst, aFomFile);                                       //  File from library
+                aFomFile.Scraped = 1;
+                aFomFile.Update("Movie found in Tmdb");
+                return EnrichMovie(aMovieOrg, aMovieDst);
+            }
+            else
+            {
+                aFomFile.Scraped++;
+                aFomFile.Update("No Tmdb movie found!!");
+                return null;
+            }
+        }
+
+        Movie EnrichMovie(System.Net.TMDb.Movie aMovieOrg, Movie aMovieDst)
+        {
+            var lOrg = aMovieOrg;
+            var lDst = aMovieDst;
+            if (lDst != null && lOrg!=null)
             {
                 lDst.Title = lOrg.Title;                                        //	string					Title
                 lDst.OriginalTitle = lOrg.OriginalTitle;                        //	string					OriginalTitle
@@ -216,7 +229,6 @@ namespace KnkScrapers.Classes
                 FillCasting(lDst, lOrg.Credits);                                //	MediaCredits			Credits
                 FillMediaLinks(lDst, lOrg.Images, lOrg.Videos);                 //	Images					Images
                 FillUser(lDst, aMovieDst.Connection().CurrentUser());                                           //  It belongs to the user
-                FillFile(lDst, aFomFile);                                       //  File from library
                 FillSummaries(lDst, lOrg.Overview);                             //	string					Overview
                 _Worker?.ReportProgress(0);
                 FillGenres(lDst, lOrg.Genres.ToList());                         //	IEnumerable<Genre>		Genres
@@ -224,6 +236,12 @@ namespace KnkScrapers.Classes
                 FillCountries(lDst, lOrg.Countries.ToList());                   //	IEnumerable<Country>	Countries
                 FillLanguages(lDst, lOrg.Languages.ToList());                   //	IEnumerable<Language>	Languages
             }
+            else if (lDst!=null)
+            {
+                lDst.ScrapedDate = DateTime.Now;
+                lDst.Update("Unable to Re-Scrap Movie");
+            }
+            _Worker?.ReportProgress(0);
             return lDst;
         }
 
@@ -786,7 +804,7 @@ namespace KnkScrapers.Classes
             {
                 IsSaving = true;
 
-                Reset(false, false, true, true, true);
+                Reset(false, false, false, true, true);
 
                 _Worker = aWorker;
 
