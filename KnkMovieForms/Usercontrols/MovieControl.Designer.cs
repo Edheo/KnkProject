@@ -33,10 +33,10 @@
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.metroTabPage1 = new MetroFramework.Controls.MetroTabPage();
             this.tblPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.picPoster = new KnkMovieForms.Usercontrols.MoviePicture();
-            this.picHead = new KnkMovieForms.Usercontrols.MovieLabel();
             this.metroTabPage2 = new MetroFramework.Controls.MetroTabPage();
             this.txtSummary = new System.Windows.Forms.TextBox();
+            this.picPoster = new KnkMovieForms.Usercontrols.MoviePicture();
+            this.picHead = new KnkMovieForms.Usercontrols.MovieLabel();
             this.panel1.SuspendLayout();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
@@ -75,7 +75,7 @@
             this.metroTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroTabControl1.Location = new System.Drawing.Point(200, 32);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 0;
+            this.metroTabControl1.SelectedIndex = 1;
             this.metroTabControl1.Size = new System.Drawing.Size(287, 449);
             this.metroTabControl1.TabIndex = 5;
             this.metroTabControl1.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -93,25 +93,58 @@
             this.metroTabPage1.Size = new System.Drawing.Size(279, 407);
             this.metroTabPage1.TabIndex = 0;
             this.metroTabPage1.Text = "Credits";
+            this.metroTabPage1.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.metroTabPage1.VerticalScrollbarBarColor = true;
             this.metroTabPage1.VerticalScrollbarHighlightOnWheel = false;
             this.metroTabPage1.VerticalScrollbarSize = 10;
             // 
             // tblPanel
             // 
+            this.tblPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tblPanel.BackColor = System.Drawing.Color.Black;
             this.tblPanel.ColumnCount = 4;
             this.tblPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tblPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tblPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tblPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
-            this.tblPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblPanel.Location = new System.Drawing.Point(0, 0);
+            this.tblPanel.Location = new System.Drawing.Point(3, 3);
             this.tblPanel.Name = "tblPanel";
             this.tblPanel.RowCount = 1;
             this.tblPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 449F));
-            this.tblPanel.Size = new System.Drawing.Size(279, 407);
+            this.tblPanel.Size = new System.Drawing.Size(276, 404);
             this.tblPanel.TabIndex = 4;
+            // 
+            // metroTabPage2
+            // 
+            this.metroTabPage2.Controls.Add(this.txtSummary);
+            this.metroTabPage2.HorizontalScrollbarBarColor = true;
+            this.metroTabPage2.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroTabPage2.HorizontalScrollbarSize = 10;
+            this.metroTabPage2.Location = new System.Drawing.Point(4, 38);
+            this.metroTabPage2.Name = "metroTabPage2";
+            this.metroTabPage2.Size = new System.Drawing.Size(279, 407);
+            this.metroTabPage2.TabIndex = 1;
+            this.metroTabPage2.Text = "Summary";
+            this.metroTabPage2.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.metroTabPage2.VerticalScrollbarBarColor = true;
+            this.metroTabPage2.VerticalScrollbarHighlightOnWheel = false;
+            this.metroTabPage2.VerticalScrollbarSize = 10;
+            // 
+            // txtSummary
+            // 
+            this.txtSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSummary.BackColor = System.Drawing.Color.Black;
+            this.txtSummary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSummary.ForeColor = System.Drawing.Color.White;
+            this.txtSummary.Location = new System.Drawing.Point(3, 12);
+            this.txtSummary.Multiline = true;
+            this.txtSummary.Name = "txtSummary";
+            this.txtSummary.Size = new System.Drawing.Size(273, 392);
+            this.txtSummary.TabIndex = 2;
             // 
             // picPoster
             // 
@@ -148,33 +181,6 @@
             this.picHead.Name = "picHead";
             this.picHead.Size = new System.Drawing.Size(455, 32);
             this.picHead.TabIndex = 4;
-            // 
-            // metroTabPage2
-            // 
-            this.metroTabPage2.Controls.Add(this.txtSummary);
-            this.metroTabPage2.HorizontalScrollbarBarColor = true;
-            this.metroTabPage2.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroTabPage2.HorizontalScrollbarSize = 10;
-            this.metroTabPage2.Location = new System.Drawing.Point(4, 38);
-            this.metroTabPage2.Name = "metroTabPage2";
-            this.metroTabPage2.Size = new System.Drawing.Size(279, 407);
-            this.metroTabPage2.TabIndex = 1;
-            this.metroTabPage2.Text = "Summary";
-            this.metroTabPage2.VerticalScrollbarBarColor = true;
-            this.metroTabPage2.VerticalScrollbarHighlightOnWheel = false;
-            this.metroTabPage2.VerticalScrollbarSize = 10;
-            // 
-            // txtSummary
-            // 
-            this.txtSummary.BackColor = System.Drawing.Color.Black;
-            this.txtSummary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSummary.ForeColor = System.Drawing.Color.White;
-            this.txtSummary.Location = new System.Drawing.Point(0, 0);
-            this.txtSummary.Multiline = true;
-            this.txtSummary.Name = "txtSummary";
-            this.txtSummary.Size = new System.Drawing.Size(279, 407);
-            this.txtSummary.TabIndex = 2;
             // 
             // MovieControl
             // 
