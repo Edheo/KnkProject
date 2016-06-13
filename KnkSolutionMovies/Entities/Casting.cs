@@ -1,12 +1,15 @@
 ﻿using KnkCore;
 using KnkInterfaces.Interfaces;
 using KnkInterfaces.PropertyAtributes;
+using KnkSolutionMovies.Extenders;
 using System;
 
 namespace KnkSolutionMovies.Entities
 {
     public class Casting : KnkItem
     {
+        public readonly CastingExtender Extender;
+
         KnkEntityRelation<Casting, MediaLink> _Pictures;
         KnkEntityRelation<Casting, CastingBiography> _Biography;
         KnkEntityRelation<Casting, CastingName> _Names;
@@ -14,6 +17,7 @@ namespace KnkSolutionMovies.Entities
         #region Interface/Implementation
         public Casting():base(new KnkTableEntity("vieCasting", "Casting"))
         {
+            Extender = new CastingExtender(this);
         }
         #endregion Interface/Implementation
 

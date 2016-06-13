@@ -291,7 +291,7 @@ namespace KnkScrapers.Classes
             var lType = CheckCastingType("Actor", "Casting");
             if (lType != null)
             {
-                var lFound = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && g.Casting.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
+                var lFound = aMovie.Casting().Items.Where(g => g.IdCastingType.Reference.Type.Equals(lType.Type) && g.IdCasting.Reference.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
                 var lReturn = lFound;
                 if (lFound == null)
                 {
@@ -299,7 +299,7 @@ namespace KnkScrapers.Classes
                     lReturn.IdMovie = aMovie;
                 }
                 lReturn.IdCastingType = lType;
-                lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
+                lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.IdCastingType.Reference.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
                 lReturn.IdCasting = CheckCasting(aItem);
                 lReturn.Role = aItem.Character;
                 lReturn.Update("Scraper checked Movie Casting");
@@ -312,7 +312,7 @@ namespace KnkScrapers.Classes
             if (lType != null)
             {
 
-                var lFound = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && g.Casting.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
+                var lFound = aMovie.Casting().Items.Where(g => g.IdCastingType.Reference.Type.Equals(lType.Type) && g.IdCasting.Reference.ArtistName.ToLower().Equals(aItem.Name.ToLower())).FirstOrDefault();
                 var lReturn = lFound;
                 if (lFound == null)
                 {
@@ -320,7 +320,7 @@ namespace KnkScrapers.Classes
                     lReturn.IdMovie = aMovie;
                 }
                 lReturn.IdCastingType = lType;
-                lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.CastingType.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
+                lReturn.Ordinal = aMovie.Casting().Items.Where(g => g.IdCastingType.Reference.Type.Equals(lType.Type) && !g.Deleted).Count() + 1;
                 lReturn.IdCasting = CheckCasting(aItem);
                 lReturn.Role = aItem.Job;
                 lReturn.Update("Scraper checked Movie Casting");

@@ -68,6 +68,7 @@
     <Compile Include="Forms\ScanLibrariesForm.Designer.cs">
       <DependentUpon>ScanLibrariesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ScaleEnu.cs" />
     <Compile Include="Usercontrols\MovieControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

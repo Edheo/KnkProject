@@ -197,7 +197,7 @@ namespace KnkMovieForms.Usercontrols
         private int HowManyColumns(int aWdith)
         {
             int lMovieWidth = MovieThumb.NormalSize().Width;
-            int lMinWidth = MovieThumb.GetMinimumSize().Width;
+            int lMinWidth = MovieThumb.GetMinimumSize(ScaleEnu.Normal).Width;
             int lReturnValue = (int)Math.Ceiling(aWdith / (float)lMovieWidth);
             float lCheckWidth= aWdith / (float)lReturnValue;
             if (lCheckWidth < lMinWidth && lReturnValue > 1)

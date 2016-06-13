@@ -33,19 +33,20 @@
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.metroTabPage1 = new MetroFramework.Controls.MetroTabPage();
             this.tblPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.metroTabPage3 = new MetroFramework.Controls.MetroTabPage();
+            this.floCrew = new System.Windows.Forms.FlowLayoutPanel();
             this.metroTabPage2 = new MetroFramework.Controls.MetroTabPage();
             this.txtSummary = new System.Windows.Forms.TextBox();
             this.picPoster = new KnkMovieForms.Usercontrols.MoviePicture();
-            this.picHead = new KnkMovieForms.Usercontrols.MovieLabel();
             this.panel1.SuspendLayout();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
+            this.metroTabPage3.SuspendLayout();
             this.metroTabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.picHead);
             this.panel1.Controls.Add(this.btnClose);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -71,32 +72,28 @@
             // metroTabControl1
             // 
             this.metroTabControl1.Controls.Add(this.metroTabPage1);
+            this.metroTabControl1.Controls.Add(this.metroTabPage3);
             this.metroTabControl1.Controls.Add(this.metroTabPage2);
             this.metroTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroTabControl1.Location = new System.Drawing.Point(200, 32);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 1;
+            this.metroTabControl1.SelectedIndex = 0;
             this.metroTabControl1.Size = new System.Drawing.Size(287, 449);
             this.metroTabControl1.TabIndex = 5;
             this.metroTabControl1.Theme = MetroFramework.MetroThemeStyle.Dark;
-            //this.metroTabControl1.UseSelectable = true;
             this.metroTabControl1.UseStyleColors = true;
             // 
             // metroTabPage1
             // 
             this.metroTabPage1.Controls.Add(this.tblPanel);
             this.metroTabPage1.HorizontalScrollbarBarColor = true;
-            this.metroTabPage1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroTabPage1.HorizontalScrollbarSize = 10;
-            this.metroTabPage1.Location = new System.Drawing.Point(4, 38);
+            this.metroTabPage1.Location = new System.Drawing.Point(4, 35);
             this.metroTabPage1.Name = "metroTabPage1";
-            this.metroTabPage1.Size = new System.Drawing.Size(279, 407);
+            this.metroTabPage1.Size = new System.Drawing.Size(279, 410);
             this.metroTabPage1.TabIndex = 0;
             this.metroTabPage1.Text = "Credits";
             this.metroTabPage1.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.metroTabPage1.VerticalScrollbarBarColor = true;
-            this.metroTabPage1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroTabPage1.VerticalScrollbarSize = 10;
             // 
             // tblPanel
             // 
@@ -113,24 +110,44 @@
             this.tblPanel.Name = "tblPanel";
             this.tblPanel.RowCount = 1;
             this.tblPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 449F));
-            this.tblPanel.Size = new System.Drawing.Size(276, 404);
+            this.tblPanel.Size = new System.Drawing.Size(274, 404);
             this.tblPanel.TabIndex = 4;
+            // 
+            // metroTabPage3
+            // 
+            this.metroTabPage3.Controls.Add(this.floCrew);
+            this.metroTabPage3.HorizontalScrollbarBarColor = true;
+            this.metroTabPage3.Location = new System.Drawing.Point(4, 35);
+            this.metroTabPage3.Name = "metroTabPage3";
+            this.metroTabPage3.Size = new System.Drawing.Size(279, 410);
+            this.metroTabPage3.TabIndex = 2;
+            this.metroTabPage3.Text = "Crew";
+            this.metroTabPage3.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.metroTabPage3.VerticalScrollbarBarColor = true;
+            this.metroTabPage3.Click += new System.EventHandler(this.metroTabPage3_Click);
+            // 
+            // floCrew
+            // 
+            this.floCrew.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.floCrew.BackColor = System.Drawing.Color.Black;
+            this.floCrew.Location = new System.Drawing.Point(3, 3);
+            this.floCrew.Name = "floCrew";
+            this.floCrew.Size = new System.Drawing.Size(274, 404);
+            this.floCrew.TabIndex = 6;
             // 
             // metroTabPage2
             // 
             this.metroTabPage2.Controls.Add(this.txtSummary);
             this.metroTabPage2.HorizontalScrollbarBarColor = true;
-            this.metroTabPage2.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroTabPage2.HorizontalScrollbarSize = 10;
-            this.metroTabPage2.Location = new System.Drawing.Point(4, 38);
+            this.metroTabPage2.Location = new System.Drawing.Point(4, 35);
             this.metroTabPage2.Name = "metroTabPage2";
-            this.metroTabPage2.Size = new System.Drawing.Size(279, 407);
+            this.metroTabPage2.Size = new System.Drawing.Size(279, 410);
             this.metroTabPage2.TabIndex = 1;
             this.metroTabPage2.Text = "Summary";
             this.metroTabPage2.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.metroTabPage2.VerticalScrollbarBarColor = true;
-            this.metroTabPage2.VerticalScrollbarHighlightOnWheel = false;
-            this.metroTabPage2.VerticalScrollbarSize = 10;
             // 
             // txtSummary
             // 
@@ -140,10 +157,10 @@
             this.txtSummary.BackColor = System.Drawing.Color.Black;
             this.txtSummary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtSummary.ForeColor = System.Drawing.Color.White;
-            this.txtSummary.Location = new System.Drawing.Point(3, 12);
+            this.txtSummary.Location = new System.Drawing.Point(3, 3);
             this.txtSummary.Multiline = true;
             this.txtSummary.Name = "txtSummary";
-            this.txtSummary.Size = new System.Drawing.Size(273, 392);
+            this.txtSummary.Size = new System.Drawing.Size(274, 404);
             this.txtSummary.TabIndex = 2;
             // 
             // picPoster
@@ -163,25 +180,6 @@
             this.picPoster.TabIndex = 3;
             this.picPoster.TabStop = false;
             // 
-            // picHead
-            // 
-            this.picHead.BackColor = System.Drawing.Color.Black;
-            this.picHead.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.picHead.Caption = null;
-            this.picHead.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picHead.FontColorCaption = System.Drawing.Color.DeepSkyBlue;
-            this.picHead.FontColorText = System.Drawing.Color.PaleTurquoise;
-            this.picHead.FontName = "Verdana";
-            this.picHead.FontSizeCaption = null;
-            this.picHead.FontSizeText = null;
-            this.picHead.FontstyleCaption = System.Drawing.FontStyle.Bold;
-            this.picHead.FontstyleText = System.Drawing.FontStyle.Bold;
-            this.picHead.Horizontal = true;
-            this.picHead.Location = new System.Drawing.Point(0, 0);
-            this.picHead.Name = "picHead";
-            this.picHead.Size = new System.Drawing.Size(455, 32);
-            this.picHead.TabIndex = 4;
-            // 
             // MovieControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -195,6 +193,7 @@
             this.panel1.ResumeLayout(false);
             this.metroTabControl1.ResumeLayout(false);
             this.metroTabPage1.ResumeLayout(false);
+            this.metroTabPage3.ResumeLayout(false);
             this.metroTabPage2.ResumeLayout(false);
             this.metroTabPage2.PerformLayout();
             this.ResumeLayout(false);
@@ -206,10 +205,11 @@
         private System.Windows.Forms.TableLayoutPanel tblPanel;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnClose;
-        private MovieLabel picHead;
         private MetroFramework.Controls.MetroTabControl metroTabControl1;
         private MetroFramework.Controls.MetroTabPage metroTabPage1;
         private MetroFramework.Controls.MetroTabPage metroTabPage2;
         private System.Windows.Forms.TextBox txtSummary;
+        private MetroFramework.Controls.MetroTabPage metroTabPage3;
+        private System.Windows.Forms.FlowLayoutPanel floCrew;
     }
 }

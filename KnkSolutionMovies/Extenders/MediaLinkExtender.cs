@@ -24,7 +24,11 @@ namespace KnkSolutionMovies.Extenders
             KnkConnection lConf = _MediaLink.Connection() as KnkConnection;
             string lFolder = lConf.Configuration().GetMediaFolder(typeof(Movie));
 
-            string lPartName1 = _MediaLink.IdMovie.Reference?.Extender.ParsedId();
+            string lPartName1 = string.Empty;
+            if (_MediaLink.IdCasting != null)
+                lPartName1 = _MediaLink.IdCasting.Reference?.Extender.ParsedId();
+            else
+                lPartName1 = _MediaLink.IdMovie.Reference?.Extender.ParsedId();
             //string lPartName2 = KnkSolutionMoviesUtils.GetLastPart(lFrom, '/');
             string lPartName2 = KnkSolutionMoviesUtils.GetLastPart(lFrom, '/');
 

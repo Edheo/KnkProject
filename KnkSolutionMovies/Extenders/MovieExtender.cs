@@ -55,21 +55,6 @@ namespace KnkSolutionMovies.Extenders
             }
         }
 
-        public string Director()
-        {
-            return KnkInterfacesUtils.ConcatStrings((from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Director") orderby c.CastingType.Type descending, c.Ordinal select c.Casting.ArtistName).ToList());
-        }
-
-        public string Writer()
-        {
-            return KnkInterfacesUtils.ConcatStrings((from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Writer") orderby c.CastingType.Type descending, c.Ordinal select c.Casting.ArtistName).ToList());
-        }
-
-        public List<MovieCasting> ArtistCasting()
-        {
-            return (from c in _Movie.Casting().Items where c.CastingType.Type.Equals("Actor") orderby c.CastingType.Type descending, c.Ordinal select c).ToList();
-        }
-
         public decimal AveragedRate
         {
             get
@@ -90,6 +75,39 @@ namespace KnkSolutionMovies.Extenders
         public string ParsedId()
         {
             return _Movie.IdMovie.ToString().PadLeft(8, '0');
+        }
+
+        public string Director()
+        {
+            return KnkInterfacesUtils.ConcatStrings((from c in _Movie.Casting().Items where c.IdCastingType.Reference.Type.Equals("Director") orderby c.IdCastingType.Reference.Type descending, c.Ordinal select c.IdCasting.Reference.ArtistName).ToList());
+        }
+
+        public string Writer()
+        {
+            return KnkInterfacesUtils.ConcatStrings((from c in _Movie.Casting().Items where c.IdCastingType.Reference.Type.Equals("Writer") orderby c.IdCastingType.Reference.Type descending, c.Ordinal select c.IdCasting.Reference.ArtistName).ToList());
+        }
+
+        public List<MovieCasting> ArtistCasting()
+        {
+            return (from c in _Movie.Casting().Items where c.IdCastingType.Reference.Type.Equals("Actor") orderby c.IdCastingType.Reference.Type descending, c.Ordinal select c).ToList();
+        }
+
+        public TimeSpan? Duration()
+        {
+            if (_Movie.Seconds != null)
+                return TimeSpan.FromSeconds((double)_Movie.Seconds);
+            else
+                return null;
+        }
+
+        public string ImdbUrl()
+        {
+            return $"http://www.imdb.com/title/{_Movie.ImdbId}/";
+        }
+
+        public string TmdbUrl()
+        {
+            return $"https://www.themoviedb.org/movie/{_Movie.TmdbId}/";
         }
         #endregion
 

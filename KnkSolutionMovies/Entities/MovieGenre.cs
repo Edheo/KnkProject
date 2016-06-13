@@ -28,7 +28,7 @@ namespace KnkSolutionMovies.Entities
 
         public override string ToString()
         {
-            return $"{Genre.GenreName})";
+            return $"{Genre.GenreName}";
         }
     }
 }

@@ -40,9 +40,12 @@ namespace KnkSolutionMovies.Utilities
 
         public static void WriteStreamToFile(Stream aStream, string aFilename)
         {
-            using (var lFile = new FileStream(aFilename, FileMode.Create, FileAccess.Write))
+            if (aStream != null)
             {
-                aStream.CopyTo(lFile);
+                using (var lFile = new FileStream(aFilename, FileMode.Create, FileAccess.Write))
+                {
+                    aStream.CopyTo(lFile);
+                }
             }
 
         }

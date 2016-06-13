@@ -27,38 +27,95 @@ namespace KnkMovieForms.Usercontrols
         private void SetMovie(Movie aMovie)
         {
             _Movie = aMovie;
-            picHead.Caption = _Movie.Year?.ToString();
-            picHead.Text = _Movie.Title;
             tblPanel.RowStyles.Clear();
             picPoster.Filename = _Movie.Extender.Poster?.Extender.GetFileName();
-            //AddTagInfo("Title", $"{_Movie.Title}", "Original Title", $"{_Movie.OriginalTitle}");
-            AddTagInfo("Year", $"{_Movie.Year}");
-            AddTagInfo("Date Added", $"{_Movie.CreationDate:dd/MM/yyyy}", "Saga", $"{_Movie.MovieSet}");
-            AddTagInfo("Genre", $"{_Movie.Extender.Genres}", "Country", $"{_Movie.Extender.Countries}");
-            AddTagInfo("Votes", $"{_Movie.Votes}", "Rating", $"{_Movie.Rating:0.0}");
-            AddTagInfo("User Rating", $"{_Movie.Extender.AveragedRate:0.0}", "Computed Rating", $"{_Movie.Extender.AveragedRate:0.0}");
-
+            AddTagInfo("Title", $"{_Movie.Title}", "Original Title", $"{_Movie.OriginalTitle}");
+            AddTagInfo("Saga", $"{_Movie.MovieSet}", "Duration", _Movie.Extender.Duration()?.ToString(@"hh\:mm\:ss"));
+            AddTagInfo();
+            AddTagInfo("Year", $"{_Movie.Year}", "Release Date", $"{_Movie.ReleaseDate:dd/MM/yyyy}");
+            AddTagInfo("Date Added", $"{_Movie.CreationDate:dd/MM/yyyy}", "Modified", $"{_Movie.ModifiedDate:dd/MM/yyyy}");
+            AddTagInfo("Date Scraped", $"{_Movie.ScrapedDate:dd/MM/yyyy}");
+            AddTagInfo();
             if (_Movie.ViewedTimes > 0)
             {
                 AddTagInfo("Last Played", $"{_Movie.LastViewed:dd/MM/yyyy}", "Plays", $"{_Movie.ViewedTimes}");
             }
             AddTagInfo();
-            AddTagInfo("Director", $"{_Movie.Extender.Director()}", "Writer", $"{_Movie.Extender.Writer()}");
+            AddTagInfo("Genre", $"{_Movie.Extender.Genres}");
+            AddTagInfo("Country", $"{_Movie.Extender.Countries}");
+            AddTagInfo("MPA Rating", $"{_Movie.MPARating}", "Adult Content", $"{_Movie.AdultContent}");
             AddTagInfo();
-            AddTagInfo(FontStyle.Bold, "Role in Movie", "Artist Name");
-            foreach (var lCast in _Movie.Extender.ArtistCasting())
-            {
-                AddTagInfo(lCast.Role, lCast.Casting.ArtistName);
-            }
+            AddTagInfo("HomePage", $"{_Movie.HomePage}");
+            AddTagInfo("Imdb", $"{_Movie.Extender.ImdbUrl()}");
+            AddTagInfo("Tmdb", $"{_Movie.Extender.TmdbUrl()}");
+            AddTagInfo();
+            AddTagInfo("Votes", $"{_Movie.Votes}", "Rating", $"{_Movie.Rating:0.0}");
+            AddTagInfo("Popularity", $"{_Movie.Popularity:0.0}");
+            AddTagInfo("User Rating", $"{_Movie.Extender.AveragedRate:0.0}", "Computed Rating", $"{_Movie.Extender.AveragedRate:0.0}");
+            AddTagInfo();
+            AddTagInfo("Budget", $"{_Movie.Budget:n}", "Revenue", $"{_Movie.Revenue:n}");
+            AddTagInfo();
+            AddTagInfo("Tag Line", $"{_Movie.TagLine}");
+            AddTagInfo();
+            //AddTagInfo();
+            //AddTagInfo("Director", $"{_Movie.Extender.Director()}", "Writer", $"{_Movie.Extender.Writer()}");
+            //AddTagInfo();
+            //AddTagInfo(FontStyle.Bold, "Role in Movie", "Artist Name");
+            //foreach (var lCast in _Movie.Extender.ArtistCasting())
+            //{
+            //    AddTagInfo(lCast.Role, lCast.Casting.ArtistName);
+            //}
 
-            AddTagInfo();
+            //AddTagInfo();
 
             txtSummary.Text = _Movie.Extender.Summary;
+
+            AddCasting();
         }
 
         public Movie Movie
         {
             get { return _Movie; }
+        }
+
+        private void AddCasting()
+        {
+            var lTypes = _Movie.Casting().Items.GroupBy(typ => typ.IdCastingType.Value).Select(grp => grp.First());
+            Control lPrevious = null;
+            foreach (var typ in lTypes)
+            {
+                if (lPrevious!=null)
+                {
+                    floCrew.SetFlowBreak(lPrevious, true);
+                }
+
+                Label lLbl = new Label() { Text = typ.IdCastingType.Reference.Type };
+                lLbl.AutoSize = true;
+                lLbl.Font = new Font("Verdana", 12, FontStyle.Underline);
+                lLbl.ForeColor = Color.LightSkyBlue;
+                lLbl.Padding = new Padding(10);
+                floCrew.Controls.Add(lLbl);
+
+                var lCast = _Movie.Casting().Items.Where(itm => itm.IdCastingType.Value == typ.IdCastingType.Value);
+                foreach (var cst in lCast)
+                {
+                    if (cst.IdCasting.Reference.Extender.Poster != null)
+                    {
+                        MovieThumb lTmb = new MovieThumb(cst, 100);
+                        floCrew.Controls.Add(lTmb);
+                        lPrevious = lTmb;
+                    }
+                    else
+                    {
+                        lLbl = new Label() { Text = cst.ToString() };
+                        lLbl.AutoSize = true;
+                        lLbl.ForeColor = Color.White;
+                        lLbl.Padding = new Padding(10);
+                        floCrew.Controls.Add(lLbl);
+                        lPrevious = lLbl;
+                    }
+                }
+            }
         }
 
         private void AddTagInfo()
@@ -86,12 +143,20 @@ namespace KnkMovieForms.Usercontrols
             tblPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             Label lblLabel1 = CreateLabelTag(!string.IsNullOrWhiteSpace(aContent1) ? aLabel1:string.Empty, aFontStyle);
             Label lblContent1 = CreateLabelContent(aContent1, aFontStyle);
-            Label lblLabel2 = CreateLabelTag(!string.IsNullOrWhiteSpace(aContent2) ? aLabel2 : string.Empty, aFontStyle);
-            Label lblContent2 = CreateLabelContent(aContent2, aFontStyle);
+            
             tblPanel.Controls.Add(lblLabel1);
             tblPanel.Controls.Add(lblContent1);
-            tblPanel.Controls.Add(lblLabel2);
-            tblPanel.Controls.Add(lblContent2);
+            if (!string.IsNullOrWhiteSpace(aContent2))
+            {
+                Label lblLabel2 = CreateLabelTag(!string.IsNullOrWhiteSpace(aContent2) ? aLabel2 : string.Empty, aFontStyle);
+                Label lblContent2 = CreateLabelContent(aContent2, aFontStyle);
+                tblPanel.Controls.Add(lblLabel2);
+                tblPanel.Controls.Add(lblContent2);
+            }
+            else
+            {
+                tblPanel.SetColumnSpan(lblContent1, 3);
+            }
         }
 
         private Label CreateLabelTag(string aLabel, FontStyle aFontStyle)
@@ -130,5 +195,9 @@ namespace KnkMovieForms.Usercontrols
             OnClose();
         }
 
+        private void metroTabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

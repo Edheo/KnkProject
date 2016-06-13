@@ -64,6 +64,7 @@
     <Compile Include="Entities\MovieLanguage.cs" />
     <Compile Include="Entities\MovieSummary.cs" />
     <Compile Include="Entities\MovieUser.cs" />
+    <Compile Include="Extenders\CastingExtender.cs" />
     <Compile Include="Extenders\FileExtender.cs" />
     <Compile Include="Extenders\MediaLinkExtender.cs" />
     <Compile Include="Extenders\MovieExtender.cs" />

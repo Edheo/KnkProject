@@ -16,19 +16,38 @@ namespace KnkMovieForms.Usercontrols
     partial class MovieThumb : UserControl
     {
         private Movie _Movie;
+        private MovieCasting _Casting;
+        public ScaleEnu Scale = ScaleEnu.Normal;
 
         public Movie Movie()
         {
             return _Movie;
         }
 
-        public MovieThumb(Movie aMovie, int aWidth)
+        public MovieCasting Casting()
+        {
+            return _Casting;
+        }
+
+        private MovieThumb(int aWidth)
         {
             InitializeComponent();
             picPoster.Click += (sender, e) => { this.OnClick(e); };
-            picPoster.MouseHover += (sender,e) => { OnRemarkMovie(sender, e); };
+            picPoster.MouseHover += (sender, e) => { OnRemarkMovie(sender, e); };
             SetSize(aWidth);
+        }
+
+
+        public MovieThumb(Movie aMovie, int aWidth)
+        : this(aWidth)
+        {
             SetMovie(aMovie);
+        }
+
+        public MovieThumb(MovieCasting aCasting, int aWidth)
+        : this(aWidth)
+        {
+            SetCasting(aCasting);
         }
 
         private void SetMovie(Movie aMovie)
@@ -36,6 +55,13 @@ namespace KnkMovieForms.Usercontrols
             _Movie = aMovie;
             picPoster.Filename = _Movie.Extender.Poster?.Extender.GetFileName();
             picVals.SetValues(aMovie.Year?.ToString(), aMovie.Title);
+        }
+
+        private void SetCasting(MovieCasting aCasting)
+        {
+            _Casting = aCasting;
+            picPoster.Filename = _Casting.IdCasting.Reference.Extender.Poster?.Extender.GetFileName();
+            picVals.SetValues(String.Empty, aCasting.ToString());
         }
 
         private void OnRemarkMovie(object sender, EventArgs e)
@@ -88,19 +114,29 @@ namespace KnkMovieForms.Usercontrols
             return (int)(aWidth * Aspect());
         }
 
-        public static Size GetMinimumSize()
+        private static float ScaleMin(ScaleEnu aScale)
         {
-            return GetSize((float)0.75);
+            return ((float)aScale - 1) / (float)aScale;
         }
 
-        public static Size GetMaximumSize()
+        private static float ScaleMax(ScaleEnu aScale)
         {
-            return GetSize((float)1.75);
+            return ((float)aScale + 1) / (float)aScale;
         }
 
-        public override Size MinimumSize { get { return GetMinimumSize(); } set { base.MinimumSize = GetMinimumSize(); } }
+        public static Size GetMinimumSize(ScaleEnu aScale)
+        {
+            return GetSize(ScaleMin(aScale));
+        }
 
-        public override Size MaximumSize { get { return GetMaximumSize(); } set { base.MaximumSize = GetMaximumSize(); } }
+        public static Size GetMaximumSize(ScaleEnu aScale)
+        {
+            return GetSize(ScaleMax(aScale));
+        }
+
+        public override Size MinimumSize { get { return GetMinimumSize(Scale); } set { base.MinimumSize = GetMinimumSize(Scale); } }
+
+        public override Size MaximumSize { get { return GetMaximumSize(Scale); } set { base.MaximumSize = GetMaximumSize(Scale); } }
 
         public void SetSize(int aWidth)
         {
