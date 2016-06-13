@@ -79,7 +79,7 @@
             this.metroTabControl1.Size = new System.Drawing.Size(287, 449);
             this.metroTabControl1.TabIndex = 5;
             this.metroTabControl1.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.metroTabControl1.UseSelectable = true;
+            //this.metroTabControl1.UseSelectable = true;
             this.metroTabControl1.UseStyleColors = true;
             // 
             // metroTabPage1
