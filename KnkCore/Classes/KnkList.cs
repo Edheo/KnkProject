@@ -1,5 +1,4 @@
-﻿using KnkInterfaces.Utilities;
-using KnkInterfaces.Interfaces;
+﻿using KnkInterfaces.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -138,10 +137,18 @@ namespace KnkCore
             return lRet;
         }
 
+        public bool SaveChanges(KnkItemItf aItem)
+        {
+            var lChanges = new List<Tlst>();
+            lChanges.Add((Tlst)aItem);
+            return SaveChanges(lChanges);
+        }
+
         public bool SaveChanges(List<Tlst> aList)
         {
             var lChanges = (from itm in aList where itm.Status()!=UpdateStatusEnu.NoChanges select itm).ToList();
-            Connection.SaveData<Tlst>(lChanges);
+            Connection.SaveData(lChanges);
+            Refresh();
             return true;
         }
 
@@ -209,17 +216,12 @@ namespace KnkCore
         {
             if (Messages != null)
             {
-                //int lCua = Messages.Count;
-                //bool lHas = lCua > 0 && Messages[0].Item == null;
-                //if (!lHas || lCua <= 1)
-                //    Messages.Add(aMessage);
-                //else
-                //    Messages.Insert(1, aMessage);
                 Messages.Add(aMessage);
                 return aMessage;
             }
             return null;
         }
+
     }
 
     public class KnkList<Tlst> : KnkList<Tlst, Tlst>

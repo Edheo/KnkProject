@@ -156,7 +156,7 @@ namespace KnkScrapers.Classes
             {
                 foreach (var mov in OldfashionMovies)
                 {
-                    EnrichMovie(FindMovie(mov.Title, mov.Year, "es-ES").FirstOrDefault(),mov as KnkSolutionMovies.Entities.Movie);
+                    EnrichMovie(mov);
                     i++;
                     if (i > 5) break;
                 }
@@ -190,7 +190,12 @@ namespace KnkScrapers.Classes
             }
         }
 
-        Movie EnrichMovie(System.Net.TMDb.Movie aMovieOrg, Movie aMovieDst)
+        public Movie EnrichMovie(Movie aMovieDst)
+        {
+            return EnrichMovie(FindMovie(aMovieDst.Title, aMovieDst.Year, "es-ES").FirstOrDefault(), aMovieDst);
+        }
+
+        public Movie EnrichMovie(System.Net.TMDb.Movie aMovieOrg, Movie aMovieDst)
         {
             var lOrg = aMovieOrg;
             var lDst = aMovieDst;

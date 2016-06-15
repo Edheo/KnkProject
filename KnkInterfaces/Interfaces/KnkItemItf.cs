@@ -50,6 +50,8 @@ namespace KnkInterfaces.Interfaces
         string UpdateMessage();
         string UpdateMessage(string aNewMessage);
 
+        bool SaveChanges();
+
         UpdateStatusEnu Status();
 
         string ToString();

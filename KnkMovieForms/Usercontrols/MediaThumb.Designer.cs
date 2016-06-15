@@ -1,6 +1,6 @@
 ﻿namespace KnkMovieForms.Usercontrols
 {
-    partial class MovieThumb
+    partial class MediaThumb
     {
         /// <summary> 
         /// Required designer variable.

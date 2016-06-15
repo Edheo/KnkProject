@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using KnkSolutionMovies.Entities;
+using KnkScrapers.Classes;
 
 namespace KnkMovieForms.Usercontrols
 {
@@ -22,6 +23,7 @@ namespace KnkMovieForms.Usercontrols
             InitializeComponent();
             picPoster.Factor(new Size(200, 310));
             SetMovie(aMovie);
+            metroTabControl1.SelectedTab = metroTabControl1.TabPages[0];
         }
 
         private void SetMovie(Movie aMovie)
@@ -99,21 +101,9 @@ namespace KnkMovieForms.Usercontrols
                 var lCast = _Movie.Casting().Items.Where(itm => itm.IdCastingType.Value == typ.IdCastingType.Value);
                 foreach (var cst in lCast)
                 {
-                    if (cst.IdCasting.Reference.Extender.Poster != null)
-                    {
-                        MovieThumb lTmb = new MovieThumb(cst, 100);
-                        floCrew.Controls.Add(lTmb);
-                        lPrevious = lTmb;
-                    }
-                    else
-                    {
-                        lLbl = new Label() { Text = cst.ToString() };
-                        lLbl.AutoSize = true;
-                        lLbl.ForeColor = Color.White;
-                        lLbl.Padding = new Padding(10);
-                        floCrew.Controls.Add(lLbl);
-                        lPrevious = lLbl;
-                    }
+                    CastingThumb lTmb = new CastingThumb(cst, 100);
+                    floCrew.Controls.Add(lTmb);
+                    lPrevious = lTmb;
                 }
             }
         }
@@ -195,9 +185,11 @@ namespace KnkMovieForms.Usercontrols
             OnClose();
         }
 
-        private void metroTabPage3_Click(object sender, EventArgs e)
+        private void btnScan_Click(object sender, EventArgs e)
         {
-
+            EnrichCollections lEnr = new EnrichCollections(_Movie.Connection(), "movies");
+            lEnr.EnrichMovie(_Movie);
+            _Movie.SaveChanges();
         }
     }
 }

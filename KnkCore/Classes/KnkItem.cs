@@ -201,5 +201,15 @@ namespace KnkCore
         {
             return _parent as KnkListItf<Tdad,Tlst>;
         }
+
+        public bool SaveChanges()
+        {
+            var lParent = this.GetParent();
+            if (lParent!=null)
+            {
+                return lParent.SaveChanges(this);
+            }
+            return false;
+        }
     }
 }

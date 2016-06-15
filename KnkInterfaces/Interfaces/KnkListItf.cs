@@ -10,6 +10,7 @@ namespace KnkInterfaces.Interfaces
         int Count();
         void DeleteAll(string aMessage);
         bool SaveChanges();
+        bool SaveChanges(KnkItemItf aItem);
         void Refresh();
 
         string SortProperty { get; set; }

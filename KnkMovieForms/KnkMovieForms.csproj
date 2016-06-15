@@ -69,6 +69,18 @@
       <DependentUpon>ScanLibrariesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ScaleEnu.cs" />
+    <Compile Include="Usercontrols\CastingThumb.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Usercontrols\CastingThumb.Designer.cs">
+      <DependentUpon>CastingThumb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Usercontrols\MediaThumb.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Usercontrols\MediaThumb.Designer.cs">
+      <DependentUpon>MediaThumb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Usercontrols\MovieControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -96,9 +108,6 @@
     </Compile>
     <Compile Include="Usercontrols\MovieThumb.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Usercontrols\MovieThumb.Designer.cs">
-      <DependentUpon>MovieThumb.cs</DependentUpon>
     </Compile>
     <Compile Include="Usercontrols\MovieWall.cs">
       <SubType>UserControl</SubType>
@@ -129,9 +138,6 @@
     <EmbeddedResource Include="Usercontrols\MoviePicture.resx">
       <DependentUpon>MoviePicture.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Usercontrols\MovieThumb.resx">
-      <DependentUpon>MovieThumb.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Usercontrols\MovieWall.resx">
       <DependentUpon>MovieWall.cs</DependentUpon>
     </EmbeddedResource>
@@ -159,6 +165,10 @@
     <ProjectReference Include="..\KnkSolutionUsers\KnkSolutionUsers.csproj">
       <Project>{ca0db50d-ff6b-4543-9111-ab4153a09897}</Project>
       <Name>KnkSolutionUsers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Net.TMDb\Hasseware.Net.TMDb.csproj">
+      <Project>{0dd87046-97fe-41c9-8fa9-efa2c55b6129}</Project>
+      <Name>Hasseware.Net.TMDb</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

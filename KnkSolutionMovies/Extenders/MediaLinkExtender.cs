@@ -32,12 +32,16 @@ namespace KnkSolutionMovies.Extenders
             //string lPartName2 = KnkSolutionMoviesUtils.GetLastPart(lFrom, '/');
             string lPartName2 = KnkSolutionMoviesUtils.GetLastPart(lFrom, '/');
 
-            string lFileName = Path.Combine(lFolder, KnkCoreUtils.CleanFileName($"{lPartName1}_{lPartName2}"));
-            if (!System.IO.File.Exists(lFileName))
+            if (!string.IsNullOrEmpty(lPartName1) && !string.IsNullOrEmpty(lPartName2))
             {
-                KnkSolutionMoviesUtils.WriteStreamToFile(KnkSolutionMoviesUtils.GetUrlStream(lFrom), lFileName);
+                string lFileName = Path.Combine(lFolder, KnkCoreUtils.CleanFileName($"{lPartName1}_{lPartName2}"));
+                if (!System.IO.File.Exists(lFileName))
+                {
+                    KnkSolutionMoviesUtils.WriteStreamToFile(KnkSolutionMoviesUtils.GetUrlStream(lFrom), lFileName);
+                }
+                return lFileName;
             }
-            return lFileName;
+            return string.Empty;
         }
 
     }
