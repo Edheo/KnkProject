@@ -59,20 +59,10 @@ namespace KnkMovieForms.Usercontrols
             AddTagInfo();
             AddTagInfo("Tag Line", $"{_Movie.TagLine}");
             AddTagInfo();
-            //AddTagInfo();
-            //AddTagInfo("Director", $"{_Movie.Extender.Director()}", "Writer", $"{_Movie.Extender.Writer()}");
-            //AddTagInfo();
-            //AddTagInfo(FontStyle.Bold, "Role in Movie", "Artist Name");
-            //foreach (var lCast in _Movie.Extender.ArtistCasting())
-            //{
-            //    AddTagInfo(lCast.Role, lCast.Casting.ArtistName);
-            //}
-
-            //AddTagInfo();
-
             txtSummary.Text = _Movie.Extender.Summary;
 
             AddCasting();
+            AddVideos();
         }
 
         public Movie Movie
@@ -82,29 +72,35 @@ namespace KnkMovieForms.Usercontrols
 
         private void AddCasting()
         {
-            var lTypes = _Movie.Casting().Items.GroupBy(typ => typ.IdCastingType.Value).Select(grp => grp.First());
+            var lTypes = _Movie.Casting().Items.GroupBy(typ => typ.IdCastingType.Value).Select(grp => grp.First()).OrderBy(grp => grp.IdCastingType.Value);
             Control lPrevious = null;
+            int lPreamount = 0;
             foreach (var typ in lTypes)
             {
-                if (lPrevious!=null)
+                var lCast = _Movie.Casting().Items.Where(itm => itm.IdCastingType.Value == typ.IdCastingType.Value);
+                if (lPrevious != null && (lCast.Count() > 3 || lPreamount>3))
                 {
                     floCrew.SetFlowBreak(lPrevious, true);
                 }
-
-                Label lLbl = new Label() { Text = typ.IdCastingType.Reference.Type };
-                lLbl.AutoSize = true;
-                lLbl.Font = new Font("Verdana", 12, FontStyle.Underline);
-                lLbl.ForeColor = Color.LightSkyBlue;
-                lLbl.Padding = new Padding(10);
-                floCrew.Controls.Add(lLbl);
-
-                var lCast = _Movie.Casting().Items.Where(itm => itm.IdCastingType.Value == typ.IdCastingType.Value);
+                lPreamount = lCast.Count();
+                floCrew.Controls.Add(new CastingThumb(typ.IdCastingType.Reference.ToString(), 60));
+                
                 foreach (var cst in lCast)
                 {
-                    CastingThumb lTmb = new CastingThumb(cst, 100);
+                    CastingThumb lTmb = new CastingThumb(cst, 60);
                     floCrew.Controls.Add(lTmb);
                     lPrevious = lTmb;
                 }
+            }
+        }
+
+        private void AddVideos()
+        {
+            var lMedias = _Movie.Pictures().Items;
+            foreach (var med in lMedias)
+            {
+                VideoThumb lTmb = new VideoThumb(med, 60);
+                floVideos.Controls.Add(lTmb);
             }
         }
 

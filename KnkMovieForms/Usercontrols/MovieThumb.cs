@@ -22,6 +22,11 @@ namespace KnkMovieForms.Usercontrols
             return _Movie;
         }
 
+        private MovieThumb():base()
+        {
+
+        }
+
         public MovieThumb(Movie aMovie, int aWidth)
         : base(aWidth)
         {

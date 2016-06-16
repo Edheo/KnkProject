@@ -69,6 +69,9 @@
       <DependentUpon>ScanLibrariesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ScaleEnu.cs" />
+    <Compile Include="Usercontrols\VideoThumb.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Usercontrols\CastingThumb.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -128,6 +131,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Usercontrols\MediaThumb.resx">
+      <DependentUpon>MediaThumb.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Usercontrols\MovieControl.resx">
       <DependentUpon>MovieControl.cs</DependentUpon>

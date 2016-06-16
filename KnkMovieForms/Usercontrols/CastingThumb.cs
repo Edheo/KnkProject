@@ -20,17 +20,31 @@ namespace KnkMovieForms.Usercontrols
             return _Casting;
         }
 
+        private CastingThumb()
+        : base()
+        {
+        }
+
         public CastingThumb(MovieCasting aCasting, int aWidth)
         : base(aWidth)
         {
             SetCasting(aCasting);
         }
 
+        public CastingThumb(string aCastingType, int aWidth)
+        : base(aWidth)
+        {
+            FileName = string.Empty;
+            Horizontal = false;
+            SetValues(aCastingType, string.Empty);
+        }
+
         private void SetCasting(MovieCasting aCasting)
         {
             _Casting = aCasting;
             FileName = _Casting.IdCasting.Reference.Extender.Poster?.Extender.GetFileName();
-            SetValues(string.Empty, aCasting.ToString());
+            Horizontal = false;
+            SetValues(String.Empty, aCasting.ToString());
         }
     }
 }

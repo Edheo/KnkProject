@@ -39,11 +39,14 @@
             this.metroTabPage2 = new MetroFramework.Controls.MetroTabPage();
             this.txtSummary = new System.Windows.Forms.TextBox();
             this.picPoster = new KnkMovieForms.Usercontrols.MoviePicture();
+            this.metroTabPage4 = new MetroFramework.Controls.MetroTabPage();
+            this.floVideos = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1.SuspendLayout();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.metroTabPage3.SuspendLayout();
             this.metroTabPage2.SuspendLayout();
+            this.metroTabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -92,10 +95,11 @@
             this.metroTabControl1.Controls.Add(this.metroTabPage1);
             this.metroTabControl1.Controls.Add(this.metroTabPage3);
             this.metroTabControl1.Controls.Add(this.metroTabPage2);
+            this.metroTabControl1.Controls.Add(this.metroTabPage4);
             this.metroTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroTabControl1.Location = new System.Drawing.Point(200, 0);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 2;
+            this.metroTabControl1.SelectedIndex = 0;
             this.metroTabControl1.Size = new System.Drawing.Size(255, 481);
             this.metroTabControl1.TabIndex = 5;
             this.metroTabControl1.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -143,6 +147,7 @@
             // 
             // floCrew
             // 
+            this.floCrew.AutoScroll = true;
             this.floCrew.BackColor = System.Drawing.Color.Black;
             this.floCrew.Dock = System.Windows.Forms.DockStyle.Fill;
             this.floCrew.Location = new System.Drawing.Point(0, 0);
@@ -191,6 +196,27 @@
             this.picPoster.TabIndex = 3;
             this.picPoster.TabStop = false;
             // 
+            // metroTabPage4
+            // 
+            this.metroTabPage4.Controls.Add(this.floVideos);
+            this.metroTabPage4.HorizontalScrollbarBarColor = true;
+            this.metroTabPage4.Location = new System.Drawing.Point(4, 35);
+            this.metroTabPage4.Name = "metroTabPage4";
+            this.metroTabPage4.Size = new System.Drawing.Size(247, 442);
+            this.metroTabPage4.TabIndex = 3;
+            this.metroTabPage4.Text = "Media";
+            this.metroTabPage4.VerticalScrollbarBarColor = true;
+            // 
+            // floVideos
+            // 
+            this.floVideos.AutoScroll = true;
+            this.floVideos.BackColor = System.Drawing.Color.Black;
+            this.floVideos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.floVideos.Location = new System.Drawing.Point(0, 0);
+            this.floVideos.Name = "floVideos";
+            this.floVideos.Size = new System.Drawing.Size(247, 442);
+            this.floVideos.TabIndex = 7;
+            // 
             // MovieControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -207,6 +233,7 @@
             this.metroTabPage3.ResumeLayout(false);
             this.metroTabPage2.ResumeLayout(false);
             this.metroTabPage2.PerformLayout();
+            this.metroTabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -223,5 +250,7 @@
         private MetroFramework.Controls.MetroTabPage metroTabPage3;
         private System.Windows.Forms.FlowLayoutPanel floCrew;
         private System.Windows.Forms.Button btnScan;
+        private MetroFramework.Controls.MetroTabPage metroTabPage4;
+        private System.Windows.Forms.FlowLayoutPanel floVideos;
     }
 }

@@ -46,6 +46,7 @@
     <Compile Include="Entities\Casting.cs" />
     <Compile Include="Entities\CastingBiography.cs" />
     <Compile Include="Entities\CastingName.cs" />
+    <Compile Include="Entities\LinkType.cs" />
     <Compile Include="Entities\CastingType.cs" />
     <Compile Include="Entities\Company.cs" />
     <Compile Include="Entities\Country.cs" />

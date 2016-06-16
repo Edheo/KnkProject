@@ -398,20 +398,18 @@ namespace KnkScrapers.Classes
             }
 
             MediaLink lFound = null;
-            int lMax = 0;
             if (aMovie != null)
             {
                 lFound = aMovie.Pictures().Items.Where(g => g.ToString().ToLower().Equals(lValue.ToLower())).FirstOrDefault();
-                if (aMovie.Pictures().Items.Count > 0) lMax = aMovie.Pictures().Items.Max(p => p.Ordinal);
             }
             if (aCasting != null)
             {
                 //lSite = "http://thetvdb.com/banners/actors/{0}";
                 //lSiteThumbnail = "http://image.tmdb.org/t/p/w500/{0}";
+                lFound = aCasting.Pictures().Items.Where(g => g.ToString().ToLower().Equals(lValue.ToLower())).FirstOrDefault();
                 if (lFound == null)
                 {
                     lFound = aCasting.Pictures().Items.Where(g => g.ToString().ToLower().Equals(lValue.ToLower())).FirstOrDefault();
-                    if (aCasting.Pictures().Items.Count > 0) lMax = aCasting.Pictures().Items.Max(p => p.Ordinal);
                 }
             }
             var lReturn = lFound;
@@ -424,7 +422,6 @@ namespace KnkScrapers.Classes
 
                 lReturn.IdMovie = aMovie;
                 lReturn.IdCasting = aCasting;
-                lReturn.Ordinal = lMax + 1;
             }
             lReturn.IdType = aidType;
             lReturn.Site = lSite;

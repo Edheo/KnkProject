@@ -17,9 +17,13 @@ namespace KnkMovieForms.Usercontrols
     {
         public ScaleEnu Scale = ScaleEnu.Normal;
 
-        internal MediaThumb(int aWidth)
+        internal MediaThumb()
         {
             InitializeComponent();
+        }
+
+        internal MediaThumb(int aWidth):this()
+        {
             picPoster.Click += (sender, e) => { this.OnClick(e); };
             picPoster.MouseHover += (sender, e) => { OnRemarkMovie(sender, e); };
             SetSize(aWidth);
@@ -41,6 +45,17 @@ namespace KnkMovieForms.Usercontrols
             }
         }
 
+        public bool Horizontal
+        {
+            get
+            {
+                return picVals.Horizontal;
+            }
+            set
+            {
+                picVals.Horizontal = value;
+            }
+        }
         public void UnRemarkMovie()
         {
             picPoster.ReMarkMovie(false);
@@ -115,8 +130,10 @@ namespace KnkMovieForms.Usercontrols
                 picPoster.Filename = value;
                 if (string.IsNullOrEmpty(picPoster.Filename))
                 {
+                    this.SuspendLayout();
                     this.Controls.Remove(picPoster);
-                    picVals.Dock = DockStyle.Fill;
+                    this.picVals.Dock = DockStyle.Fill;
+                    this.ResumeLayout(true);
                 }
             }
         }
@@ -124,6 +141,7 @@ namespace KnkMovieForms.Usercontrols
         public void SetValues(string aCaption, string aText)
         {
             picVals.SetValues(aCaption, aText);
+            picVals.Invalidate();
         }
 
     }
